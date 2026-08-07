@@ -27,8 +27,8 @@ wheels/
 .deps_installed
 
 # Data & logs
-data/
-logs/
+/data/
+/logs/
 *.log
 __pycache__/
 
