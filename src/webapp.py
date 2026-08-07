@@ -16,6 +16,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+import inspect
 import uvicorn
 
 from src.utils.logger import get_logger
@@ -61,6 +62,18 @@ os.makedirs(STATIC_DIR, exist_ok=True)
 templates = Jinja2Templates(directory=TEMPLATES_DIR)
 
 
+def render_template(request: Request, name: str, context: dict):
+    """Render a Jinja2 template with Starlette 0.x / 1.x compatibility."""
+    try:
+        sig = inspect.signature(templates.TemplateResponse)
+        params = list(sig.parameters.keys())
+        if params and params[0] == "request":
+            return templates.TemplateResponse(request, name, context)
+    except (TypeError, ValueError):
+        pass
+    return templates.TemplateResponse(name, {**context, "request": request})
+
+
 def get_bot() -> Optional[SignalBot]:
     """Return the bot instance or None if not ready"""
     return bot
@@ -68,7 +81,7 @@ def get_bot() -> Optional[SignalBot]:
 
 @app.get("/", response_class=HTMLResponse)
 async def dashboard(request: Request):
-    return templates.TemplateResponse("dashboard.html", {"request": request})
+    return render_template(request, "dashboard.html", {"request": request})
 
 
 @app.get("/health")
