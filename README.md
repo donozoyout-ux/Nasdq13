@@ -35,15 +35,22 @@ cp .env.example .env
 
 ```bash
 pip install -r requirements.txt
+
+# Seçenek 1: Web arayüzü + bot (dashboard: http://localhost:8000)
+uvicorn src.webapp:app --host 0.0.0.0 --port 8000
+
+# Seçenek 2: Sadece bot (CLI worker)
 python -m src.main
 ```
 
-## ☁️ Render'a Deploy Etme
+## ☁️ Render'a Deploy Etme (Tek Tık)
 
-1. [render.com](https://render.com)'da GitHub reposunu bağlayın
-2. **New → Web Service** veya **Blueprint** oluşturun
-3. `render.yaml` blueprint dosyasını kullanın (otomatik yapılandırma)
-4. Environment değişkenlerini ekleyin:
+Repo [render.yaml](render.yaml) blueprint'i ile hazır. Render **tek servis** üzerinde hem botu hem web arayüzünü çalıştırır (free tier 750 sa/ay = 1 servis yeter).
+
+1. [render.com](https://render.com) hesabınıza girin → **New → Blueprint**
+2. GitHub repo'nuzu bağlayın (`donozoyout-ux/Nasdq13`)
+3. Render `render.yaml`'ı otomatik algılar
+4. Şu env değişkenlerini **manually** girin:
 
 | Değişken | Değer |
 |----------|-------|
@@ -53,12 +60,19 @@ python -m src.main
 | `ALPHA_VANTAGE_KEY` | Alpha Vantage key (opsiyonel) |
 | `FINNHUB_KEY` | Finnhub key (opsiyonel) |
 
+5. **Apply** → Render otomatik deploy eder
+
+Deploy sonrası:
+- 🌐 **Dashboard**: `https://nasdaq-signal-bot.onrender.com`
+- 🔍 **Sağlık kontrolü**: `https://nasdaq-signal-bot.onrender.com/health`
+- 🤖 Telegram sinyalleri otomatik gelir
+
 ### Free Tier Uyku Sorununu Çözme
 
-Render free tier 15 dk inaktiflik sonrası uykuya girer. Çözüm:
+Render free tier 15 dk inaktiflik sonrası uykuya girer. Botun 7/24 çalışması için:
 - [UptimeRobot](https://uptimerobot.com) veya [cron-job.org](https://cron-job.org) ücretsiz servisi
 - Her 10 dk bir `GET /health` isteği gönderin
-- Alternatif: render.yaml içindeki `nasdaq-signal-bot-keepalive` web servisini kullanın
+- UptimeRobot monitör URL'si: `https://nasdaq-signal-bot.onrender.com/health`
 
 ## ⚙️ Yapılandırma
 
@@ -75,12 +89,15 @@ Tüm ayarlar `config/settings.yaml` dosyasında. Önemli ayarlar:
 ```
 ├── config/settings.yaml    # Tüm ayarlar
 ├── src/
-│   ├── main.py            # Entry point
+│   ├── main.py            # CLI worker entry point
+│   ├── webapp.py          # Web dashboard + bot (Render)
+│   ├── bot.py             # Bot orkestratörü
 │   ├── data/              # Veri çekiciler (fiyat, haber)
 │   ├── analysis/          # Teknik analiz + sinyal motoru
 │   ├── notifier/          # Telegram bildirimleri
 │   ├── state/             # State yönetimi (JSON)
 │   └── utils/             # Yardımcı fonksiyonlar
+├── web/templates/         # Dashboard HTML
 ├── render.yaml            # Render deploy config
 └── requirements.txt
 ```
