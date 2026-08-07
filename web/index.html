@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>NASDAQ Signal Bot</title>
+</head>
+<body style="font-family: Arial, sans-serif; text-align: center; padding-top: 100px;">
+    <h1>🤖 NASDAQ Signal Bot</h1>
+    <p>Bot çalışıyor - bu sayfa Render free tier uyku modunu engellemek için kullanılır.</p>
+    <p id="status"></p>
+    <script>
+        fetch('/status.json').then(r => r.json()).then(d => {
+            document.getElementById('status').textContent = 'Son tarama: ' + d.last_scan;
+        }).catch(() => {
+            document.getElementById('status').textContent = 'Durum alınamadı';
+        });
+    </script>
+</body>
+</html>

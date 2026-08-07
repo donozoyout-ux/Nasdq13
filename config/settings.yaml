@@ -1,0 +1,201 @@
+# NASDAQ Signal Bot - Main Settings
+# All configurable parameters in one place
+
+app:
+  name: "nasdaq-signal-bot"
+  version: "1.0.0"
+  description: "Real-time NASDAQ breakout signals with technical analysis + news sentiment"
+  author: ""
+  timezone: "UTC"
+
+# Symbols to track (Yahoo Finance format)
+symbols:
+  - "NQ=F"      # Nasdaq 100 E-mini Futures
+  - "ES=F"      # S&P 500 E-mini Futures
+  - "YM=F"      # Dow Jones E-mini Futures
+  - "RTY=F"     # Russell 2000 E-mini Futures
+  # Add more: "AAPL", "TSLA", "NVDA", "MSFT", "QQQ", "SPY"
+
+# Timeframes for multi-timeframe analysis
+timeframes:
+  - "1m"
+  - "5m"
+  - "15m"
+  - "1h"
+  - "1d"
+
+# Scan configuration
+scanner:
+  interval_seconds: 60
+  max_concurrent_requests: 5
+  request_timeout: 30
+  retry_attempts: 3
+  retry_delay: 5
+
+# Technical Analysis Parameters
+technical:
+  # Trend
+  ema_short: 9
+  ema_medium: 21
+  ema_long: 50
+  vwap_enabled: true
+  
+  # Momentum
+  rsi_period: 14
+  rsi_overbought: 70
+  rsi_oversold: 30
+  macd_fast: 12
+  macd_slow: 26
+  macd_signal: 9
+  stoch_rsi_period: 14
+  
+  # Volatility
+  bb_period: 20
+  bb_std: 2.0
+  keltner_period: 20
+  keltner_multiplier: 2.0
+  atr_period: 14
+  
+  # Volume
+  volume_sma_period: 20
+  volume_spike_multiplier: 2.0
+  obv_enabled: true
+  
+  # Breakout
+  donchian_period: 20
+  gap_threshold_pct: 0.5
+  vwap_reclaim_threshold: 0.001
+
+# Signal Scoring Weights (must sum to 100)
+signal_weights:
+  breakout_strength: 30
+  volume_confirmation: 25
+  trend_alignment: 20
+  momentum: 15
+  support_resistance: 10
+
+# Signal Thresholds
+thresholds:
+  strong_buy: 75
+  buy: 60
+  watch: 45
+  strong_sell: -75
+  sell: -60
+
+# News Sentiment Configuration
+news:
+  enabled: true
+  lookback_hours: 6
+  max_articles_per_symbol: 20
+  keyword_boost_max: 30
+  high_impact_multiplier: 3
+  
+  # Keywords for sentiment scoring
+  keywords:
+    bearish:
+      - "trump tariff"
+      - "fed hawkish"
+      - "rate hike"
+      - "recession"
+      - "earnings miss"
+      - "guidance cut"
+      - "layoffs"
+      - "investigation"
+      - "lawsuit"
+      - "bankruptcy"
+      - "downgrade"
+      - "sell rating"
+    bullish:
+      - "fed dovish"
+      - "rate cut"
+      - "earnings beat"
+      - "guidance raise"
+      - "buyback"
+      - "partnership"
+      - "fda approval"
+      - "trump pro-business"
+      - "upgrade"
+      - "buy rating"
+      - "strong earnings"
+      - "record revenue"
+    high_impact:
+      - "trump"
+      - "powell"
+      - "fomc"
+      - "cpi"
+      - "ppi"
+      - "nfp"
+      - "unemployment"
+      - "interest rate"
+      - "inflation"
+      - "gdp"
+      - "fed meeting"
+      - "ecb"
+      - "boj"
+
+# Risk Management
+risk:
+  atr_sl_multiplier: 1.5
+  atr_tp1_multiplier: 2.0
+  atr_tp2_multiplier: 3.0
+  max_signals_per_hour: 10
+  signal_cooldown_minutes: 15
+  max_daily_signals: 50
+  min_risk_reward_ratio: 1.5
+
+# Market Hours (UTC)
+market_hours:
+  pre_market_start: "12:00"
+  regular_open: "13:30"
+  regular_close: "20:00"
+  after_hours_end: "22:00"
+  timezone: "UTC"
+  trade_only_regular_hours: true
+  trade_pre_market: false
+  trade_after_hours: false
+
+# Telegram Notifications
+telegram:
+  enabled: true
+  parse_mode: "HTML"
+  disable_web_page_preview: true
+  message_template: "default"
+  include_chart_link: true
+  chart_base_url: "https://www.tradingview.com/chart/?symbol="
+
+# State Persistence
+state:
+  file_path: "data/bot_state.json"
+  backup_interval_minutes: 60
+  max_signal_history: 1000
+  track_performance: true
+
+# Logging
+logging:
+  level: "INFO"
+  format: "json"
+  file_path: "logs/bot.log"
+  rotation: "1 day"
+  retention: "7 days"
+  console_output: true
+
+# API Rate Limits (per provider)
+rate_limits:
+  yfinance:
+    requests_per_minute: 100
+    requests_per_day: 10000
+  newsapi:
+    requests_per_day: 100
+  alphavantage:
+    requests_per_day: 25
+    requests_per_minute: 5
+  finnhub:
+    requests_per_minute: 60
+
+# Render / Deployment
+deployment:
+  health_check_port: 8080
+  health_check_path: "/health"
+  worker_type: "background"
+  auto_sleep_prevention: true
+  uptime_ping_interval_seconds: 600

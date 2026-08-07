@@ -1,0 +1,41 @@
+# Render deployment configuration
+# See: https://render.com/docs/blueprint-spec
+
+services:
+  - type: worker
+    name: nasdaq-signal-bot
+    runtime: python
+    rootDir: .
+    plan: free
+    autoDeploy: true
+    buildCommand: pip install --no-cache-dir -r requirements.txt
+    startCommand: python -m src.main
+    envVars:
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_CHAT_ID
+        sync: false
+      - key: NEWSAPI_KEY
+        sync: false
+      - key: ALPHA_VANTAGE_KEY
+        sync: false
+      - key: FINNHUB_KEY
+        sync: false
+      - key: LOG_LEVEL
+        value: INFO
+      - key: PYTHONUNBUFFERED
+        value: "1"
+
+  # Optional: keep-alive web service to prevent free-tier sleep
+  - type: web
+    name: nasdaq-signal-bot-keepalive
+    runtime: python
+    rootDir: .
+    plan: free
+    autoDeploy: false
+    buildCommand: pip install --no-cache-dir -r requirements.txt
+    startCommand: python -m http.server $PORT --directory web
+    healthCheckPath: /
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: "1"
