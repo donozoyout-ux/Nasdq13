@@ -418,6 +418,7 @@ class TechnicalAnalyzer:
             donchian_upper = float(last["donchian_upper_20"]) if pd.notna(last["donchian_upper_20"]) else price
             donchian_lower = float(last["donchian_lower_20"]) if pd.notna(last["donchian_lower_20"]) else price
             bb_upper = float(last["bb_upper"]) if pd.notna(last["bb_upper"]) else price
+            bb_middle = float(last["bb_middle"]) if pd.notna(last["bb_middle"]) else price
             bb_lower = float(last["bb_lower"]) if pd.notna(last["bb_lower"]) else price
 
             is_breakout_up = price > donchian_upper or price > bb_upper
