@@ -4,8 +4,10 @@ Utility helpers
 import time
 import asyncio
 import json
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 from datetime import datetime, timezone
+
+from src.utils.timezone import market_status
 
 
 def utc_now() -> datetime:
@@ -13,26 +15,11 @@ def utc_now() -> datetime:
     return datetime.now(timezone.utc)
 
 
-def is_market_open(now: Optional[datetime] = None) -> bool:
-    """Check if US market is open (simplified: Mon-Fri 9:30-16:00 ET)"""
-    now = now or utc_now()
-    et = now.astimezone(timezone.utc)
-    # Convert to ET (UTC-4 for EDT, UTC-5 for EST) - simplified to UTC-4
-    # For a real deployment, use a proper TZ lib
-    weekday = et.weekday()
-    hour = et.hour
-    minute = et.minute
-
-    # Rough approximation: 13:30-20:00 UTC = 9:30-16:00 ET
-    if weekday >= 5:  # Saturday/Sunday
-        return False
-    if hour == 13 and minute >= 30:
-        return True
-    if 14 <= hour <= 19:
-        return True
-    if hour == 20 and minute == 0:
-        return True
-    return False
+def is_market_open(now: Optional[datetime] = None, config: Optional[dict] = None) -> bool:
+    """Check if the US market regular session is open (New York time, DST-aware)."""
+    config = config or {}
+    status = market_status(config, now)
+    return status["open"]
 
 
 def async_retry(retries: int = 3, delay: float = 2.0, backoff: float = 2.0):

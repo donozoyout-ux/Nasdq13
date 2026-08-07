@@ -20,6 +20,7 @@ import inspect
 import uvicorn
 
 from src.utils.logger import get_logger
+from src.utils.timezone import market_status
 from src.bot import SignalBot, load_config
 
 logger = get_logger("webapp")
@@ -93,6 +94,7 @@ async def health():
     if b is not None and not b.health_ok:
         status = "degraded"
         code = 503
+    market = market_status(config) if config else market_status({})
     return JSONResponse(
         status_code=code,
         content={
@@ -100,6 +102,10 @@ async def health():
             "running": b.is_running if b else False,
             "last_scan": b.last_scan_at.isoformat() if b and b.last_scan_at else None,
             "scan_count": b.scan_count if b else 0,
+            "market_open": market["open"],
+            "market_session": market["session"],
+            "time_ny": market["now_et"].strftime("%Y-%m-%d %H:%M %Z"),
+            "time_tr": market["now_tr"].strftime("%Y-%m-%d %H:%M %Z"),
             "time": datetime.utcnow().isoformat(),
         },
     )
@@ -112,6 +118,7 @@ async def api_status():
         return {"running": False, "healthy": False, "scan_count": 0, "error_count": 0,
                 "last_scan_at": None, "scan_interval_seconds": 60,
                 "symbols": [], "timeframes": []}
+    market = market_status(b.config)
     return {
         "running": b.is_running,
         "healthy": b.health_ok,
@@ -121,6 +128,10 @@ async def api_status():
         "scan_interval_seconds": b.scan_interval,
         "symbols": b.config.get("symbols", []),
         "timeframes": b.config.get("timeframes", []),
+        "market_open": market["open"],
+        "market_session": market["session"],
+        "time_ny": market["now_et"].strftime("%Y-%m-%d %H:%M %Z"),
+        "time_tr": market["now_tr"].strftime("%Y-%m-%d %H:%M %Z"),
     }
 
 

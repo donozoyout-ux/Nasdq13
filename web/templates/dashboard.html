@@ -132,6 +132,7 @@
         <h1>📊 <span>NASDAQ</span> Sinyal Botu</h1>
         <div class="badges">
             <span id="statusBadge" class="badge neutral">Yükleniyor...</span>
+            <span id="marketBadge" class="badge neutral">Piyasa: -</span>
             <span id="healthBadge" class="badge neutral">Sağlık: -</span>
             <span id="lastScanBadge" class="badge neutral">Son tarama: -</span>
         </div>
@@ -222,7 +223,7 @@
     const fmtTime = (iso) => {
         if (!iso) return '-';
         const d = new Date(iso);
-        return d.toLocaleString('tr-TR', {timeZone: 'UTC', hour12: false});
+        return d.toLocaleString('tr-TR', {timeZone: 'auto', hour12: false});
     };
     const scoreClass = (s) => {
         if (s == null) return 'neutral';
@@ -266,6 +267,18 @@
             const hb = document.getElementById('healthBadge');
             hb.textContent = 'Sağlık: ' + (data.status.healthy ? 'İyi' : 'Sorun');
             hb.className = 'badge ' + (data.status.healthy ? 'running' : 'stopped');
+
+            const mb = document.getElementById('marketBadge');
+            const sessionMap = {
+                regular: 'Açık 🟢',
+                pre_market: 'Pre-market 🌅',
+                after_hours: 'After-hours 🌙',
+                closed: 'Kapalı 🔴'
+            };
+            const mk = data.status.market_open ? 'running' : 'neutral';
+            mb.textContent = 'Piyasa: ' + (sessionMap[data.status.market_session] || '-') +
+                (data.status.time_tr ? ' (' + data.status.time_tr.split(' ')[1] + ' TR)' : '');
+            mb.className = 'badge ' + mk;
 
             document.getElementById('lastScanBadge').textContent =
                 'Son tarama: ' + fmtTime(data.status.last_scan_at);

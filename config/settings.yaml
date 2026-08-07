@@ -166,13 +166,18 @@ risk:
   max_daily_signals: 50
   min_risk_reward_ratio: 1.5
 
-# Market Hours (UTC)
+# Market Hours
+# Saatler New York (America/New_York) saatine göre tanimlidir; DST otomatik yonetilir.
+# Turkce goruntuleme Europe/Istanbul (TURKIYE, UTC+3) uzerinden yapilir.
+# ABD vadeli piyasasi (NQ/ES/YM/RTY) hafta ici 18:00 - 17:00 (ertesi gun) neredeyse 24 saat aciktir.
+# Normal islem seansi: 09:30 - 16:00 New York  =  16:30 - 23:00 Turkiye (yaz saati)
 market_hours:
-  pre_market_start: "12:00"
-  regular_open: "13:30"
-  regular_close: "20:00"
-  after_hours_end: "22:00"
-  timezone: "UTC"
+  timezone: "America/New_York"
+  display_timezone: "Europe/Istanbul"
+  pre_market_start: "04:00"     # NY 04:00 = TR 11:00 (yaz)
+  regular_open: "09:30"         # NY 09:30 = TR 16:30 (yaz) / 17:30 (kis)
+  regular_close: "16:00"        # NY 16:00 = TR 23:00 (yaz) / 00:00 (kis)
+  after_hours_end: "20:00"      # NY 20:00 = TR 03:00 (yaz) / 04:00 (kis)
   trade_only_regular_hours: true
   trade_pre_market: false
   trade_after_hours: false

@@ -14,6 +14,7 @@ from dotenv import load_dotenv
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.utils.logger import setup_logger, get_logger
+from src.utils.timezone import market_status
 from src.data.price_fetcher import PriceFetcher
 from src.data.news_fetcher import NewsFetcher
 from src.analysis.technical import TechnicalAnalyzer, IndicatorSnapshot
@@ -92,13 +93,22 @@ class SignalBot:
                 for s in symbols
             )
             tfs = ", ".join(self.config.get("timeframes", []))
+            status = market_status(self.config)
+            session_text = {
+                "regular": "🟢 Açık (normal seans)",
+                "pre_market": "🌅 Pre-market",
+                "after_hours": "🌙 After-hours",
+                "closed": "🔴 Kapalı",
+            }.get(status["session"], "🔴 Kapalı")
+            now_tr = status["now_tr"].strftime("%Y-%m-%d %H:%M")
             msg = (
                 f"🤖 <b>NASDAQ Sinyal Botu Başlatıldı</b>\n"
                 f"{'=' * 30}\n"
                 f"📊 <b>Takip Edilen Piyasalar:</b>\n{names}"
                 f"⏱ <b>Periyotlar:</b> {tfs}\n"
                 f"🔄 <b>Tarama:</b> her {self.scan_interval}s\n"
-                f"🕐 {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}\n\n"
+                f"🏙 <b>Piyasa:</b> {session_text}\n"
+                f"🕐 {now_tr} (Türkiye saati)\n\n"
                 f"Tarama başlıyor... 🔎"
             )
             await self.notifier.send_text(msg)

@@ -8,6 +8,7 @@ from typing import Dict, List, Optional, Any
 import asyncio
 
 from src.utils.logger import get_logger
+from src.utils.timezone import format_turkey
 from src.analysis.signal_engine import Signal
 
 logger = get_logger(__name__)
@@ -163,8 +164,8 @@ class TelegramNotifier:
             msg += f"\n📈 <a href='{self.chart_base_url}{symbol}'>TradingView Grafiğini Aç</a>\n"
 
         # Timestamp
-        ts = signal.timestamp.strftime("%Y-%m-%d %H:%M UTC")
-        msg += f"\n🕐 {ts}\nID: <code>{signal.signal_id}</code>"
+        ts = format_turkey(signal.timestamp, "%Y-%m-%d %H:%M")
+        msg += f"\n🕐 {ts} (Türkiye saati)\nID: <code>{signal.signal_id}</code>"
 
         return msg
 
