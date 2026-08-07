@@ -253,6 +253,8 @@ class SignalBot:
                 "reasons": s.reasons,
             })
 
+        mkt_status = market_status(self.config)
+
         return {
             "status": {
                 "running": self.is_running,
@@ -261,6 +263,10 @@ class SignalBot:
                 "error_count": self.error_count,
                 "last_scan_at": self.last_scan_at.isoformat() if self.last_scan_at else None,
                 "scan_interval_seconds": self.scan_interval,
+                "market_open": mkt_status["open"],
+                "market_session": mkt_status["session"],
+                "time_ny": mkt_status["now_et"].strftime("%Y-%m-%d %H:%M %Z"),
+                "time_tr": mkt_status["now_tr"].strftime("%Y-%m-%d %H:%M %Z"),
             },
             "config": {
                 "symbols": symbols,
