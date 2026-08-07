@@ -8,6 +8,7 @@ import sys
 import asyncio
 from contextlib import asynccontextmanager
 from datetime import datetime, timedelta
+from typing import Optional
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -60,9 +61,8 @@ os.makedirs(STATIC_DIR, exist_ok=True)
 templates = Jinja2Templates(directory=TEMPLATES_DIR)
 
 
-def get_bot() -> SignalBot:
-    if bot is None:
-        raise RuntimeError("Bot not initialized")
+def get_bot() -> Optional[SignalBot]:
+    """Return the bot instance or None if not ready"""
     return bot
 
 
@@ -95,6 +95,10 @@ async def health():
 @app.get("/api/status")
 async def api_status():
     b = get_bot()
+    if b is None:
+        return {"running": False, "healthy": False, "scan_count": 0, "error_count": 0,
+                "last_scan_at": None, "scan_interval_seconds": 60,
+                "symbols": [], "timeframes": []}
     return {
         "running": b.is_running,
         "healthy": b.health_ok,
@@ -110,6 +114,8 @@ async def api_status():
 @app.get("/api/market")
 async def api_market():
     b = get_bot()
+    if b is None:
+        return {}
     market = {}
     for symbol, tfs in b.last_snapshots.items():
         market[symbol] = {}
@@ -121,6 +127,8 @@ async def api_market():
 @app.get("/api/signals")
 async def api_signals(limit: int = 20):
     b = get_bot()
+    if b is None:
+        return []
     history = b.state.state.get("signal_history", [])
     recent = history[-limit:][::-1] if history else []
     return recent
@@ -129,21 +137,31 @@ async def api_signals(limit: int = 20):
 @app.get("/api/news")
 async def api_news():
     b = get_bot()
+    if b is None:
+        return {}
     return b.last_news
 
 
 @app.get("/api/dashboard")
 async def api_dashboard():
     b = get_bot()
+    if b is None:
+        return {"status": {"running": False, "healthy": False, "scan_count": 0,
+                           "error_count": 0, "last_scan_at": None, "scan_interval_seconds": 60},
+                "config": {"symbols": [], "timeframes": [], "thresholds": {}},
+                "market": {}, "signals": [], "news": {}, "stats": {}, "history": []}
     return b.get_dashboard_state()
 
 
 @app.get("/favicon.ico")
 async def favicon():
-    return FileResponse(os.path.join(STATIC_DIR, "favicon.ico"))
+    favicon_path = os.path.join(STATIC_DIR, "favicon.ico")
+    if os.path.exists(favicon_path):
+        return FileResponse(favicon_path)
+    return JSONResponse(status_code=204, content=None)
 
 
-# Mount static files at /static
+# Mount static files at /static (directory always exists due to makedirs above)
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 

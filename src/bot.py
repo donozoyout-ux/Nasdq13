@@ -177,19 +177,30 @@ class SignalBot:
 
     def snapshot_to_dict(self, snap: IndicatorSnapshot) -> Dict[str, Any]:
         """Convert a snapshot to a JSON-serializable dict"""
+        import math
+
+        def clean(v):
+            if v is None:
+                return 0
+            try:
+                f = float(v)
+                return 0 if math.isnan(f) or math.isinf(f) else f
+            except (ValueError, TypeError):
+                return 0
+
         return {
             "symbol": snap.symbol,
             "timeframe": snap.timeframe,
-            "price": snap.price,
-            "change_pct": round(snap.change_pct, 2),
-            "composite_score": round(snap.composite_score, 1),
-            "trend_score": round(snap.trend_score, 1),
-            "momentum_score": round(snap.momentum_score, 1),
-            "volume_score": round(snap.volume_score, 1),
-            "breakout_score": round(snap.breakout_score, 1),
-            "rsi_14": round(snap.rsi_14, 1),
-            "volume_ratio": round(snap.volume_ratio, 2),
-            "atr_14": round(snap.atr_14, 2),
+            "price": clean(snap.price),
+            "change_pct": round(clean(snap.change_pct), 2),
+            "composite_score": round(clean(snap.composite_score), 1),
+            "trend_score": round(clean(snap.trend_score), 1),
+            "momentum_score": round(clean(snap.momentum_score), 1),
+            "volume_score": round(clean(snap.volume_score), 1),
+            "breakout_score": round(clean(snap.breakout_score), 1),
+            "rsi_14": round(clean(snap.rsi_14), 1),
+            "volume_ratio": round(clean(snap.volume_ratio), 2),
+            "atr_14": round(clean(snap.atr_14), 2),
             "is_breakout_up": snap.is_breakout_up,
             "is_breakout_down": snap.is_breakout_down,
             "is_volume_spike": snap.is_volume_spike,
