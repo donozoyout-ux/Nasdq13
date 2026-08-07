@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NASDAQ Sinyal Botu - Panel</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+    <style>
+        :root {
+            --bg: #0d1117;
+            --card: #161b22;
+            --border: #30363d;
+            --text: #e6edf3;
+            --muted: #8b949e;
+            --green: #3fb950;
+            --red: #f85149;
+            --yellow: #d29922;
+            --blue: #58a6ff;
+            --purple: #bc8cff;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            min-height: 100vh;
+        }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 16px 0; border-bottom: 1px solid var(--border); margin-bottom: 24px;
+        }
+        header h1 { font-size: 22px; }
+        header h1 span { color: var(--blue); }
+        .badges { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+        .badge {
+            padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;
+            border: 1px solid var(--border);
+        }
+        .badge.running { background: rgba(63,185,80,.15); color: var(--green); border-color: var(--green); }
+        .badge.stopped { background: rgba(248,81,73,.15); color: var(--red); border-color: var(--red); }
+        .badge.neutral { background: rgba(139,148,158,.15); color: var(--muted); }
+
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 24px;
+        }
+        .stat-card {
+            background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+            padding: 16px; text-align: center;
+        }
+        .stat-card .value { font-size: 28px; font-weight: 700; margin: 8px 0 4px; }
+        .stat-card .label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
+        .stat-card .value.green { color: var(--green); }
+        .stat-card .value.red { color: var(--red); }
+        .stat-card .value.blue { color: var(--blue); }
+
+        .card {
+            background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+            padding: 20px; margin-bottom: 24px;
+        }
+        .card h2 {
+            font-size: 15px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+        }
+        .card h2 .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+        .dot.green { background: var(--green); }
+        .dot.red { background: var(--red); }
+        .dot.blue { background: var(--blue); }
+        .dot.yellow { background: var(--yellow); }
+
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+        th { color: var(--muted); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: rgba(88,166,255,.04); }
+
+        .score {
+            font-weight: 700; padding: 3px 10px; border-radius: 6px; font-size: 12px;
+        }
+        .score.buy { background: rgba(63,185,80,.15); color: var(--green); }
+        .score.sell { background: rgba(248,81,73,.15); color: var(--red); }
+        .score.watch { background: rgba(210,153,34,.15); color: var(--yellow); }
+        .score.neutral { background: rgba(139,148,158,.15); color: var(--muted); }
+
+        .tag {
+            display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;
+        }
+        .tag.strong_buy { background: rgba(63,185,80,.2); color: var(--green); }
+        .tag.buy { background: rgba(63,185,80,.12); color: var(--green); }
+        .tag.strong_sell { background: rgba(248,81,73,.2); color: var(--red); }
+        .tag.sell { background: rgba(248,81,73,.12); color: var(--red); }
+
+        .signal-row { border-left: 3px solid var(--green); padding-left: 12px; }
+        .signal-row.sell { border-left-color: var(--red); }
+
+        .empty {
+            text-align: center; color: var(--muted); padding: 40px 20px; font-size: 14px;
+        }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        @media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
+
+        .mono { font-family: "SF Mono", Consolas, monospace; font-size: 12px; }
+        .symbol-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-weight: 700; font-size: 13px;
+        }
+        .price-change { font-size: 12px; }
+        .pc-up { color: var(--green); }
+        .pc-down { color: var(--red); }
+
+        .sparkline { opacity: .7; }
+        .news-item {
+            padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px;
+        }
+        .news-item:last-child { border-bottom: none; }
+        .news-score { font-weight: 700; margin-right: 8px; }
+        .ns-pos { color: var(--green); }
+        .ns-neg { color: var(--red); }
+        .ns-neu { color: var(--muted); }
+
+        .last-updated {
+            color: var(--muted); font-size: 12px; text-align: right; margin-bottom: 12px;
+        }
+        .symbol-row td:first-child { font-weight: 600; }
+        .tf-cell { font-size: 11px; color: var(--muted); }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>📊 <span>NASDAQ</span> Sinyal Botu</h1>
+        <div class="badges">
+            <span id="statusBadge" class="badge neutral">Yükleniyor...</span>
+            <span id="healthBadge" class="badge neutral">Sağlık: -</span>
+            <span id="lastScanBadge" class="badge neutral">Son tarama: -</span>
+        </div>
+    </header>
+
+    <div class="stats-grid" id="statsGrid">
+        <div class="stat-card">
+            <div class="label">Toplam Tarama</div>
+            <div class="value blue" id="statScans">-</div>
+        </div>
+        <div class="stat-card">
+            <div class="label">Toplam Sinyal</div>
+            <div class="value blue" id="statSignals">-</div>
+        </div>
+        <div class="stat-card">
+            <div class="label">Son Tarama</div>
+            <div class="value" id="statLastScan" style="font-size:16px; margin-top:16px;">-</div>
+        </div>
+        <div class="stat-card">
+            <div class="label">Takip Edilen</div>
+            <div class="value green" id="statSymbols">-</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2><span class="dot green"></span> Piyasa Analizi (Teknik + Haber)</h2>
+        <div class="last-updated" id="lastUpdated">-</div>
+        <div style="overflow-x:auto;">
+            <table id="marketTable">
+                <thead>
+                    <tr>
+                        <th>Sembol</th>
+                        <th>Fiyat</th>
+                        <th>Değişim</th>
+                        <th>Skor</th>
+                        <th>RSI</th>
+                        <th>Hacim</th>
+                        <th>Haber</th>
+                        <th>Durum</th>
+                    </tr>
+                </thead>
+                <tbody id="marketBody">
+                    <tr><td colspan="8" class="empty">Veri bekleniyor...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="grid-2">
+        <div class="card">
+            <h2><span class="dot yellow"></span> Son Sinyaller</h2>
+            <div id="signalsList">
+                <div class="empty">Henüz sinyal yok</div>
+            </div>
+        </div>
+        <div class="card">
+            <h2><span class="dot blue"></span> Haber Akışı</h2>
+            <div id="newsList">
+                <div class="empty">Haber verisi yok</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2><span class="dot red"></span> Sinyal Geçmişi</h2>
+        <div style="overflow-x:auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sembol</th>
+                        <th>Aksiyon</th>
+                        <th>Fiyat</th>
+                        <th>Güç</th>
+                        <th>Tarih</th>
+                    </tr>
+                </thead>
+                <tbody id="historyBody">
+                    <tr><td colspan="5" class="empty">Geçmiş sinyal yok</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    const fmtPrice = (p) => p == null ? '-' : p.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    const fmtPct = (p) => p == null ? '-' : (p > 0 ? '+' : '') + p.toFixed(2) + '%';
+    const fmtTime = (iso) => {
+        if (!iso) return '-';
+        const d = new Date(iso);
+        return d.toLocaleString('tr-TR', {timeZone: 'UTC', hour12: false});
+    };
+    const scoreClass = (s) => {
+        if (s == null) return 'neutral';
+        if (s >= 60) return 'buy';
+        if (s <= -60) return 'sell';
+        if (s >= 45 || s <= -45) return 'watch';
+        return 'neutral';
+    };
+    const scoreLabel = (s) => {
+        if (s == null) return '-';
+        if (s >= 75) return 'STRONG BUY';
+        if (s >= 60) return 'BUY';
+        if (s >= 45) return 'WATCH';
+        if (s <= -75) return 'STRONG SELL';
+        if (s <= -60) return 'SELL';
+        if (s <= -45) return 'WATCH';
+        return 'NÖTR';
+    };
+    const flagEmoji = (snap) => {
+        if (!snap) return '';
+        const f = [];
+        if (snap.is_breakout_up) f.push('📈');
+        if (snap.is_breakout_down) f.push('📉');
+        if (snap.is_volume_spike) f.push('🔊');
+        if (snap.is_golden_cross) f.push('✨');
+        if (snap.is_death_cross) f.push('💀');
+        if (snap.is_vwap_reclaim) f.push('🎯');
+        return f.join(' ');
+    };
+    const actionClass = (a) => (a || '').toLowerCase().replace(' ', '_');
+
+    async function refresh() {
+        try {
+            const data = await (await fetch('/api/dashboard')).json();
+
+            // Status badges
+            const sb = document.getElementById('statusBadge');
+            sb.textContent = data.status.running ? '● ÇALIŞIYOR' : '● DURDU';
+            sb.className = 'badge ' + (data.status.running ? 'running' : 'stopped');
+
+            const hb = document.getElementById('healthBadge');
+            hb.textContent = 'Sağlık: ' + (data.status.healthy ? 'İyi' : 'Sorun');
+            hb.className = 'badge ' + (data.status.healthy ? 'running' : 'stopped');
+
+            document.getElementById('lastScanBadge').textContent =
+                'Son tarama: ' + fmtTime(data.status.last_scan_at);
+            document.getElementById('lastUpdated').textContent =
+                'Güncellendi: ' + fmtTime(new Date().toISOString());
+
+            // Stats
+            document.getElementById('statScans').textContent = data.status.scan_count;
+            document.getElementById('statSignals').textContent =
+                (data.stats && data.stats.total_signals) || 0;
+            document.getElementById('statLastScan').textContent = fmtTime(data.status.last_scan_at);
+            document.getElementById('statSymbols').textContent = (data.config.symbols || []).length;
+
+            // Market table
+            const mBody = document.getElementById('marketBody');
+            const symbols = data.config.symbols || [];
+            const tfs = data.config.timeframes || [];
+            let rows = '';
+            if (Object.keys(data.market || {}).length === 0) {
+                rows = '<tr><td colspan="8" class="empty">İlk tarama bekleniyor...</td></tr>';
+            } else {
+                symbols.forEach(sym => {
+                    const tfsData = data.market[sym] || {};
+                    const primary = tfsData[tfs[tfs.length - 1]] || tfsData[tfs[0]] || null;
+                    if (!primary) return;
+                    const chg = primary.change_pct;
+                    rows += `<tr class="symbol-row">
+                        <td>${sym}</td>
+                        <td class="mono">${fmtPrice(primary.price)}</td>
+                        <td class="price-change ${chg >= 0 ? 'pc-up' : 'pc-down'}">${fmtPct(chg)}</td>
+                        <td><span class="score ${scoreClass(primary.composite_score)}">${scoreLabel(primary.composite_score)} (${primary.composite_score != null ? primary.composite_score.toFixed(0) : '-'})</span></td>
+                        <td>${primary.rsi_14 != null ? primary.rsi_14.toFixed(1) : '-'}</td>
+                        <td>${primary.volume_ratio != null ? primary.volume_ratio.toFixed(1) + 'x' : '-'}</td>
+                        <td>${data.news && data.news[sym] ? (data.news[sym].score != null ? data.news[sym].score.toFixed(1) : '-') : '-'}</td>
+                        <td>${flagEmoji(primary)}</td>
+                    </tr>`;
+                });
+            }
+            mBody.innerHTML = rows;
+
+            // Signals
+            const sList = document.getElementById('signalsList');
+            if (data.signals && data.signals.length > 0) {
+                sList.innerHTML = data.signals.map(s => `
+                    <div class="news-item signal-row ${s.direction === 'SHORT' ? 'sell' : ''}">
+                        <div>
+                            <span class="tag ${actionClass(s.action)}">${s.action}</span>
+                            <strong>${s.symbol}</strong>
+                            <span class="mono">@ ${fmtPrice(s.price)}</span>
+                            <span class="mono" style="float:right;color:var(--muted)">${fmtTime(s.timestamp)}</span>
+                        </div>
+                        <div style="margin-top:4px;font-size:12px;color:var(--muted)">
+                            Güç: ${s.strength != null ? s.strength.toFixed(1) : '-'} | ${s.timeframe}
+                        </div>
+                        ${s.reasons && s.reasons.length ? `<div style="margin-top:4px;font-size:12px;color:var(--muted)">${s.reasons.join(' • ')}</div>` : ''}
+                    </div>
+                `).join('');
+            } else {
+                sList.innerHTML = '<div class="empty">Şu an aktif sinyal yok</div>';
+            }
+
+            // News
+            const nList = document.getElementById('newsList');
+            const news = data.news || {};
+            const hasNews = Object.values(news).some(n => n && n.article_count > 0);
+            if (hasNews) {
+                let nHtml = '';
+                Object.keys(news).forEach(sym => {
+                    const n = news[sym];
+                    if (!n || !n.latest_article) return;
+                    const ns = n.score != null ? n.score : 0;
+                    const cls = ns > 0 ? 'ns-pos' : (ns < 0 ? 'ns-neg' : 'ns-neu');
+                    nHtml += `<div class="news-item">
+                        <div><strong>${sym}</strong>
+                            <span class="news-score ${cls}">${ns > 0 ? '+' : ''}${ns.toFixed(1)}</span>
+                            <span style="color:var(--muted);font-size:11px">(${n.article_count} haber)</span>
+                        </div>
+                        <div style="margin-top:4px;font-size:12px;color:var(--muted)">${n.latest_article.substring(0, 110)}${n.latest_article.length > 110 ? '...' : ''}</div>
+                    </div>`;
+                });
+                nList.innerHTML = nHtml || '<div class="empty">Haber bulunamadı</div>';
+            } else {
+                nList.innerHTML = '<div class="empty">Haber verisi yok (API key gerekiyor)</div>';
+            }
+
+            // History
+            const hBody = document.getElementById('historyBody');
+            const history = (data.history || []).slice().reverse();
+            if (history.length > 0) {
+                hBody.innerHTML = history.map(h => `
+                    <tr>
+                        <td>${h.symbol}</td>
+                        <td><span class="tag ${actionClass(h.action)}">${h.action}</span></td>
+                        <td class="mono">${fmtPrice(h.price)}</td>
+                        <td class="mono">${h.strength != null ? h.strength.toFixed(1) : '-'}</td>
+                        <td>${fmtTime(h.timestamp)}</td>
+                    </tr>
+                `).join('');
+            } else {
+                hBody.innerHTML = '<tr><td colspan="5" class="empty">Geçmiş sinyal yok</td></tr>';
+            }
+        } catch (err) {
+            console.error('Refresh error:', err);
+        }
+    }
+
+    refresh();
+    setInterval(refresh, 15000);
+</script>
+</body>
+</html>

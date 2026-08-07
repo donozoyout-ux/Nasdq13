@@ -1,15 +1,16 @@
-# Render deployment configuration
+# Render deployment configuration (single web service hosting bot + dashboard)
 # See: https://render.com/docs/blueprint-spec
 
 services:
-  - type: worker
+  - type: web
     name: nasdaq-signal-bot
     runtime: python
     rootDir: .
     plan: free
     autoDeploy: true
     buildCommand: pip install --no-cache-dir -r requirements.txt
-    startCommand: python -m src.main
+    startCommand: uvicorn src.webapp:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
     envVars:
       - key: TELEGRAM_BOT_TOKEN
         sync: false
@@ -25,17 +26,5 @@ services:
         value: INFO
       - key: PYTHONUNBUFFERED
         value: "1"
-
-  # Optional: keep-alive web service to prevent free-tier sleep
-  - type: web
-    name: nasdaq-signal-bot-keepalive
-    runtime: python
-    rootDir: .
-    plan: free
-    autoDeploy: false
-    buildCommand: pip install --no-cache-dir -r requirements.txt
-    startCommand: python -m http.server $PORT --directory web
-    healthCheckPath: /
-    envVars:
-      - key: PYTHONUNBUFFERED
-        value: "1"
+      - key: PYTHON_VERSION
+        value: "3.12.4"

@@ -30,6 +30,7 @@ wheels/
 data/
 logs/
 *.log
+__pycache__/
 
 # Virtual environments
 venv/
