@@ -12,13 +12,37 @@ from src.analysis.signal_engine import Signal
 
 logger = get_logger(__name__)
 
-# Action -> emoji and color mapping
+# Action -> emoji, label (Turkish) and plain description
 ACTION_STYLE = {
-    "STRONG_BUY": ("🚀", "🟢", "STRONG BUY"),
-    "BUY": ("📈", "🟢", "BUY"),
-    "WATCH": ("👀", "🟡", "WATCH"),
-    "SELL": ("📉", "🔴", "SELL"),
-    "STRONG_SELL": ("🚨", "🔴", "STRONG SELL"),
+    "STRONG_BUY": ("🚀", "GÜÇLÜ AL", "Kuvvetli alış sinyali"),
+    "BUY": ("📈", "AL", "Alış sinyali"),
+    "WATCH": ("👀", "İZLE", "Dikkat, bekleniyor"),
+    "SELL": ("📉", "SAT", "Satış sinyali"),
+    "STRONG_SELL": ("🚨", "GÜÇLÜ SAT", "Kuvvetli satış sinyali"),
+}
+
+# Default human-readable symbol names (overridable via config symbol_names)
+DEFAULT_SYMBOL_NAMES = {
+    "NQ=F": "Nasdaq 100",
+    "ES=F": "S&P 500",
+    "YM=F": "Dow Jones",
+    "RTY=F": "Russell 2000",
+    "QQQ": "Nasdaq 100 ETF",
+    "SPY": "S&P 500 ETF",
+    "DIA": "Dow Jones ETF",
+    "IWM": "Russell 2000 ETF",
+    "AAPL": "Apple",
+    "MSFT": "Microsoft",
+    "NVDA": "NVIDIA",
+    "TSLA": "Tesla",
+    "AMZN": "Amazon",
+    "GOOGL": "Alphabet (Google)",
+    "GOOG": "Alphabet (Google)",
+    "META": "Meta",
+    "NFLX": "Netflix",
+    "AMD": "AMD",
+    "INTC": "Intel",
+    "JPM": "JPMorgan",
 }
 
 
@@ -30,6 +54,7 @@ class TelegramNotifier:
         self.chat_id = chat_id
         self.config = config or {}
         self.tg_config = self.config.get("telegram", {})
+        self.symbol_names = {**DEFAULT_SYMBOL_NAMES, **self.config.get("symbol_names", {})}
         self.api_url = f"https://api.telegram.org/bot{bot_token}"
         self.parse_mode = self.tg_config.get("parse_mode", "HTML")
         self.disable_preview = self.tg_config.get("disable_web_page_preview", True)
@@ -38,6 +63,24 @@ class TelegramNotifier:
 
         import httpx
         self.client = httpx.AsyncClient(timeout=15.0)
+
+    def symbol_display_name(self, symbol: str) -> str:
+        """Return a human-readable name for a symbol, falling back to the ticker"""
+        return self.symbol_names.get(symbol, symbol)
+
+    def timeframe_label(self, timeframe: str) -> str:
+        """Map a timeframe like '1m'/'5m'/'15m'/'1h'/'1d' to Turkish"""
+        labels = {
+            "1m": "1 dakika",
+            "5m": "5 dakika",
+            "15m": "15 dakika",
+            "30m": "30 dakika",
+            "1h": "1 saat",
+            "4h": "4 saat",
+            "1d": "1 gün",
+            "1w": "1 hafta",
+        }
+        return labels.get(timeframe, timeframe)
 
     async def close(self):
         """Close the HTTP client"""
@@ -52,10 +95,10 @@ class TelegramNotifier:
         sl_emoji = "🛑" if signal.direction == "LONG" else "🔺"
         tp_emoji = "🎯"
         return (
-            f"{sl_emoji} <b>Stop Loss:</b> {signal.stop_loss:,.2f}\n"
-            f"{tp_emoji} <b>Take Profit 1:</b> {signal.take_profit_1:,.2f}\n"
-            f"{tp_emoji} <b>Take Profit 2:</b> {signal.take_profit_2:,.2f}\n"
-            f"⚖️ <b>Risk/Reward:</b> 1:{signal.risk_reward_ratio:.2f}"
+            f"🛑 <b>Zarar Kesen (Stop Loss):</b> {signal.stop_loss:,.2f}\n"
+            f"🎯 <b>Hedef 1 (Take Profit):</b> {signal.take_profit_1:,.2f}\n"
+            f"🎯 <b>Hedef 2 (Take Profit):</b> {signal.take_profit_2:,.2f}\n"
+            f"⚖️ <b>Risk/Kazanç Oranı:</b> 1:{signal.risk_reward_ratio:.2f}"
         )
 
     def _format_reasons(self, signal: Signal) -> str:
@@ -67,27 +110,34 @@ class TelegramNotifier:
 
     def build_message(self, signal: Signal) -> str:
         """Build the full Telegram message HTML"""
-        emoji, color, label = ACTION_STYLE.get(signal.action, ("ℹ️", "⚪", signal.action))
+        emoji, label, description = ACTION_STYLE.get(signal.action, ("ℹ️", signal.action, ""))
+        name = self.symbol_display_name(signal.symbol)
+        tf_label = self.timeframe_label(signal.timeframe)
+
+        if signal.direction == "LONG":
+            direction_text = "🟢 <b>YÖN:</b> YUKARI (LONG)"
+        else:
+            direction_text = "🔴 <b>YÖN:</b> AŞAĞI (SHORT)"
 
         # Header
         msg = (
-            f"{emoji} <b>NASDAQ SİNYAL: {label}</b>\n"
-            f"{'=' * 30}\n"
-            f"📊 <b>Sembol:</b> <code>{signal.symbol}</code>\n"
-            f"💰 <b>Fiyat:</b> {signal.price:,.2f}\n"
+            f"{emoji} <b>{name} — {label}</b>\n"
+            f"{'═' * 30}\n"
+            f"{description}\n\n"
+            f"🏷 <b>Hisse:</b> {name} (<code>{signal.symbol}</code>)\n"
+            f"💰 <b>Fiyat:</b> {signal.price:,.2f} USD\n"
             f"📈 <b>Değişim:</b> {signal.change_pct:+.2f}%\n"
-            f"⏱ <b>Periyot:</b> {signal.timeframe}\n"
+            f"⏱ <b>Periyot:</b> {tf_label}\n"
+            f"{direction_text}\n"
         )
 
         # Score info
         msg += (
-            f"\n⚡ <b>Skor:</b> {signal.strength:+.1f} "
-            f"(Teknik: {signal.technical_score:+.1f}"
+            f"\n⚡ <b>Sinyal Gücü:</b> {signal.strength:+.1f} / 100\n"
+            f"   📊 Teknik Skor: {signal.technical_score:+.1f}"
         )
         if signal.news_score != 0:
-            msg += f" | Haber: {signal.news_score:+.1f})"
-        else:
-            msg += ")"
+            msg += f"\n   📰 Haber Skoru: {signal.news_score:+.1f}"
         msg += "\n"
 
         # Reasons
@@ -97,7 +147,7 @@ class TelegramNotifier:
 
         # News headline
         if signal.news_headline:
-            msg += f"\n📰 <b>Haber:</b> {signal.news_headline[:120]}"
+            msg += f"\n📰 <b>Haber Başlığı:</b> {signal.news_headline[:120]}"
             if len(signal.news_headline) > 120:
                 msg += "..."
             msg += "\n"
@@ -110,7 +160,7 @@ class TelegramNotifier:
         # Chart link
         if self.include_chart:
             symbol = signal.symbol.replace("=F", "")
-            msg += f"\n📈 <a href='{self.chart_base_url}{symbol}'>TradingView Grafiği</a>\n"
+            msg += f"\n📈 <a href='{self.chart_base_url}{symbol}'>TradingView Grafiğini Aç</a>\n"
 
         # Timestamp
         ts = signal.timestamp.strftime("%Y-%m-%d %H:%M UTC")

@@ -86,12 +86,16 @@ class SignalBot:
 
     async def _send_startup_message(self):
         try:
-            symbols = ", ".join(self.config.get("symbols", []))
+            symbols = self.config.get("symbols", [])
+            names = "".join(
+                f"• {self.notifier.symbol_display_name(s)} (<code>{s}</code>)\n"
+                for s in symbols
+            )
             tfs = ", ".join(self.config.get("timeframes", []))
             msg = (
                 f"🤖 <b>NASDAQ Sinyal Botu Başlatıldı</b>\n"
                 f"{'=' * 30}\n"
-                f"📊 <b>Semboller:</b> {symbols}\n"
+                f"📊 <b>Takip Edilen Piyasalar:</b>\n{names}"
                 f"⏱ <b>Periyotlar:</b> {tfs}\n"
                 f"🔄 <b>Tarama:</b> her {self.scan_interval}s\n"
                 f"🕐 {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}\n\n"
