@@ -24,6 +24,8 @@ class StateManager:
         self.state: Dict[str, Any] = {
             "signals_sent": {},
             "signal_history": [],
+            "reports_sent": {},       # report dedup: key (iso-week/date) -> timestamp
+            "weekly_reports": [],     # last generated weekly report summaries
             "last_scan_time": None,
             "stats": {
                 "total_signals": 0,
@@ -32,6 +34,10 @@ class StateManager:
             },
             "created_at": datetime.utcnow().isoformat(),
         }
+        if "reports_sent" not in self.state:
+            self.state["reports_sent"] = {}
+        if "weekly_reports" not in self.state:
+            self.state["weekly_reports"] = []
         self.max_history = self.config.get("state", {}).get("max_signal_history", 1000)
         self._load()
 
@@ -129,3 +135,20 @@ class StateManager:
         if len(self.state["signal_history"]) != before:
             logger.info(f"Pruned {before - len(self.state['signal_history'])} old signals")
             self.save()
+
+    # ------------------------------------------------------------------
+    # Report deduplication (weekly / daily reports)
+    # ------------------------------------------------------------------
+
+    def is_report_sent(self, key: str) -> bool:
+        """Check if a report for a given key (iso-week / date) was already sent"""
+        return key in self.state.get("reports_sent", {})
+
+    def record_report(self, key: str, summary: Optional[Dict[str, Any]] = None) -> None:
+        """Record a sent report to prevent duplicates across restarts"""
+        self.state.setdefault("reports_sent", {})[key] = datetime.utcnow().isoformat()
+        if summary:
+            self.state.setdefault("weekly_reports", []).append(summary)
+            max_hist = self.config.get("state", {}).get("max_signal_history", 1000)
+            self.state["weekly_reports"] = self.state["weekly_reports"][-max_hist:]
+        self.save()

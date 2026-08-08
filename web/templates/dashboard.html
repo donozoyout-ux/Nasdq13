@@ -181,6 +181,32 @@
         </div>
     </div>
 
+    <div class="card">
+        <h2><span class="dot blue"></span> Haftalık Çıkış Adayları (AI Taraması)</h2>
+        <div class="last-updated" id="weeklyUpdated">Rapor henüz üretilmedi (Pazar akşamı otomatik gelecek)</div>
+        <div style="overflow-x:auto;">
+            <table id="weeklyTable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Hisse</th>
+                        <th>Fiyat</th>
+                        <th>Haftalık</th>
+                        <th>Setup</th>
+                        <th>Çıkış Skoru</th>
+                        <th>52H Mesafe</th>
+                        <th>Beklenen Hrk.</th>
+                        <th>Rölatif Güç</th>
+                    </tr>
+                </thead>
+                <tbody id="weeklyBody">
+                    <tr><td colspan="9" class="empty">Veri bekleniyor...</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="weeklyNarrative" style="margin-top:16px; font-size:13px; line-height:1.6; color:var(--muted); white-space:pre-wrap; font-family:'Segoe UI',Roboto,sans-serif;"></div>
+    </div>
+
     <div class="grid-2">
         <div class="card">
             <h2><span class="dot yellow"></span> Son Sinyaller</h2>
@@ -379,6 +405,39 @@
                 `).join('');
             } else {
                 hBody.innerHTML = '<tr><td colspan="5" class="empty">Geçmiş sinyal yok</td></tr>';
+            }
+
+            // Weekly report
+            const wBody = document.getElementById('weeklyBody');
+            const wNarr = document.getElementById('weeklyNarrative');
+            const wUpd = document.getElementById('weeklyUpdated');
+            const wr = data.weekly_report;
+            if (wr && wr.candidates && wr.candidates.length > 0) {
+                wBody.innerHTML = wr.candidates.map((c, i) => {
+                    const chg = c.change_pct;
+                    const dist = c.dist_52w_high_pct;
+                    return `<tr>
+                        <td>${i + 1}</td>
+                        <td><span class="symbol-badge">${c.symbol}</span><div style="font-size:11px;color:var(--muted)">${c.name || ''}</div></td>
+                        <td class="mono">${fmtPrice(c.price)}</td>
+                        <td class="price-change ${chg >= 0 ? 'pc-up' : 'pc-down'}">${fmtPct(chg)}</td>
+                        <td><span class="tag">${c.setup_type || '-'}</span></td>
+                        <td><span class="score buy">${c.setup_score != null ? c.setup_score.toFixed(0) : '-'}</span></td>
+                        <td class="mono">${dist != null ? dist.toFixed(1) + '%' : '-'}</td>
+                        <td class="mono">±${c.atr_pct != null ? c.atr_pct.toFixed(1) + '%' : '-'}</td>
+                        <td class="price-change ${(c.rs_4w || 0) >= 0 ? 'pc-up' : 'pc-down'}">${c.rs_4w != null ? c.rs_4w.toFixed(1) + '%' : '-'}</td>
+                    </tr>`;
+                }).join('');
+                if (wr.report) {
+                    const plain = wr.report.replace(/<[^>]+>/g, '');
+                    wNarr.textContent = plain;
+                } else {
+                    wNarr.textContent = '';
+                }
+                wUpd.textContent = 'Güncellendi: ' + fmtTime(wr.generated_at) + (wr.index && wr.index.return_4w != null ? ' | S&P 500 4H: ' + wr.index.return_4w + '%' : '');
+            } else {
+                wBody.innerHTML = '<tr><td colspan="9" class="empty">Haftalık rapor henüz üretilmedi</td></tr>';
+                wNarr.textContent = '';
             }
         } catch (err) {
             console.error('Refresh error:', err);

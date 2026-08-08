@@ -177,6 +177,23 @@ async def api_dashboard():
     return b.get_dashboard_state()
 
 
+@app.get("/api/weekly-report")
+async def api_weekly_report():
+    b = get_bot()
+    if b is None:
+        return {"report": None, "candidates": [], "index": {}}
+    wr = b.last_weekly_report
+    if not wr:
+        return {"report": None, "candidates": [], "index": {}}
+    return {
+        "key": wr.get("key"),
+        "generated_at": wr.get("generated_at"),
+        "report": wr.get("report"),
+        "index": wr.get("index"),
+        "candidates": wr.get("candidates"),
+    }
+
+
 @app.get("/favicon.ico")
 async def favicon():
     favicon_path = os.path.join(STATIC_DIR, "favicon.ico")

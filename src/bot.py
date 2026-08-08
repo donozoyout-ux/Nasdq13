@@ -5,7 +5,7 @@ import os
 import sys
 import asyncio
 import yaml
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Dict, Any, List, Optional
 
 from dotenv import load_dotenv
@@ -14,11 +14,13 @@ from dotenv import load_dotenv
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.utils.logger import setup_logger, get_logger
-from src.utils.timezone import market_status
+from src.utils.timezone import market_status, now_turkey
 from src.data.price_fetcher import PriceFetcher
 from src.data.news_fetcher import NewsFetcher
 from src.analysis.technical import TechnicalAnalyzer, IndicatorSnapshot
 from src.analysis.signal_engine import SignalEngine, Signal
+from src.analysis.weekly_screener import WeeklyScreener
+from src.analysis.ai_analyst import AiAnalyst
 from src.notifier.telegram_bot import TelegramNotifier
 from src.state.manager import StateManager
 
@@ -50,6 +52,25 @@ def load_config() -> Dict[str, Any]:
     if env_tfs:
         config["timeframes"] = [t.strip() for t in env_tfs.split(",") if t.strip()]
 
+    # Schedule overrides (Türkiye saati)
+    sched = config.setdefault("schedule", {})
+    wr = sched.setdefault("weekly_report", {})
+    if os.getenv("WEEKLY_REPORT_DAY", ""):
+        wr["day_of_week"] = int(os.getenv("WEEKLY_REPORT_DAY"))
+    if os.getenv("WEEKLY_REPORT_HOUR", ""):
+        wr["hour_tr"] = int(os.getenv("WEEKLY_REPORT_HOUR"))
+    if os.getenv("WEEKLY_REPORT_MINUTE", ""):
+        wr["minute_tr"] = int(os.getenv("WEEKLY_REPORT_MINUTE"))
+    db = sched.setdefault("daily_brief", {})
+    start = os.getenv("DAILY_BRIEF_DAY_START", "")
+    end = os.getenv("DAILY_BRIEF_DAY_END", "")
+    if start != "" and end != "":
+        db["days"] = list(range(int(start), int(end) + 1))
+    if os.getenv("DAILY_BRIEF_HOUR", ""):
+        db["hour_tr"] = int(os.getenv("DAILY_BRIEF_HOUR"))
+    if os.getenv("DAILY_BRIEF_MINUTE", ""):
+        db["minute_tr"] = int(os.getenv("DAILY_BRIEF_MINUTE"))
+
     return config
 
 
@@ -64,6 +85,8 @@ class SignalBot:
         self.news_fetcher = NewsFetcher(config)
         self.analyzer = TechnicalAnalyzer(config)
         self.signal_engine = SignalEngine(config)
+        self.screener = WeeklyScreener(config)
+        self.ai_analyst = AiAnalyst(config)
         self.state = StateManager(
             config.get("state", {}).get("file_path", "data/bot_state.json"),
             config,
@@ -84,6 +107,18 @@ class SignalBot:
         self.last_scan_at: Optional[datetime] = None
         self.scan_count = 0
         self.error_count = 0
+
+        # Reports
+        self.last_weekly_report: Optional[Dict[str, Any]] = None
+        self.last_daily_brief: Optional[Dict[str, Any]] = None
+
+        # Restore last weekly report from persisted state (dashboard shows it
+        # even if this instance was started after the report was sent)
+        reports = self.state.state.get("weekly_reports", [])
+        if reports:
+            last = reports[-1]
+            if last.get("report"):
+                self.last_weekly_report = last
 
     async def _send_startup_message(self):
         try:
@@ -159,15 +194,141 @@ class SignalBot:
         logger.info(f"=== Scan complete: {len(signals)} signals, {sent} sent ===")
         return sent
 
+    # ------------------------------------------------------------------
+    # Weekly / daily reports (AI + screener)
+    # ------------------------------------------------------------------
+
+    def _weekly_report_key(self) -> str:
+        iso = datetime.utcnow().isocalendar()
+        return f"{iso[0]}-W{iso[1]:02d}"
+
+    def _daily_report_key(self) -> str:
+        return datetime.utcnow().strftime("%Y-%m-%d")
+
+    def _should_run_weekly(self) -> bool:
+        """Run weekly report if scheduled day/time reached and not sent this week"""
+        sched = self.config.get("schedule", {}).get("weekly_report", {})
+        key = self._weekly_report_key()
+        if self.state.is_report_sent(key):
+            return False
+        now = now_turkey()
+        day = int(sched.get("day_of_week", 6))
+        hour = int(sched.get("hour_tr", 20))
+        minute = int(sched.get("minute_tr", 0))
+        return now.weekday() == day and (now.hour, now.minute) >= (hour, minute)
+
+    def _should_run_daily(self) -> bool:
+        """Run daily brief if scheduled window reached and not sent today"""
+        sched = self.config.get("schedule", {}).get("daily_brief", {})
+        if not sched.get("enabled", True):
+            return False
+        key = self._daily_report_key()
+        if self.state.is_report_sent(key):
+            return False
+        now = now_turkey()
+        if now.weekday() not in [int(d) for d in sched.get("days", [0, 1, 2, 3, 4])]:
+            return False
+        hour = int(sched.get("hour_tr", 15))
+        minute = int(sched.get("minute_tr", 30))
+        return (now.hour, now.minute) >= (hour, minute)
+
+    async def run_weekly_report(self) -> bool:
+        """Screen universe, generate AI report, send to Telegram, persist state"""
+        key = self._weekly_report_key()
+        logger.info(f"=== Generating weekly report ({key}) ===")
+        try:
+            candidates, index_stats = await self.screener.screen()
+            top = candidates[: self.config.get("screener", {}).get("top_n", 12)]
+            report = await self.ai_analyst.generate_weekly(top, index_stats)
+
+            self.last_weekly_report = {
+                "key": key,
+                "generated_at": datetime.utcnow().isoformat(),
+                "index": index_stats,
+                "candidates": [c.to_dict() for c in top],
+                "report": report,
+            }
+
+            if await self.notifier.send_report(report):
+                self.state.record_report(
+                    key,
+                    {
+                        "key": key,
+                        "generated_at": self.last_weekly_report["generated_at"],
+                        "candidates": [c.to_dict() for c in top],
+                        "report": report,
+                    },
+                )
+                logger.info(f"✅ Weekly report sent ({key})")
+                return True
+        except Exception as e:
+            logger.error(f"Weekly report failed: {e}")
+            logger.exception(e)
+        return False
+
+    async def run_daily_brief(self) -> bool:
+        """Screen today's triggers, generate AI brief, send to Telegram"""
+        key = self._daily_report_key()
+        logger.info(f"=== Generating daily brief ({key}) ===")
+        try:
+            candidates, index_stats = await self.screener.screen_daily()
+            report = await self.ai_analyst.generate_daily(candidates, index_stats)
+
+            self.last_daily_brief = {
+                "key": key,
+                "generated_at": datetime.utcnow().isoformat(),
+                "index": index_stats,
+                "candidates": [c.to_dict() for c in candidates[:8]],
+                "report": report,
+            }
+
+            if await self.notifier.send_report(report):
+                self.state.record_report(key)
+                logger.info(f"✅ Daily brief sent ({key})")
+                return True
+        except Exception as e:
+            logger.error(f"Daily brief failed: {e}")
+            logger.exception(e)
+        return False
+
+    async def _maybe_run_reports(self):
+        """Run scheduled reports if their window has arrived (called each loop)"""
+        try:
+            if self._should_run_weekly():
+                await self.run_weekly_report()
+            if self._should_run_daily():
+                await self.run_daily_brief()
+        except Exception as e:
+            logger.error(f"Report scheduling check failed: {e}")
+
+    async def _run_initial_reports(self):
+        """
+        On startup: if the market is closed and a report hasn't been generated
+        yet this week/today, generate it now (so weekend deployments still deliver).
+        """
+        try:
+            await asyncio.sleep(5)  # let the first scan settle
+            status = market_status(self.config)
+            if not status["open"]:
+                if self.config.get("schedule", {}).get("weekly_report", {}).get("run_if_closed_on_startup", True):
+                    if not self.state.is_report_sent(self._weekly_report_key()):
+                        await self.run_weekly_report()
+                if not self.state.is_report_sent(self._daily_report_key()) and self._should_run_daily():
+                    await self.run_daily_brief()
+        except Exception as e:
+            logger.error(f"Initial report run failed: {e}")
+
     async def run(self):
         """Main run loop"""
         self.is_running = True
         logger.info(f"🤖 Bot started with interval {self.scan_interval}s")
         await self._send_startup_message()
+        asyncio.create_task(self._run_initial_reports())
 
         while self.is_running:
             try:
                 await self._scan_once()
+                await self._maybe_run_reports()
                 self.health_ok = True
             except Exception as e:
                 logger.error(f"Scan cycle error: {e}")
@@ -182,6 +343,7 @@ class SignalBot:
         self.is_running = False
         await self.notifier.close()
         await self.news_fetcher.close()
+        await self.ai_analyst.close()
         self.state.save()
         logger.info("Bot stopped gracefully")
 
@@ -278,4 +440,6 @@ class SignalBot:
             "news": self.last_news,
             "stats": self.state.get_stats(),
             "history": self.state.state.get("signal_history", [])[-20:],
+            "weekly_report": self.last_weekly_report,
+            "daily_brief": self.last_daily_brief,
         }

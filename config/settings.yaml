@@ -220,6 +220,64 @@ rate_limits:
   finnhub:
     requests_per_minute: 60
 
+# ============================================================
+# HAFTALIK / GÜNLÜK TARAYICI (çıkış adayları)
+# Piyasayı kendisi tarar, "ani çıkış yapabilecek" hisseleri otomatik bulur
+# ============================================================
+screener:
+  # Taranacak hisse evreni (sistem buradan aday seçer)
+  universe:
+    # Teknoloji / Yarı İletken
+    - AAPL, MSFT, NVDA, GOOGL, AMZN, META, TSLA, AMD, INTC, MU, AVGO, QCOM
+    - ADBE, CRM, ORCL, PLTR, CRWD, SHOP, UBER, PYPL
+    # Finans / Fintech
+    - JPM, GS, BAC, V, MA, COIN, HOOD
+    # Enerji
+    - XOM, CVX, OXY, SLB, COP
+    # Sağlık / Biyoteknoloji
+    - PFE, MRNA, LLY, AMGN, UNH, JNJ
+    # Tüketici
+    - NKE, MCD, HD, COST, WMT
+    # Sanayi / Savunma
+    - BA, CAT, GE, LMT
+    # Yüksek beta / Büyüme
+    - RIVN, NIO, ABNB
+  index_symbol: "^GSPC"        # Rölatif güç karşılaştırması için S&P 500
+  max_concurrent_requests: 6
+  request_timeout: 60
+  top_n: 12                    # Raporda gösterilecek aday sayısı
+  min_setup_score: 50          # Bu skorun altındakiler elenir
+  min_price: 3.0               # Penny stock'ları ele
+  lookback_weeks: 60
+
+# ============================================================
+# AI RAPOR KATMANI (ücretsiz kurallı AI + opsiyonel LLM)
+# ============================================================
+ai_report:
+  enabled: true
+  language: "tr"
+  # Opsiyonel: OPENAI_API_KEY tanımlıysa gerçek LLM kullanılır,
+  # tanımlı değilse sistem ücretsiz kurallı AI ile rapor üretir.
+  llm_model: "gpt-4o-mini"
+  llm_max_tokens: 900
+  llm_temperature: 0.4
+  include_disclaimer: true
+
+# ============================================================
+# RAPOR ZAMANLAMASI (Türkiye saati)
+# ============================================================
+schedule:
+  weekly_report:
+    day_of_week: 6            # 0=Pzt .. 6=Pazar
+    hour_tr: 20
+    minute_tr: 0
+    run_if_closed_on_startup: true   # Piyasa kapalıyken bot açılırsa raporu hemen üret
+  daily_brief:
+    enabled: true
+    days: [0, 1, 2, 3, 4]     # Pzt-Cuma
+    hour_tr: 15
+    minute_tr: 30
+
 # Render / Deployment
 deployment:
   health_check_port: 8080

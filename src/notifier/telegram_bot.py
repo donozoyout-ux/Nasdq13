@@ -80,6 +80,9 @@ class TelegramNotifier:
             "4h": "4 saat",
             "1d": "1 gün",
             "1w": "1 hafta",
+            "1wk": "1 hafta",
+            "1mo": "1 ay",
+            "1M": "1 ay",
         }
         return labels.get(timeframe, timeframe)
 
@@ -220,3 +223,50 @@ class TelegramNotifier:
                 sent += 1
             await asyncio.sleep(1)  # Rate limit safety
         return sent
+
+    async def send_report(self, text: str, chunk_size: int = 3800) -> bool:
+        """Send a long report to Telegram, splitting into chunks under Telegram's limit.
+
+        The report text may contain HTML tags (built by the report generator), so it
+        is sent with HTML parse mode. Chunks are split on blank lines when possible.
+        """
+        if not self.bot_token or not self.chat_id:
+            logger.warning("Telegram credentials missing - report not sent")
+            return False
+
+        text = text.strip()
+        if not text:
+            return False
+
+        chunks: List[str] = []
+        while len(text) > chunk_size:
+            split_at = text.rfind("\n\n", 0, chunk_size)
+            if split_at < chunk_size // 2:
+                split_at = text.rfind("\n", 0, chunk_size)
+            if split_at < chunk_size // 3:
+                split_at = chunk_size
+            chunks.append(text[:split_at].strip())
+            text = text[split_at:].strip()
+        if text:
+            chunks.append(text)
+
+        sent = 0
+        for i, chunk in enumerate(chunks, 1):
+            if len(chunks) > 1:
+                chunk = f"<i>📨 {i}/{len(chunks)}</i>\n\n" + chunk
+            try:
+                payload = {
+                    "chat_id": self.chat_id,
+                    "text": chunk,
+                    "parse_mode": "HTML",
+                    "disable_web_page_preview": self.disable_preview,
+                }
+                resp = await self.client.post(f"{self.api_url}/sendMessage", json=payload)
+                if resp.status_code == 200:
+                    sent += 1
+                else:
+                    logger.error(f"Telegram report send failed: {resp.status_code} {resp.text}")
+            except Exception as e:
+                logger.error(f"Telegram report send error: {e}")
+            await asyncio.sleep(1)
+        return sent > 0
