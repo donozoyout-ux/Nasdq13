@@ -20,6 +20,7 @@ from src.data.news_fetcher import NewsFetcher
 from src.analysis.technical import TechnicalAnalyzer, IndicatorSnapshot
 from src.analysis.signal_engine import SignalEngine, Signal
 from src.analysis.weekly_screener import WeeklyScreener
+from src.analysis.smallcap_scanner import SmallCapScanner
 from src.analysis.ai_analyst import AiAnalyst
 from src.notifier.telegram_bot import TelegramNotifier
 from src.state.manager import StateManager
@@ -71,6 +72,13 @@ def load_config() -> Dict[str, Any]:
     if os.getenv("DAILY_BRIEF_MINUTE", ""):
         db["minute_tr"] = int(os.getenv("DAILY_BRIEF_MINUTE"))
 
+    # Small-cap overrides (opsiyonel)
+    sc = config.setdefault("smallcap", {})
+    if os.getenv("SMALLCAP_ENABLED", ""):
+        sc["enabled"] = os.getenv("SMALLCAP_ENABLED").lower() in ("1", "true", "yes")
+    if os.getenv("SMALLCAP_SCAN_INTERVAL_MINUTES", ""):
+        sc["scan_interval_minutes"] = int(os.getenv("SMALLCAP_SCAN_INTERVAL_MINUTES"))
+
     return config
 
 
@@ -87,6 +95,7 @@ class SignalBot:
         self.signal_engine = SignalEngine(config)
         self.screener = WeeklyScreener(config)
         self.ai_analyst = AiAnalyst(config)
+        self.smallcap_scanner = SmallCapScanner(config) if config.get("smallcap", {}).get("enabled", True) else None
         self.state = StateManager(
             config.get("state", {}).get("file_path", "data/bot_state.json"),
             config,
@@ -112,6 +121,11 @@ class SignalBot:
         self.last_weekly_report: Optional[Dict[str, Any]] = None
         self.last_daily_brief: Optional[Dict[str, Any]] = None
 
+        # Small-cap scanner state
+        self.smallcap_last_scan: Optional[datetime] = None
+        self.smallcap_candidates: List[Dict[str, Any]] = []
+        self.smallcap_universe_size = 0
+
         # Restore last weekly report from persisted state (dashboard shows it
         # even if this instance was started after the report was sent)
         reports = self.state.state.get("weekly_reports", [])
@@ -136,10 +150,13 @@ class SignalBot:
                 "closed": "🔴 Kapalı",
             }.get(status["session"], "🔴 Kapalı")
             now_tr = status["now_tr"].strftime("%Y-%m-%d %H:%M")
+            sc_int = self._smallcap_scan_interval() // 60
+            sc_line = f"🔎 <b>Küçük-cap tarayıcı:</b> her {sc_int} dk (otomatik keşif)\n" if self.smallcap_scanner else ""
             msg = (
                 f"🤖 <b>NASDAQ Sinyal Botu Başlatıldı</b>\n"
                 f"{'=' * 30}\n"
                 f"📊 <b>Takip Edilen Piyasalar:</b>\n{names}"
+                f"{sc_line}"
                 f"⏱ <b>Periyotlar:</b> {tfs}\n"
                 f"🔄 <b>Tarama:</b> her {self.scan_interval}s\n"
                 f"🏙 <b>Piyasa:</b> {session_text}\n"
@@ -301,6 +318,160 @@ class SignalBot:
         except Exception as e:
             logger.error(f"Report scheduling check failed: {e}")
 
+    # ------------------------------------------------------------------
+    # Small-cap scanner (auto-discovered small caps, 15-min scans)
+    # ------------------------------------------------------------------
+
+    def _smallcap_scan_interval(self) -> int:
+        open_interval = int(self.config.get("smallcap", {}).get("scan_interval_minutes", 15)) * 60
+        closed_interval = int(self.config.get("smallcap", {}).get("closed_market_scan_interval_minutes", 60)) * 60
+        try:
+            status = market_status(self.config)
+            if status.get("open", False):
+                return open_interval
+            return max(closed_interval, open_interval)
+        except Exception:
+            return open_interval
+
+    def _should_scan_smallcap(self) -> bool:
+        """Run small-cap scan every scan_interval_minutes."""
+        if not self.smallcap_scanner or not self.smallcap_enabled():
+            return False
+        now = datetime.utcnow()
+        if self.smallcap_last_scan is None:
+            return True
+        return (now - self.smallcap_last_scan).total_seconds() >= self._smallcap_scan_interval()
+
+    def smallcap_enabled(self) -> bool:
+        return bool(self.config.get("smallcap", {}).get("enabled", True))
+
+    async def _run_smallcap_setup_report(self, candidates, universe_size):
+        """Send the setup report once per day."""
+        try:
+            date_key = datetime.utcnow().strftime("%Y-%m-%d")
+            if self.state.is_smallcap_setup_sent(date_key):
+                return
+            report_text = self.smallcap_scanner.build_setup_report(candidates, universe_size)
+            if report_text and await self.notifier.send_report(report_text):
+                self.state.record_smallcap_setup_sent(date_key)
+                logger.info("✅ Small-cap setup report sent")
+        except Exception as e:
+            logger.error(f"Small-cap setup report failed: {e}")
+
+    async def _run_smallcap_predictions_report(self, candidates, universe_size):
+        """Send the 'tomorrow breakout predictions' report once per day.
+        Runs when the market is closed to give next-session outlook."""
+        try:
+            date_key = datetime.utcnow().strftime("%Y-%m-%d")
+            if self.state.is_smallcap_predictions_sent(date_key):
+                return
+            report_text = self.smallcap_scanner.build_predictions_report(candidates, universe_size)
+            if report_text and await self.notifier.send_report(report_text):
+                self.state.record_smallcap_predictions_sent(date_key)
+                logger.info("✅ Small-cap tomorrow-predictions report sent")
+        except Exception as e:
+            logger.error(f"Small-cap predictions report failed: {e}")
+
+    async def _run_smallcap_alert(self, cand):
+        """Send a single breakout alarm, deduplicated per symbol per day."""
+        try:
+            date_key = datetime.utcnow().strftime("%Y-%m-%d")
+            if self.state.is_smallcap_alert_sent(cand["symbol"], date_key):
+                return False
+            msg = self.smallcap_scanner.build_trigger_message(
+                self._candidate_from_dict(cand)
+            )
+            if await self.notifier.send_smallcap_alert(msg):
+                self.state.record_smallcap_alert_sent(cand["symbol"], date_key)
+                return True
+        except Exception as e:
+            logger.error(f"Small-cap alert failed: {e}")
+        return False
+
+    def _candidate_from_dict(self, d: Dict[str, Any]):
+        """Rebuild a SmallCapCandidate from its dict (for message building)."""
+        try:
+            from src.analysis.smallcap_scanner import SmallCapCandidate
+            return SmallCapCandidate(
+                symbol=d["symbol"],
+                name=d.get("name", d["symbol"]),
+                price=d.get("price", 0),
+                change_pct=d.get("change_pct", 0),
+                market_cap=d.get("market_cap", 0),
+                setup_score=d.get("setup_score", 0),
+                setup_type=d.get("setup_type", "watch"),
+                reasons=d.get("reasons", []),
+                rsi_14=d.get("rsi_14", 50),
+                bb_width_percentile=d.get("bb_width_percentile", 50),
+                dist_52w_high_pct=d.get("dist_52w_high_pct", 0),
+                vol_ratio=d.get("vol_ratio", 1.0),
+                rs_4w=d.get("rs_4w", 0),
+                donchian_upper=d.get("donchian_upper", 0),
+                trigger_score=d.get("trigger_score", 0),
+                trigger_type=d.get("trigger_type"),
+                trigger_reasons=d.get("trigger_reasons", []),
+            )
+        except Exception as e:
+            logger.error(f"Candidate rebuild failed: {e}")
+            return None
+
+    async def _scan_smallcap_once(self):
+        """One full small-cap cycle: setup ranking + intraday trigger scan."""
+        logger.info("=== Scanning small-cap universe ===")
+        try:
+            force_universe = self.smallcap_last_scan is None
+            candidates, universe = await self.smallcap_scanner.screen_setups(force_universe=force_universe)
+            self.smallcap_universe_size = len(universe)
+
+            top_dicts = [c.to_dict() for c in candidates]
+            self.smallcap_candidates = top_dicts
+
+            # Default: no trigger scan pre-market/after-hours
+            status = market_status(self.config)
+            market_open = status.get("open", False)
+            trade_hours_only = self.config.get("smallcap", {}).get("trade_hours_only", True)
+
+            if trade_hours_only and not market_open:
+                logger.info(f"Small-cap: piyasa kapalı ({status.get('session')}), setup + yarın tahmini üretiliyor")
+                await self._run_smallcap_setup_report(candidates, len(universe))
+                await self._run_smallcap_predictions_report(candidates, len(universe))
+                self.smallcap_last_scan = datetime.utcnow()
+                return
+
+            # Trigger scan on watchlist (intraday 15m)
+            watch, triggered = await self.smallcap_scanner.scan_triggers(candidates, universe)
+            # Update candidates with trigger info
+            updated = {}
+            for c in watch:
+                updated[c.symbol] = c
+            final_list = []
+            for cd in (c.to_dict() for c in candidates):
+                if cd["symbol"] in updated:
+                    rc = updated[cd["symbol"]]
+                    cd.update(rc.to_dict())
+                final_list.append(cd)
+            self.smallcap_candidates = final_list
+
+            # Send setup report (throttled)
+            await self._run_smallcap_setup_report(candidates, len(universe))
+
+            # Send breakout alarms (dedup per day)
+            for cand in watch:
+                if cand.trigger_type == "breakout" and cand.trigger_score >= self.config.get("smallcap", {}).get(
+                        "min_trigger_score", 60):
+                    cand_dict = cand.to_dict()
+                    await self._run_smallcap_alert(cand_dict)
+
+            self.smallcap_last_scan = datetime.utcnow()
+            logger.info(f"=== Small-cap scan complete: {len(candidates)} aday, {len(triggered)} breakout ===")
+        except Exception as e:
+            logger.error(f"Small-cap scan error: {e}")
+            logger.exception(e)
+
+    def _maybe_scan_smallcap(self) -> bool:
+        """Non-async check - the caller runs the scan task. Returns True if due."""
+        return self._should_scan_smallcap()
+
     async def _run_initial_reports(self):
         """
         On startup: if the market is closed and a report hasn't been generated
@@ -329,6 +500,8 @@ class SignalBot:
             try:
                 await self._scan_once()
                 await self._maybe_run_reports()
+                if self._maybe_scan_smallcap():
+                    await self._scan_smallcap_once()
                 self.health_ok = True
             except Exception as e:
                 logger.error(f"Scan cycle error: {e}")
@@ -344,6 +517,8 @@ class SignalBot:
         await self.notifier.close()
         await self.news_fetcher.close()
         await self.ai_analyst.close()
+        if self.smallcap_scanner:
+            await self.smallcap_scanner.universe_fetcher.close()
         self.state.save()
         logger.info("Bot stopped gracefully")
 
@@ -417,6 +592,14 @@ class SignalBot:
 
         mkt_status = market_status(self.config)
 
+        smallcap_info = {
+            "enabled": self.smallcap_scanner is not None,
+            "universe_size": self.smallcap_universe_size,
+            "last_scan_at": self.smallcap_last_scan.isoformat() if self.smallcap_last_scan else None,
+            "scan_interval_minutes": self._smallcap_scan_interval() // 60,
+            "candidates": self.smallcap_candidates[: self.config.get("smallcap", {}).get("top_n_report", 10)],
+        }
+
         return {
             "status": {
                 "running": self.is_running,
@@ -442,4 +625,5 @@ class SignalBot:
             "history": self.state.state.get("signal_history", [])[-20:],
             "weekly_report": self.last_weekly_report,
             "daily_brief": self.last_daily_brief,
+            "smallcap": smallcap_info,
         }

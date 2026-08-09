@@ -25,6 +25,9 @@ class StateManager:
             "signals_sent": {},
             "signal_history": [],
             "reports_sent": {},       # report dedup: key (iso-week/date) -> timestamp
+            "smallcap_alerts_sent": {},  # small-cap breakout alarm dedup: symbol-date -> timestamp
+            "smallcap_setup_sent": {},   # daily setup report dedup: date -> timestamp
+            "smallcap_predictions_sent": {},  # daily "tomorrow predictions" report dedup: date -> timestamp
             "weekly_reports": [],     # last generated weekly report summaries
             "last_scan_time": None,
             "stats": {
@@ -143,6 +146,40 @@ class StateManager:
     def is_report_sent(self, key: str) -> bool:
         """Check if a report for a given key (iso-week / date) was already sent"""
         return key in self.state.get("reports_sent", {})
+
+    def is_smallcap_setup_sent(self, date_key: str) -> bool:
+        """Check if today's small-cap setup report was already sent"""
+        return date_key in self.state.get("smallcap_setup_sent", {})
+
+    def record_smallcap_setup_sent(self, date_key: str) -> None:
+        """Mark today's small-cap setup report as sent"""
+        self.state.setdefault("smallcap_setup_sent", {})[date_key] = datetime.utcnow().isoformat()
+        keys = list(self.state["smallcap_setup_sent"].keys())
+        for k in keys[:-30]:
+            del self.state["smallcap_setup_sent"][k]
+        self.save()
+
+    def is_smallcap_alert_sent(self, symbol: str, date_key: str) -> bool:
+        """Check if a small-cap breakout alarm was already sent for this symbol today"""
+        key = f"{symbol}:{date_key}"
+        return key in self.state.get("smallcap_alerts_sent", {})
+
+    def record_smallcap_alert_sent(self, symbol: str, date_key: str) -> None:
+        """Mark a small-cap breakout alarm as sent"""
+        self.state.setdefault("smallcap_alerts_sent", {})[f"{symbol}:{date_key}"] = datetime.utcnow().isoformat()
+        self.save()
+
+    def is_smallcap_predictions_sent(self, date_key: str) -> bool:
+        """Check if today's 'tomorrow predictions' report was already sent"""
+        return date_key in self.state.get("smallcap_predictions_sent", {})
+
+    def record_smallcap_predictions_sent(self, date_key: str) -> None:
+        """Mark today's 'tomorrow predictions' report as sent"""
+        self.state.setdefault("smallcap_predictions_sent", {})[date_key] = datetime.utcnow().isoformat()
+        keys = list(self.state["smallcap_predictions_sent"].keys())
+        for k in keys[:-30]:
+            del self.state["smallcap_predictions_sent"][k]
+        self.save()
 
     def record_report(self, key: str, summary: Optional[Dict[str, Any]] = None) -> None:
         """Record a sent report to prevent duplicates across restarts"""

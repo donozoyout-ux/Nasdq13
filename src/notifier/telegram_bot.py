@@ -224,6 +224,31 @@ class TelegramNotifier:
             await asyncio.sleep(1)  # Rate limit safety
         return sent
 
+    def build_smallcap_setup_message(self, scanner, candidates=None, universe_size=0) -> str:
+        """Build a small-cap setup report message from the scanner."""
+        return scanner.build_setup_report(candidates or [], universe_size)
+
+    async def send_smallcap_alert(self, text: str) -> bool:
+        """Send a small-cap breakout alarm (HTML, no chunking).
+        Alarms are short so one message is enough.
+        """
+        try:
+            payload = {
+                "chat_id": self.chat_id,
+                "text": text,
+                "parse_mode": self.parse_mode,
+                "disable_web_page_preview": self.disable_preview,
+            }
+            resp = await self.client.post(f"{self.api_url}/sendMessage", json=payload)
+            if resp.status_code == 200:
+                logger.info("✅ Small-cap breakout alarm sent")
+                return True
+            logger.error(f"Small-cap alarm send failed: {resp.status_code} {resp.text}")
+            return False
+        except Exception as e:
+            logger.error(f"Small-cap alarm send error: {e}")
+            return False
+
     async def send_report(self, text: str, chunk_size: int = 3800) -> bool:
         """Send a long report to Telegram, splitting into chunks under Telegram's limit.
 

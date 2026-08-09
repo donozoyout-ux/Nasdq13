@@ -251,6 +251,45 @@ screener:
   lookback_weeks: 60
 
 # ============================================================
+# KÜÇÜK-CAP TARAYICI (otomatik küçük-cap keşfi + çıkış öncesi setup + breakout alarmı)
+# Nasdaq ücretsiz screener API kullanır (API key GEREKMEZ).
+# Universe her refresh_hours'ta bir yenilenir; setup+trigger taraması scan_interval_minutes'ta bir çalışır.
+# ============================================================
+smallcap:
+  enabled: true
+
+  # --- Universe keşfi (Nasdaq screener) ---
+  universe:
+    exchanges: ["NASDAQ", "NYSE", "AMEX"]
+    min_market_cap: 50000000        # $50M (penny/micro-cap'leri ve çok küçükleri ele)
+    max_market_cap: 3000000000      # $3B (small-cap üst sınırı)
+    min_price: 3.0                  # $3 altı penny stock'ları ele
+    max_candidates: 250             # tarama evreni üst sınırı (API/yfinance limiti)
+    refresh_hours: 12               # universe listesi bu sürede bir yenilenir
+    cache_file: "data/smallcap_universe.json"
+    page_size: 500
+    request_timeout: 30
+
+  index_symbol: "^GSPC"             # Göreli güç (RS) karşılaştırması için
+
+  # --- Tarama ayarları ---
+  scan_interval_minutes: 15         # seans içinde her 15 dk'da bir setup + trigger taraması
+  closed_market_scan_interval_minutes: 60  # piyasa kapalıyken analiz + yarın tahmini her 60 dk tazelenir
+  watchlist_size: 25                # intraday (15m) trigger taramasına giren ilk N aday
+  min_setup_score: 55               # setup puanı bu eşiğin altındakiler elenir
+  min_trigger_score: 60             # breakout alarmı için minimum tetikleyici puanı
+  top_n_report: 10                  # Telegram setup raporunda gösterilecek aday sayısı
+  lookback_days: 260
+
+  # --- Davranış ---
+  trade_hours_only: true            # true: breakout alarmı sadece piyasa açıkken
+                                    # false: 7/24 çalışır (veri yine seans bazlıdır)
+                                    # Piyasa kapalıyken analiz her zaman devam eder ve
+                                    # "YARIN İÇİN ÇIKIŞ TAHMİNLERİ" raporu günde 1 kez gönderilir.
+  max_concurrent_requests: 6
+  request_timeout: 60
+
+# ============================================================
 # AI RAPOR KATMANI (ücretsiz kurallı AI + opsiyonel LLM)
 # ============================================================
 ai_report:
