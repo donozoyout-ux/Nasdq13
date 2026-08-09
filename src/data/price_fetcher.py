@@ -78,16 +78,24 @@ class PriceFetcher:
                 # Run yfinance in thread pool (it's synchronous)
                 loop = asyncio.get_event_loop()
                 ticker = yf.Ticker(symbol)
-                
-                # Use history() for more control
-                df = await loop.run_in_executor(
-                    None,
-                    lambda: ticker.history(
-                        period=period,
-                        interval=interval,
-                        prepost=True,
-                        actions=False
-                    )
+
+                # history() supports its own HTTP-level timeout. Critical: on
+                # datacenter IPs Yahoo can silently drop connections and hang
+                # forever, which would stall the scan loop and leave the
+                # dashboard empty. We pass yfinance's timeout AND wrap the
+                # executor call so the loop can never be blocked indefinitely.
+                df = await asyncio.wait_for(
+                    loop.run_in_executor(
+                        None,
+                        lambda: ticker.history(
+                            period=period,
+                            interval=interval,
+                            prepost=True,
+                            actions=False,
+                            timeout=self.timeout,
+                        )
+                    ),
+                    timeout=self.timeout + 10,
                 )
                 
                 if df.empty:
@@ -178,7 +186,10 @@ class PriceFetcher:
         try:
             loop = asyncio.get_event_loop()
             ticker = yf.Ticker(symbol)
-            info = await loop.run_in_executor(None, lambda: ticker.fast_info)
+            info = await asyncio.wait_for(
+                loop.run_in_executor(None, lambda: ticker.fast_info),
+                timeout=self.timeout,
+            )
             return float(info.last_price) if info.last_price else None
         except Exception as e:
             logger.error(f"Error fetching latest price for {symbol}: {e}")

@@ -489,6 +489,11 @@ class SignalBot:
         except Exception as e:
             logger.error(f"Initial report run failed: {e}")
 
+    def _scan_timeout(self) -> float:
+        """Max seconds a whole scan cycle may take before being force-cancelled.
+        Prevents a stuck network call from leaving the dashboard empty forever."""
+        return float(self.config.get("scanner", {}).get("scan_timeout", 180))
+
     async def run(self):
         """Main run loop"""
         self.is_running = True
@@ -498,11 +503,16 @@ class SignalBot:
 
         while self.is_running:
             try:
-                await self._scan_once()
-                await self._maybe_run_reports()
-                if self._maybe_scan_smallcap():
-                    await self._scan_smallcap_once()
+                timeout = self._scan_timeout()
+                await asyncio.wait_for(
+                    self._scan_cycle(),
+                    timeout=timeout,
+                )
                 self.health_ok = True
+            except asyncio.TimeoutError:
+                logger.error("Scan cycle timed out after %ss", self._scan_timeout())
+                self.health_ok = False
+                self.error_count += 1
             except Exception as e:
                 logger.error(f"Scan cycle error: {e}")
                 logger.exception(e)
@@ -510,6 +520,13 @@ class SignalBot:
                 self.error_count += 1
             finally:
                 await asyncio.sleep(self.scan_interval)
+
+    async def _scan_cycle(self):
+        """One full scan iteration (guarded by asyncio.wait_for in run)"""
+        await self._scan_once()
+        await self._maybe_run_reports()
+        if self._maybe_scan_smallcap():
+            await self._scan_smallcap_once()
 
     async def stop(self):
         """Graceful shutdown"""
