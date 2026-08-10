@@ -332,11 +332,22 @@
                 'Güncellendi: ' + fmtTime(new Date().toISOString());
 
             // Stats
+            const scInfo = data.smallcap || {};
+            const followedSymbols = (data.config.symbols || []).length;
+            const scUniverse = scInfo.universe_size || 0;
+            let lastScanLabel = data.status.last_scan_at;
+            let followedLabel = followedSymbols + (scUniverse ? ` (+${scUniverse} mid-cap)` : '');
+            if (followedSymbols === 0 && scUniverse > 0) {
+                followedLabel = scUniverse + ' (mid-cap evreni)';
+            }
+            if (scInfo.last_scan_at) {
+                lastScanLabel = fmtTime(scInfo.last_scan_at);
+            }
             document.getElementById('statScans').textContent = data.status.scan_count;
             document.getElementById('statSignals').textContent =
                 (data.stats && data.stats.total_signals) || 0;
-            document.getElementById('statLastScan').textContent = fmtTime(data.status.last_scan_at);
-            document.getElementById('statSymbols').textContent = (data.config.symbols || []).length;
+            document.getElementById('statLastScan').textContent = fmtTime(lastScanLabel);
+            document.getElementById('statSymbols').textContent = followedLabel;
 
             // Market table
             const mBody = document.getElementById('marketBody');
