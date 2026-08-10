@@ -91,84 +91,36 @@ class TelegramNotifier:
         if self.client:
             await self.client.aclose()
 
-    def _format_risk_text(self, signal: Signal) -> str:
-        """Format risk management section"""
-        if signal.stop_loss is None or signal.take_profit_1 is None:
-            return ""
-        direction_word = "AL" if signal.direction == "LONG" else "SAT"
-        sl_emoji = "🛑" if signal.direction == "LONG" else "🔺"
-        tp_emoji = "🎯"
-        return (
-            f"🛑 <b>Zarar Kesen (Stop Loss):</b> {signal.stop_loss:,.2f}\n"
-            f"🎯 <b>Hedef 1 (Take Profit):</b> {signal.take_profit_1:,.2f}\n"
-            f"🎯 <b>Hedef 2 (Take Profit):</b> {signal.take_profit_2:,.2f}\n"
-            f"⚖️ <b>Risk/Kazanç Oranı:</b> 1:{signal.risk_reward_ratio:.2f}"
-        )
-
-    def _format_reasons(self, signal: Signal) -> str:
-        """Format reasons list"""
-        if not signal.reasons:
-            return ""
-        lines = "\n".join(f"• {r}" for r in signal.reasons)
-        return f"🔍 <b>Nedenler:</b>\n{lines}"
-
     def build_message(self, signal: Signal) -> str:
-        """Build the full Telegram message HTML"""
+        """Build a short, single-screen Telegram signal message"""
         emoji, label, description = ACTION_STYLE.get(signal.action, ("ℹ️", signal.action, ""))
         name = self.symbol_display_name(signal.symbol)
         tf_label = self.timeframe_label(signal.timeframe)
 
-        if signal.direction == "LONG":
-            direction_text = "🟢 <b>YÖN:</b> YUKARI (LONG)"
-        else:
-            direction_text = "🔴 <b>YÖN:</b> AŞAĞI (SHORT)"
+        direction = "LONG 🟢" if signal.direction == "LONG" else "SHORT 🔴"
 
-        # Header
+        # Header: one self-contained block
         msg = (
-            f"{emoji} <b>{name} — {label}</b>\n"
-            f"{'═' * 30}\n"
-            f"{description}\n\n"
-            f"🏷 <b>Hisse:</b> {name} (<code>{signal.symbol}</code>)\n"
-            f"💰 <b>Fiyat:</b> {signal.price:,.2f} USD\n"
-            f"📈 <b>Değişim:</b> {signal.change_pct:+.2f}%\n"
-            f"⏱ <b>Periyot:</b> {tf_label}\n"
-            f"{direction_text}\n"
+            f"{emoji} <b>{name} ({label})</b>\n"
+            f"💰 {signal.price:,.2f} USD ({signal.change_pct:+.2f}%) | {direction}\n"
+            f"⏱ {tf_label} | ⚡ {signal.strength:+.1f}/100"
         )
 
-        # Score info
-        msg += (
-            f"\n⚡ <b>Sinyal Gücü:</b> {signal.strength:+.1f} / 100\n"
-            f"   📊 Teknik Skor: {signal.technical_score:+.1f}"
-        )
-        if signal.news_score != 0:
-            msg += f"\n   📰 Haber Skoru: {signal.news_score:+.1f}"
-        msg += "\n"
+        # One-line reasons (first 2, compact)
+        if signal.reasons:
+            msg += f"\n🔍 {' | '.join(signal.reasons[:2])}"
 
-        # Reasons
-        reasons = self._format_reasons(signal)
-        if reasons:
-            msg += f"\n{reasons}\n"
+        # Risk levels: single compact line
+        if signal.stop_loss is not None and signal.take_profit_1 is not None:
+            rr = f" | R/K 1:{signal.risk_reward_ratio:.1f}" if signal.risk_reward_ratio > 0 else ""
+            sl = f"🛑 {signal.stop_loss:,.2f}" if signal.direction == "LONG" else f"🛑 {signal.stop_loss:,.2f}"
+            tp = f"🎯 {signal.take_profit_1:,.2f}"
+            msg += f"\n{tp} {sl}{rr}"
 
-        # News headline
-        if signal.news_headline:
-            msg += f"\n📰 <b>Haber Başlığı:</b> {signal.news_headline[:120]}"
-            if len(signal.news_headline) > 120:
-                msg += "..."
-            msg += "\n"
-
-        # Risk levels
-        risk = self._format_risk_text(signal)
-        if risk:
-            msg += f"\n{risk}\n"
-
-        # Chart link
+        # Chart link + timestamp on one line
         if self.include_chart:
             symbol = signal.symbol.replace("=F", "")
-            msg += f"\n📈 <a href='{self.chart_base_url}{symbol}'>TradingView Grafiğini Aç</a>\n"
-
-        # Timestamp
-        ts = format_turkey(signal.timestamp, "%Y-%m-%d %H:%M")
-        msg += f"\n🕐 {ts} (Türkiye saati)\nID: <code>{signal.signal_id}</code>"
+            msg += f"\n🕐 {format_turkey(signal.timestamp, '%d.%m.%Y %H:%M')} | <a href='{self.chart_base_url}{symbol}'>Grafik</a>"
 
         return msg
 

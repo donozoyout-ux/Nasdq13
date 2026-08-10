@@ -9,12 +9,10 @@ app:
   timezone: "UTC"
 
 # Symbols to track (Yahoo Finance format)
+# AL/SAT sinyalleri mid-cap tarayıcıdan ($2B-$10B orta ölçekli şirketler) gelir.
+# Ana liste boş bırakılmıştır; isterseniz manuel takip için semboller ekleyin.
 symbols:
-  - "NQ=F"      # Nasdaq 100 E-mini Futures
-  - "ES=F"      # S&P 500 E-mini Futures
-  - "YM=F"      # Dow Jones E-mini Futures
-  - "RTY=F"     # Russell 2000 E-mini Futures
-  # Add more: "AAPL", "TSLA", "NVDA", "MSFT", "QQQ", "SPY"
+  []
 
 # Human-readable names for Telegram messages
 symbol_names:
@@ -251,7 +249,7 @@ screener:
   lookback_weeks: 60
 
 # ============================================================
-# KÜÇÜK-CAP TARAYICI (otomatik küçük-cap keşfi + çıkış öncesi setup + breakout alarmı)
+# MID-CAP TARAYICI (otomatik orta ölçekli şirket keşfi + çıkış öncesi setup + breakout alarmı)
 # Nasdaq ücretsiz screener API kullanır (API key GEREKMEZ).
 # Universe her refresh_hours'ta bir yenilenir; setup+trigger taraması scan_interval_minutes'ta bir çalışır.
 # ============================================================
@@ -261,12 +259,12 @@ smallcap:
   # --- Universe keşfi (Nasdaq screener) ---
   universe:
     exchanges: ["NASDAQ", "NYSE", "AMEX"]
-    min_market_cap: 50000000        # $50M (penny/micro-cap'leri ve çok küçükleri ele)
-    max_market_cap: 3000000000      # $3B (small-cap üst sınırı)
+    min_market_cap: 2000000000       # $2B (micro/small-cap'leri ele, ortanın alt sınırı)
+    max_market_cap: 10000000000      # $10B (mid-cap üst sınırı; mega-cap'leri elemek için)
     min_price: 3.0                  # $3 altı penny stock'ları ele
     max_candidates: 250             # tarama evreni üst sınırı (API/yfinance limiti)
     refresh_hours: 12               # universe listesi bu sürede bir yenilenir
-    cache_file: "data/smallcap_universe.json"
+    cache_file: "data/midcap_universe.json"
     page_size: 500
     request_timeout: 30
 

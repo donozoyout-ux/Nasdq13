@@ -151,11 +151,12 @@ class SignalBot:
             }.get(status["session"], "🔴 Kapalı")
             now_tr = status["now_tr"].strftime("%Y-%m-%d %H:%M")
             sc_int = self._smallcap_scan_interval() // 60
-            sc_line = f"🔎 <b>Küçük-cap tarayıcı:</b> her {sc_int} dk (otomatik keşif)\n" if self.smallcap_scanner else ""
+            follow_line = f"📊 <b>Takip:</b>\n{names}" if names else ""
+            sc_line = f"🔎 <b>Mid-cap tarayıcı:</b> her {sc_int} dk (otomatik keşif)\n" if self.smallcap_scanner else ""
             msg = (
                 f"🤖 <b>NASDAQ Sinyal Botu Başlatıldı</b>\n"
                 f"{'=' * 30}\n"
-                f"📊 <b>Takip Edilen Piyasalar:</b>\n{names}"
+                f"{follow_line}"
                 f"{sc_line}"
                 f"⏱ <b>Periyotlar:</b> {tfs}\n"
                 f"🔄 <b>Tarama:</b> her {self.scan_interval}s\n"

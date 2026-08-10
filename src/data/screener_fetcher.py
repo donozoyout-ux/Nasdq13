@@ -35,12 +35,12 @@ class UniverseFetcher:
         self.sc = config.get("smallcap", {}).get("universe", {})
 
         self.exchanges = self.sc.get("exchanges", ["NASDAQ", "NYSE", "AMEX"])
-        self.min_market_cap = float(self.sc.get("min_market_cap", 50_000_000))
-        self.max_market_cap = float(self.sc.get("max_market_cap", 3_000_000_000))
+        self.min_market_cap = float(self.sc.get("min_market_cap", 2_000_000_000))
+        self.max_market_cap = float(self.sc.get("max_market_cap", 10_000_000_000))
         self.min_price = float(self.sc.get("min_price", 3.0))
         self.max_candidates = int(self.sc.get("max_candidates", 250))
         self.refresh_hours = float(self.sc.get("refresh_hours", 4))
-        self.cache_file = self.sc.get("cache_file", "data/smallcap_universe.json")
+        self.cache_file = self.sc.get("cache_file", "data/midcap_universe.json")
         self.page_size = int(self.sc.get("page_size", 500))
         self.request_timeout = int(self.sc.get("request_timeout", 30))
 

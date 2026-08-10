@@ -393,7 +393,7 @@ class SmallCapScanner:
 
         now = now_turkey()
         lines = [
-            "🎯 <b>KÜÇÜK-CAP ÇIKIŞ ADAYLARI</b>",
+            "🎯 <b>MID-CAP ÇIKIŞ ADAYLARI</b>",
             f"📅 {now.strftime('%d.%m.%Y %H:%M')} · {universe_size} hisse tarandı",
             "─" * 30,
         ]
@@ -404,13 +404,9 @@ class SmallCapScanner:
 
         for i, c in enumerate(top, 1):
             lines.append(
-                f"🏆 <b>{i}. {c.name}</b> (<code>{c.symbol}</code>)\n"
-                f"   💰 Fiyat: <b>{c.price:,.2f} USD</b> | Cap: {c.market_cap/1e6:,.0f}M\n"
-                f"   ⚡ Setup: <b>{c.setup_score:.0f}/100</b> [{SETUP_TR.get(c.setup_type, c.setup_type)}]\n"
-                f"   🔍 RSI: {c.rsi_14:.0f} | 52H mesafe: {c.dist_52w_high_pct:+.1f}% | RS: {c.rs_4w:+.1f}"
+                f"🏆 {i}. <b>{c.name}</b> (<code>{c.symbol}</code>) — setup <b>{c.setup_score:.0f}</b> [{SETUP_TR.get(c.setup_type, c.setup_type)}]\n"
+                f"   💰 {c.price:,.2f} USD | Cap: {c.market_cap/1e9:.1f}B | RSI: {c.rsi_14:.0f} | 52H: {c.dist_52w_high_pct:+.1f}%"
             )
-            if c.reasons:
-                lines.append("   • " + "\n   • ".join(c.reasons))
             lines.append("")
         lines.append("⚠️ <i>Otomatik üretilmiştir, yatırım tavsiyesi değildir.</i>")
         return "\n".join(lines)
@@ -423,7 +419,7 @@ class SmallCapScanner:
 
         now = now_turkey()
         lines = [
-            "📅 <b>YARIN İÇİN KÜÇÜK-CAP ÇIKIŞ TAHMİNLERİ</b>",
+            "📅 <b>YARIN İÇİN MID-CAP ÇIKIŞ TAHMİNLERİ</b>",
             f"🕐 {now.strftime('%d.%m.%Y %H:%M')} · {universe_size} hisse tarandı · piyasa kapalı",
             "─" * 30,
         ]
@@ -436,19 +432,15 @@ class SmallCapScanner:
             # Kırılması gereken seviye: günlük resistance (Donchian üst)
             level = c.donchian_upper if c.donchian_upper > 0 else c.price
             dist_pct = (level / c.price - 1) * 100 if c.price > 0 else 0.0
-            exp_move = c.atr_pct
             lines.append(
-                f"{i}. <b>{c.name}</b> (<code>{c.symbol}</code>) — <b>{c.setup_score:.0f}/100</b> [{SETUP_TR.get(c.setup_type, c.setup_type)}]\n"
-                f"   💰 Fiyat: <b>{c.price:,.2f} USD</b> | Cap: {c.market_cap/1e6:,.0f}M\n"
-                f"   🔓 Yarın kırılması gereken seviye: <b>{level:,.2f} USD</b> ({dist_pct:+.1f}% yukarıda)\n"
-                f"   📏 Beklenen günlük hareket: ±{exp_move:.1f}% (ATR)\n"
-                f"   🔍 RSI: {c.rsi_14:.0f} | 52H mesafe: {c.dist_52w_high_pct:+.1f}% | RS: {c.rs_4w:+.1f} | Hacim: {c.vol_ratio:.1f}x"
+                f"{i}. <b>{c.name}</b> (<code>{c.symbol}</code>) — <b>{c.setup_score:.0f}</b> [{SETUP_TR.get(c.setup_type, c.setup_type)}]\n"
+                f"   💰 {c.price:,.2f} USD | Cap: {c.market_cap/1e9:.1f}B\n"
+                f"   🔓 Kırılması gereken: <b>{level:,.2f} USD</b> (+{dist_pct:.1f}%) | ATR: ±{c.atr_pct:.1f}%\n"
+                f"   🔍 RSI: {c.rsi_14:.0f} | 52H: {c.dist_52w_high_pct:+.1f}% | Hacim: {c.vol_ratio:.1f}x"
             )
-            if c.reasons:
-                lines.append("   • " + "\n   • ".join(c.reasons))
             lines.append("")
-        lines.append("💡 <b>Tahmin yaklaşımı:</b> Bu hisseler setup'a yakın; önümüzdeki seansta yukarı yönlü hareket olası. Kırılım anlık alarm ile bildirilir.")
-        lines.append("⚠️ <i>Otomatik üretilmiştir, yatırım tavsiyesi değildir. Tahminler her zaman tutmaz.</i>")
+        lines.append("💡 <b>Tahmin:</b> bu hisseler setup'a yakın; kırılım anlık alarm ile bildirilir.")
+        lines.append("⚠️ <i>Otomatik üretilmiştir, yatırım tavsiyesi değildir.</i>")
         return "\n".join(lines)
 
     def build_trigger_message(self, c: SmallCapCandidate) -> str:
@@ -458,20 +450,19 @@ class SmallCapScanner:
         now = now_turkey()
         tv = f"https://www.tradingview.com/chart/?symbol={c.symbol}"
         lines = [
-            "🚨 <b>KÜÇÜK-CAP BREAKOUT ALARMI</b>",
+            "🚨 <b>MID-CAP BREAKOUT ALARMI</b>",
             "─" * 30,
             f"🏷 <b>{c.name}</b> (<code>{c.symbol}</code>)",
-            f"💰 <b>Fiyat:</b> {c.price:,.2f} USD | {c.change_pct:+.2f}%",
-            f"⚡ <b>Tanım:</b> {SETUP_TR.get(c.setup_type, c.setup_type)} (setup {c.setup_score:.0f}/100)",
-            f"🔔 <b>Tetikleyici:</b> {c.trigger_score:.0f}/100",
+            f"💰 <b>{c.price:,.2f} USD</b> | {c.change_pct:+.2f}%",
+            f"⚡ <b>{SETUP_TR.get(c.setup_type, c.setup_type)}</b> (setup {c.setup_score:.0f}/100)",
+            f"🔔 <b>Tetik:</b> {c.trigger_score:.0f}/100",
         ]
         if c.trigger_reasons:
             lines.append("")
-            lines.append("🔍 <b>Nedenler:</b>")
-            lines.append("\n".join(f"• {r}" for r in c.trigger_reasons[:6]))
+            lines.append("🔍 " + " | ".join(c.trigger_reasons[:4]))
         lines.append("")
         lines.append(f"📈 <a href='{tv}'>TradingView Grafiğini Aç</a>")
-        lines.append(f"🕐 {now.strftime('%Y-%m-%d %H:%M')} (Türkiye saati)")
+        lines.append(f"🕐 {now.strftime('%d.%m.%Y %H:%M')}")
         lines.append("⚠️ <i>Yatırım tavsiyesi değildir.</i>")
         return "\n".join(lines)
 
