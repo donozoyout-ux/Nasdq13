@@ -311,6 +311,34 @@ class NewsFetcher:
         logger.info(f"Fetched {total} news articles for {len(self.symbols)} symbols")
         
         return organized
+
+    async def fetch_for_tickers(self, tickers: List[str]) -> Dict[str, List[NewsArticle]]:
+        """Fetch news for an arbitrary list of tickers (used by the mid-cap scanner to
+        enrich candidates independently of the main symbols list). The result is merged
+        into the cache so get_aggregate_sentiment() works for each ticker."""
+        if not self.enabled or not tickers:
+            return {}
+
+        tasks = [self.fetch_for_symbol(t) for t in tickers]
+        results = await asyncio.gather(*tasks, return_exceptions=True)
+
+        organized = {}
+        for ticker, result in zip(tickers, results):
+            if isinstance(result, list):
+                organized[ticker] = result
+            else:
+                organized[ticker] = []
+                logger.error(f"News fetch failed for {ticker}: {result}")
+
+        if not self._cache:
+            self._cache = {}
+        for ticker, articles in organized.items():
+            if articles:
+                self._cache[ticker] = articles
+
+        total = sum(len(v) for v in organized.values())
+        logger.info(f"Fetched {total} news articles for {len(tickers)} mid-cap tickers")
+        return organized
     
     def get_aggregate_sentiment(self, symbol: str) -> Dict[str, Any]:
         """Get aggregate sentiment for a symbol"""

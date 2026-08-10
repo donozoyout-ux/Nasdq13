@@ -411,10 +411,41 @@ class SignalBot:
                 trigger_score=d.get("trigger_score", 0),
                 trigger_type=d.get("trigger_type"),
                 trigger_reasons=d.get("trigger_reasons", []),
+                news_score=d.get("news_score", 0),
+                news_headline=d.get("news_headline", ""),
+                news_source=d.get("news_source", ""),
             )
         except Exception as e:
             logger.error(f"Candidate rebuild failed: {e}")
             return None
+
+    async def _enrich_candidates_with_news(self, candidates) -> List:
+        """Fetch news for top mid-cap candidates and attach sentiment scores.
+        Returns a new list of SmallCapCandidate objects with news fields set.
+        Falls back silently — news is an optional enrichment."""
+        if not candidates or not self.config.get("news", {}).get("enabled", True):
+            return candidates
+
+        watch_n = int(self.config.get("smallcap", {}).get("watchlist_size", 25))
+        top = candidates[:watch_n]
+        tickers = [c.symbol for c in top if c.symbol]
+        if not tickers:
+            return candidates
+
+        try:
+            news = await self.news_fetcher.fetch_for_tickers(tickers)
+            for c in top:
+                agg = self.news_fetcher.get_aggregate_sentiment(c.symbol)
+                if agg and agg.get("article_count", 0) > 0:
+                    c.news_score = float(agg.get("score", 0.0))
+                    articles = news.get(c.symbol, [])
+                    if articles:
+                        c.news_headline = articles[0].title
+                        c.news_source = articles[0].source
+        except Exception as e:
+            logger.error(f"News enrichment failed: {e}")
+
+        return candidates
 
     async def _scan_smallcap_once(self):
         """One full small-cap cycle: setup ranking + intraday trigger scan."""
@@ -423,6 +454,8 @@ class SignalBot:
             force_universe = self.smallcap_last_scan is None
             candidates, universe = await self.smallcap_scanner.screen_setups(force_universe=force_universe)
             self.smallcap_universe_size = len(universe)
+
+            candidates = await self._enrich_candidates_with_news(candidates)
 
             top_dicts = [c.to_dict() for c in candidates]
             self.smallcap_candidates = top_dicts

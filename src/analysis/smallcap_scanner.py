@@ -46,6 +46,11 @@ class SmallCapCandidate:
     trigger_type: Optional[str] = None   # breakout | near | none
     trigger_reasons: List[str] = field(default_factory=list)
 
+    # News enrichment (fetched by the bot for watchlist tickers)
+    news_score: float = 0.0              # -30..+30 aggregate sentiment
+    news_headline: str = ""
+    news_source: str = ""
+
     def to_dict(self) -> Dict[str, Any]:
         return {
             "symbol": self.symbol,
@@ -66,6 +71,9 @@ class SmallCapCandidate:
             "trigger_score": round(self.trigger_score, 1),
             "trigger_type": self.trigger_type,
             "trigger_reasons": self.trigger_reasons,
+            "news_score": round(self.news_score, 1),
+            "news_headline": self.news_headline,
+            "news_source": self.news_source,
         }
 
 
@@ -407,6 +415,9 @@ class SmallCapScanner:
                 f"🏆 {i}. <b>{c.name}</b> (<code>{c.symbol}</code>) — setup <b>{c.setup_score:.0f}</b> [{SETUP_TR.get(c.setup_type, c.setup_type)}]\n"
                 f"   💰 {c.price:,.2f} USD | Cap: {c.market_cap/1e9:.1f}B | RSI: {c.rsi_14:.0f} | 52H: {c.dist_52w_high_pct:+.1f}%"
             )
+            if c.news_headline:
+                news_emoji = "🔴" if c.news_score <= -3 else ("🟢" if c.news_score >= 3 else "⚪")
+                lines.append(f"   {news_emoji} 📰 {c.news_headline[:80]}")
             lines.append("")
         lines.append("⚠️ <i>Otomatik üretilmiştir, yatırım tavsiyesi değildir.</i>")
         return "\n".join(lines)
@@ -438,6 +449,9 @@ class SmallCapScanner:
                 f"   🔓 Kırılması gereken: <b>{level:,.2f} USD</b> (+{dist_pct:.1f}%) | ATR: ±{c.atr_pct:.1f}%\n"
                 f"   🔍 RSI: {c.rsi_14:.0f} | 52H: {c.dist_52w_high_pct:+.1f}% | Hacim: {c.vol_ratio:.1f}x"
             )
+            if c.news_headline:
+                news_emoji = "🔴" if c.news_score <= -3 else ("🟢" if c.news_score >= 3 else "⚪")
+                lines.append(f"   {news_emoji} 📰 {c.news_headline[:80]}")
             lines.append("")
         lines.append("💡 <b>Tahmin:</b> bu hisseler setup'a yakın; kırılım anlık alarm ile bildirilir.")
         lines.append("⚠️ <i>Otomatik üretilmiştir, yatırım tavsiyesi değildir.</i>")
@@ -457,6 +471,9 @@ class SmallCapScanner:
             f"⚡ <b>{SETUP_TR.get(c.setup_type, c.setup_type)}</b> (setup {c.setup_score:.0f}/100)",
             f"🔔 <b>Tetik:</b> {c.trigger_score:.0f}/100",
         ]
+        if c.news_headline:
+            news_emoji = "🔴" if c.news_score <= -3 else ("🟢" if c.news_score >= 3 else "⚪")
+            lines.append(f"{news_emoji} 📰 {c.news_headline[:90]}")
         if c.trigger_reasons:
             lines.append("")
             lines.append("🔍 " + " | ".join(c.trigger_reasons[:4]))
