@@ -27,7 +27,8 @@ wheels/
 .deps_installed
 
 # Data & logs
-/data/
+/data/*
+!/data/midcap_universe.json
 /logs/
 *.log
 __pycache__/

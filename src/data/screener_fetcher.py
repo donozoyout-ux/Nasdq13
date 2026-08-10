@@ -63,13 +63,16 @@ class UniverseFetcher:
     def _cache_path(self) -> str:
         return os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), self.cache_file)
 
-    def _load_cache(self) -> Optional[List[Dict[str, Any]]]:
+    def _load_cache(self, allow_stale: bool = False) -> Optional[List[Dict[str, Any]]]:
         path = self._cache_path()
         if not os.path.exists(path):
             return None
         try:
             with open(path, "r", encoding="utf-8") as f:
                 data = json.load(f)
+            if allow_stale:
+                universe = data.get("universe", [])
+                return universe or None
             saved = datetime.fromisoformat(data.get("saved_at", "2000-01-01T00:00:00"))
             age_hours = (datetime.utcnow() - saved).total_seconds() / 3600
             if age_hours < self.refresh_hours:
@@ -145,17 +148,34 @@ class UniverseFetcher:
         return rows
 
     async def fetch_universe(self, force: bool = False) -> List[Dict[str, Any]]:
-        """Return a fresh-or-cached list of small-cap stocks (sorted by market cap desc)."""
-        if not force:
-            cached = self._load_cache()
-            if cached:
-                logger.info(f"Universe: cached list used ({len(cached)} stocks)")
-                return cached
+        """Return a fresh-or-cached list of small-cap stocks (sorted by market cap desc).
+        Resilient: if the live API is unreachable (e.g. Render's data-center IP blocked
+        by nasdaq.com), fall back to the cached universe even if stale, so the scanner
+        always has a list to work from."""
+        fresh_cache = self._load_cache()          # only fresh (< refresh_hours)
+        stale_cache = self._load_cache(allow_stale=True)
+
+        if fresh_cache and not force:
+            logger.info(f"Universe: fresh cached list used ({len(fresh_cache)} stocks)")
+            return fresh_cache
+
+        if force and fresh_cache:
+            # force refresh requested but we already have a fresh list; still try live,
+            # fall back to the fresh cache on any failure.
+            pass
 
         all_rows = []
+        fetch_ok = True
         for exchange in self.exchanges:
             logger.info(f"Universe: fetching {exchange}...")
-            rows = await self._fetch_exchange(exchange)
+            try:
+                rows = await self._fetch_exchange(exchange)
+            except Exception as e:
+                logger.error(f"Universe: {exchange} fetch error: {e}")
+                rows = []
+            if not rows:
+                fetch_ok = False
+                logger.warning(f"Universe: {exchange} returned no rows (possibly blocked)")
             all_rows.extend(rows)
 
         parsed = [r for r in (self._parse_row(row) for row in all_rows) if r]
@@ -170,6 +190,13 @@ class UniverseFetcher:
         # Sort by market cap desc -> pick the largest small-caps (more liquid, safer)
         filtered.sort(key=lambda s: s["market_cap"], reverse=True)
         universe = filtered[: self.max_candidates]
+
+        if not universe:
+            fallback = stale_cache or fresh_cache
+            if fallback:
+                logger.warning(f"Universe: live fetch failed, using cached list ({len(fallback)} stocks)")
+                return fallback
+            return []
 
         self._save_cache(universe)
         logger.info(f"Universe: {len(parsed)} parsed, {len(filtered)} in range, {len(universe)} kept")
