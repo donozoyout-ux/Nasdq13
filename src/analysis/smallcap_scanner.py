@@ -392,91 +392,132 @@ class SmallCapScanner:
         return watch, triggered
 
     # ------------------------------------------------------------------
-    # Report builders (Turkish)
+    # Report builders (Turkish) - net ALIM TALİMATI formatı
     # ------------------------------------------------------------------
 
-    def build_setup_report(self, candidates: List[SmallCapCandidate], universe_size: int) -> str:
-        """Build a Turkish setup report message (top scorers)."""
+    def _trade_plan(self, c: SmallCapCandidate) -> Dict[str, float]:
+        """Compute a clear buy instruction from a candidate using ATR:
+        - limit: entry price (breakout level or current price)
+        - target: limit + ATR x tp_multiplier
+        - stop:   limit - ATR x sl_multiplier
+        - upside_pct: expected gain to target
+        - rr: risk/reward ratio
+        """
+        atr = c.price * (c.atr_pct / 100.0) if c.price > 0 else 0.0
+        limit_from_price = bool(self.sc.get("limit_from_price", False))
+        limit = c.price if limit_from_price else (c.donchian_upper if c.donchian_upper > 0 else c.price)
+
+        sl_mult = float(self.sc.get("sl_atr_multiplier", 1.0))
+        tp_mult = float(self.sc.get("tp_atr_multiplier", 2.0))
+
+        stop = max(limit - atr * sl_mult, 0.0) if atr > 0 else 0.0
+        target = limit + atr * tp_mult if atr > 0 else limit
+
+        upside_pct = (target / limit - 1) * 100 if limit > 0 else 0.0
+        risk = (limit - stop) if stop > 0 else 0.0
+        reward = (target - limit) if target > 0 else 0.0
+        rr = round(reward / risk, 1) if risk and reward else 0.0
+
+        return {
+            "limit": limit,
+            "target": target,
+            "stop": stop,
+            "upside_pct": upside_pct,
+            "rr": rr,
+        }
+
+    def _trade_plan_line(self, c: SmallCapCandidate) -> List[str]:
+        """Compact one-block AL command for a candidate. Returns HTML lines."""
+        plan = self._trade_plan(c)
+        lines = [
+            f"📌 <b>{c.name}</b> (<code>{c.symbol}</code>) | {SETUP_TR.get(c.setup_type, c.setup_type)}",
+            f"   🟢 <b>ALIM LİMİTİ:</b> {plan['limit']:,.2f} USD",
+            f"   🎯 <b>HEDEF:</b> {plan['target']:,.2f} USD (+{plan['upside_pct']:.1f}% yükseliş)",
+            f"   🛑 <b>STOP:</b> {plan['stop']:,.2f} USD (R/K: 1:{plan['rr']:.1f})",
+        ]
+        return lines
+
+    def _format_alert_header(self, title: str = "MID-CAP ALIM ÖNERİLERİ") -> List[str]:
         from src.utils.timezone import now_turkey
 
         now = now_turkey()
-        lines = [
-            "🎯 <b>MID-CAP ÇIKIŞ ADAYLARI</b>",
-            f"📅 {now.strftime('%d.%m.%Y %H:%M')} · {universe_size} hisse tarandı",
-            "─" * 30,
+        return [
+            f"🚀 <b>{title}</b>",
+            f"📅 {now.strftime('%d.%m.%Y %H:%M')} (Türkiye saati)",
+            "💡 Limit fiyata al, hedefte sat/kar al, stop'un altına düşerse çık.",
         ]
+
+    def build_setup_report(self, candidates: List[SmallCapCandidate], universe_size: int) -> str:
+        """Build a Turkish setup report with compact buy instructions (top scorers)."""
+        lines = self._format_alert_header()
+        lines.append(f"🔎 {universe_size} hisse tarandı · <b>Top {self.top_n_report}:</b>")
+        lines.append("─" * 30)
+
         top = candidates[: self.top_n_report]
         if not top:
             lines.append("Şu an eşiği aşan aday yok.")
             return "\n".join(lines)
 
         for i, c in enumerate(top, 1):
-            lines.append(
-                f"🏆 {i}. <b>{c.name}</b> (<code>{c.symbol}</code>) — setup <b>{c.setup_score:.0f}</b> [{SETUP_TR.get(c.setup_type, c.setup_type)}]\n"
-                f"   💰 {c.price:,.2f} USD | Cap: {c.market_cap/1e9:.1f}B | RSI: {c.rsi_14:.0f} | 52H: {c.dist_52w_high_pct:+.1f}%"
-            )
+            lines.append(f"<b>{i}.</b> " + self._trade_plan_line(c)[0])
+            lines.extend(self._trade_plan_line(c)[1:])
             if c.news_headline:
                 news_emoji = "🔴" if c.news_score <= -3 else ("🟢" if c.news_score >= 3 else "⚪")
-                lines.append(f"   {news_emoji} 📰 {c.news_headline[:80]}")
+                lines.append(f"      {news_emoji} {c.news_headline[:60]}")
             lines.append("")
         lines.append("⚠️ <i>Otomatik üretilmiştir, yatırım tavsiyesi değildir.</i>")
         return "\n".join(lines)
 
     def build_predictions_report(self, candidates: List[SmallCapCandidate], universe_size: int) -> str:
-        """Build a Turkish "tomorrow breakout predictions" report for when the
+        """Build a Turkish 'tomorrow breakout predictions' report for when the
         market is closed. Uses daily setup scores + resistance levels to flag
-        names likely to move at the next open."""
+        names likely to move at the next open, with clear buy levels."""
         from src.utils.timezone import now_turkey
 
         now = now_turkey()
         lines = [
-            "📅 <b>YARIN İÇİN MID-CAP ÇIKIŞ TAHMİNLERİ</b>",
+            "🚀 <b>YARIN İÇİN ALIM ÖNERİLERİ</b>",
             f"🕐 {now.strftime('%d.%m.%Y %H:%M')} · {universe_size} hisse tarandı · piyasa kapalı",
-            "─" * 30,
+            "💡 Limit fiyata al, hedefte sat/kar al, stop'un altına düşerse çık.",
+            "🔎 Kırılım seviyesi aşılırsa giriş; öncesinde teyit bekle.",
         ]
+
         top = candidates[: self.top_n_report]
         if not top:
             lines.append("Şu an yarın için net aday yok; tarama sürüyor.")
             return "\n".join(lines)
 
         for i, c in enumerate(top, 1):
-            # Kırılması gereken seviye: günlük resistance (Donchian üst)
-            level = c.donchian_upper if c.donchian_upper > 0 else c.price
-            dist_pct = (level / c.price - 1) * 100 if c.price > 0 else 0.0
-            lines.append(
-                f"{i}. <b>{c.name}</b> (<code>{c.symbol}</code>) — <b>{c.setup_score:.0f}</b> [{SETUP_TR.get(c.setup_type, c.setup_type)}]\n"
-                f"   💰 {c.price:,.2f} USD | Cap: {c.market_cap/1e9:.1f}B\n"
-                f"   🔓 Kırılması gereken: <b>{level:,.2f} USD</b> (+{dist_pct:.1f}%) | ATR: ±{c.atr_pct:.1f}%\n"
-                f"   🔍 RSI: {c.rsi_14:.0f} | 52H: {c.dist_52w_high_pct:+.1f}% | Hacim: {c.vol_ratio:.1f}x"
-            )
-            if c.news_headline:
-                news_emoji = "🔴" if c.news_score <= -3 else ("🟢" if c.news_score >= 3 else "⚪")
-                lines.append(f"   {news_emoji} 📰 {c.news_headline[:80]}")
+            lines.append(f"<b>{i}.</b> " + self._trade_plan_line(c)[0])
+            lines.extend(self._trade_plan_line(c)[1:])
+            if c.donchian_upper > 0:
+                lines.append(f"      🔓 Kırılım seviyesi: {c.donchian_upper:,.2f} USD")
             lines.append("")
-        lines.append("💡 <b>Tahmin:</b> bu hisseler setup'a yakın; kırılım anlık alarm ile bildirilir.")
         lines.append("⚠️ <i>Otomatik üretilmiştir, yatırım tavsiyesi değildir.</i>")
         return "\n".join(lines)
 
     def build_trigger_message(self, c: SmallCapCandidate) -> str:
-        """Build a Turkish breakout-trigger alarm message."""
+        """Build a Turkish breakout-trigger alarm message = ALIM TALİMATI."""
         from src.utils.timezone import now_turkey
 
         now = now_turkey()
         tv = f"https://www.tradingview.com/chart/?symbol={c.symbol}"
+        plan = self._trade_plan(c)
         lines = [
-            "🚨 <b>MID-CAP BREAKOUT ALARMI</b>",
+            "🚨 <b>ALIM FIRSATI — KIRILIM TEYİT EDİLDİ</b>",
             "─" * 30,
-            f"🏷 <b>{c.name}</b> (<code>{c.symbol}</code>)",
-            f"💰 <b>{c.price:,.2f} USD</b> | {c.change_pct:+.2f}%",
-            f"⚡ <b>{SETUP_TR.get(c.setup_type, c.setup_type)}</b> (setup {c.setup_score:.0f}/100)",
-            f"🔔 <b>Tetik:</b> {c.trigger_score:.0f}/100",
+            f"📌 <b>{c.name}</b> (<code>{c.symbol}</code>) | {SETUP_TR.get(c.setup_type, c.setup_type)}",
+            f"   💰 Güncel: {c.price:,.2f} USD ({c.change_pct:+.2f}%)",
+            f"   🟢 <b>ALIM LİMİTİ:</b> {plan['limit']:,.2f} USD",
+            f"   🎯 <b>HEDEF FİYAT:</b> {plan['target']:,.2f} USD (+{plan['upside_pct']:.1f}% yükseliş)",
+            f"   🛑 <b>ZARAR KES (STOP):</b> {plan['stop']:,.2f} USD (R/K: 1:{plan['rr']:.1f})",
         ]
         if c.news_headline:
             news_emoji = "🔴" if c.news_score <= -3 else ("🟢" if c.news_score >= 3 else "⚪")
-            lines.append(f"{news_emoji} 📰 {c.news_headline[:90]}")
+            lines.append(f"   {news_emoji} {c.news_headline[:80]}")
         if c.trigger_reasons:
             lines.append("")
-            lines.append("🔍 " + " | ".join(c.trigger_reasons[:4]))
+            lines.append("🔍 " + " | ".join(c.trigger_reasons[:3]))
         lines.append("")
         lines.append(f"📈 <a href='{tv}'>TradingView Grafiğini Aç</a>")
         lines.append(f"🕐 {now.strftime('%d.%m.%Y %H:%M')}")

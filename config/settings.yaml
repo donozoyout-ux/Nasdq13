@@ -280,6 +280,12 @@ smallcap:
   top_n_report: 10                  # Telegram setup raporunda gösterilecek aday sayısı
   lookback_days: 260
 
+  # --- ALIM TALİMATI (ATR tabanlı) ---
+  # Mesajlarda net "limit / hedef / zarar kes" göstermek için ATR çarpanları:
+  limit_from_price: false           # true: limit = anlık fiyat; false: limit = kırılım seviyesi (donchian)
+  sl_atr_multiplier: 1.0            # Zarar kes = limit - ATR x bu çarpan
+  tp_atr_multiplier: 2.0            # Hedef     = limit + ATR x bu çarpan
+
   # --- Davranış ---
   trade_hours_only: true            # true: breakout alarmı sadece piyasa açıkken
                                     # false: 7/24 çalışır (veri yine seans bazlıdır)
