@@ -275,6 +275,7 @@ smallcap:
   # --- Tarama ayarları ---
   scan_interval_minutes: 15         # seans içinde her 15 dk'da bir setup + trigger taraması
   closed_market_scan_interval_minutes: 60  # piyasa kapalıyken analiz + yarın tahmini her 60 dk tazelenir
+  scan_timeout_seconds: 1500        # mid-cap taramasının (250 hisse) aşabileceği üst süre; asıl döngüyü etkilemez
   watchlist_size: 25                # intraday (15m) trigger taramasına giren ilk N aday
   min_setup_score: 55               # setup puanı bu eşiğin altındakiler elenir
   min_trigger_score: 60             # breakout alarmı için minimum tetikleyici puanı

@@ -658,6 +658,7 @@ class SignalBot:
         logger.info(f"🤖 Bot started with interval {self.scan_interval}s")
         await self._send_startup_message()
         asyncio.create_task(self._run_initial_reports())
+        asyncio.create_task(self._smallcap_loop())
 
         while self.is_running:
             try:
@@ -679,12 +680,32 @@ class SignalBot:
             finally:
                 await asyncio.sleep(self.scan_interval)
 
+    async def _smallcap_loop(self):
+        """Dedicated small-cap scanner loop, decoupled from the main 60s cycle.
+        The mid-cap scan can legitimately take minutes (250 symbols), so it runs
+        in its own task with a generous timeout and never blocks the dashboard."""
+        smallcap_timeout = float(self.config.get("smallcap", {}).get("scan_timeout_seconds", 1500))
+        while self.is_running:
+            try:
+                if self._maybe_scan_smallcap():
+                    await asyncio.wait_for(
+                        self._scan_smallcap_once(),
+                        timeout=smallcap_timeout,
+                    )
+            except asyncio.TimeoutError:
+                logger.error(f"Small-cap scan exceeded {smallcap_timeout}s — will retry")
+                self.error_count += 1
+            except Exception as e:
+                logger.error(f"Small-cap loop error: {e}")
+                logger.exception(e)
+                self.error_count += 1
+            finally:
+                await asyncio.sleep(self._smallcap_scan_interval() + 5)
+
     async def _scan_cycle(self):
         """One full scan iteration (guarded by asyncio.wait_for in run)"""
         await self._scan_once()
         await self._maybe_run_reports()
-        if self._maybe_scan_smallcap():
-            await self._scan_smallcap_once()
 
     async def stop(self):
         """Graceful shutdown"""
