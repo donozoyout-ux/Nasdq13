@@ -37,6 +37,19 @@ def now_new_york() -> datetime:
     return datetime.now(NEW_YORK)
 
 
+def premarket_report_due(config: dict, now: Optional[datetime] = None) -> bool:
+    """True during the pre-market window right before the regular open
+    (default: 20 min before 09:30 ET). This is when the 'BUGÜN İZLE'
+    pre-market report should fire — fresh candidates for today's session."""
+    mh = config.get("market_hours", {})
+    reg_open = _parse_hhmm(mh.get("regular_open", "09:30"))
+    minutes = int(config.get("smallcap", {}).get("premarket_report", {}).get("minutes_before_open", 20))
+    window_start = reg_open - timedelta(minutes=minutes)
+    now_et = (now or now_new_york()).astimezone(NEW_YORK)
+    secs = _seconds_since_midnight(now_et)
+    return window_start <= timedelta(seconds=secs) < reg_open
+
+
 def _parse_hhmm(value: str) -> timedelta:
     """Parse 'HH:MM' into a timedelta since midnight"""
     hh, mm = value.split(":")

@@ -647,6 +647,42 @@ class SmallCapScanner:
         lines.append("⚠️ <i>Otomatik üretilmiştir, yatırım tavsiyesi değildir.</i>")
         return "\n".join(lines)
 
+    def build_premarket_report(self, candidates: List[SmallCapCandidate], universe_size: int) -> str:
+        """'BUGÜN İZLE' — pre-market (açılıştan ~20 dk önce) gönderilen rapor.
+        Bugünün seansına hazır adayları taze veriyle sıralar; 15dk tarama ile teyit edilir."""
+        from src.utils.timezone import now_turkey
+
+        now = now_turkey()
+        lines = [
+            "🔆 <b>BUGÜN İZLE — SEANS ÖNCESİ</b>",
+            f"🕐 {now.strftime('%d.%m.%Y %H:%M')} · {universe_size} hisse tarandı",
+            "🌅 Bugün açılışta kırılıma en yakın adaylar (sıkışma + dirence yakınlık).",
+            "🔎 Açılış sonrası 15 dk kırılım alarmı ile teyit edilir.",
+            "─" * 30,
+        ]
+
+        pool = [c for c in candidates if c.anticipation_score >= self.min_anticipation_score]
+        pool.sort(key=lambda c: c.anticipation_score, reverse=True)
+        top = pool[: self.top_n_report] or candidates[: self.top_n_report]
+        if not top:
+            lines.append("Şu an bugün için net aday yok; tarama sürüyor.")
+            lines.append("⚠️ <i>Otomatik üretilmiştir, yatırım tavsiyesi değildir.</i>")
+            return "\n".join(lines)
+
+        for i, c in enumerate(top, 1):
+            plan = self._trade_plan(c)
+            lines.append(
+                f"<b>{i}.</b> 📌 <b>{c.name}</b> (<code>{c.symbol}</code>) | {c.change_pct:+.2f}%\n"
+                f"   🔮 <b>Öngörü:</b> {c.anticipation_score:.0f}/100 · Sıkışma {c.squeeze_days} gün · Direnç −{max(-c.dist_to_resistance_pct, 0):.1f}%\n"
+                f"   🟢 <b>ALIM LİMİTİ:</b> {plan['limit']:,.2f} | 🎯 <b>HEDEF:</b> {plan['target']:,.2f} (+{plan['upside_pct']:.1f}%) | 🛑 <b>STOP:</b> {plan['stop']:,.2f} (R/K 1:{plan['rr']:.1f})"
+            )
+            if c.news_headline:
+                news_emoji = "🔴" if c.news_score <= -3 else ("🟢" if c.news_score >= 3 else "⚪")
+                lines.append(f"      {news_emoji} {c.news_headline[:60]}")
+            lines.append("")
+        lines.append("⚠️ <i>Otomatik üretilmiştir, yatırım tavsiyesi değildir.</i>")
+        return "\n".join(lines)
+
     def build_trigger_message(self, c: SmallCapCandidate) -> str:
         """Build a Turkish breakout-trigger alarm message = ALIM TALİMATI."""
         from src.utils.timezone import now_turkey

@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.utils.logger import setup_logger, get_logger
-from src.utils.timezone import market_status, now_turkey
+from src.utils.timezone import market_status, now_turkey, premarket_report_due
 from src.data.price_fetcher import PriceFetcher
 from src.data.news_fetcher import NewsFetcher
 from src.analysis.technical import TechnicalAnalyzer, IndicatorSnapshot
@@ -24,6 +24,7 @@ from src.analysis.smallcap_scanner import SmallCapScanner
 from src.analysis.ai_analyst import AiAnalyst
 from src.notifier.telegram_bot import TelegramNotifier
 from src.state.manager import StateManager
+from src.utils.github_backup import GithubBackup
 
 load_dotenv()
 
@@ -126,6 +127,9 @@ class SignalBot:
         self.smallcap_candidates: List[Dict[str, Any]] = []
         self.smallcap_universe_size = 0
 
+        # GitHub backup (archives scans/signals to a private repo branch)
+        self.github_backup = GithubBackup(config)
+
         # Restore last weekly report from persisted state (dashboard shows it
         # even if this instance was started after the report was sent)
         reports = self.state.state.get("weekly_reports", [])
@@ -207,6 +211,22 @@ class SignalBot:
             if await self.notifier.send_signal(signal):
                 self.state.record_signal(signal)
                 sent += 1
+                self._backup_async(
+                    f"signals/{signal.symbol}/{signal.timestamp.isoformat()[:19].replace(':', '').replace('T', 'T')}.json",
+                    {
+                        "type": "signal",
+                        "signal": {
+                            "symbol": signal.symbol,
+                            "action": signal.action,
+                            "direction": signal.direction,
+                            "strength": round(float(signal.strength), 2),
+                            "price": signal.price,
+                            "timeframe": signal.timeframe,
+                            "id": signal.signal_id,
+                            "reasons": signal.reasons,
+                        },
+                    },
+                )
 
         self.state.set_last_scan()
         self.last_scan_at = datetime.utcnow()
@@ -375,8 +395,41 @@ class SignalBot:
             if report_text and await self.notifier.send_report(report_text):
                 self.state.record_smallcap_predictions_sent(date_key)
                 logger.info("✅ Small-cap tomorrow-predictions report sent")
+                self._backup_async(
+                    f"reports/predictions_{date_key}.json",
+                    {
+                        "type": "predictions_report",
+                        "date": date_key,
+                        "universe_size": universe_size,
+                        "candidates": [c.to_dict() for c in candidates],
+                    },
+                )
         except Exception as e:
             logger.error(f"Small-cap predictions report failed: {e}")
+
+    async def _run_smallcap_premarket_report(self, candidates, universe_size):
+        """Send 'BUGÜN İZLE' pre-market report once per day before the open."""
+        if not self.config.get("smallcap", {}).get("premarket_report", {}).get("enabled", True):
+            return
+        try:
+            date_key = datetime.utcnow().strftime("%Y-%m-%d")
+            if self.state.is_smallcap_premarket_sent(date_key):
+                return
+            report_text = self.smallcap_scanner.build_premarket_report(candidates, universe_size)
+            if report_text and await self.notifier.send_report(report_text):
+                self.state.record_smallcap_premarket_sent(date_key)
+                logger.info("✅ Small-cap 'BUGÜN İZLE' pre-market report sent")
+                self._backup_async(
+                    f"reports/premarket_{date_key}.json",
+                    {
+                        "type": "premarket_report",
+                        "date": date_key,
+                        "universe_size": universe_size,
+                        "candidates": [c.to_dict() for c in candidates],
+                    },
+                )
+        except Exception as e:
+            logger.error(f"Small-cap pre-market report failed: {e}")
 
     async def _run_smallcap_alert(self, cand):
         """Send a single breakout alarm, deduplicated per symbol per day."""
@@ -393,6 +446,13 @@ class SignalBot:
         except Exception as e:
             logger.error(f"Small-cap alert failed: {e}")
         return False
+
+    def _backup_async(self, path: str, payload: Dict[str, Any]):
+        """Fire-and-forget upload to the GitHub backup repo (never blocks the loop)."""
+        try:
+            asyncio.create_task(self.github_backup.upload_json(path, payload))
+        except Exception as e:
+            logger.warning(f"GitHub backup schedule failed {path}: {e}")
 
     def _persist_smallcap_scan(self, closed: bool = False):
         """Save the latest mid-cap scan snapshot (top candidates) to persisted state
@@ -421,6 +481,13 @@ class SignalBot:
                 ],
             }
             self.state.record_scan_history(snapshot)
+            # GitHub backup: her tarama JSON olarak archive branch'ına yazılır
+            day = snapshot["time"][:10]
+            stamp = snapshot["time"][:19].replace(":", "").replace("T", "T")
+            self._backup_async(
+                f"scans/{day}/{stamp}.json",
+                {"type": "scan", "closed": bool(closed), **snapshot},
+            )
         except Exception as e:
             logger.error(f"Scan history persist failed: {e}")
 
@@ -509,8 +576,14 @@ class SignalBot:
             trade_hours_only = self.config.get("smallcap", {}).get("trade_hours_only", True)
 
             if trade_hours_only and not market_open:
-                logger.info(f"Small-cap: piyasa kapalı ({status.get('session')}), öngörü raporu üretiliyor")
-                await self._run_smallcap_predictions_report(candidates, len(universe))
+                session = status.get("session", "closed")
+                is_premarket_window = session == "pre_market" and premarket_report_due(self.config, status.get("now_et"))
+                if is_premarket_window:
+                    logger.info("Small-cap: pre-market penceresi, 'BUGÜN İZLE' raporu üretiliyor")
+                    await self._run_smallcap_premarket_report(candidates, len(universe))
+                else:
+                    logger.info(f"Small-cap: piyasa kapalı ({session}), öngörü raporu üretiliyor")
+                    await self._run_smallcap_predictions_report(candidates, len(universe))
                 self._persist_smallcap_scan(closed=True)
                 self.smallcap_last_scan = datetime.utcnow()
                 return
@@ -614,6 +687,8 @@ class SignalBot:
         await self.ai_analyst.close()
         if self.smallcap_scanner:
             await self.smallcap_scanner.universe_fetcher.close()
+        if self.github_backup:
+            await self.github_backup.close()
         self.state.save()
         logger.info("Bot stopped gracefully")
 

@@ -28,6 +28,7 @@ class StateManager:
             "smallcap_alerts_sent": {},  # small-cap breakout alarm dedup: symbol-date -> timestamp
             "smallcap_setup_sent": {},   # daily setup report dedup: date -> timestamp
             "smallcap_predictions_sent": {},  # daily "tomorrow predictions" report dedup: date -> timestamp
+            "smallcap_premarket_sent": {},  # daily "BUGÜN İZLE" pre-market report dedup: date -> timestamp
             "weekly_reports": [],     # last generated weekly report summaries
             "scan_history": [],       # persisted mid-cap scan snapshots (pruned)
             "last_scan_time": None,
@@ -193,6 +194,18 @@ class StateManager:
     def is_smallcap_predictions_sent(self, date_key: str) -> bool:
         """Check if today's 'tomorrow predictions' report was already sent"""
         return date_key in self.state.get("smallcap_predictions_sent", {})
+
+    def is_smallcap_premarket_sent(self, date_key: str) -> bool:
+        """Check if today's 'BUGÜN İZLE' pre-market report was already sent"""
+        return date_key in self.state.get("smallcap_premarket_sent", {})
+
+    def record_smallcap_premarket_sent(self, date_key: str) -> None:
+        """Mark today's 'BUGÜN İZLE' pre-market report as sent"""
+        self.state.setdefault("smallcap_premarket_sent", {})[date_key] = datetime.utcnow().isoformat()
+        keys = list(self.state["smallcap_premarket_sent"].keys())
+        for k in keys[:-30]:
+            del self.state["smallcap_premarket_sent"][k]
+        self.save()
 
     def record_smallcap_predictions_sent(self, date_key: str) -> None:
         """Mark today's 'tomorrow predictions' report as sent"""
