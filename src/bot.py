@@ -389,6 +389,33 @@ class SignalBot:
             logger.error(f"Small-cap alert failed: {e}")
         return False
 
+    def _persist_smallcap_scan(self, closed: bool = False):
+        """Save the latest mid-cap scan snapshot (top candidates) to persisted state
+        so the dashboard history survives restarts."""
+        try:
+            top = self.smallcap_candidates[: self.config.get("smallcap", {}).get("top_n_report", 10)]
+            snapshot = {
+                "time": datetime.utcnow().isoformat(),
+                "universe_size": self.smallcap_universe_size,
+                "closed": bool(closed),
+                "candidates": [
+                    {
+                        "symbol": c.get("symbol", ""),
+                        "name": c.get("name", ""),
+                        "price": c.get("price", 0),
+                        "change_pct": c.get("change_pct", 0),
+                        "setup_score": c.get("setup_score", 0),
+                        "setup_type": c.get("setup_type", "watch"),
+                        "trigger_type": c.get("trigger_type"),
+                        "news_score": c.get("news_score", 0),
+                    }
+                    for c in top
+                ],
+            }
+            self.state.record_scan_history(snapshot)
+        except Exception as e:
+            logger.error(f"Scan history persist failed: {e}")
+
     def _candidate_from_dict(self, d: Dict[str, Any]):
         """Rebuild a SmallCapCandidate from its dict (for message building)."""
         try:
@@ -469,6 +496,7 @@ class SignalBot:
                 logger.info(f"Small-cap: piyasa kapalı ({status.get('session')}), setup + yarın tahmini üretiliyor")
                 await self._run_smallcap_setup_report(candidates, len(universe))
                 await self._run_smallcap_predictions_report(candidates, len(universe))
+                self._persist_smallcap_scan(closed=True)
                 self.smallcap_last_scan = datetime.utcnow()
                 return
 
@@ -497,6 +525,7 @@ class SignalBot:
                     await self._run_smallcap_alert(cand_dict)
 
             self.smallcap_last_scan = datetime.utcnow()
+            self._persist_smallcap_scan(closed=False)
             logger.info(f"=== Small-cap scan complete: {len(candidates)} aday, {len(triggered)} breakout ===")
         except Exception as e:
             logger.error(f"Small-cap scan error: {e}")
@@ -649,6 +678,7 @@ class SignalBot:
             "last_scan_at": self.smallcap_last_scan.isoformat() if self.smallcap_last_scan else None,
             "scan_interval_minutes": self._smallcap_scan_interval() // 60,
             "candidates": self.smallcap_candidates[: self.config.get("smallcap", {}).get("top_n_report", 10)],
+            "scan_history": self.state.get_scan_history(limit=50),
         }
 
         return {

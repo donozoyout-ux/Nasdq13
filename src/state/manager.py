@@ -29,6 +29,7 @@ class StateManager:
             "smallcap_setup_sent": {},   # daily setup report dedup: date -> timestamp
             "smallcap_predictions_sent": {},  # daily "tomorrow predictions" report dedup: date -> timestamp
             "weekly_reports": [],     # last generated weekly report summaries
+            "scan_history": [],       # persisted mid-cap scan snapshots (pruned)
             "last_scan_time": None,
             "stats": {
                 "total_signals": 0,
@@ -41,7 +42,10 @@ class StateManager:
             self.state["reports_sent"] = {}
         if "weekly_reports" not in self.state:
             self.state["weekly_reports"] = []
+        if "scan_history" not in self.state:
+            self.state["scan_history"] = []
         self.max_history = self.config.get("state", {}).get("max_signal_history", 1000)
+        self.max_scan_history = self.config.get("state", {}).get("max_scan_history", 200)
         self._load()
 
     def _ensure_dir(self):
@@ -69,6 +73,10 @@ class StateManager:
             # Prune history to keep file small
             if len(self.state["signal_history"]) > self.max_history:
                 self.state["signal_history"] = self.state["signal_history"][-self.max_history:]
+
+            scan_hist = self.state.get("scan_history", [])
+            if len(scan_hist) > self.max_scan_history:
+                self.state["scan_history"] = scan_hist[-self.max_scan_history:]
 
             with open(self.file_path, "w", encoding="utf-8") as f:
                 json.dump(self.state, f, indent=2, ensure_ascii=False, default=str)
@@ -109,6 +117,19 @@ class StateManager:
         self.state["last_scan_time"] = datetime.utcnow().isoformat()
         self.state["stats"]["total_scans"] += 1
         self.save()
+
+    def record_scan_history(self, snapshot: Dict[str, Any]) -> None:
+        """Append a scan snapshot (e.g. a mid-cap universe scan) to persisted history.
+        Kept under max_scan_history so the JSON file stays small."""
+        scan_hist = self.state.setdefault("scan_history", [])
+        scan_hist.append(snapshot)
+        if len(scan_hist) > self.max_scan_history:
+            self.state["scan_history"] = scan_hist[-self.max_scan_history:]
+        self.save()
+
+    def get_scan_history(self, limit: int = 50) -> List[Dict[str, Any]]:
+        """Return the latest persisted scan snapshots (oldest first if ascending)."""
+        return self.state.get("scan_history", [])[-limit:]
 
     def get_signal_count(self, symbol: str, window_minutes: int = 60) -> int:
         """Count signals for a symbol in a time window"""

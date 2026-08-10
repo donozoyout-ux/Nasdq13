@@ -194,6 +194,7 @@ state:
   file_path: "data/bot_state.json"
   backup_interval_minutes: 60
   max_signal_history: 1000
+  max_scan_history: 200       # persisted mid-cap scan snapshots to keep
   track_performance: true
 
 # Logging

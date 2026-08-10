@@ -241,6 +241,26 @@
             </table>
         </div>
     </div>
+
+    <div class="card">
+        <h2><span class="dot yellow"></span> Tarama Geçmişi</h2>
+        <div class="last-updated" id="scanHistoryInfo">Henüz tarama kaydı yok</div>
+        <div style="overflow-x:auto;">
+            <table id="scanHistoryTable">
+                <thead>
+                    <tr>
+                        <th>Tarih</th>
+                        <th>Evren</th>
+                        <th>Durum</th>
+                        <th>Top 10 Adaylar (setup skoru)</th>
+                    </tr>
+                </thead>
+                <tbody id="scanHistoryBody">
+                    <tr><td colspan="4" class="empty">Tarama geçmişi bekleniyor...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -405,6 +425,31 @@
                 `).join('');
             } else {
                 hBody.innerHTML = '<tr><td colspan="5" class="empty">Geçmiş sinyal yok</td></tr>';
+            }
+
+            // Scan history (mid-cap universe scans)
+            const shBody = document.getElementById('scanHistoryBody');
+            const shInfo = document.getElementById('scanHistoryInfo');
+            const scanHist = (data.smallcap && data.smallcap.scan_history || []).slice().reverse();
+            if (scanHist.length > 0) {
+                const lastSc = scanHist[0];
+                shInfo.textContent = 'Son tarama: ' + fmtTime(lastSc.time) +
+                    ' · ' + (lastSc.universe_size || 0) + ' hisse tarandı';
+                shBody.innerHTML = scanHist.map(sc => {
+                    const adays = (sc.candidates || []).map(c =>
+                        `<span class="tag" style="background:${scoreClass(c.setup_score)==='buy'?'rgba(16,185,129,.15)':(scoreClass(c.setup_score)==='watch'?'rgba(245,158,11,.15)':'rgba(255,255,255,.06)')};color:var(--text)">
+                            <b>${c.symbol}</b> ${c.setup_score != null ? c.setup_score.toFixed(0) : '-'}
+                        </span>`).join(' ');
+                    return `<tr>
+                        <td class="mono" style="white-space:nowrap">${fmtTime(sc.time)}</td>
+                        <td class="mono">${sc.universe_size || 0}</td>
+                        <td>${sc.closed ? 'Piyasa kapalı' : 'Açık'}</td>
+                        <td>${adays || '<span class="muted">Aday yok</span>'}</td>
+                    </tr>`;
+                }).join('');
+            } else {
+                shInfo.textContent = '';
+                shBody.innerHTML = '<tr><td colspan="4" class="empty">Tarama geçmişi bekleniyor...</td></tr>';
             }
 
             // Weekly report
