@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Any
 from dataclasses import dataclass, field
 from collections import defaultdict
-import aiohttp
+import httpx
 import hashlib
 
 from src.utils.logger import get_logger
@@ -79,20 +79,20 @@ class NewsFetcher:
         self._cache_time: Optional[datetime] = None
         self._cache_ttl = 300  # 5 minutes
         
-        # Session
-        self._session: Optional[aiohttp.ClientSession] = None
-    
-    async def _get_session(self) -> aiohttp.ClientSession:
-        """Get or create aiohttp session"""
-        if self._session is None or self._session.closed:
-            timeout = aiohttp.ClientTimeout(total=30)
-            self._session = aiohttp.ClientSession(timeout=timeout)
+# Session
+        self._session: Optional[httpx.AsyncClient] = None
+
+    async def _get_session(self) -> httpx.AsyncClient:
+        """Get or create httpx session (matches the rest of the bot stack)"""
+        if self._session is None or self._session.is_closed:
+            self._session = httpx.AsyncClient(timeout=30.0)
         return self._session
-    
+
     async def close(self):
         """Close the session"""
-        if self._session and not self._session.closed:
-            await self._session.close()
+        if self._session and not self._session.is_closed:
+            await self._session.aclose()
+            self._session = None
     
     def _get_search_terms(self, symbol: str) -> List[str]:
         """Get search terms for a symbol"""
@@ -150,25 +150,25 @@ class NewsFetcher:
                 "pageSize": self.max_articles,
                 "from": (datetime.utcnow() - timedelta(hours=self.lookback_hours)).isoformat(),
             }
-            
-            async with session.get(url, params=params) as resp:
-                if resp.status == 200:
-                    data = await resp.json()
-                    for item in data.get("articles", []):
-                        if item.get("title") and item.get("description"):
-                            articles.append(NewsArticle(
-                                title=item["title"],
-                                description=item["description"],
-                                url=item.get("url", ""),
-                                source=item.get("source", {}).get("name", "NewsAPI"),
-                                published_at=datetime.fromisoformat(
-                                    item["publishedAt"].replace("Z", "+00:00")
-                                ) if item.get("publishedAt") else datetime.utcnow(),
-                            ))
-                elif resp.status == 429:
-                    logger.warning("NewsAPI rate limited")
-                else:
-                    logger.warning(f"NewsAPI error: {resp.status}")
+
+            resp = await session.get(url, params=params)
+            if resp.status_code == 200:
+                data = resp.json()
+                for item in data.get("articles", []):
+                    if item.get("title") and item.get("description"):
+                        articles.append(NewsArticle(
+                            title=item["title"],
+                            description=item["description"],
+                            url=item.get("url", ""),
+                            source=item.get("source", {}).get("name", "NewsAPI"),
+                            published_at=datetime.fromisoformat(
+                                item["publishedAt"].replace("Z", "+00:00")
+                            ) if item.get("publishedAt") else datetime.utcnow(),
+                        ))
+            elif resp.status_code == 429:
+                logger.warning("NewsAPI rate limited")
+            else:
+                logger.warning(f"NewsAPI error: {resp.status_code}")
         except Exception as e:
             logger.error(f"NewsAPI fetch error: {e}")
         
@@ -190,21 +190,21 @@ class NewsFetcher:
                 "limit": self.max_articles,
             }
             
-            async with session.get(url, params=params) as resp:
-                if resp.status == 200:
-                    data = await resp.json()
-                    for item in data.get("feed", []):
-                        articles.append(NewsArticle(
-                            title=item.get("title", ""),
-                            description=item.get("summary", ""),
-                            url=item.get("url", ""),
-                            source=item.get("source", "AlphaVantage"),
-                            published_at=datetime.fromisoformat(
-                                item["time_published"].replace("Z", "+00:00")
-                            ) if item.get("time_published") else datetime.utcnow(),
-                        ))
-                elif resp.status == 429:
-                    logger.warning("Alpha Vantage rate limited")
+            resp = await session.get(url, params=params)
+            if resp.status_code == 200:
+                data = resp.json()
+                for item in data.get("feed", []):
+                    articles.append(NewsArticle(
+                        title=item.get("title", ""),
+                        description=item.get("summary", ""),
+                        url=item.get("url", ""),
+                        source=item.get("source", "AlphaVantage"),
+                        published_at=datetime.fromisoformat(
+                            item["time_published"].replace("Z", "+00:00")
+                        ) if item.get("time_published") else datetime.utcnow(),
+                    ))
+            elif resp.status_code == 429:
+                logger.warning("Alpha Vantage rate limited")
         except Exception as e:
             logger.error(f"Alpha Vantage fetch error: {e}")
         
@@ -226,17 +226,21 @@ class NewsFetcher:
                 "to": datetime.utcnow().strftime("%Y-%m-%d"),
             }
             
-            async with session.get(url, params=params) as resp:
-                if resp.status == 200:
-                    data = await resp.json()
-                    for item in data[:self.max_articles]:
-                        articles.append(NewsArticle(
-                            title=item.get("headline", ""),
-                            description=item.get("summary", ""),
-                            url=item.get("url", ""),
-                            source=item.get("source", "Finnhub"),
-                            published_at=datetime.fromtimestamp(item.get("datetime", 0)),
-                        ))
+            resp = await session.get(url, params=params)
+            if resp.status_code == 200:
+                data = resp.json()
+                for item in data[:self.max_articles]:
+                    articles.append(NewsArticle(
+                        title=item.get("headline", ""),
+                        description=item.get("summary", ""),
+                        url=item.get("url", ""),
+                        source=item.get("source", "Finnhub"),
+                        published_at=datetime.fromtimestamp(item.get("datetime", 0)),
+                    ))
+            elif resp.status_code == 429:
+                logger.warning("Finnhub rate limited")
+            else:
+                logger.warning(f"Finnhub error: {resp.status_code}")
         except Exception as e:
             logger.error(f"Finnhub fetch error: {e}")
         

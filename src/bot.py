@@ -192,7 +192,10 @@ class SignalBot:
         news_aggregates = {}
         for symbol in self.config.get("symbols", []):
             news_aggregates[symbol] = self.news_fetcher.get_aggregate_sentiment(symbol)
-        self.last_news = news_aggregates
+        # Ana symbols listesi boş olduğunda mid-cap zenginleştirmesinde çekilen
+        # haberleri silme; yalnızca gerçek veri varken güncelle.
+        if news_aggregates:
+            self.last_news = news_aggregates
 
         signals = self.signal_engine.evaluate_all(snapshots, news_aggregates)
         self.last_signals = signals
@@ -469,6 +472,8 @@ class SignalBot:
                     if articles:
                         c.news_headline = articles[0].title
                         c.news_source = articles[0].source
+                    # Dashboard "Haber Akışı" bölümüne de bağla
+                    self.last_news[c.symbol] = agg
         except Exception as e:
             logger.error(f"News enrichment failed: {e}")
 
