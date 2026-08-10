@@ -110,6 +110,7 @@ news:
   max_articles_per_symbol: 20
   keyword_boost_max: 30
   high_impact_multiplier: 3
+  enrich_timeout_seconds: 10    # haber taraması en fazla bu kadar sürer; aşarsa atlanır (adanışlıyla)
   
   # Keywords for sentiment scoring
   keywords:

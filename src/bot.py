@@ -530,10 +530,12 @@ class SignalBot:
     async def _enrich_candidates_with_news(self, candidates) -> List:
         """Fetch news for top mid-cap candidates and attach sentiment scores.
         Returns a new list of SmallCapCandidate objects with news fields set.
-        Falls back silently — news is an optional enrichment."""
+        Falls back silently — news is an optional enrichment. Bounded by a short
+        timeout so slow/blocked news APIs never stall the scan cycle."""
         if not candidates or not self.config.get("news", {}).get("enabled", True):
             return candidates
 
+        news_timeout = float(self.config.get("news", {}).get("enrich_timeout_seconds", 10))
         watch_n = int(self.config.get("smallcap", {}).get("watchlist_size", 25))
         top = candidates[:watch_n]
         tickers = [c.symbol for c in top if c.symbol]
@@ -541,7 +543,10 @@ class SignalBot:
             return candidates
 
         try:
-            news = await self.news_fetcher.fetch_for_tickers(tickers)
+            news = await asyncio.wait_for(
+                self.news_fetcher.fetch_for_tickers(tickers),
+                timeout=news_timeout,
+            )
             for c in top:
                 agg = self.news_fetcher.get_aggregate_sentiment(c.symbol)
                 if agg and agg.get("article_count", 0) > 0:
@@ -552,6 +557,8 @@ class SignalBot:
                         c.news_source = articles[0].source
                     # Dashboard "Haber Akışı" bölümüne de bağla
                     self.last_news[c.symbol] = agg
+        except asyncio.TimeoutError:
+            logger.warning(f"News enrichment timed out after {news_timeout}s — skipped (news optional)")
         except Exception as e:
             logger.error(f"News enrichment failed: {e}")
 
