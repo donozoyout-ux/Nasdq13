@@ -249,7 +249,7 @@
     const fmtTime = (iso) => {
         if (!iso) return '-';
         const d = new Date(iso);
-        return d.toLocaleString('tr-TR', {timeZone: 'auto', hour12: false});
+        return d.toLocaleString('tr-TR', {hour12: false});
     };
     const scoreClass = (s) => {
         if (s == null) return 'neutral';
