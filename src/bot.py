@@ -561,7 +561,7 @@ class SignalBot:
         """One full small-cap cycle: setup ranking + intraday trigger scan."""
         logger.info("=== Scanning small-cap universe ===")
         try:
-            force_universe = self.smallcap_last_scan is None
+            force_universe = False
             candidates, universe = await self.smallcap_scanner.screen_setups(force_universe=force_universe)
             self.smallcap_universe_size = len(universe)
 
