@@ -68,6 +68,37 @@ class GithubBackup:
             logger.warning(f"GitHub _find_sha failed for {path}: {e}")
         return None
 
+    async def _ensure_branch(self, client: httpx.AsyncClient) -> bool:
+        """Create self.branch if missing (seeds from default branch)."""
+        try:
+            check = await client.get(f"{GITHUB_API}/repos/{self.repo}/branches/{self.branch}")
+            if check.status_code == 200:
+                return True
+            repo = await client.get(f"{GITHUB_API}/repos/{self.repo}")
+            if repo.status_code != 200:
+                logger.error(f"GitHub repo fetch failed {repo.status_code}: {repo.text[:200]}")
+                return False
+            default_branch = repo.json().get("default_branch", "main")
+            ref_resp = await client.get(
+                f"{GITHUB_API}/repos/{self.repo}/git/ref/heads/{default_branch}"
+            )
+            if ref_resp.status_code != 200:
+                logger.error(f"GitHub branch ref fetch failed {ref_resp.status_code}")
+                return False
+            sha = ref_resp.json().get("object", {}).get("sha")
+            create = await client.post(
+                f"{GITHUB_API}/repos/{self.repo}/git/refs",
+                json={"ref": f"refs/heads/{self.branch}", "sha": sha},
+            )
+            if create.status_code not in (200, 201):
+                logger.error(f"GitHub branch create failed {create.status_code}: {create.text[:200]}")
+                return False
+            logger.info(f"GitHub backup branch '{self.branch}' created")
+            return True
+        except Exception as e:
+            logger.warning(f"GitHub _ensure_branch failed: {e}")
+            return False
+
     async def upload_json(self, path: str, payload: Dict[str, Any]) -> bool:
         """Create or overwrite a JSON file at repo:root/{path} on self.branch.
         Returns True on success, False on missing token / error."""
@@ -85,6 +116,10 @@ class GithubBackup:
 
         try:
             client = await self._client_get()
+            ok_branch = await self._ensure_branch(client)
+            if not ok_branch:
+                logger.error(f"GitHub backup aborted: branch '{self.branch}' unavailable")
+                return False
             sha = await self._find_sha(client, full_path)
             body: Dict[str, Any] = {
                 "message": f"backup: {path}",
