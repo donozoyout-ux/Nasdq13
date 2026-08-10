@@ -41,6 +41,14 @@ class SmallCapCandidate:
     donchian_upper: float = 0.0
     atr_pct: float = 0.0
 
+    # Çıkış öngörüsü (kırılıma hazırlık)
+    anticipation_score: float = 0.0        # 0-100 kırılıma ne kadar yakın
+    dist_to_resistance_pct: float = 0.0    # dirence mesafe %
+    bbw_slope_pct: float = 0.0             # BB genişliği 5 günlük eğimi (negatif = kapanıyor)
+    squeeze_days: int = 0                  # kaç gündür daralma içinde
+    atr_contraction_pct: float = 0.0       # ATR 20 gün içi daralma %
+    expect_horizon: str = "birikim"        # 1-2 seans | 3-5 seans | 1 hafta | birikim
+
     # Trigger detail (15m)
     trigger_score: float = 0.0
     trigger_type: Optional[str] = None   # breakout | near | none
@@ -68,6 +76,12 @@ class SmallCapCandidate:
             "rs_4w": round(self.rs_4w, 2),
             "donchian_upper": round(self.donchian_upper, 2),
             "atr_pct": round(self.atr_pct, 2),
+            "anticipation_score": round(self.anticipation_score, 1),
+            "dist_to_resistance_pct": round(self.dist_to_resistance_pct, 2),
+            "bbw_slope_pct": round(self.bbw_slope_pct, 2),
+            "squeeze_days": int(self.squeeze_days),
+            "atr_contraction_pct": round(self.atr_contraction_pct, 2),
+            "expect_horizon": self.expect_horizon,
             "trigger_score": round(self.trigger_score, 1),
             "trigger_type": self.trigger_type,
             "trigger_reasons": self.trigger_reasons,
@@ -95,6 +109,7 @@ class SmallCapScanner:
 
         self.watchlist_size = int(self.sc.get("watchlist_size", 25))
         self.min_setup_score = float(self.sc.get("min_setup_score", 55))
+        self.min_anticipation_score = float(self.sc.get("anticipation", {}).get("min_score", 55))
         self.top_n_report = int(self.sc.get("top_n_report", 10))
         self.lookback_days = int(self.sc.get("lookback_days", 260))
         self.index_symbol = self.sc.get("index_symbol", "^GSPC")
@@ -127,6 +142,84 @@ class SmallCapScanner:
     # Daily setup scoring
     # ------------------------------------------------------------------
 
+    def _score_anticipation(self, dist_res: float, bbw_pctile: float, bbw_slope: float,
+                            squeeze_days: int, atr_contract: float, rs_4w: float) -> float:
+        """Predictive 0-100 score: how CLOSE a name is to breaking out, not how
+        strong it already is. High = likely breakout soon.
+        - dist_res: % distance below daily resistance (negative = right at/above)
+        - bbw_pctile: Bollinger width percentile (lower = tighter)
+        - bbw_slope: 5-day BB width trend % (negative = squeezing tighter)
+        - squeeze_days: consecutive tight days
+        - atr_contract: ATR contraction vs 20d (%)
+        - rs_4w: relative strength vs index
+        """
+        score = 0.0
+
+        # 1) Distance to resistance (0-35) — closer = readier
+        if dist_res <= -0.5:
+            score += 8                      # already right at/above level
+        elif dist_res <= 0:
+            score += 35
+        elif dist_res <= 1.5:
+            score += 30
+        elif dist_res <= 3.5:
+            score += 22
+        elif dist_res <= 6:
+            score += 14
+        elif dist_res <= 10:
+            score += 6
+
+        # 2) Squeeze depth + tightening trend (0-30)
+        if bbw_pctile < 15:
+            score += 15
+        elif bbw_pctile < 30:
+            score += 11
+        elif bbw_pctile < 50:
+            score += 6
+        if bbw_slope < -8:
+            score += 15                      # squeezing fast -> spring loaded
+        elif bbw_slope < -4:
+            score += 11
+        elif bbw_slope < -1:
+            score += 6
+
+        # 3) Coil duration (0-15) — longer tight = closer to resolution
+        if squeeze_days >= 12:
+            score += 15
+        elif squeeze_days >= 8:
+            score += 12
+        elif squeeze_days >= 5:
+            score += 8
+        elif squeeze_days >= 3:
+            score += 4
+
+        # 4) Volatility contraction (0-10)
+        if atr_contract < -15:
+            score += 10
+        elif atr_contract < -8:
+            score += 7
+        elif atr_contract < -3:
+            score += 4
+
+        # 5) Relative strength (0-10) — but not already extended
+        if rs_4w > 3:
+            score += 10
+        elif rs_4w > 0:
+            score += 6
+
+        return float(np.clip(score, 0, 100))
+
+    def _expect_horizon(self, dist_res: float, bbw_pctile: float, bbw_slope: float) -> str:
+        """Estimate a rough breakout time window (Turkish label)."""
+        tightening = bbw_pctile < 30 or bbw_slope < -1
+        if dist_res <= 1.5 and tightening:
+            return "1-2 seans"
+        if dist_res <= 4 and tightening:
+            return "3-5 seans"
+        if dist_res <= 8:
+            return "1 hafta"
+        return "birikim"
+
     def _rs_vs_index(self, daily_df: pd.DataFrame, close: pd.Series) -> float:
         if len(daily_df) < 22:
             return 0.0
@@ -147,6 +240,37 @@ class SmallCapScanner:
         bbw = float(width.iloc[-1]) if len(width) else 0.0
         bbw_pctile = float((width.rank(pct=True)).iloc[-1] * 100) if len(width) > 20 else 50.0
 
+        # --- Çıkış öngörüsü: kırılıma hazırlık metrikleri ---
+        # 1) Günde dirence (Donchian üst) mesafe
+        res = snap.donchian_upper_20 if snap.donchian_upper_20 > 0 else snap.price
+        dist_res = (snap.price / res - 1) * 100 if res > 0 else 0.0  # negatif = direncin altında
+
+        # 2) BB genişliği eğimi (kapanıyor mu): son 5 gün
+        bbw_slope = 0.0
+        if len(width) >= 6:
+            bbw_slope = (width.iloc[-1] / width.iloc[-6] - 1) * 100
+
+        # 3) Sıkışma süresi: BB genişliği 20 gün ortalamasının altında kaç gün üst üste
+        squeeze_days = 0
+        if len(width) > 20:
+            w_mean = width.rolling(20).mean()
+            below = width < w_mean
+            for v in below.iloc[::-1]:
+                if v:
+                    squeeze_days += 1
+                else:
+                    break
+
+        # 4) ATR daralma (volatilite sıkışması)
+        atr_contract = 0.0
+        try:
+            atr_series = self.analyzer._calc_atr(df)
+            atr_now = float(atr_series.iloc[-1]) if len(atr_series) else 0.0
+            atr_mean20 = float(atr_series.tail(20).mean()) if len(atr_series) >= 20 else atr_now
+            atr_contract = (atr_now / atr_mean20 - 1) * 100 if atr_mean20 > 0 else 0.0
+        except Exception:
+            atr_contract = 0.0
+
         # 52-week high distance
         n52 = min(252, len(close))
         high_52 = float(high.tail(n52).max())
@@ -155,6 +279,12 @@ class SmallCapScanner:
         # Relative strength vs index (last ~21 sessions)
         ret_stock = float(close.iloc[-1] / close.iloc[-21] - 1) * 100 if len(close) >= 21 else 0.0
         rs_4w = ret_stock - idx_ret_21
+
+        # 5) Öngörü skoru (0-100) — rs_4w tanımlı olduktan sonra
+        anticipation = self._score_anticipation(
+            dist_res, bbw_pctile, bbw_slope, squeeze_days, atr_contract, rs_4w,
+        )
+        horizon = self._expect_horizon(dist_res, bbw_pctile, bbw_slope)
 
         score = 0.0
         reasons: List[str] = []
@@ -233,6 +363,12 @@ class SmallCapScanner:
             "vol_ratio": snap.volume_ratio,
             "rs_4w": rs_4w,
             "atr_pct": (snap.atr_14 / snap.price * 100) if snap.price > 0 and snap.atr_14 > 0 else 0.0,
+            "anticipation_score": anticipation,
+            "dist_to_resistance_pct": dist_res,
+            "bbw_slope_pct": bbw_slope,
+            "squeeze_days": squeeze_days,
+            "atr_contraction_pct": atr_contract,
+            "expect_horizon": horizon,
         }
         return score, stype, reasons, detail
 
@@ -291,6 +427,12 @@ class SmallCapScanner:
                     rs_4w=detail["rs_4w"],
                     donchian_upper=snap.donchian_upper_20,
                     atr_pct=detail["atr_pct"],
+                    anticipation_score=detail["anticipation_score"],
+                    dist_to_resistance_pct=detail["dist_to_resistance_pct"],
+                    bbw_slope_pct=detail["bbw_slope_pct"],
+                    squeeze_days=detail["squeeze_days"],
+                    atr_contraction_pct=detail["atr_contraction_pct"],
+                    expect_horizon=detail["expect_horizon"],
                 ))
             except Exception as e:
                 logger.warning(f"Setup error {symbol}: {e}")
@@ -469,29 +611,38 @@ class SmallCapScanner:
         return "\n".join(lines)
 
     def build_predictions_report(self, candidates: List[SmallCapCandidate], universe_size: int) -> str:
-        """Build a Turkish 'tomorrow breakout predictions' report for when the
-        market is closed. Uses daily setup scores + resistance levels to flag
-        names likely to move at the next open, with clear buy levels."""
+        """Build a Turkish breakout-forecast report: ranks names that are READY
+        to break out (squeeze coiling + close to resistance) and estimates WHEN.
+        This is the predictive layer — sent after market close for next session."""
         from src.utils.timezone import now_turkey
 
         now = now_turkey()
         lines = [
-            "🚀 <b>YARIN İÇİN ALIM ÖNERİLERİ</b>",
+            "🎯 <b>KIRILIM ÖNGÖRÜSÜ — YARIN İÇİN</b>",
             f"🕐 {now.strftime('%d.%m.%Y %H:%M')} · {universe_size} hisse tarandı · piyasa kapalı",
-            "💡 Limit fiyata al, hedefte sat/kar al, stop'un altına düşerse çık.",
-            "🔎 Kırılım seviyesi aşılırsa giriş; öncesinde teyit bekle.",
+            "💡 Kırılıma hazırlanan hisseler (sıkışma + dirence yakınlık).",
+            "🔎 Öngörü: kırılım alarmı ile teyit edilir; limit/stop talimatları hazırdır.",
+            "─" * 30,
         ]
 
-        top = candidates[: self.top_n_report]
-        if not top:
+        # Öngörü skoruna göre sırala, eşik altı elenir
+        pool = [c for c in candidates if c.anticipation_score >= self.min_anticipation_score]
+        pool.sort(key=lambda c: c.anticipation_score, reverse=True)
+        top = pool[: self.top_n_report] or candidates[: self.top_n_report]
+        if not candidates:
             lines.append("Şu an yarın için net aday yok; tarama sürüyor.")
             return "\n".join(lines)
 
         for i, c in enumerate(top, 1):
-            lines.append(f"<b>{i}.</b> " + self._trade_plan_line(c)[0])
-            lines.extend(self._trade_plan_line(c)[1:])
-            if c.donchian_upper > 0:
-                lines.append(f"      🔓 Kırılım seviyesi: {c.donchian_upper:,.2f} USD")
+            plan = self._trade_plan(c)
+            lines.append(
+                f"<b>{i}.</b> 📌 <b>{c.name}</b> (<code>{c.symbol}</code>) | ⏳ {c.expect_horizon}\n"
+                f"   🔮 <b>Öngörü:</b> {c.anticipation_score:.0f}/100 · Sıkışma {c.squeeze_days} gün · Direnç −{max(-c.dist_to_resistance_pct, 0):.1f}%\n"
+                f"   🟢 <b>ALIM LİMİTİ:</b> {plan['limit']:,.2f} | 🎯 <b>HEDEF:</b> {plan['target']:,.2f} (+{plan['upside_pct']:.1f}%) | 🛑 <b>STOP:</b> {plan['stop']:,.2f} (R/K 1:{plan['rr']:.1f})"
+            )
+            if c.news_headline:
+                news_emoji = "🔴" if c.news_score <= -3 else ("🟢" if c.news_score >= 3 else "⚪")
+                lines.append(f"      {news_emoji} {c.news_headline[:60]}")
             lines.append("")
         lines.append("⚠️ <i>Otomatik üretilmiştir, yatırım tavsiyesi değildir.</i>")
         return "\n".join(lines)

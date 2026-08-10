@@ -286,6 +286,14 @@ smallcap:
   sl_atr_multiplier: 1.0            # Zarar kes = limit - ATR x bu çarpan
   tp_atr_multiplier: 2.0            # Hedef     = limit + ATR x bu çarpan
 
+  # --- KIRILIM ÖNGÖRÜSÜ (önceden bul) ---
+  # Amaç kırılımı gerçekleşince yakalamak değil, önce tespit etmektir.
+  # Her seans kapanışında "KIRILIM ÖNGÖRÜSÜ" raporu gönderilir:
+  anticipation:
+    enabled: true
+    min_score: 55                 # bu puanın altındakiler öngörü raporunda elenir
+    report_on_close: true         # seans kapanışında (piyasa kapalıyken) günde 1 kez
+
   # --- Davranış ---
   trade_hours_only: true            # true: breakout alarmı sadece piyasa açıkken
                                     # false: 7/24 çalışır (veri yine seans bazlıdır)

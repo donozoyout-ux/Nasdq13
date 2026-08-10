@@ -363,8 +363,10 @@ class SignalBot:
             logger.error(f"Small-cap setup report failed: {e}")
 
     async def _run_smallcap_predictions_report(self, candidates, universe_size):
-        """Send the 'tomorrow breakout predictions' report once per day.
-        Runs when the market is closed to give next-session outlook."""
+        """Send the 'kırılım öngörüsü' report once per day at market close.
+        Runs when the market is closed to give next-session breakout forecast."""
+        if not self.config.get("smallcap", {}).get("anticipation", {}).get("enabled", True):
+            return
         try:
             date_key = datetime.utcnow().strftime("%Y-%m-%d")
             if self.state.is_smallcap_predictions_sent(date_key):
@@ -409,6 +411,9 @@ class SignalBot:
                         "change_pct": c.get("change_pct", 0),
                         "setup_score": c.get("setup_score", 0),
                         "setup_type": c.get("setup_type", "watch"),
+                        "anticipation_score": c.get("anticipation_score", 0),
+                        "expect_horizon": c.get("expect_horizon", "birikim"),
+                        "squeeze_days": int(c.get("squeeze_days", 0)),
                         "trigger_type": c.get("trigger_type"),
                         "news_score": c.get("news_score", 0),
                     }
@@ -438,6 +443,12 @@ class SignalBot:
                 vol_ratio=d.get("vol_ratio", 1.0),
                 rs_4w=d.get("rs_4w", 0),
                 donchian_upper=d.get("donchian_upper", 0),
+                anticipation_score=d.get("anticipation_score", 0),
+                dist_to_resistance_pct=d.get("dist_to_resistance_pct", 0),
+                bbw_slope_pct=d.get("bbw_slope_pct", 0),
+                squeeze_days=int(d.get("squeeze_days", 0)),
+                atr_contraction_pct=d.get("atr_contraction_pct", 0),
+                expect_horizon=d.get("expect_horizon", "birikim"),
                 trigger_score=d.get("trigger_score", 0),
                 trigger_type=d.get("trigger_type"),
                 trigger_reasons=d.get("trigger_reasons", []),
@@ -498,8 +509,7 @@ class SignalBot:
             trade_hours_only = self.config.get("smallcap", {}).get("trade_hours_only", True)
 
             if trade_hours_only and not market_open:
-                logger.info(f"Small-cap: piyasa kapalı ({status.get('session')}), setup + yarın tahmini üretiliyor")
-                await self._run_smallcap_setup_report(candidates, len(universe))
+                logger.info(f"Small-cap: piyasa kapalı ({status.get('session')}), öngörü raporu üretiliyor")
                 await self._run_smallcap_predictions_report(candidates, len(universe))
                 self._persist_smallcap_scan(closed=True)
                 self.smallcap_last_scan = datetime.utcnow()
