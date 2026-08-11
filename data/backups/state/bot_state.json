@@ -5,7 +5,8 @@
     "2026-08-11": "2026-08-11T16:39:12.877526"
   },
   "smallcap_alerts_sent": {
-    "RGEN:2026-08-11": "2026-08-11T17:16:10.615167"
+    "RGEN:2026-08-11": "2026-08-11T17:16:10.615167",
+    "NAVN:2026-08-11": "2026-08-11T19:46:11.183230"
   },
   "smallcap_setup_sent": {
     "2026-08-11": "2026-08-11T16:40:54.677125"
@@ -1520,12 +1521,149 @@
           "news_score": 0.0
         }
       ]
+    },
+    {
+      "time": "2026-08-11T19:46:11.187740",
+      "universe_size": 250,
+      "closed": false,
+      "candidates": [
+        {
+          "symbol": "KMX",
+          "name": "CarMax Inc",
+          "price": 58.66,
+          "change_pct": -0.2,
+          "setup_score": 87.2,
+          "setup_type": "squeeze",
+          "anticipation_score": 56.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 6,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "YMM",
+          "name": "Full Truck Alliance Co. Ltd. American Depositary Shares (each representing 20 Class A Ordinary Shares)",
+          "price": 9.34,
+          "change_pct": -3.76,
+          "setup_score": 84.0,
+          "setup_type": "squeeze",
+          "anticipation_score": 67.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 13,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "IMVT",
+          "name": "Immunovant, Inc. Common Stock",
+          "price": 40.4,
+          "change_pct": 1.29,
+          "setup_score": 80.2,
+          "setup_type": "squeeze",
+          "anticipation_score": 59.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 23,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "SYRE",
+          "name": "Spyre Therapeutics, Inc. Common Stock",
+          "price": 102.39,
+          "change_pct": -2.79,
+          "setup_score": 79.8,
+          "setup_type": "squeeze",
+          "anticipation_score": 48.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 25,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "UHS",
+          "name": "Universal Health Services, Inc. Common Stock",
+          "price": 169.24,
+          "change_pct": -2.02,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "AWI",
+          "name": "Armstrong World Industries Inc Common Stock",
+          "price": 187.05,
+          "change_pct": 2.02,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "DBX",
+          "name": "Dropbox, Inc. Class A Common Stock",
+          "price": 34.1,
+          "change_pct": -1.43,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "CLF",
+          "name": "Cleveland-Cliffs Inc. Common Stock",
+          "price": 12.4,
+          "change_pct": -0.76,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "TAL",
+          "name": "TAL Education Group American Depositary Shares",
+          "price": 12.15,
+          "change_pct": -2.76,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "BOKF",
+          "name": "BOK Financial Corporation Common Stock",
+          "price": 144.08,
+          "change_pct": 0.64,
+          "setup_score": 75.7,
+          "setup_type": "squeeze",
+          "anticipation_score": 66.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 22,
+          "trigger_type": "none",
+          "news_score": 0.0
+        }
+      ]
     }
   ],
-  "last_scan_time": "2026-08-11T19:27:44.640886",
+  "last_scan_time": "2026-08-11T19:45:46.628744",
   "stats": {
     "total_signals": 0,
-    "total_scans": 165,
+    "total_scans": 183,
     "last_signal": null
   },
   "created_at": "2026-08-11T16:36:52.375361",
@@ -3010,6 +3148,28 @@
       "limit": 25.07080078125,
       "target": 25.300231423980645,
       "stop": 24.956085459884676,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
+    "FORM": {
+      "first_seen": "2026-08-11T19:46:11.192835",
+      "first_price": 120.89,
+      "limit": 121.58999633789062,
+      "target": 142.1647941891874,
+      "stop": 111.30259741224224,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
+    "OSK": {
+      "first_seen": "2026-08-11T19:46:11.192835",
+      "first_price": 156.19,
+      "limit": 160.67999267578125,
+      "target": 171.84051553595606,
+      "stop": 155.09973124569385,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
