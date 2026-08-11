@@ -1109,12 +1109,149 @@
           "news_score": 0.0
         }
       ]
+    },
+    {
+      "time": "2026-08-11T18:52:04.741135",
+      "universe_size": 250,
+      "closed": false,
+      "candidates": [
+        {
+          "symbol": "KMX",
+          "name": "CarMax Inc",
+          "price": 58.83,
+          "change_pct": 0.09,
+          "setup_score": 87.7,
+          "setup_type": "squeeze",
+          "anticipation_score": 60.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 6,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "YMM",
+          "name": "Full Truck Alliance Co. Ltd. American Depositary Shares (each representing 20 Class A Ordinary Shares)",
+          "price": 9.37,
+          "change_pct": -3.4,
+          "setup_score": 84.7,
+          "setup_type": "squeeze",
+          "anticipation_score": 67.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 13,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "IMVT",
+          "name": "Immunovant, Inc. Common Stock",
+          "price": 40.49,
+          "change_pct": 1.5,
+          "setup_score": 83.6,
+          "setup_type": "squeeze",
+          "anticipation_score": 59.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 23,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "SYRE",
+          "name": "Spyre Therapeutics, Inc. Common Stock",
+          "price": 101.76,
+          "change_pct": -3.38,
+          "setup_score": 79.1,
+          "setup_type": "squeeze",
+          "anticipation_score": 48.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 25,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "UHS",
+          "name": "Universal Health Services, Inc. Common Stock",
+          "price": 169.31,
+          "change_pct": -1.99,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "AVT",
+          "name": "Avnet, Inc. Common Stock",
+          "price": 96.77,
+          "change_pct": -0.65,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "AWI",
+          "name": "Armstrong World Industries Inc Common Stock",
+          "price": 186.45,
+          "change_pct": 1.69,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "CLF",
+          "name": "Cleveland-Cliffs Inc. Common Stock",
+          "price": 12.39,
+          "change_pct": -0.84,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "TAL",
+          "name": "TAL Education Group American Depositary Shares",
+          "price": 12.23,
+          "change_pct": -2.2,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "BOKF",
+          "name": "BOK Financial Corporation Common Stock",
+          "price": 144.31,
+          "change_pct": 0.8,
+          "setup_score": 75.7,
+          "setup_type": "squeeze",
+          "anticipation_score": 66.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 22,
+          "trigger_type": "none",
+          "news_score": 0.0
+        }
+      ]
     }
   ],
-  "last_scan_time": "2026-08-11T18:33:37.638137",
+  "last_scan_time": "2026-08-11T18:51:39.529493",
   "stats": {
     "total_signals": 0,
-    "total_scans": 111,
+    "total_scans": 129,
     "last_signal": null
   },
   "created_at": "2026-08-11T16:36:52.375361",
@@ -2500,10 +2637,10 @@
       "limit": 83.69999694824219,
       "target": 87.13991048343293,
       "stop": 81.98004018064682,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-11T18:52:04.829516"
     },
     "LOAR": {
       "first_seen": "2026-08-11T18:15:53.440861",
@@ -2544,10 +2681,10 @@
       "limit": 139.57000732421875,
       "target": 146.07529941511808,
       "stop": 136.31736127876908,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-11T18:52:04.829516"
     },
     "VLY": {
       "first_seen": "2026-08-11T18:34:02.337308",
@@ -2555,10 +2692,10 @@
       "limit": 15.199999809265137,
       "target": 15.787879665641647,
       "stop": 14.906059881076882,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-11T18:52:04.829516"
     },
     "AOS": {
       "first_seen": "2026-08-11T18:34:02.337308",
@@ -2566,6 +2703,39 @@
       "limit": 64.38014147188119,
       "target": 68.0574957864701,
       "stop": 62.54146431458673,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
+    "CAMT": {
+      "first_seen": "2026-08-11T18:52:04.829516",
+      "first_price": 161.8,
+      "limit": 170.17999267578125,
+      "target": 193.3536525815237,
+      "stop": 158.59316272291002,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
+    "ALV": {
+      "first_seen": "2026-08-11T18:52:04.829516",
+      "first_price": 122.3,
+      "limit": 126.9000015258789,
+      "target": 133.1568573525603,
+      "stop": 123.7715736125382,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
+    "ONBPP": {
+      "first_seen": "2026-08-11T18:52:04.829516",
+      "first_price": 25.02,
+      "limit": 25.07080078125,
+      "target": 25.300231423980645,
+      "stop": 24.956085459884676,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
