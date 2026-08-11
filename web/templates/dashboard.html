@@ -167,8 +167,7 @@
     </div>
 
     <div class="card">
-        <h2><span class="dot green"></span> Piyasa Analizi (Teknik + Haber)</h2>
-        <div class="last-updated" id="lastUpdated">-</div>
+        <h2><span class="dot green"></span> Piyasa Analizi (Teknik + Haber)</h2>        <div class="last-updated" id="lastUpdated">-</div>
         <div style="overflow-x:auto;">
             <table id="marketTable">
                 <thead>
@@ -487,7 +486,27 @@
             const tfs = data.config.timeframes || [];
             let rows = '';
             if (Object.keys(data.market || {}).length === 0) {
-                rows = '<tr><td colspan="8" class="empty">İlk tarama bekleniyor...</td></tr>';
+                // Fallback: besle "Piyasa Analizi" tablosunu mid-cap adaylarından
+                const cands = (data.smallcap || {}).candidates || [];
+                if (cands.length > 0) {
+                    cands.forEach(c => {
+                        const chg = c.change_pct;
+                        const newsScore = c.news_score != null ? c.news_score.toFixed(1) : '-';
+                        const newsIcon = (c.news_score || 0) <= -3 ? '🔴' : ((c.news_score || 0) >= 3 ? '🟢' : '⚪');
+                        rows += `<tr class="symbol-row">
+                            <td>${c.symbol}</td>
+                            <td class="mono">${fmtPrice(c.price)}</td>
+                            <td class="price-change ${chg >= 0 ? 'pc-up' : 'pc-down'}">${fmtPct(chg)}</td>
+                            <td><span class="score ${scoreClass(c.setup_score)}">${scoreLabel(c.setup_score)} (${c.setup_score != null ? c.setup_score.toFixed(0) : '-'})</span></td>
+                            <td>${c.rsi_14 != null ? c.rsi_14.toFixed(1) : '-'}</td>
+                            <td>${c.vol_ratio != null ? c.vol_ratio.toFixed(1) + 'x' : '-'}</td>
+                            <td>${newsIcon} ${newsScore}${c.news_headline ? ' <span style="font-size:11px;color:var(--muted)">' + c.news_headline.slice(0, 40) + '</span>' : ''}</td>
+                            <td>${c.trigger_type ? '🚨 ' + c.trigger_type : (c.setup_type || '-')}</td>
+                        </tr>`;
+                    });
+                } else {
+                    rows = '<tr><td colspan="8" class="empty">İlk tarama bekleniyor...</td></tr>';
+                }
             } else {
                 symbols.forEach(sym => {
                     const tfsData = data.market[sym] || {};
