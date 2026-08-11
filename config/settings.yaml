@@ -165,6 +165,17 @@ risk:
   max_daily_signals: 50
   min_risk_reward_ratio: 1.5
 
+# Bütçe Bazlı Öneri
+# Kullanıcının TL bütçesi güncel kura göre USD'ye çevrilir; sistem her aday için
+# kaç adet alınabileceğini, toplam pozisyon büyüklüğünü, stop zararını ve
+# hedef kârı (USD + TL) hesaplar.
+budget:
+  budget_try: 3200          # Türk Lirası bütçe
+  usd_try_rate: 47.74       # güncel kur (USD/TRY) - env: USD_TRY_RATE
+  risk_per_trade_pct: 2.0   # tek pozisyon başına riske edilecek bütçe %'si
+  commission_pct: 0.5       # komisyon/brokeraj tahmini (%, maliyet hesabında)
+  max_trades: 3             # bütçe aynı anda kaç pozisyona bölünebilir
+
 # Market Hours
 # Saatler New York (America/New_York) saatine göre tanimlidir; DST otomatik yonetilir.
 # Turkce goruntuleme Europe/Istanbul (TURKIYE, UTC+3) uzerinden yapilir.

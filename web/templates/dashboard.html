@@ -156,6 +156,14 @@
             <div class="label">Takip Edilen</div>
             <div class="value green" id="statSymbols">-</div>
         </div>
+        <div class="stat-card">
+            <div class="label">Bütçe (kur 47,74)</div>
+            <div class="value green" id="statBudget" style="font-size:16px; margin-top:16px;">-</div>
+        </div>
+        <div class="stat-card">
+            <div class="label">Öngörü İsabeti</div>
+            <div class="value blue" id="statHitrate" style="font-size:16px; margin-top:16px;">-</div>
+        </div>
     </div>
 
     <div class="card">
@@ -177,6 +185,32 @@
                 </thead>
                 <tbody id="marketBody">
                     <tr><td colspan="8" class="empty">Veri bekleniyor...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2><span class="dot yellow"></span> Bugünün Adayları — Bütçe Bazlı Pozisyon Planı</h2>
+        <div class="last-updated" id="candidatesInfo">-</div>
+        <div style="overflow-x:auto;">
+            <table id="candidatesTable">
+                <thead>
+                    <tr>
+                        <th>Hisse</th>
+                        <th>Setup</th>
+                        <th>Fiyat</th>
+                        <th>Setup Skor</th>
+                        <th>Öngörü</th>
+                        <th>Limit</th>
+                        <th>Hedef</th>
+                        <th>Stop</th>
+                        <th>Pozisyon</th>
+                        <th>Grafik</th>
+                    </tr>
+                </thead>
+                <tbody id="candidatesBody">
+                    <tr><td colspan="10" class="empty">Aday bekleniyor...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -302,6 +336,46 @@
     };
     const actionClass = (a) => (a || '').toLowerCase().replace(' ', '_');
 
+    function renderCandidates(cands, bgt) {
+        const body = document.getElementById('candidatesBody');
+        const info = document.getElementById('candidatesInfo');
+        if (!body) return;
+        if (!cands || cands.length === 0) {
+            body.innerHTML = '<tr><td colspan="9" class="empty">Aday bekleniyor...</td></tr>';
+            return;
+        }
+        info.textContent = (bgt.budget_try || 0).toLocaleString('tr-TR') + ' TL ≈ $' +
+            ((bgt.budget_usd || 0).toFixed(0)) + ' · kur ' + (bgt.usd_try_rate || '-');
+        body.innerHTML = cands.map(c => {
+            const bp = c.budget_plan || {};
+            const tp = c.trade_plan || {};
+            const tv = 'https://www.tradingview.com/chart/?symbol=' + c.symbol;
+            const shares = bp.shares || 0;
+            const affordable = shares > 0;
+            const posTxt = affordable
+                ? `${shares} adet = $${bp.position_usd != null ? bp.position_usd.toFixed(2) : '-'} (~${bp.position_try != null ? Math.round(bp.position_try) : '-'} TL)`
+                : '<span style="color:#f87171">Bütçe yetmiyor</span>';
+            const riskTxt = affordable
+                ? `$${bp.risk_usd != null ? bp.risk_usd.toFixed(2) : '-'} (~${bp.risk_try != null ? Math.round(bp.risk_try) : '-'} TL)`
+                : '-';
+            const rewTxt = affordable
+                ? `$${bp.reward_usd != null ? bp.reward_usd.toFixed(2) : '-'} (~${bp.reward_try != null ? Math.round(bp.reward_try) : '-'} TL)`
+                : '-';
+            return `<tr>
+                <td><span class="symbol-badge">${c.symbol}</span><div style="font-size:11px;color:var(--muted)">${c.name || ''}</div></td>
+                <td><span class="tag">${c.setup_type || '-'}</span></td>
+                <td class="mono">${fmtPrice(c.price)}</td>
+                <td class="mono">${c.setup_score != null ? c.setup_score.toFixed(0) : '-'}</td>
+                <td class="mono">${c.anticipation_score != null ? c.anticipation_score.toFixed(0) : '-'}</td>
+                <td class="mono">${tp.limit != null ? '$' + tp.limit.toFixed(2) : '-'}</td>
+                <td class="mono">${tp.target != null ? '$' + tp.target.toFixed(2) : '-'} <span style="color:var(--muted)">(+${tp.upside_pct != null ? tp.upside_pct.toFixed(1) : '-'}%)</span></td>
+                <td class="mono">${tp.stop != null ? '$' + tp.stop.toFixed(2) : '-'}</td>
+                <td>${posTxt}<br><span style="font-size:11px;color:var(--muted)">Risk ${riskTxt} · Hedef ${rewTxt}</span></td>
+                <td><a href="${tv}" target="_blank" rel="noopener" style="color:#10b981;text-decoration:none;font-size:12px">TV ↗</a></td>
+            </tr>`;
+        }).join('');
+    }
+
     async function refresh() {
         try {
             const data = await (await fetch('/api/dashboard')).json();
@@ -375,6 +449,37 @@
                 (data.stats && data.stats.total_signals) || 0;
             document.getElementById('statLastScan').textContent = fmtTime(lastScanLabel);
             document.getElementById('statSymbols').textContent = followedLabel;
+
+            // Budget stat card
+            const bgt = data.budget || {};
+            const bgtEl = document.getElementById('statBudget');
+            if (bgt.budget_try) {
+                bgtEl.textContent = bgt.budget_try.toLocaleString('tr-TR') + ' TL ≈ $' +
+                    (bgt.budget_usd != null ? bgt.budget_usd.toFixed(0) : '-');
+                bgtEl.title = 'Kur: ' + (bgt.usd_try_rate || '-') +
+                    ' · Pozisyon başı max ~$' + ((bgt.budget_usd || 0) / (bgt.max_trades || 3)).toFixed(0);
+            } else {
+                bgtEl.textContent = 'Tanımlı değil';
+            }
+
+            // Budget-based candidate table (with TradingView links + position plan)
+            renderCandidates((data.smallcap || {}).candidates || [], (data.budget || {}));
+
+            // Prediction hit-rate stat
+            const pr = data.predictions || {};
+            const phrEl = document.getElementById('statHitrate');
+            if (pr.hit_rate_pct != null) {
+                phrEl.textContent = '%' + pr.hit_rate_pct.toFixed(1) +
+                    ' (' + ((pr.breakout || 0) + (pr.hit || 0)) + '/' + ((pr.total || 0) - (pr.open || 0)) + ')';
+                phrEl.title = 'Toplam ' + (pr.total || 0) +
+                    ' · Açık ' + (pr.open || 0) +
+                    ' · Kırılım ' + (pr.breakout || 0) +
+                    ' · Hedef ' + (pr.hit || 0) +
+                    ' · Stop ' + (pr.stop || 0) +
+                    ' · Süresi doldu ' + (pr.expired || 0);
+            } else {
+                phrEl.textContent = 'Veri birikiyor';
+            }
 
             // Market table
             const mBody = document.getElementById('marketBody');

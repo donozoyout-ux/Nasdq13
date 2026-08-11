@@ -223,3 +223,107 @@ class StateManager:
             max_hist = self.config.get("state", {}).get("max_signal_history", 1000)
             self.state["weekly_reports"] = self.state["weekly_reports"][-max_hist:]
         self.save()
+
+    # ------------------------------------------------------------------
+    # Prediction tracker (live backtest of small-cap recommendations)
+    # ------------------------------------------------------------------
+
+    def update_prediction_tracker(self, candidates: List[Dict[str, Any]]) -> None:
+        """Track each recommended candidate's limit/target/stop against later prices.
+
+        Every scan we walk the latest candidate dicts (which include trade_plan)
+        and record whether each symbol has broken out (price >= limit), hit its
+        target, or stopped out. Used to compute a live hit-rate metric.
+        """
+        track = self.state.setdefault("prediction_tracker", {})
+        now = datetime.utcnow().isoformat()
+
+        for d in candidates:
+            sym = d.get("symbol")
+            if not sym:
+                continue
+            price = d.get("price") or 0
+            tp = d.get("trade_plan") or {}
+            limit = tp.get("limit") or 0
+            target = tp.get("target") or 0
+            stop = tp.get("stop") or 0
+            if limit <= 0 or price <= 0:
+                continue
+
+            rec = track.get(sym)
+            if rec is None:
+                track[sym] = {
+                    "first_seen": now,
+                    "first_price": price,
+                    "limit": limit,
+                    "target": target,
+                    "stop": stop,
+                    "status": "open",          # open | breakout | target_hit | stopped_out | expired
+                    "outcome": None,           # None | breakout | hit | stop | expired
+                    "breakout_at": None,
+                    "resolved_at": None,
+                }
+                continue
+
+            if rec.get("status") not in ("open", "breakout"):
+                continue
+
+            # breakout occurred: price crossed above the entry limit
+            if rec["status"] == "open" and price >= limit and rec.get("first_price", 0) < limit:
+                rec["status"] = "breakout"
+                rec["outcome"] = "breakout"
+                rec["breakout_at"] = now
+
+            if rec["status"] == "breakout":
+                if target > 0 and price >= target:
+                    rec["status"] = "target_hit"
+                    rec["outcome"] = "hit"
+                    rec["resolved_at"] = now
+                elif stop > 0 and price <= stop:
+                    rec["status"] = "stopped_out"
+                    rec["outcome"] = "stop"
+                    rec["resolved_at"] = now
+            elif rec["status"] == "open":
+                if stop > 0 and price <= stop:
+                    rec["status"] = "stopped_out"
+                    rec["outcome"] = "stop"
+                    rec["resolved_at"] = now
+
+        # expire open entries older than 7 days (setup stale)
+        cutoff = (datetime.utcnow() - timedelta(days=7)).isoformat()
+        for sym in list(track.keys()):
+            rec = track[sym]
+            if rec.get("status") == "open" and rec.get("first_seen", "") < cutoff:
+                rec["status"] = "expired"
+                rec["outcome"] = "expired"
+                rec["resolved_at"] = datetime.utcnow().isoformat()
+
+        self.save()
+
+    def get_prediction_stats(self) -> Dict[str, Any]:
+        """Aggregate the live backtest: hit rate of recommended candidates."""
+        track = self.state.get("prediction_tracker", {}) or {}
+        total = len(track)
+        if total == 0:
+            return {
+                "total": 0, "open": 0, "breakout": 0, "hit": 0,
+                "stop": 0, "expired": 0, "hit_rate_pct": None,
+            }
+        counts = {"open": 0, "breakout": 0, "hit": 0, "stop": 0, "expired": 0}
+        for rec in track.values():
+            st = rec.get("status", "open")
+            # normalize status names: target_hit counts as hit
+            key = "hit" if st == "target_hit" else st
+            counts[key] = counts.get(key, 0) + 1
+        resolved = counts["breakout"] + counts["hit"] + counts["stop"] + counts["expired"]
+        favorable = counts["breakout"] + counts["hit"]
+        hit_rate = (favorable / resolved * 100.0) if resolved else None
+        return {
+            "total": total,
+            "open": counts["open"],
+            "breakout": counts["breakout"],
+            "hit": counts["hit"],
+            "stop": counts["stop"],
+            "expired": counts["expired"],
+            "hit_rate_pct": round(hit_rate, 1) if hit_rate is not None else None,
+        }

@@ -80,6 +80,13 @@ def load_config() -> Dict[str, Any]:
     if os.getenv("SMALLCAP_SCAN_INTERVAL_MINUTES", ""):
         sc["scan_interval_minutes"] = int(os.getenv("SMALLCAP_SCAN_INTERVAL_MINUTES"))
 
+    # Budget overrides (bütçe bazlı öneri)
+    bgt = config.setdefault("budget", {})
+    if os.getenv("BUDGET_TRY", ""):
+        bgt["budget_try"] = float(os.getenv("BUDGET_TRY"))
+    if os.getenv("USD_TRY_RATE", ""):
+        bgt["usd_try_rate"] = float(os.getenv("USD_TRY_RATE"))
+
     return config
 
 
@@ -511,6 +518,11 @@ class SignalBot:
                 ],
             }
             self.state.record_scan_history(snapshot)
+            # Live backtest: recommend edilen adayların limit/hedef/stop takibi
+            try:
+                self.state.update_prediction_tracker(self.smallcap_candidates)
+            except Exception as e:
+                logger.error(f"Prediction tracker update failed: {e}")
             # GitHub backup: her tarama JSON olarak archive branch'ına yazılır
             day = snapshot["time"][:10]
             stamp = snapshot["time"][:19].replace(":", "").replace("T", "T")
@@ -604,7 +616,7 @@ class SignalBot:
 
             candidates = await self._enrich_candidates_with_news(candidates)
 
-            top_dicts = [c.to_dict() for c in candidates]
+            top_dicts = [c.with_plans(self.smallcap_scanner) for c in candidates]
             self.smallcap_candidates = top_dicts
 
             # Default: no trigger scan pre-market/after-hours
@@ -632,7 +644,7 @@ class SignalBot:
             for c in watch:
                 updated[c.symbol] = c
             final_list = []
-            for cd in (c.to_dict() for c in candidates):
+            for cd in (c.with_plans(self.smallcap_scanner) for c in candidates):
                 if cd["symbol"] in updated:
                     rc = updated[cd["symbol"]]
                     cd.update(rc.to_dict())
@@ -820,6 +832,12 @@ class SignalBot:
 
         mkt_status = market_status(self.config)
 
+        budget = self.config.get("budget", {}) or {}
+        budget_usd = 0.0
+        rate = float(budget.get("usd_try_rate", 0) or 0)
+        if rate > 0:
+            budget_usd = float(budget.get("budget_try", 0) or 0) / rate
+
         smallcap_info = {
             "enabled": self.smallcap_scanner is not None,
             "universe_size": self.smallcap_universe_size,
@@ -827,6 +845,14 @@ class SignalBot:
             "scan_interval_minutes": self._smallcap_scan_interval() // 60,
             "candidates": self.smallcap_candidates[: self.config.get("smallcap", {}).get("top_n_report", 10)],
             "scan_history": self.state.get_scan_history(limit=50),
+        }
+
+        budget_info = {
+            "budget_try": float(budget.get("budget_try", 0) or 0),
+            "usd_try_rate": rate,
+            "budget_usd": round(budget_usd, 2),
+            "risk_per_trade_pct": float(budget.get("risk_per_trade_pct", 2.0) or 2.0),
+            "max_trades": int(budget.get("max_trades", 3) or 3),
         }
 
         return {
@@ -855,5 +881,7 @@ class SignalBot:
             "weekly_report": self.last_weekly_report,
             "daily_brief": self.last_daily_brief,
             "smallcap": smallcap_info,
+            "budget": budget_info,
+            "predictions": self.state.get_prediction_stats(),
             "backup": self.backup_status,
         }

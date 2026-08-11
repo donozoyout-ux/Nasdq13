@@ -90,6 +90,13 @@ class SmallCapCandidate:
             "news_source": self.news_source,
         }
 
+    def with_plans(self, scanner: "SmallCapScanner") -> Dict[str, Any]:
+        """Return to_dict() enriched with trade/budget plans (computed by scanner)."""
+        d = self.to_dict()
+        d["trade_plan"] = scanner._trade_plan(self)
+        d["budget_plan"] = scanner._budget_plan(self)
+        return d
+
 
 SETUP_TR = {
     "squeeze": "Sıkışma (Squeeze)",
@@ -537,6 +544,91 @@ class SmallCapScanner:
     # Report builders (Turkish) - net ALIM TALİMATI formatı
     # ------------------------------------------------------------------
 
+    def _budget_config(self) -> Dict[str, Any]:
+        """Read user budget config (TL budget -> USD via live/set rate)."""
+        b = self.config.get("budget", {}) or {}
+        budget_try = float(b.get("budget_try", 3200))
+        rate = float(b.get("usd_try_rate", 47.74))
+        risk_pct = float(b.get("risk_per_trade_pct", 2.0))
+        commission_pct = float(b.get("commission_pct", 0.5))
+        max_trades = int(b.get("max_trades", 3))
+        return {
+            "budget_try": budget_try,
+            "usd_try_rate": rate,
+            "budget_usd": budget_try / rate if rate > 0 else 0.0,
+            "risk_per_trade_pct": risk_pct,
+            "commission_pct": commission_pct,
+            "max_trades": max_trades,
+        }
+
+    def _budget_plan(self, c: SmallCapCandidate) -> Dict[str, Any]:
+        """Compute how many shares of a candidate fit the user's budget.
+
+        Uses the trade plan's limit price and ATR stop/target. Shares are
+        whole-number (no fractional), so a price higher than the whole budget
+        is flagged as unaffordable. Returns USD + TL figures.
+        """
+        bc = self._budget_config()
+        plan = self._trade_plan(c)
+        limit = plan["limit"]
+        target = plan["target"]
+        stop = plan["stop"]
+
+        budget_usd = bc["budget_usd"]
+        # per-trade allocation: max(whole budget / max_trades, price of 1 share)
+        alloc_usd = budget_usd / max(bc["max_trades"], 1)
+
+        # max whole shares affordable within allocation; if the per-trade slice
+        # is too small for one share but the FULL budget can cover it, allow 1 share
+        shares = int(alloc_usd // limit) if limit > 0 and alloc_usd >= limit else 0
+        if shares == 0 and limit > 0 and budget_usd >= limit:
+            shares = 1
+
+        position_usd = shares * limit
+        position_try = position_usd * bc["usd_try_rate"]
+        risk_usd = shares * (limit - stop) if stop > 0 and limit > stop else 0.0
+        reward_usd = shares * (target - limit) if target > limit else 0.0
+
+        affordable = shares > 0
+        budget_enough_for_one = limit <= budget_usd
+
+        return {
+            "shares": shares,
+            "position_usd": position_usd,
+            "position_try": position_try,
+            "risk_usd": risk_usd,
+            "risk_try": risk_usd * bc["usd_try_rate"],
+            "reward_usd": reward_usd,
+            "reward_try": reward_usd * bc["usd_try_rate"],
+            "limit": limit,
+            "target": target,
+            "stop": stop,
+            "upside_pct": plan["upside_pct"],
+            "rr": plan["rr"],
+            "affordable": affordable,
+            "budget_enough_for_one": budget_enough_for_one,
+            "budget_usd": budget_usd,
+            "alloc_usd": alloc_usd,
+        }
+
+    def _budget_plan_line(self, c: SmallCapCandidate) -> List[str]:
+        """HTML lines showing the budget-based position plan for a candidate."""
+        b = self._budget_plan(c)
+        bc = self._budget_config()
+        rate = bc["usd_try_rate"]
+        if not b["affordable"]:
+            need = b["limit"]
+            if not b["budget_enough_for_one"]:
+                msg = f"   ⚠️ <b>BÜTÇE YETMİYOR:</b> 1 adet ≈ {need:,.2f} USD (bütçe {bc['budget_usd']:,.0f} USD)"
+            else:
+                msg = f"   ⚠️ <b>BÜTÇE YETMİYOR:</b> en az {need:,.2f} USD gerekir (pozisyon payı {b['alloc_usd']:,.0f} USD)"
+            return [msg]
+        lines = [
+            f"   💰 <b>POZİSYON:</b> {b['shares']} adet × {b['limit']:,.2f} = <b>{b['position_usd']:,.2f} USD</b> (~{b['position_try']:,.0f} TL)",
+            f"   🛑 <b>STOP ZARARI:</b> {b['risk_usd']:,.2f} USD (~{b['risk_try']:,.0f} TL) · 🎯 <b>HEDEF KÂR:</b> {b['reward_usd']:,.2f} USD (~{b['reward_try']:,.0f} TL)",
+        ]
+        return lines
+
     def _trade_plan(self, c: SmallCapCandidate) -> Dict[str, float]:
         """Compute a clear buy instruction from a candidate using ATR:
         - limit: entry price (breakout level or current price)
@@ -589,10 +681,19 @@ class SmallCapScanner:
             "💡 Limit fiyata al, hedefte sat/kar al, stop'un altına düşerse çık.",
         ]
 
+    def _budget_line(self) -> str:
+        """Short summary of the user's trading budget (TL + USD)."""
+        bc = self._budget_config()
+        return (
+            f"{bc['budget_try']:,.0f} TL ≈ {bc['budget_usd']:,.0f} USD "
+            f"(kur {bc['usd_try_rate']:.2f}) · pozisyon başına maks ~{bc['budget_usd'] / max(bc['max_trades'], 1):,.0f} USD"
+        )
+
     def build_setup_report(self, candidates: List[SmallCapCandidate], universe_size: int) -> str:
         """Build a Turkish setup report with compact buy instructions (top scorers)."""
         lines = self._format_alert_header()
         lines.append(f"🔎 {universe_size} hisse tarandı · <b>Top {self.top_n_report}:</b>")
+        lines.append(f"💵 Bütçe: {self._budget_line()}")
         lines.append("─" * 30)
 
         top = candidates[: self.top_n_report]
@@ -603,6 +704,7 @@ class SmallCapScanner:
         for i, c in enumerate(top, 1):
             lines.append(f"<b>{i}.</b> " + self._trade_plan_line(c)[0])
             lines.extend(self._trade_plan_line(c)[1:])
+            lines.extend(self._budget_plan_line(c))
             if c.news_headline:
                 news_emoji = "🔴" if c.news_score <= -3 else ("🟢" if c.news_score >= 3 else "⚪")
                 lines.append(f"      {news_emoji} {c.news_headline[:60]}")
@@ -621,6 +723,7 @@ class SmallCapScanner:
             "🎯 <b>KIRILIM ÖNGÖRÜSÜ — YARIN İÇİN</b>",
             f"🕐 {now.strftime('%d.%m.%Y %H:%M')} · {universe_size} hisse tarandı · piyasa kapalı",
             "💡 Kırılıma hazırlanan hisseler (sıkışma + dirence yakınlık).",
+            f"💵 Bütçe: {self._budget_line()}",
             "🔎 Öngörü: kırılım alarmı ile teyit edilir; limit/stop talimatları hazırdır.",
             "─" * 30,
         ]
@@ -640,6 +743,7 @@ class SmallCapScanner:
                 f"   🔮 <b>Öngörü:</b> {c.anticipation_score:.0f}/100 · Sıkışma {c.squeeze_days} gün · Direnç −{max(-c.dist_to_resistance_pct, 0):.1f}%\n"
                 f"   🟢 <b>ALIM LİMİTİ:</b> {plan['limit']:,.2f} | 🎯 <b>HEDEF:</b> {plan['target']:,.2f} (+{plan['upside_pct']:.1f}%) | 🛑 <b>STOP:</b> {plan['stop']:,.2f} (R/K 1:{plan['rr']:.1f})"
             )
+            lines.extend(self._budget_plan_line(c))
             if c.news_headline:
                 news_emoji = "🔴" if c.news_score <= -3 else ("🟢" if c.news_score >= 3 else "⚪")
                 lines.append(f"      {news_emoji} {c.news_headline[:60]}")
@@ -657,6 +761,7 @@ class SmallCapScanner:
             "🔆 <b>BUGÜN İZLE — SEANS ÖNCESİ</b>",
             f"🕐 {now.strftime('%d.%m.%Y %H:%M')} · {universe_size} hisse tarandı",
             "🌅 Bugün açılışta kırılıma en yakın adaylar (sıkışma + dirence yakınlık).",
+            f"💵 Bütçe: {self._budget_line()}",
             "🔎 Açılış sonrası 15 dk kırılım alarmı ile teyit edilir.",
             "─" * 30,
         ]
@@ -676,6 +781,7 @@ class SmallCapScanner:
                 f"   🔮 <b>Öngörü:</b> {c.anticipation_score:.0f}/100 · Sıkışma {c.squeeze_days} gün · Direnç −{max(-c.dist_to_resistance_pct, 0):.1f}%\n"
                 f"   🟢 <b>ALIM LİMİTİ:</b> {plan['limit']:,.2f} | 🎯 <b>HEDEF:</b> {plan['target']:,.2f} (+{plan['upside_pct']:.1f}%) | 🛑 <b>STOP:</b> {plan['stop']:,.2f} (R/K 1:{plan['rr']:.1f})"
             )
+            lines.extend(self._budget_plan_line(c))
             if c.news_headline:
                 news_emoji = "🔴" if c.news_score <= -3 else ("🟢" if c.news_score >= 3 else "⚪")
                 lines.append(f"      {news_emoji} {c.news_headline[:60]}")
@@ -699,6 +805,7 @@ class SmallCapScanner:
             f"   🎯 <b>HEDEF FİYAT:</b> {plan['target']:,.2f} USD (+{plan['upside_pct']:.1f}% yükseliş)",
             f"   🛑 <b>ZARAR KES (STOP):</b> {plan['stop']:,.2f} USD (R/K: 1:{plan['rr']:.1f})",
         ]
+        lines.extend(self._budget_plan_line(c))
         if c.news_headline:
             news_emoji = "🔴" if c.news_score <= -3 else ("🟢" if c.news_score >= 3 else "⚪")
             lines.append(f"   {news_emoji} {c.news_headline[:80]}")
