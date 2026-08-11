@@ -140,6 +140,13 @@ class GithubBackup:
                 body["sha"] = sha
             url = f"{GITHUB_API}/repos/{self.repo}/contents/{full_path}"
             r = await client.put(url, json=body)
+            # 409 = concurrent write to the same path (two reports wrote the
+            # same filename). Refresh the file sha and retry once.
+            if r.status_code == 409:
+                sha2 = await self._find_sha(client, full_path)
+                if sha2:
+                    body["sha"] = sha2
+                    r = await client.put(url, json=body)
             if r.status_code in (200, 201):
                 self.last_error = None
                 logger.info(f"GitHub backup OK: {self.repo}:{self.branch} {full_path}")
