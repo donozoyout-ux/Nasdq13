@@ -14,6 +14,7 @@ Usage in bot:
 """
 import os
 import base64
+import json
 import logging
 from typing import Dict, Any, Optional
 
@@ -68,6 +69,29 @@ class GithubBackup:
             await self._client.aclose()
         self._client = None
 
+    async def download_json(self, path: str) -> Optional[Dict[str, Any]]:
+        """Fetch a JSON file from repo:root/{path} on self.branch.
+        Returns None if the file does not exist or the token is missing."""
+        if not self._available():
+            logger.warning("GitHub backup download unavailable (token set=%s)", bool(self.token))
+            return None
+        full_path = f"{self.root}/{path}" if self.root else path
+        try:
+            client = await self._client_get()
+            url = f"{GITHUB_API}/repos/{self.repo}/contents/{full_path}"
+            r = await client.get(url, params={"ref": self.branch})
+            if r.status_code == 404:
+                logger.info(f"GitHub backup download: {full_path} not found")
+                return None
+            if r.status_code != 200:
+                logger.warning(f"GitHub backup download failed {r.status_code} for {full_path}: {r.text[:200]}")
+                return None
+            content = base64.b64decode(r.json().get("content", ""))
+            return json.loads(content.decode("utf-8"))
+        except Exception as e:
+            logger.warning(f"GitHub backup download error for {full_path}: {e}")
+            return None
+
     async def _find_sha(self, client: httpx.AsyncClient, path: str) -> Optional[str]:
         """Return the current file sha (if it exists) so we can overwrite."""
         try:
@@ -121,7 +145,7 @@ class GithubBackup:
             return False
         full_path = f"{self.root}/{path}" if self.root else path
         content = base64.b64encode(
-            __import__("json").dumps(payload, ensure_ascii=False, indent=2, default=str).encode("utf-8")
+            json.dumps(payload, ensure_ascii=False, indent=2, default=str).encode("utf-8")
         ).decode("utf-8")
 
         try:

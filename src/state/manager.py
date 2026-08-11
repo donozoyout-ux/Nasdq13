@@ -85,6 +85,20 @@ class StateManager:
         except Exception as e:
             logger.error(f"Failed to save state: {e}")
 
+    def load_raw(self, raw: Dict[str, Any]) -> None:
+        """Replace in-memory state from a raw dict (e.g. restored from a GitHub
+        backup). Missing keys are re-seeded so new fields never break old files."""
+        if not isinstance(raw, dict):
+            logger.warning("State restore skipped: raw data is not a dict")
+            return
+        for key, default in self.state.items():
+            if key in raw:
+                self.state[key] = raw[key]
+            else:
+                self.state[key] = default
+        logger.info(f"State restored from raw backup ({len(raw)} top-level keys)")
+        self.save()
+
     def is_signal_duplicate(self, signal_id: str) -> bool:
         """Check if a signal was already sent (dedup across restarts)"""
         return signal_id in self.state["signals_sent"]

@@ -473,6 +473,48 @@ class SignalBot:
         except Exception as e:
             logger.warning(f"GitHub backup schedule failed {path}: {e}")
 
+    async def _restore_state_from_backup(self):
+        """If bot_state.json is missing on the ephemeral disk (fresh deploy /
+        Render restart), restore it from the GitHub archive branch so signal
+        history, dedup keys and the prediction tracker survive redeploys."""
+        try:
+            import os as _os
+            if not self.github_backup or not self.github_backup.enabled:
+                return
+            local = self.state.file_path
+            if _os.path.exists(local) and _os.path.getsize(local) > 0:
+                logger.info("State file exists locally — no restore needed")
+                return
+            logger.info("State file missing on disk — trying GitHub restore...")
+            raw = await self.github_backup.download_json("state/bot_state.json")
+            if raw:
+                self.state.load_raw(raw)
+                # Re-hydrate dashboard copies of restored state
+                reports = self.state.state.get("weekly_reports", [])
+                if reports:
+                    last = reports[-1]
+                    if last.get("report"):
+                        self.last_weekly_report = last
+                logger.info(
+                    "State restored from GitHub backup "
+                    f"({len(self.state.state.get('scan_history', []))} scans, "
+                    f"{len(self.state.state.get('signal_history', []))} signals)"
+                )
+            else:
+                logger.info("No GitHub state backup found yet — starting fresh")
+        except Exception as e:
+            logger.warning(f"State restore failed: {e}")
+
+    def _backup_state_async(self):
+        """Fire-and-forget backup of the whole bot_state.json to the archive branch."""
+        try:
+            if not self.github_backup or not self.github_backup.enabled:
+                return
+            payload = dict(self.state.state)
+            self._backup_async("state/bot_state.json", payload)
+        except Exception as e:
+            logger.warning(f"State backup schedule failed: {e}")
+
     def _backup_done(self, task: asyncio.Task, path: str):
         """Update dashboard-visible backup status from the background task."""
         try:
@@ -530,6 +572,9 @@ class SignalBot:
                 f"scans/{day}/{stamp}.json",
                 {"type": "scan", "closed": bool(closed), **snapshot},
             )
+            # State'in tamamını da arşivle (prediction tracker dahil) — redeploy'da
+            # geçici disk kaybolsa bile bot_state.json archive'den geri yüklenir.
+            self._backup_state_async()
         except Exception as e:
             logger.error(f"Scan history persist failed: {e}")
 
@@ -698,6 +743,7 @@ class SignalBot:
         """Main run loop"""
         self.is_running = True
         logger.info(f"🤖 Bot started with interval {self.scan_interval}s")
+        await self._restore_state_from_backup()
         await self._send_startup_message()
         asyncio.create_task(self._run_initial_reports())
         asyncio.create_task(self._smallcap_loop())
@@ -752,6 +798,9 @@ class SignalBot:
     async def stop(self):
         """Graceful shutdown"""
         self.is_running = False
+        self.state.save()
+        self._backup_state_async()
+        await asyncio.sleep(0.5)
         await self.notifier.close()
         await self.news_fetcher.close()
         await self.ai_analyst.close()
@@ -759,7 +808,6 @@ class SignalBot:
             await self.smallcap_scanner.universe_fetcher.close()
         if self.github_backup:
             await self.github_backup.close()
-        self.state.save()
         logger.info("Bot stopped gracefully")
 
     # ------------------------------------------------------------------
