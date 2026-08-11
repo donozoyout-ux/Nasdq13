@@ -128,6 +128,7 @@ async def api_status():
         "scan_interval_seconds": b.scan_interval,
         "symbols": b.config.get("symbols", []),
         "timeframes": b.config.get("timeframes", []),
+        "backup": b.backup_status,
         "market_open": market["open"],
         "market_session": market["session"],
         "time_ny": market["now_et"].strftime("%Y-%m-%d %H:%M %Z"),

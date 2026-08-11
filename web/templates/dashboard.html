@@ -135,6 +135,7 @@
             <span id="marketBadge" class="badge neutral">Piyasa: -</span>
             <span id="healthBadge" class="badge neutral">Sağlık: -</span>
             <span id="lastScanBadge" class="badge neutral">Son tarama: -</span>
+            <span id="backupBadge" class="badge neutral">Backup: -</span>
         </div>
     </header>
 
@@ -330,6 +331,32 @@
                 'Son tarama: ' + fmtTime(data.status.last_scan_at);
             document.getElementById('lastUpdated').textContent =
                 'Güncellendi: ' + fmtTime(new Date().toISOString());
+
+            // Backup status
+            const bk = data.backup || {};
+            const bkEl = document.getElementById('backupBadge');
+            let bkClass = 'neutral';
+            let bkText = 'Backup: kapalı';
+            if (bk.token_set) {
+                if (bk.error_count > 0 && bk.ok_count === 0) {
+                    bkClass = 'stopped';
+                    bkText = 'Backup: hata (' + (bk.last_error || '?') + ')';
+                } else if (bk.ok_count > 0) {
+                    bkClass = 'running';
+                    bkText = 'Backup: ' + bk.ok_count + ' ✓' +
+                        (bk.error_count ? ' / ' + bk.error_count + ' ✗' : '') +
+                        (bk.last_ok_at ? ' · ' + fmtTime(bk.last_ok_at) : '');
+                } else {
+                    bkClass = 'neutral';
+                    bkText = 'Backup: bekleniyor';
+                }
+            } else {
+                bkClass = 'stopped';
+                bkText = 'Backup: token yok';
+            }
+            bkEl.textContent = bkText;
+            bkEl.className = 'badge ' + bkClass;
+            bkEl.title = bk.last_error || '';
 
             // Stats
             const scInfo = data.smallcap || {};

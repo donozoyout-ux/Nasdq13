@@ -129,6 +129,17 @@ class SignalBot:
 
         # GitHub backup (archives scans/signals to a private repo branch)
         self.github_backup = GithubBackup(config)
+        self.backup_status: Dict[str, Any] = {
+            "enabled": self.github_backup.enabled,
+            "token_set": bool(self.github_backup.token),
+            "repo": self.github_backup.repo,
+            "branch": self.github_backup.branch,
+            "ok_count": 0,
+            "error_count": 0,
+            "last_ok_at": None,
+            "last_error_at": None,
+            "last_error": self.github_backup.last_error,
+        }
 
         # Restore last weekly report from persisted state (dashboard shows it
         # even if this instance was started after the report was sent)
@@ -450,9 +461,28 @@ class SignalBot:
     def _backup_async(self, path: str, payload: Dict[str, Any]):
         """Fire-and-forget upload to the GitHub backup repo (never blocks the loop)."""
         try:
-            asyncio.create_task(self.github_backup.upload_json(path, payload))
+            task = asyncio.create_task(self.github_backup.upload_json(path, payload))
+            task.add_done_callback(lambda t: self._backup_done(t, path))
         except Exception as e:
             logger.warning(f"GitHub backup schedule failed {path}: {e}")
+
+    def _backup_done(self, task: asyncio.Task, path: str):
+        """Update dashboard-visible backup status from the background task."""
+        try:
+            ok = task.result() is True
+            if ok:
+                self.backup_status["ok_count"] += 1
+                self.backup_status["last_ok_at"] = datetime.utcnow().isoformat()
+                self.backup_status["last_error"] = None
+            else:
+                self.backup_status["error_count"] += 1
+                self.backup_status["last_error_at"] = datetime.utcnow().isoformat()
+                self.backup_status["last_error"] = self.github_backup.last_error
+            self.backup_status["last_path"] = path
+        except Exception as e:
+            self.backup_status["error_count"] += 1
+            self.backup_status["last_error_at"] = datetime.utcnow().isoformat()
+            self.backup_status["last_error"] = str(e)
 
     def _persist_smallcap_scan(self, closed: bool = False):
         """Save the latest mid-cap scan snapshot (top candidates) to persisted state
@@ -825,4 +855,5 @@ class SignalBot:
             "weekly_report": self.last_weekly_report,
             "daily_brief": self.last_daily_brief,
             "smallcap": smallcap_info,
+            "backup": self.backup_status,
         }

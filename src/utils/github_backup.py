@@ -36,9 +36,20 @@ class GithubBackup:
         self.token_env = cfg.get("token_env", "GITHUB_BACKUP_TOKEN")
         self.token = os.getenv(self.token_env, "")
         self._client: Optional[httpx.AsyncClient] = None
+        self.last_error: Optional[str] = None
 
     def _available(self) -> bool:
-        return self.enabled and bool(self.token) and bool(self.repo)
+        if not self.enabled:
+            self.last_error = "disabled in config"
+            return False
+        if not self.token:
+            self.last_error = f"token '{self.token_env}' not set"
+            return False
+        if not self.repo:
+            self.last_error = "repo not configured"
+            return False
+        self.last_error = None
+        return True
 
     async def _client_get(self) -> httpx.AsyncClient:
         if self._client is None or self._client.is_closed:
@@ -108,7 +119,6 @@ class GithubBackup:
                 self.enabled, bool(self.token), self.repo,
             )
             return False
-
         full_path = f"{self.root}/{path}" if self.root else path
         content = base64.b64encode(
             __import__("json").dumps(payload, ensure_ascii=False, indent=2, default=str).encode("utf-8")
@@ -131,11 +141,14 @@ class GithubBackup:
             url = f"{GITHUB_API}/repos/{self.repo}/contents/{full_path}"
             r = await client.put(url, json=body)
             if r.status_code in (200, 201):
+                self.last_error = None
                 logger.info(f"GitHub backup OK: {self.repo}:{self.branch} {full_path}")
                 return True
+            self.last_error = f"HTTP {r.status_code}: {r.text[:300]}"
             logger.error(
                 f"GitHub backup failed {r.status_code} for {full_path}: {r.text[:300]}"
             )
         except Exception as e:
+            self.last_error = str(e)
             logger.error(f"GitHub backup error for {full_path}: {e}")
         return False
