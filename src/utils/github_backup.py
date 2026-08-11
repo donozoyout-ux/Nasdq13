@@ -16,6 +16,7 @@ import os
 import base64
 import json
 import logging
+import asyncio
 from typing import Dict, Any, Optional
 
 import httpx
@@ -38,6 +39,10 @@ class GithubBackup:
         self.token = os.getenv(self.token_env, "")
         self._client: Optional[httpx.AsyncClient] = None
         self.last_error: Optional[str] = None
+        # Serialize writes: concurrent uploads to different files still bump the
+        # same branch tip, so GitHub rejects the second one with a 409. A single
+        # lock guarantees uploads run one-at-a-time.
+        self._write_lock = asyncio.Lock()
 
     def _available(self) -> bool:
         if not self.enabled:
@@ -75,6 +80,10 @@ class GithubBackup:
         if not self._available():
             logger.warning("GitHub backup download unavailable (token set=%s)", bool(self.token))
             return None
+        async with self._write_lock:
+            return await self._download_json_locked(path)
+
+    async def _download_json_locked(self, path: str) -> Optional[Dict[str, Any]]:
         full_path = f"{self.root}/{path}" if self.root else path
         try:
             client = await self._client_get()
@@ -143,6 +152,10 @@ class GithubBackup:
                 self.enabled, bool(self.token), self.repo,
             )
             return False
+        async with self._write_lock:
+            return await self._upload_json_locked(path, payload)
+
+    async def _upload_json_locked(self, path: str, payload: Dict[str, Any]) -> bool:
         full_path = f"{self.root}/{path}" if self.root else path
         content = base64.b64encode(
             json.dumps(payload, ensure_ascii=False, indent=2, default=str).encode("utf-8")
@@ -154,31 +167,32 @@ class GithubBackup:
             if not ok_branch:
                 logger.error(f"GitHub backup aborted: branch '{self.branch}' unavailable")
                 return False
-            sha = await self._find_sha(client, full_path)
-            body: Dict[str, Any] = {
-                "message": f"backup: {path}",
-                "branch": self.branch,
-                "content": content,
-            }
-            if sha:
-                body["sha"] = sha
-            url = f"{GITHUB_API}/repos/{self.repo}/contents/{full_path}"
-            r = await client.put(url, json=body)
-            # 409 = concurrent write to the same path (two reports wrote the
-            # same filename). Refresh the file sha and retry once.
-            if r.status_code == 409:
-                sha2 = await self._find_sha(client, full_path)
-                if sha2:
-                    body["sha"] = sha2
-                    r = await client.put(url, json=body)
-            if r.status_code in (200, 201):
-                self.last_error = None
-                logger.info(f"GitHub backup OK: {self.repo}:{self.branch} {full_path}")
-                return True
-            self.last_error = f"HTTP {r.status_code}: {r.text[:300]}"
-            logger.error(
-                f"GitHub backup failed {r.status_code} for {full_path}: {r.text[:300]}"
-            )
+            for attempt in range(3):
+                sha = await self._find_sha(client, full_path)
+                body: Dict[str, Any] = {
+                    "message": f"backup: {path}",
+                    "branch": self.branch,
+                    "content": content,
+                }
+                if sha:
+                    body["sha"] = sha
+                url = f"{GITHUB_API}/repos/{self.repo}/contents/{full_path}"
+                r = await client.put(url, json=body)
+                # 409 = concurrent write to the same path OR the branch tip moved
+                # between _find_sha and this PUT. Refresh the file sha and retry.
+                if r.status_code == 409 and attempt < 2:
+                    logger.warning(f"GitHub 409 for {full_path} (attempt {attempt + 1}) — refreshing sha")
+                    await asyncio.sleep(0.5 * (attempt + 1))
+                    continue
+                if r.status_code in (200, 201):
+                    self.last_error = None
+                    logger.info(f"GitHub backup OK: {self.repo}:{self.branch} {full_path}")
+                    return True
+                self.last_error = f"HTTP {r.status_code}: {r.text[:300]}"
+                logger.error(
+                    f"GitHub backup failed {r.status_code} for {full_path}: {r.text[:300]}"
+                )
+                return False
         except Exception as e:
             self.last_error = str(e)
             logger.error(f"GitHub backup error for {full_path}: {e}")
