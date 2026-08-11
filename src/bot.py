@@ -22,10 +22,10 @@ from src.analysis.signal_engine import SignalEngine, Signal
 from src.analysis.weekly_screener import WeeklyScreener
 from src.analysis.smallcap_scanner import SmallCapScanner
 from src.analysis.ai_analyst import AiAnalyst
+from src.backtest.engine import run_backtest_for_symbols
 from src.notifier.telegram_bot import TelegramNotifier
 from src.state.manager import StateManager
 from src.utils.github_backup import GithubBackup
-
 load_dotenv()
 
 log_level = os.getenv("LOG_LEVEL", "INFO")
@@ -133,6 +133,11 @@ class SignalBot:
         self.smallcap_last_scan: Optional[datetime] = None
         self.smallcap_candidates: List[Dict[str, Any]] = []
         self.smallcap_universe_size = 0
+
+        # AI chart analyses (vision) — top candidates only, budget-capped
+        self.last_chart_analyses: Dict[str, Dict[str, Any]] = {}
+        self._chart_analysis_day: Optional[str] = None
+        self._chart_analysis_budget = 0
 
         # GitHub backup (archives scans/signals to a private repo branch)
         self.github_backup = GithubBackup(config)
@@ -708,6 +713,7 @@ class SignalBot:
 
             self.smallcap_last_scan = datetime.utcnow()
             self._persist_smallcap_scan(closed=False)
+            await self._run_chart_analyses(candidates)
             logger.info(f"=== Small-cap scan complete: {len(candidates)} aday, {len(triggered)} breakout ===")
         except Exception as e:
             logger.error(f"Small-cap scan error: {e}")
@@ -747,6 +753,7 @@ class SignalBot:
         await self._send_startup_message()
         asyncio.create_task(self._run_initial_reports())
         asyncio.create_task(self._smallcap_loop())
+        asyncio.create_task(self._backtest_loop())
 
         while self.is_running:
             try:
@@ -789,6 +796,126 @@ class SignalBot:
                 self.error_count += 1
             finally:
                 await asyncio.sleep(self._smallcap_scan_interval() + 5)
+
+    async def _run_chart_analyses(self, candidates):
+        """Vision chart analysis for top candidates (Gemini free tier).
+        Runs ONCE per day (budget control) on the top-N setups only. Results go
+        to last_chart_analyses for the dashboard. Never blocks the scan cycle —
+        a short timeout applies."""
+        try:
+            if not self.ai_analyst or not self.ai_analyst._has_llm():
+                return
+            cc = self.config.get("ai_report", {}).get("chart_analysis", {}) or {}
+            if not cc.get("enabled", True):
+                return
+            top_n = int(cc.get("top_n", 3))
+            daily_budget = int(cc.get("daily_budget_calls", 6))
+            today = datetime.utcnow().strftime("%Y-%m-%d")
+            if self._chart_analysis_day != today:
+                self._chart_analysis_day = today
+                self._chart_analysis_budget = daily_budget
+            if self._chart_analysis_budget <= 0:
+                return
+
+            top = candidates[:top_n]
+            if not top:
+                return
+            import base64 as _b64
+            from src.analysis.chart_builder import build_candlestick_chart
+
+            # Günlük veriyi çek (chart için) — sadece top-N, hızlı
+            symbols = [c.symbol for c in top]
+            fetched = await self.smallcap_scanner._fetch_timeframes(symbols, ["1d"])
+            for cand in top:
+                if self._chart_analysis_budget <= 0:
+                    break
+                pd_obj = fetched.get(cand.symbol, {}).get("1d")
+                if pd_obj is None or pd_obj.data is None:
+                    continue
+                chart = build_candlestick_chart(pd_obj.data, cand.symbol, "1d")
+                if not chart:
+                    continue
+                context = {
+                    "symbol": cand.symbol,
+                    "price": cand.price,
+                    "change_pct": cand.change_pct,
+                    "setup_score": cand.setup_score,
+                    "setup_type": cand.setup_type,
+                    "rsi_14": round(cand.rsi_14, 1),
+                    "volume_ratio": round(cand.vol_ratio, 2),
+                    "resistance_pivot": cand.resistance_pivot,
+                    "support_pivot": cand.support_pivot,
+                    "candle_patterns": cand.candle_patterns,
+                    "expect_horizon": cand.expect_horizon,
+                }
+                result = await asyncio.wait_for(
+                    self.ai_analyst.analyze_chart(cand.symbol, chart, context),
+                    timeout=45,
+                )
+                self._chart_analysis_budget -= 1
+                if result:
+                    self.last_chart_analyses[cand.symbol] = {
+                        "symbol": cand.symbol,
+                        "provider": self.ai_analyst.provider,
+                        "analyzed_at": datetime.utcnow().isoformat(),
+                        "comment": result.get("comment", ""),
+                    }
+        except Exception as e:
+            logger.warning(f"Chart analysis skipped: {e}")
+
+    async def _backtest_loop(self):
+        """Periodic historical backtest of the breakout strategy (real P&L).
+        Runs on the closed market (evening TR / overnight) once a day so it never
+        competes with live scans for yfinance quota. Results are stored in state
+        and shown on the dashboard as "Sistem gerçekte ne kazandırıyor?"."""
+        interval = float(self.config.get("backtest", {}).get("interval_seconds", 21600))
+        bt_cfg = self.config.get("backtest", {})
+        while self.is_running:
+            try:
+                await self._run_backtest_once()
+            except Exception as e:
+                logger.error(f"Backtest loop error: {e}")
+            await asyncio.sleep(interval)
+
+    async def _run_backtest_once(self):
+        """Run backtest on the current mid-cap universe (daily data)."""
+        from src.utils.timezone import now_turkey
+
+        bt_cfg = self.config.get("backtest", {})
+        if not bt_cfg.get("enabled", True):
+            return
+        status = market_status(self.config)
+        # Only run while market closed (or if forced) to avoid quota contention
+        if status.get("open", True) and not bt_cfg.get("run_during_hours", False):
+            return
+
+        now = now_turkey()
+        logger.info(f"Backtest başlıyor ({now.strftime('%d.%m.%Y %H:%M')} TR)...")
+        try:
+            if not self.smallcap_scanner:
+                return
+            universe = await self.smallcap_scanner.universe_fetcher.fetch_universe(force=False)
+            symbols = [u["symbol"] for u in universe[: bt_cfg.get("max_symbols", 60)]]
+            if not symbols:
+                return
+            fetched = await self.smallcap_scanner._fetch_timeframes(symbols, ["1d"])
+            data = {}
+            for sym in symbols:
+                pd_obj = fetched.get(sym, {}).get("1d")
+                if pd_obj is not None and pd_obj.data is not None:
+                    data[sym] = pd_obj.data
+            summary = run_backtest_for_symbols(self.config, data)
+            self.state.state["backtest_results"] = summary
+            self.state.save()
+            self._backup_state_async()
+            logger.info(
+                f"Backtest tamam: {summary.get('total_trades', 0)} trade, "
+                f"win rate %{summary.get('win_rate_pct', 0)}, "
+                f"ortalama getiri %{summary.get('avg_symbol_return_pct', 0)}"
+            )
+        except Exception as e:
+            logger.error(f"Backtest run error: {e}")
+            logger.exception(e)
 
     async def _scan_cycle(self):
         """One full scan iteration (guarded by asyncio.wait_for in run)"""
@@ -846,6 +973,34 @@ class SignalBot:
             "is_golden_cross": snap.is_golden_cross,
             "is_death_cross": snap.is_death_cross,
             "is_vwap_reclaim": snap.is_vwap_reclaim,
+        }
+
+    def _ai_status(self) -> Dict[str, Any]:
+        """AI integration status shown in the UI. Analysis is rule-based and
+        works WITHOUT AI; the LLM only enriches text/vision reports."""
+        ai_cfg = self.config.get("ai_report", {}) or {}
+        provider = os.getenv("AI_PROVIDER", "").strip().lower() or ai_cfg.get("provider", "openai")
+        gemini_key = bool(os.getenv("GEMINI_API_KEY", "").strip())
+        openai_key = bool(os.getenv("OPENAI_API_KEY", "").strip())
+        if provider == "gemini":
+            connected = gemini_key
+            label = "Gemini (ücretsiz)" if gemini_key else "Gemini (key eksik)"
+        elif provider == "openai":
+            connected = openai_key
+            label = "OpenAI" if openai_key else "OpenAI (key eksik)"
+        else:
+            connected = False
+            label = provider
+        return {
+            "provider": provider,
+            "connected": bool(connected),
+            "label": label,
+            "mode": "ai" if connected else "rule_based",
+            "note": (
+                "🧠 AI destekli analiz aktif"
+                if connected else
+                "Analiz AI'sız çalışıyor — kural tabanlı (tamamen ücretsiz ve bağımsız)"
+            ),
         }
 
     def get_dashboard_state(self) -> Dict[str, Any]:
@@ -931,5 +1086,8 @@ class SignalBot:
             "smallcap": smallcap_info,
             "budget": budget_info,
             "predictions": self.state.get_prediction_stats(),
+            "backtest": self.state.state.get("backtest_results"),
+            "ai_status": self._ai_status(),
+            "chart_analyses": self.last_chart_analyses,
             "backup": self.backup_status,
         }

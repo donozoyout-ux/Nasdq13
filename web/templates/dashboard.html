@@ -136,6 +136,7 @@
             <span id="healthBadge" class="badge neutral">Sağlık: -</span>
             <span id="lastScanBadge" class="badge neutral">Son tarama: -</span>
             <span id="backupBadge" class="badge neutral">Backup: -</span>
+            <span id="aiBadge" class="badge neutral">🧠 AI: -</span>
         </div>
     </header>
 
@@ -198,6 +199,7 @@
                     <tr>
                         <th>Hisse</th>
                         <th>Setup</th>
+                        <th>Desen</th>
                         <th>Fiyat</th>
                         <th>Setup Skor</th>
                         <th>Öngörü</th>
@@ -209,7 +211,7 @@
                     </tr>
                 </thead>
                 <tbody id="candidatesBody">
-                    <tr><td colspan="10" class="empty">Aday bekleniyor...</td></tr>
+                    <tr><td colspan="11" class="empty">Aday bekleniyor...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -273,6 +275,19 @@
                     <tr><td colspan="5" class="empty">Geçmiş sinyal yok</td></tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <div class="grid-2">
+        <div class="card">
+            <h2><span class="dot red"></span> Gerçek Backtest — Sistem Ne Kazandırıyor?</h2>
+            <div class="last-updated" id="btUpdated">Backtest henüz çalışmadı (gece piyasa kapalıyken koşar)</div>
+            <div id="btSummary" class="empty">Backtest verisi yok</div>
+        </div>
+        <div class="card">
+            <h2><span class="dot purple" style="background:var(--purple)"></span> AI Grafik Yorumları (Vision)</h2>
+            <div class="last-updated" id="aiChartsUpdated">GEMINI_API_KEY eklendiğinde top adaylar için otomatik</div>
+            <div id="aiChartsList" class="empty">AI grafik yorumu yok</div>
         </div>
     </div>
 
@@ -340,7 +355,7 @@
         const info = document.getElementById('candidatesInfo');
         if (!body) return;
         if (!cands || cands.length === 0) {
-            body.innerHTML = '<tr><td colspan="9" class="empty">Aday bekleniyor...</td></tr>';
+            body.innerHTML = '<tr><td colspan="11" class="empty">Aday bekleniyor...</td></tr>';
             return;
         }
         info.textContent = (bgt.budget_try || 0).toLocaleString('tr-TR') + ' TL ≈ $' +
@@ -363,6 +378,7 @@
             return `<tr>
                 <td><span class="symbol-badge">${c.symbol}</span><div style="font-size:11px;color:var(--muted)">${c.name || ''}</div></td>
                 <td><span class="tag">${c.setup_type || '-'}</span></td>
+                <td style="font-size:11px;color:var(--muted)">${(c.candle_patterns || []).slice(0,2).join(', ') || '-'}${c.pattern_bonus ? ' <span style="color:' + (c.pattern_bonus>0?'#3fb950':'#f85149') + '">(' + (c.pattern_bonus>0?'+':'') + c.pattern_bonus.toFixed(0) + ')</span>' : ''}</td>
                 <td class="mono">${fmtPrice(c.price)}</td>
                 <td class="mono">${c.setup_score != null ? c.setup_score.toFixed(0) : '-'}</td>
                 <td class="mono">${c.anticipation_score != null ? c.anticipation_score.toFixed(0) : '-'}</td>
@@ -430,6 +446,61 @@
             bkEl.textContent = bkText;
             bkEl.className = 'badge ' + bkClass;
             bkEl.title = bk.last_error || '';
+
+            // AI status badge
+            const ai = data.ai_status || {};
+            const aiEl = document.getElementById('aiBadge');
+            if (ai.connected) {
+                aiEl.textContent = '🧠 AI: ' + (ai.label || 'bağlı') + ' ✓';
+                aiEl.className = 'badge running';
+                aiEl.title = ai.note || '';
+            } else {
+                aiEl.textContent = '🧠 AI: kapalı';
+                aiEl.className = 'badge neutral';
+                aiEl.title = 'Analiz AI'sız çalışıyor — kural tabanlı. GEMINI_API_KEY eklemek için: AI_PROVIDER=gemini + GEMINI_API_KEY env.';
+            }
+
+            // Backtest results
+            const bt = data.backtest;
+            const btEl = document.getElementById('btSummary');
+            const btUpd = document.getElementById('btUpdated');
+            if (bt && bt.total_trades > 0) {
+                const wr = bt.win_rate_pct != null ? bt.win_rate_pct.toFixed(1) : '-';
+                const ret = bt.avg_symbol_return_pct != null ? bt.avg_symbol_return_pct.toFixed(2) : '-';
+                const pf = bt.profit_factor != null ? bt.profit_factor.toFixed(2) : '-';
+                const mdd = bt.max_drawdown_pct != null ? bt.max_drawdown_pct.toFixed(2) : '-';
+                btEl.innerHTML = `
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;text-align:center">
+                        <div><div style="font-size:24px;font-weight:700;color:var(--blue)">${bt.total_trades}</div><div style="font-size:11px;color:var(--muted)">Trade</div></div>
+                        <div><div style="font-size:24px;font-weight:700;color:${wr >= 50 ? 'var(--green)' : 'var(--red)'}">%${wr}</div><div style="font-size:11px;color:var(--muted)">Win Rate</div></div>
+                        <div><div style="font-size:24px;font-weight:700;color:${ret >= 0 ? 'var(--green)' : 'var(--red)'}">%${ret}</div><div style="font-size:11px;color:var(--muted)">Ort. Getiri</div></div>
+                        <div><div style="font-size:24px;font-weight:700;color:var(--purple)">${pf}</div><div style="font-size:11px;color:var(--muted)">Profit Factor</div></div>
+                        <div><div style="font-size:24px;font-weight:700;color:var(--yellow)">%${mdd}</div><div style="font-size:11px;color:var(--muted)">Max Drawdown</div></div>
+                    </div>`;
+                btUpd.textContent = 'Semboller: ' + (bt.symbols_with_trades || 0) + '/' + (bt.symbols_backtested || 0) +
+                    ' · Kayıp: ' + (bt.total_losses || 0) + ' · Kazanç: ' + (bt.total_wins || 0) +
+                    ' · Son çalışma: ' + fmtTime(bt.generated_at);
+            } else {
+                btEl.textContent = 'Backtest henüz çalışmadı — gece piyasa kapalıyken otomatik koşar, sonuçlar buraya gelir.';
+            }
+
+            // AI chart analyses
+            const charts = data.chart_analyses || {};
+            const chartsEl = document.getElementById('aiChartsList');
+            const chartsUpd = document.getElementById('aiChartsUpdated');
+            const chartKeys = Object.keys(charts);
+            if (chartKeys.length > 0) {
+                chartsUpd.textContent = 'Güncellendi: ' + fmtTime(charts[chartKeys[0]].analyzed_at);
+                chartsEl.innerHTML = chartKeys.map(sym => {
+                    const ch = charts[sym] || {};
+                    return `<div class="news-item">
+                        <div><strong>${sym}</strong> <span style="font-size:11px;color:var(--muted)">AI grafik okuması</span></div>
+                        <div style="margin-top:4px;font-size:12px;color:var(--muted);white-space:pre-wrap">${ch.comment || ''}</div>
+                    </div>`;
+                }).join('');
+            } else {
+                chartsEl.textContent = 'Henüz AI grafik yorumu yok. GEMINI_API_KEY env'i eklendiğinde top 3 aday için otomatik üretilir.';
+            }
 
             // Stats
             const scInfo = data.smallcap || {};

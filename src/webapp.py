@@ -129,6 +129,7 @@ async def api_status():
         "symbols": b.config.get("symbols", []),
         "timeframes": b.config.get("timeframes", []),
         "backup": b.backup_status,
+        "ai_status": b._ai_status(),
         "market_open": market["open"],
         "market_session": market["session"],
         "time_ny": market["now_et"].strftime("%Y-%m-%d %H:%M %Z"),

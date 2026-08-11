@@ -56,13 +56,24 @@ class AiAnalyst:
         self.include_disclaimer = self.ai_config.get("include_disclaimer", True)
         self.lookback = config.get("screener", {}).get("lookback_weeks", 60)
 
+        # Provider: "gemini" (önerilen, ücretsiz AI Studio) | "openai"
+        self.provider = os.getenv("AI_PROVIDER", "").strip().lower() or self.ai_config.get("provider", "gemini")
         self.llm_api_key = os.getenv("OPENAI_API_KEY", "").strip()
+        self.gemini_api_key = os.getenv("GEMINI_API_KEY", "").strip()
+        # Vision için model (görsel okuma) — Gemini free tier görüntü destekler
+        self.vision_model = os.getenv("GEMINI_VISION_MODEL", "").strip() or "gemini-2.5-flash"
         self._http = None
+        self.last_provider_used = "rule_based"
+
+    def _has_llm(self) -> bool:
+        if self.provider == "gemini":
+            return bool(self.gemini_api_key)
+        return bool(self.llm_api_key)
 
     async def _get_http(self):
         if self._http is None:
             import httpx
-            self._http = httpx.AsyncClient(timeout=45.0)
+            self._http = httpx.AsyncClient(timeout=60.0)
         return self._http
 
     async def close(self):
@@ -71,31 +82,141 @@ class AiAnalyst:
             self._http = None
 
     # ------------------------------------------------------------------
-    # LLM path (optional)
+    # LLM path (Gemini or OpenAI)
     # ------------------------------------------------------------------
 
     async def _llm_report(self, system_prompt: str, data_payload: Dict[str, Any]) -> Optional[str]:
         try:
             http = await self._get_http()
-            resp = await http.post(
-                "https://api.openai.com/v1/chat/completions",
-                headers={"Authorization": f"Bearer {self.llm_api_key}"},
-                json={
-                    "model": self.llm_model,
-                    "messages": [
-                        {"role": "system", "content": system_prompt},
-                        {"role": "user", "content": json.dumps(data_payload, ensure_ascii=False)},
-                    ],
-                    "max_tokens": self.max_tokens,
-                    "temperature": self.temperature,
-                },
-            )
-            if resp.status_code == 200:
-                data = resp.json()
-                return data["choices"][0]["message"]["content"].strip()
-            logger.warning(f"LLM report failed: {resp.status_code} {resp.text[:200]}")
+            if self.provider == "gemini":
+                if not self.gemini_api_key:
+                    return None
+                url = (
+                    f"https://generativelanguage.googleapis.com/v1beta/models/"
+                    f"{self.llm_model}:generateContent"
+                )
+                resp = await http.post(
+                    url,
+                    params={"key": self.gemini_api_key},
+                    json={
+                        "contents": [{
+                            "parts": [
+                                {"text": system_prompt + "\n\nVeriler:\n" + json.dumps(data_payload, ensure_ascii=False)},
+                            ],
+                        }],
+                        "generationConfig": {
+                            "maxOutputTokens": self.max_tokens,
+                            "temperature": self.temperature,
+                        },
+                    },
+                )
+                if resp.status_code == 200:
+                    data = resp.json()
+                    candidates = data.get("candidates", [])
+                    if candidates and candidates[0].get("content", {}).get("parts"):
+                        self.last_provider_used = "gemini"
+                        return "".join(p.get("text", "") for p in candidates[0]["content"]["parts"]).strip()
+                    logger.warning(f"Gemini empty response: {str(data)[:200]}")
+                else:
+                    logger.warning(f"Gemini report failed: {resp.status_code} {resp.text[:200]}")
+            else:
+                if not self.llm_api_key:
+                    return None
+                resp = await http.post(
+                    "https://api.openai.com/v1/chat/completions",
+                    headers={"Authorization": f"Bearer {self.llm_api_key}"},
+                    json={
+                        "model": self.llm_model,
+                        "messages": [
+                            {"role": "system", "content": system_prompt},
+                            {"role": "user", "content": json.dumps(data_payload, ensure_ascii=False)},
+                        ],
+                        "max_tokens": self.max_tokens,
+                        "temperature": self.temperature,
+                    },
+                )
+                if resp.status_code == 200:
+                    data = resp.json()
+                    self.last_provider_used = "openai"
+                    return data["choices"][0]["message"]["content"].strip()
+                logger.warning(f"LLM report failed: {resp.status_code} {resp.text[:200]}")
         except Exception as e:
             logger.warning(f"LLM report error: {e}")
+        return None
+
+    async def analyze_chart(self, symbol: str, chart_base64: str,
+                            context: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+        """Send a candlestick chart image to the vision model and get a Turkish
+        chart read: patterns, S/R levels, VWAP position, verdict.
+        Returns {comment, patterns, bias, disclaimer} or None (no key / failure)."""
+        if not chart_base64 or not self._has_llm():
+            return None
+        try:
+            http = await self._get_http()
+            ctx = json.dumps(context, ensure_ascii=False, default=str)
+            if self.provider == "gemini":
+                url = (
+                    f"https://generativelanguage.googleapis.com/v1beta/models/"
+                    f"{self.vision_model}:generateContent"
+                )
+                body = {
+                    "contents": [{
+                        "parts": [
+                            {
+                                "inline_data": {
+                                    "mime_type": "image/png",
+                                    "data": chart_base64,
+                                }
+                            },
+                            {
+                                "text": (
+                                    f"Sen profesyonel bir teknik analistsin. {symbol} için mum grafiğini inceliyorsun.\n"
+                                    f"Bağlam (kural tabanlı analiz sonucu):\n{ctx}\n\n"
+                                    "Grafikten: 1) gördüğün mum desenlerini (hammer, engulfing, doji, pin bar vb.) "
+                                    "2) destek/direnç seviyelerini 3) fiyatın VWAP/EMA'lara göre konumunu 4) yükseliş "
+                                    "kırılımı olasılığına dair kısa ve net bir sonuç. Türkçe, max 6 satır, düz metin, "
+                                    "yatırım tavsiyesi değildir uyarısı ekle."
+                                ),
+                            },
+                        ],
+                    }],
+                    "generationConfig": {"maxOutputTokens": 600, "temperature": 0.3},
+                }
+                resp = await http.post(url, params={"key": self.gemini_api_key}, json=body)
+                if resp.status_code == 200:
+                    data = resp.json()
+                    cands = data.get("candidates", [])
+                    if cands and cands[0].get("content", {}).get("parts"):
+                        text = "".join(p.get("text", "") for p in cands[0]["content"]["parts"]).strip()
+                        self.last_provider_used = "gemini"
+                        return {"comment": text, "bias": 0, "disclaimer": True}
+                    logger.warning(f"Gemini vision empty: {str(data)[:200]}")
+                else:
+                    logger.warning(f"Gemini vision failed: {resp.status_code} {resp.text[:200]}")
+            else:
+                # OpenAI vision fallback (gpt-4o)
+                resp = await http.post(
+                    "https://api.openai.com/v1/chat/completions",
+                    headers={"Authorization": f"Bearer {self.llm_api_key}"},
+                    json={
+                        "model": "gpt-4o",
+                        "messages": [{
+                            "role": "user",
+                            "content": [
+                                {"type": "text", "text": f"{symbol} grafiğini analiz et. Bağlam: {ctx}. Türkçe, max 6 satır."},
+                                {"type": "image_url", "image_url": {"url": f"data:image/png;base64,{chart_base64}"}},
+                            ],
+                        }],
+                        "max_tokens": 600,
+                    },
+                )
+                if resp.status_code == 200:
+                    data = resp.json()
+                    self.last_provider_used = "openai"
+                    return {"comment": data["choices"][0]["message"]["content"].strip(), "bias": 0, "disclaimer": True}
+                logger.warning(f"OpenAI vision failed: {resp.status_code} {resp.text[:200]}")
+        except Exception as e:
+            logger.warning(f"Chart analysis error {symbol}: {e}")
         return None
 
     # ------------------------------------------------------------------
@@ -184,7 +305,7 @@ class AiAnalyst:
 
     async def generate_weekly(self, candidates: List[BreakoutCandidate],
                               index_stats: Dict[str, Any]) -> str:
-        if self.enabled and self.llm_api_key:
+        if self.enabled and self._has_llm():
             prompt = (
                 "Sen profesyonel bir teknik analist ve Türkçe yazan bir piyasa yazarısın. "
                 "Sana haftalık teknik analiz sonuçları verilecek. Bunları yatırımcı dostu, "
@@ -204,7 +325,7 @@ class AiAnalyst:
 
     async def generate_daily(self, candidates: List[BreakoutCandidate],
                              index_stats: Dict[str, Any]) -> str:
-        if self.enabled and self.llm_api_key:
+        if self.enabled and self._has_llm():
             prompt = (
                 "Sen profesyonel bir günlük trade analistisin. Türkçe yaz. "
                 "Sana haftalık çıkış adayları ve günlük tetikleyicileri verilecek. "

@@ -327,12 +327,31 @@ smallcap:
 ai_report:
   enabled: true
   language: "tr"
-  # Opsiyonel: OPENAI_API_KEY tanımlıysa gerçek LLM kullanılır,
-  # tanımlı değilse sistem ücretsiz kurallı AI ile rapor üretir.
-  llm_model: "gpt-4o-mini"
+  # AI sağlayıcı: "gemini" (önerilen, ücretsiz AI Studio) veya "openai".
+  # AI_PROVIDER env'i varsa o önceliklidir. Key yoksa sistem kural tabanlı
+  # (AI'sız) çalışır ve arayüzde "AI kapalı" rozeti görünür.
+  provider: "gemini"
+  llm_model: "gpt-4o-mini"        # openai kullanılıyorsa
   llm_max_tokens: 900
   llm_temperature: 0.4
   include_disclaimer: true
+  # Görsel grafik okuma (vision): günde top-N aday için çalışır (maliyet kontrolü)
+  chart_analysis:
+    enabled: true
+    top_n: 3
+    daily_budget_calls: 6
+
+# ============================================================
+# GERÇEK BACKTEST (geçmiş veride strateji simülasyonu)
+# ============================================================
+backtest:
+  enabled: true
+  max_symbols: 60          # kaç hisse taransın (kota dostu)
+  max_hold_days: 10        # pozisyon açık kalabileceği maks gün
+  min_bbw_pctile: 30       # setup filtresi: BB genişliği persentili eşiği
+  slippage_pct: 0.1        # girişte slippage modeli
+  interval_seconds: 21600  # 6 saatte bir dene (piyasa kapalıyken koşar)
+  run_during_hours: false  # seans içinde koşma (kota yarışını önler)
 
 # ============================================================
 # RAPOR ZAMANLAMASI (Türkiye saati)

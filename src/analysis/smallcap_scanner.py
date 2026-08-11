@@ -16,6 +16,7 @@ from src.utils.logger import get_logger
 from src.data.price_fetcher import PriceFetcher
 from src.data.screener_fetcher import UniverseFetcher
 from src.analysis.technical import TechnicalAnalyzer, IndicatorSnapshot
+from src.analysis import pattern as pat
 
 logger = get_logger(__name__)
 
@@ -48,6 +49,17 @@ class SmallCapCandidate:
     squeeze_days: int = 0                  # kaç gündür daralma içinde
     atr_contraction_pct: float = 0.0       # ATR 20 gün içi daralma %
     expect_horizon: str = "birikim"        # 1-2 seans | 3-5 seans | 1 hafta | birikim
+
+    # Pattern & level detail (kural tabanlı, ücretsiz)
+    candle_patterns: List[str] = field(default_factory=list)   # tespit edilen mum formasyonları
+    pattern_bias: int = 0                    # +1 boğa / -1 ayı / 0 nötr (son desenler)
+    pattern_bonus: float = 0.0               # setup_score'a eklenen bonus
+    resistance_pivot: float = 0.0            # en yakın pivot/round direnç
+    support_pivot: float = 0.0               # en yakın pivot/round destek
+    dist_to_pivot_res_pct: float = 0.0       # pivot dirence mesafe %
+    dist_to_pivot_sup_pct: float = 0.0       # pivot desteğe mesafe %
+    is_nr7: bool = False                     # daralma (NR7)
+    session_vwap: float = 0.0                # gerçek gün içi VWAP (15m tarama)
 
     # Trigger detail (15m)
     trigger_score: float = 0.0
@@ -82,6 +94,15 @@ class SmallCapCandidate:
             "squeeze_days": int(self.squeeze_days),
             "atr_contraction_pct": round(self.atr_contraction_pct, 2),
             "expect_horizon": self.expect_horizon,
+            "candle_patterns": self.candle_patterns,
+            "pattern_bias": int(self.pattern_bias),
+            "pattern_bonus": round(self.pattern_bonus, 1),
+            "resistance_pivot": round(self.resistance_pivot, 2),
+            "support_pivot": round(self.support_pivot, 2),
+            "dist_to_pivot_res_pct": round(self.dist_to_pivot_res_pct, 2),
+            "dist_to_pivot_sup_pct": round(self.dist_to_pivot_sup_pct, 2),
+            "is_nr7": bool(self.is_nr7),
+            "session_vwap": round(self.session_vwap, 2),
             "trigger_score": round(self.trigger_score, 1),
             "trigger_type": self.trigger_type,
             "trigger_reasons": self.trigger_reasons,
@@ -293,6 +314,40 @@ class SmallCapScanner:
         )
         horizon = self._expect_horizon(dist_res, bbw_pctile, bbw_slope)
 
+        # --- Pattern & level detection (kural tabanlı, ücretsiz) ---
+        candles = pat.detect_candles(df, lookback=5)
+        candle_names = [p["pattern"] for p in candles]
+        # Son 3 barın net yönü: bullish +1, bearish -1, nötr 0 (ağırlıklı)
+        recent = [p for p in candles if p["bar"] >= len(df) - 3]
+        bias = 0
+        if recent:
+            bias = int(np.sign(sum(p["bullish"] for p in recent)))
+        nr7 = pat.is_nr7(df)
+        levels = pat.nearest_levels(df, snap.price, window=5, lookback=120)
+
+        # Pivot direnç Donchian'dan daha yakınsa direnç olarak onu kullan
+        pivot_res_pct = levels["dist_res_pct"]
+        if pivot_res_pct != 0 and (dist_res > 0 or pivot_res_pct < dist_res):
+            effective_res_pct = pivot_res_pct
+            res_level = levels["resistance"]
+        else:
+            effective_res_pct = dist_res
+            res_level = snap.donchian_upper_20
+
+        # 6) Desen bonusu (0-8): bullish formasyon + squeeze yakınlığı
+        pattern_bonus = 0.0
+        if bias > 0:
+            pattern_bonus += 4.0
+        if any(p in candle_names for p in ("bullish_engulfing", "hammer", "pin_bar")):
+            pattern_bonus += 4.0
+            if bias > 0:
+                pattern_bonus += 2.0
+        if bias < 0:
+            pattern_bonus -= 3.0
+        if any(p in candle_names for p in ("bearish_engulfing", "shooting_star")):
+            pattern_bonus -= 2.0
+        pattern_bonus = float(np.clip(pattern_bonus, -5, 8))
+
         score = 0.0
         reasons: List[str] = []
 
@@ -353,6 +408,15 @@ class SmallCapScanner:
             reasons.append("🔇 Hacim daralması (birikim)")
 
         score = float(np.clip(score, 0, 100))
+        # Desen bonusu: setup skoruna yansıt (ayrıca candidates'a detayıyla yazılır)
+        score = float(np.clip(score + pattern_bonus, 0, 100))
+        if pattern_bonus > 0:
+            reasons.append("🕯️ " + ", ".join(candle_names[:3]) + " (desen desteği)")
+        if nr7 and bias >= 0:
+            reasons.append("📦 NR7 daralma barı")
+        if levels["res_type"] == "pivot":
+            reasons.append(f"📍 Pivot direnç: {levels['resistance']:.2f}")
+
         stype = "watch"
         if bbw_pctile < 25 and abs(snap.change_pct) < 8:
             stype = "squeeze"
@@ -376,6 +440,15 @@ class SmallCapScanner:
             "squeeze_days": squeeze_days,
             "atr_contraction_pct": atr_contract,
             "expect_horizon": horizon,
+            "candle_patterns": candle_names,
+            "pattern_bias": bias,
+            "pattern_bonus": pattern_bonus,
+            "resistance_pivot": levels["resistance"],
+            "support_pivot": levels["support"],
+            "dist_to_pivot_res_pct": pivot_res_pct,
+            "dist_to_pivot_sup_pct": levels["dist_sup_pct"],
+            "is_nr7": nr7,
+            "session_vwap": pat.session_vwap(df),
         }
         return score, stype, reasons, detail
 
@@ -440,6 +513,15 @@ class SmallCapScanner:
                     squeeze_days=detail["squeeze_days"],
                     atr_contraction_pct=detail["atr_contraction_pct"],
                     expect_horizon=detail["expect_horizon"],
+                    candle_patterns=detail["candle_patterns"],
+                    pattern_bias=detail["pattern_bias"],
+                    pattern_bonus=detail["pattern_bonus"],
+                    resistance_pivot=detail["resistance_pivot"],
+                    support_pivot=detail["support_pivot"],
+                    dist_to_pivot_res_pct=detail["dist_to_pivot_res_pct"],
+                    dist_to_pivot_sup_pct=detail["dist_to_pivot_sup_pct"],
+                    is_nr7=detail["is_nr7"],
+                    session_vwap=detail["session_vwap"],
                 ))
             except Exception as e:
                 logger.warning(f"Setup error {symbol}: {e}")
@@ -452,8 +534,12 @@ class SmallCapScanner:
     # Intraday trigger scoring (15m)
     # ------------------------------------------------------------------
 
-    def _intraday_trigger(self, cand: SmallCapCandidate, snap: IndicatorSnapshot) -> Tuple[float, Optional[str], List[str]]:
-        """Score the current 15m breakout trigger against the daily setup level."""
+    def _intraday_trigger(self, cand: SmallCapCandidate, snap: IndicatorSnapshot,
+                          mtf: Optional[Dict[str, Any]] = None) -> Tuple[float, Optional[str], List[str]]:
+        """Score the current 15m breakout trigger against the daily setup level.
+        mtf (optional) = {trend, ema21, price, macd_hist} from a higher timeframe
+        (1h). If the higher TF does not confirm the direction, the trigger is
+        discounted — this cuts false breakouts."""
         score = 0.0
         reasons: List[str] = []
         trig = "none"
@@ -471,6 +557,27 @@ class SmallCapScanner:
                 score += 20
                 trig = "near"
                 reasons.append(f"🎯 Günlük dirence dayanıyor ({cand.donchian_upper:.2f})")
+
+        # --- MTF (multi-timeframe) confirmation: 1h trend must agree ---
+        mtf_discount = 0.0
+        mtf_boost = 0.0
+        if mtf:
+            if mtf.get("trend") == "up":
+                mtf_boost = 8.0
+                reasons.append(f"🕐 1H trend destekli (fiyat > EMA21)")
+            elif mtf.get("trend") == "down":
+                mtf_discount = -12.0
+                reasons.append("⚠️ 1H trend aşağı — kırılım zayıf güven")
+            elif mtf.get("trend") == "neutral":
+                mtf_discount = -4.0
+            if mtf.get("macd_hist", 0) > 0:
+                mtf_boost += 4.0
+            else:
+                mtf_discount -= 4.0
+            # VWAP üstünde olmak da teyit
+            vw = mtf.get("session_vwap", 0)
+            if vw > 0 and mtf.get("price", 0) > vw:
+                mtf_boost += 3.0
 
         if snap.is_breakout_up or (snap.price > snap.bb_upper):
             score += 15
@@ -497,6 +604,9 @@ class SmallCapScanner:
             score += 8
             reasons.append("🌅 Gap up")
 
+        # MTF: yüksek TF ile uyumsuzsa trigger'ı zayıflat
+        score += mtf_boost + mtf_discount
+
         # Weight by setup strength (a strong setup + trigger = best signal)
         final = score * 0.5 + cand.setup_score * 0.5
         if trig == "none" and final < 45:
@@ -505,7 +615,8 @@ class SmallCapScanner:
 
     async def scan_triggers(self, candidates: List[SmallCapCandidate],
                             universe: List[Dict[str, Any]] = None) -> Tuple[List[SmallCapCandidate], List[str]]:
-        """Scan the top watchlist for intraday breakout triggers on 15m data.
+        """Scan the top watchlist for intraday breakout triggers on 15m data,
+        confirmed by the 1h timeframe (MTF). Adds session VWAP too.
 
         Returns (updated candidates with trigger info, triggered symbol list).
         """
@@ -516,7 +627,7 @@ class SmallCapScanner:
         for u in (universe or []):
             self._symbol_names[u["symbol"]] = u["name"]
 
-        fetched = await self._fetch_timeframes(symbols, ["15m"])
+        fetched = await self._fetch_timeframes(symbols, ["15m", "1h"])
 
         triggered: List[str] = []
         for cand in watch:
@@ -527,7 +638,31 @@ class SmallCapScanner:
                 snap = self.analyzer.analyze(pd_obj.data, cand.symbol, "15m")
                 if snap is None:
                     continue
-                score, trig, reasons = self._intraday_trigger(cand, snap)
+                # MTF: 1h trend confirmation
+                mtf = None
+                h1 = fetched.get(cand.symbol, {}).get("1h")
+                if h1 is not None and h1.data is not None and len(h1.data) >= 30:
+                    try:
+                        h1snap = self.analyzer.analyze(h1.data, cand.symbol, "1h")
+                        if h1snap is not None:
+                            if h1snap.price > h1snap.ema_21:
+                                trend = "up"
+                            elif h1snap.price < h1snap.ema_21:
+                                trend = "down"
+                            else:
+                                trend = "neutral"
+                            mtf = {
+                                "trend": trend,
+                                "price": h1snap.price,
+                                "ema21": h1snap.ema_21,
+                                "macd_hist": h1snap.macd_hist,
+                                "session_vwap": pat.session_vwap(h1.data),
+                            }
+                    except Exception as e:
+                        logger.debug(f"MTF 1h error {cand.symbol}: {e}")
+                # Session VWAP (15m)
+                cand.session_vwap = pat.session_vwap(pd_obj.data)
+                score, trig, reasons = self._intraday_trigger(cand, snap, mtf)
                 cand.trigger_score = score
                 cand.trigger_type = trig
                 cand.trigger_reasons = reasons
@@ -705,6 +840,8 @@ class SmallCapScanner:
             lines.append(f"<b>{i}.</b> " + self._trade_plan_line(c)[0])
             lines.extend(self._trade_plan_line(c)[1:])
             lines.extend(self._budget_plan_line(c))
+            if c.candle_patterns and c.pattern_bonus != 0:
+                lines.append(f"   🕯️ Desen: {', '.join(c.candle_patterns[:3])} ({c.pattern_bonus:+.0f} puan)")
             if c.news_headline:
                 news_emoji = "🔴" if c.news_score <= -3 else ("🟢" if c.news_score >= 3 else "⚪")
                 lines.append(f"      {news_emoji} {c.news_headline[:60]}")
@@ -744,6 +881,8 @@ class SmallCapScanner:
                 f"   🟢 <b>ALIM LİMİTİ:</b> {plan['limit']:,.2f} | 🎯 <b>HEDEF:</b> {plan['target']:,.2f} (+{plan['upside_pct']:.1f}%) | 🛑 <b>STOP:</b> {plan['stop']:,.2f} (R/K 1:{plan['rr']:.1f})"
             )
             lines.extend(self._budget_plan_line(c))
+            if c.candle_patterns and c.pattern_bonus != 0:
+                lines.append(f"   🕯️ Desen: {', '.join(c.candle_patterns[:3])} ({c.pattern_bonus:+.0f} puan)")
             if c.news_headline:
                 news_emoji = "🔴" if c.news_score <= -3 else ("🟢" if c.news_score >= 3 else "⚪")
                 lines.append(f"      {news_emoji} {c.news_headline[:60]}")
@@ -782,6 +921,8 @@ class SmallCapScanner:
                 f"   🟢 <b>ALIM LİMİTİ:</b> {plan['limit']:,.2f} | 🎯 <b>HEDEF:</b> {plan['target']:,.2f} (+{plan['upside_pct']:.1f}%) | 🛑 <b>STOP:</b> {plan['stop']:,.2f} (R/K 1:{plan['rr']:.1f})"
             )
             lines.extend(self._budget_plan_line(c))
+            if c.candle_patterns and c.pattern_bonus != 0:
+                lines.append(f"   🕯️ Desen: {', '.join(c.candle_patterns[:3])} ({c.pattern_bonus:+.0f} puan)")
             if c.news_headline:
                 news_emoji = "🔴" if c.news_score <= -3 else ("🟢" if c.news_score >= 3 else "⚪")
                 lines.append(f"      {news_emoji} {c.news_headline[:60]}")
@@ -806,6 +947,10 @@ class SmallCapScanner:
             f"   🛑 <b>ZARAR KES (STOP):</b> {plan['stop']:,.2f} USD (R/K: 1:{plan['rr']:.1f})",
         ]
         lines.extend(self._budget_plan_line(c))
+        if c.candle_patterns and c.pattern_bonus != 0:
+            lines.append(f"   🕯️ Desen: {', '.join(c.candle_patterns[:3])} ({c.pattern_bonus:+.0f} puan)")
+        if c.resistance_pivot > 0:
+            lines.append(f"   📍 Direnç: {c.resistance_pivot:.2f} | Destek: {c.support_pivot:.2f}")
         if c.news_headline:
             news_emoji = "🔴" if c.news_score <= -3 else ("🟢" if c.news_score >= 3 else "⚪")
             lines.append(f"   {news_emoji} {c.news_headline[:80]}")
