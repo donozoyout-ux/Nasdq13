@@ -6287,12 +6287,149 @@
           "news_score": 0.0
         }
       ]
+    },
+    {
+      "time": "2026-08-12T21:02:58.875644",
+      "universe_size": 250,
+      "closed": true,
+      "candidates": [
+        {
+          "symbol": "IMVT",
+          "name": "Immunovant, Inc. Common Stock",
+          "price": 42.6,
+          "change_pct": 6.79,
+          "setup_score": 92.9,
+          "setup_type": "squeeze",
+          "anticipation_score": 60.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 0,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "WAL",
+          "name": "Western Alliance Bancorporation Common Stock (DE)",
+          "price": 82.62,
+          "change_pct": 1.37,
+          "setup_score": 82.2,
+          "setup_type": "squeeze",
+          "anticipation_score": 50.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 6,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "DBX",
+          "name": "Dropbox, Inc. Class A Common Stock",
+          "price": 33.63,
+          "change_pct": -2.78,
+          "setup_score": 80.8,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "KMX",
+          "name": "CarMax Inc",
+          "price": 58.71,
+          "change_pct": 0.91,
+          "setup_score": 79.4,
+          "setup_type": "squeeze",
+          "anticipation_score": 53.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 7,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "KYMR",
+          "name": "Kymera Therapeutics, Inc. Common Stock",
+          "price": 114.03,
+          "change_pct": 5.02,
+          "setup_score": 78.5,
+          "setup_type": "squeeze",
+          "anticipation_score": 60.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 22,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "FRO",
+          "name": "Frontline Plc Ordinary Shares",
+          "price": 39.57,
+          "change_pct": 3.75,
+          "setup_score": 78.0,
+          "setup_type": "squeeze",
+          "anticipation_score": 59.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 26,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "PTGX",
+          "name": "Protagonist Therapeutics, Inc. Common Stock",
+          "price": 152.01,
+          "change_pct": 1.34,
+          "setup_score": 76.9,
+          "setup_type": "basing",
+          "anticipation_score": 75.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 21,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "AVAV",
+          "name": "AeroVironment, Inc. Common Stock",
+          "price": 193.81,
+          "change_pct": -1.13,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "TTEK",
+          "name": "Tetra Tech, Inc. Common Stock",
+          "price": 35.5,
+          "change_pct": 0.34,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 45.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "BVN",
+          "name": "Buenaventura Mining Company Inc.",
+          "price": 34.6,
+          "change_pct": -0.57,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": null,
+          "news_score": 0.0
+        }
+      ]
     }
   ],
-  "last_scan_time": "2026-08-12T19:45:04.575515",
+  "last_scan_time": "2026-08-12T21:02:06.672355",
   "stats": {
     "total_signals": 0,
-    "total_scans": 1275,
+    "total_scans": 1352,
     "last_signal": null
   },
   "created_at": "2026-08-11T16:36:52.375361",
@@ -6369,10 +6506,10 @@
       "limit": 145.97999572753906,
       "target": 147.80257184178558,
       "stop": 145.0687076704158,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T21:02:58.971003"
     },
     "PTGX": {
       "first_seen": "2026-08-12T18:33:18.468133",
@@ -6875,10 +7012,10 @@
       "limit": 178.47000122070312,
       "target": 191.0710029358627,
       "stop": 172.16950036312335,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T21:02:58.971003"
     },
     "HQY": {
       "first_seen": "2026-08-12T18:33:18.468133",
@@ -7777,6 +7914,17 @@
       "limit": 81.5199966430664,
       "target": 88.56926382556063,
       "stop": 77.9953630518193,
+      "status": "stopped_out",
+      "outcome": "stop",
+      "breakout_at": null,
+      "resolved_at": "2026-08-12T21:02:58.971003"
+    },
+    "BILI": {
+      "first_seen": "2026-08-12T21:02:58.971003",
+      "first_price": 17.61,
+      "limit": 19.469999313354492,
+      "target": 20.682726028090602,
+      "stop": 18.863635955986435,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
