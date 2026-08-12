@@ -4502,12 +4502,149 @@
           "news_score": 0.0
         }
       ]
+    },
+    {
+      "time": "2026-08-12T15:33:00.646511",
+      "universe_size": 250,
+      "closed": false,
+      "candidates": [
+        {
+          "symbol": "IMVT",
+          "name": "Immunovant, Inc. Common Stock",
+          "price": 42.12,
+          "change_pct": 5.59,
+          "setup_score": 87.5,
+          "setup_type": "squeeze",
+          "anticipation_score": 75.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 23,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "SYRE",
+          "name": "Spyre Therapeutics, Inc. Common Stock",
+          "price": 104.5,
+          "change_pct": -0.79,
+          "setup_score": 82.4,
+          "setup_type": "squeeze",
+          "anticipation_score": 52.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 25,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "FRO",
+          "name": "Frontline Plc Ordinary Shares",
+          "price": 39.1,
+          "change_pct": 2.52,
+          "setup_score": 79.9,
+          "setup_type": "squeeze",
+          "anticipation_score": 59.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 26,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "KMX",
+          "name": "CarMax Inc",
+          "price": 57.8,
+          "change_pct": -0.65,
+          "setup_score": 78.9,
+          "setup_type": "squeeze",
+          "anticipation_score": 53.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 7,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "PTGX",
+          "name": "Protagonist Therapeutics, Inc. Common Stock",
+          "price": 151.93,
+          "change_pct": 1.29,
+          "setup_score": 76.9,
+          "setup_type": "basing",
+          "anticipation_score": 75.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 21,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "AVAV",
+          "name": "AeroVironment, Inc. Common Stock",
+          "price": 192.71,
+          "change_pct": -1.69,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "BVN",
+          "name": "Buenaventura Mining Company Inc.",
+          "price": 34.66,
+          "change_pct": -0.4,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "TWST",
+          "name": "Twist Bioscience Corporation Common Stock",
+          "price": 123.69,
+          "change_pct": -0.95,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "CLF",
+          "name": "Cleveland-Cliffs Inc. Common Stock",
+          "price": 12.18,
+          "change_pct": -1.85,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 29.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "VSEC",
+          "name": "VSE Corporation Common Stock",
+          "price": 240.51,
+          "change_pct": -0.54,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        }
+      ]
     }
   ],
-  "last_scan_time": "2026-08-12T15:14:24.851546",
+  "last_scan_time": "2026-08-12T15:32:35.043192",
   "stats": {
     "total_signals": 0,
-    "total_scans": 1056,
+    "total_scans": 1074,
     "last_signal": null
   },
   "created_at": "2026-08-11T16:36:52.375361",
@@ -6472,9 +6609,9 @@
       "limit": 27.450000762939453,
       "target": 28.766667215561355,
       "stop": 26.791667536628502,
-      "status": "open",
-      "outcome": null,
-      "breakout_at": null,
+      "status": "breakout",
+      "outcome": "breakout",
+      "breakout_at": "2026-08-12T15:33:00.741465",
       "resolved_at": null
     },
     "DSGX": {
@@ -6890,10 +7027,10 @@
       "limit": 81.5199966430664,
       "target": 88.56926382556063,
       "stop": 77.9953630518193,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T15:33:00.741465"
     },
     "THG": {
       "first_seen": "2026-08-12T14:20:21.347026",
@@ -6923,10 +7060,10 @@
       "limit": 162.0850067138672,
       "target": 176.18736110545083,
       "stop": 155.03382951807535,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T15:33:00.741465"
     },
     "QGEN": {
       "first_seen": "2026-08-12T14:20:21.347026",
@@ -6956,6 +7093,28 @@
       "limit": 43.7400016784668,
       "target": 50.457264153359446,
       "stop": 40.38137044102047,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
+    "LTH": {
+      "first_seen": "2026-08-12T15:33:00.741465",
+      "first_price": 44.23,
+      "limit": 47.23500061035156,
+      "target": 50.556087524436535,
+      "stop": 45.574457153309076,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
+    "NE": {
+      "first_seen": "2026-08-12T15:33:00.741465",
+      "first_price": 44.33,
+      "limit": 44.54999923706055,
+      "target": 47.78938914426111,
+      "stop": 42.930304283460266,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
