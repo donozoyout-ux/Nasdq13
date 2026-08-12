@@ -9,7 +9,8 @@
   "smallcap_alerts_sent": {
     "RGEN:2026-08-11": "2026-08-11T17:16:10.615167",
     "NAVN:2026-08-11": "2026-08-11T19:46:11.183230",
-    "FRO:2026-08-12": "2026-08-12T14:02:10.130243"
+    "FRO:2026-08-12": "2026-08-12T14:02:10.130243",
+    "PB:2026-08-12": "2026-08-12T14:20:21.303300"
   },
   "smallcap_setup_sent": {
     "2026-08-11": "2026-08-11T16:40:54.677125",
@@ -3951,12 +3952,149 @@
           "news_score": 0.0
         }
       ]
+    },
+    {
+      "time": "2026-08-12T14:20:21.312700",
+      "universe_size": 250,
+      "closed": false,
+      "candidates": [
+        {
+          "symbol": "IMVT",
+          "name": "Immunovant, Inc. Common Stock",
+          "price": 41.63,
+          "change_pct": 4.36,
+          "setup_score": 86.5,
+          "setup_type": "squeeze",
+          "anticipation_score": 48.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 23,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "SYRE",
+          "name": "Spyre Therapeutics, Inc. Common Stock",
+          "price": 103.11,
+          "change_pct": -2.11,
+          "setup_score": 80.9,
+          "setup_type": "squeeze",
+          "anticipation_score": 48.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 25,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "FRO",
+          "name": "Frontline Plc Ordinary Shares",
+          "price": 39.18,
+          "change_pct": 2.73,
+          "setup_score": 80.1,
+          "setup_type": "squeeze",
+          "anticipation_score": 59.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 26,
+          "trigger_type": "breakout",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "KMX",
+          "name": "CarMax Inc",
+          "price": 57.87,
+          "change_pct": -0.54,
+          "setup_score": 78.9,
+          "setup_type": "squeeze",
+          "anticipation_score": 53.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 7,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "AVAV",
+          "name": "AeroVironment, Inc. Common Stock",
+          "price": 193.03,
+          "change_pct": -1.53,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "AVTR",
+          "name": "Avantor, Inc. Common Stock",
+          "price": 13.61,
+          "change_pct": -0.84,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 33.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "BVN",
+          "name": "Buenaventura Mining Company Inc.",
+          "price": 35.03,
+          "change_pct": 0.66,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "CLF",
+          "name": "Cleveland-Cliffs Inc. Common Stock",
+          "price": 12.18,
+          "change_pct": -1.89,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 29.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "VSEC",
+          "name": "VSE Corporation Common Stock",
+          "price": 240.71,
+          "change_pct": -0.46,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "SLAB",
+          "name": "Silicon Laboratories, Inc. Common Stock",
+          "price": 218.72,
+          "change_pct": -0.1,
+          "setup_score": 74.1,
+          "setup_type": "squeeze",
+          "anticipation_score": 54.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 0,
+          "trigger_type": "near",
+          "news_score": 0.0
+        }
+      ]
     }
   ],
-  "last_scan_time": "2026-08-12T14:01:42.146809",
+  "last_scan_time": "2026-08-12T14:19:52.948566",
   "stats": {
     "total_signals": 0,
-    "total_scans": 984,
+    "total_scans": 1002,
     "last_signal": null
   },
   "created_at": "2026-08-11T16:36:52.375361",
@@ -4887,10 +5025,10 @@
       "limit": 49.4900016784668,
       "target": 54.30098786878765,
       "stop": 47.084508583306366,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T14:20:21.347026"
     },
     "TXG": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -4920,10 +5058,10 @@
       "limit": 188.32000732421875,
       "target": 198.04548404231076,
       "stop": 183.45726896517274,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T14:20:21.347026"
     },
     "MSA": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5382,9 +5520,9 @@
       "limit": 51.71699813757782,
       "target": 54.89862890766082,
       "stop": 50.126182752536316,
-      "status": "open",
-      "outcome": null,
-      "breakout_at": null,
+      "status": "breakout",
+      "outcome": "breakout",
+      "breakout_at": "2026-08-12T14:20:21.347026",
       "resolved_at": null
     },
     "KYMR": {
@@ -5492,10 +5630,10 @@
       "limit": 75.37000274658203,
       "target": 79.4963420135007,
       "stop": 73.30683311312269,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T14:20:21.347026"
     },
     "CHE": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5602,10 +5740,10 @@
       "limit": 71.13999938964844,
       "target": 76.76735723900143,
       "stop": 68.32632046497194,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T14:20:21.347026"
     },
     "CAG": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5657,10 +5795,10 @@
       "limit": 138.92999267578125,
       "target": 148.08269813054974,
       "stop": 134.353639948397,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T14:20:21.347026"
     },
     "AXTA": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5932,10 +6070,10 @@
       "limit": 80.56999969482422,
       "target": 86.48699634690823,
       "stop": 77.61150136878221,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T14:20:21.347026"
     },
     "FSS": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -6229,10 +6367,10 @@
       "limit": 34.20000076293945,
       "target": 37.17163192062467,
       "stop": 32.71418518409685,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T14:20:21.347026"
     },
     "CUBE": {
       "first_seen": "2026-08-12T14:02:10.154580",
@@ -6240,10 +6378,10 @@
       "limit": 43.2599983215332,
       "target": 44.991754831797245,
       "stop": 42.39412006640118,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T14:20:21.347026"
     },
     "IBRX": {
       "first_seen": "2026-08-12T14:02:10.154580",
@@ -6251,10 +6389,10 @@
       "limit": 8.140000343322754,
       "target": 9.043156488408375,
       "stop": 7.6884222707799434,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T14:20:21.347026"
     },
     "SFM": {
       "first_seen": "2026-08-12T14:02:10.154580",
@@ -6262,10 +6400,10 @@
       "limit": 93.31999969482422,
       "target": 100.96308996325351,
       "stop": 89.49845456060957,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T14:20:21.347026"
     },
     "PLXS": {
       "first_seen": "2026-08-12T14:02:10.154580",
@@ -6273,10 +6411,10 @@
       "limit": 298.0,
       "target": 324.282197065121,
       "stop": 284.8589014674395,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T14:20:21.347026"
     },
     "FORM": {
       "first_seen": "2026-08-12T14:02:10.154580",
@@ -6317,10 +6455,10 @@
       "limit": 47.66999816894531,
       "target": 50.366059533130034,
       "stop": 46.32196748685295,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T14:20:21.347026"
     },
     "XP": {
       "first_seen": "2026-08-12T14:02:10.154580",
@@ -6339,6 +6477,50 @@
       "limit": 81.5199966430664,
       "target": 88.56926382556063,
       "stop": 77.9953630518193,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
+    "THG": {
+      "first_seen": "2026-08-12T14:20:21.347026",
+      "first_price": 223.58,
+      "limit": 236.07000732421875,
+      "target": 245.86635689190967,
+      "stop": 231.1718325403733,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
+    "FRVO": {
+      "first_seen": "2026-08-12T14:20:21.347026",
+      "first_price": 25.77,
+      "limit": 28.93000030517578,
+      "target": 33.89925303141969,
+      "stop": 26.445373942053827,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
+    "FRHC": {
+      "first_seen": "2026-08-12T14:20:21.347026",
+      "first_price": 152.08,
+      "limit": 162.0850067138672,
+      "target": 176.18736110545083,
+      "stop": 155.03382951807535,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
+    "QGEN": {
+      "first_seen": "2026-08-12T14:20:21.347026",
+      "first_price": 42.51,
+      "limit": 44.40999984741211,
+      "target": 46.56941072783667,
+      "stop": 43.33029440719983,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
