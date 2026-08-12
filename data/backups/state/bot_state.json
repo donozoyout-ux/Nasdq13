@@ -3537,12 +3537,149 @@
           "news_score": 0.0
         }
       ]
+    },
+    {
+      "time": "2026-08-12T11:56:17.354045",
+      "universe_size": 250,
+      "closed": true,
+      "candidates": [
+        {
+          "symbol": "KMX",
+          "name": "CarMax Inc",
+          "price": 58.18,
+          "change_pct": -1.02,
+          "setup_score": 86.1,
+          "setup_type": "squeeze",
+          "anticipation_score": 56.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 6,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "SYRE",
+          "name": "Spyre Therapeutics, Inc. Common Stock",
+          "price": 105.33,
+          "change_pct": 0.4,
+          "setup_score": 84.1,
+          "setup_type": "squeeze",
+          "anticipation_score": 48.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 24,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "IMVT",
+          "name": "Immunovant, Inc. Common Stock",
+          "price": 39.89,
+          "change_pct": -0.15,
+          "setup_score": 82.7,
+          "setup_type": "squeeze",
+          "anticipation_score": 59.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 22,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "YMM",
+          "name": "Full Truck Alliance Co. Ltd. American Depositary Shares (each representing 20 Class A Ordinary Shares)",
+          "price": 9.7,
+          "change_pct": 0.73,
+          "setup_score": 82.6,
+          "setup_type": "squeeze",
+          "anticipation_score": 66.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 12,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "BILI",
+          "name": "Bilibili Inc. American Depositary Shares",
+          "price": 18.99,
+          "change_pct": 1.33,
+          "setup_score": 81.4,
+          "setup_type": "squeeze",
+          "anticipation_score": 55.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 13,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "EAT",
+          "name": "Brinker International, Inc. Common Stock",
+          "price": 221.38,
+          "change_pct": -2.71,
+          "setup_score": 81.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": null,
+          "news_score": -0.5
+        },
+        {
+          "symbol": "PTGX",
+          "name": "Protagonist Therapeutics, Inc. Common Stock",
+          "price": 150.0,
+          "change_pct": 2.83,
+          "setup_score": 80.1,
+          "setup_type": "squeeze",
+          "anticipation_score": 44.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 20,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "PACS",
+          "name": "PACS Group, Inc. Common Stock",
+          "price": 48.45,
+          "change_pct": 0.02,
+          "setup_score": 78.3,
+          "setup_type": "squeeze",
+          "anticipation_score": 63.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 16,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "TXG",
+          "name": "10x Genomics, Inc. Class A Common Stock",
+          "price": 58.57,
+          "change_pct": 12.57,
+          "setup_score": 77.0,
+          "setup_type": "basing",
+          "anticipation_score": 39.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 14,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "UHS",
+          "name": "Universal Health Services, Inc. Common Stock",
+          "price": 168.72,
+          "change_pct": -2.33,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": null,
+          "news_score": 0.0
+        }
+      ]
     }
   ],
-  "last_scan_time": "2026-08-12T10:53:37.340617",
+  "last_scan_time": "2026-08-12T11:56:16.343104",
   "stats": {
     "total_signals": 0,
-    "total_scans": 799,
+    "total_scans": 861,
     "last_signal": null
   },
   "created_at": "2026-08-11T16:36:52.375361",
@@ -4396,10 +4533,10 @@
       "limit": 61.150001525878906,
       "target": 65.30865210470225,
       "stop": 59.070676236467236,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "SYRE": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -4451,10 +4588,10 @@
       "limit": 232.47000122070312,
       "target": 248.94220551694252,
       "stop": 224.23389907258343,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "PTGX": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -4495,10 +4632,10 @@
       "limit": 176.02999877929688,
       "target": 188.35068626721275,
       "stop": 169.86965503533895,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "AWI": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -4561,10 +4698,10 @@
       "limit": 60.4900016784668,
       "target": 64.53153485628589,
       "stop": 58.46923508955725,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "MAAS": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -4572,10 +4709,10 @@
       "limit": 23.09000015258789,
       "target": 27.767704848573374,
       "stop": 20.75114780459515,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "SLAB": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -4627,10 +4764,10 @@
       "limit": 44.5,
       "target": 47.19967156380277,
       "stop": 43.15016421809862,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "BIO": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -4649,10 +4786,10 @@
       "limit": 156.17999267578125,
       "target": 168.76398596824964,
       "stop": 149.88799602954705,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "AVT": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -4660,10 +4797,10 @@
       "limit": 100.0,
       "target": 107.75837139794476,
       "stop": 96.12081430102762,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "BLTE": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -4726,10 +4863,10 @@
       "limit": 60.91999816894531,
       "target": 62.868459182544704,
       "stop": 59.94576766214562,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "RYTM": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -4759,10 +4896,10 @@
       "limit": 13.220000267028809,
       "target": 14.541270448103386,
       "stop": 12.55936517649152,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "NEU": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -4825,10 +4962,10 @@
       "limit": 178.47000122070312,
       "target": 190.94646451258095,
       "stop": 172.2317695747642,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "AVTR": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -4836,10 +4973,10 @@
       "limit": 14.619999885559082,
       "target": 15.763361340186346,
       "stop": 14.04831915824545,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "EQX": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -4891,10 +5028,10 @@
       "limit": 32.83000183105469,
       "target": 34.893040443337966,
       "stop": 31.798482524913048,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "ICL": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -4957,10 +5094,10 @@
       "limit": 145.97999572753906,
       "target": 147.84123097948066,
       "stop": 145.04937810156827,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "KNTK": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -4979,10 +5116,10 @@
       "limit": 119.83000183105469,
       "target": 129.3896607913135,
       "stop": 115.05017235092528,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "BAH": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5001,10 +5138,10 @@
       "limit": 55.283425787500164,
       "target": 58.70334713011579,
       "stop": 53.57346511619235,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "TTAN": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5045,10 +5182,10 @@
       "limit": 74.73999786376953,
       "target": 83.10266441101685,
       "stop": 70.55866459014587,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "ESTC": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5089,10 +5226,10 @@
       "limit": 557.0,
       "target": 583.1369015410418,
       "stop": 543.9315492294791,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "TEX": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5100,10 +5237,10 @@
       "limit": 71.31677587476216,
       "target": 77.05778675085111,
       "stop": 68.44627043671768,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "LAD": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5111,10 +5248,10 @@
       "limit": 438.67132328915716,
       "target": 469.37379303903015,
       "stop": 423.32008841422066,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "PATH": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5133,10 +5270,10 @@
       "limit": 19.59000015258789,
       "target": 20.298707183814667,
       "stop": 19.235646636974504,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "GLBE": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5199,10 +5336,10 @@
       "limit": 15.52274155370651,
       "target": 16.486755325568218,
       "stop": 15.040734667775656,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "CBC": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5221,10 +5358,10 @@
       "limit": 24.329999923706055,
       "target": 26.293232923739776,
       "stop": 23.348383423689192,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "PAYC": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5254,10 +5391,10 @@
       "limit": 38.61000061035156,
       "target": 40.740725505763905,
       "stop": 37.54463816264539,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "ROAD": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5287,10 +5424,10 @@
       "limit": 55.0,
       "target": 57.87835494294178,
       "stop": 53.56082252852911,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "STN": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5309,10 +5446,10 @@
       "limit": 103.8499984741211,
       "target": 108.87548718013505,
       "stop": 101.33725412111411,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "KRMN": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5364,10 +5501,10 @@
       "limit": 30.34000015258789,
       "target": 32.572213729888205,
       "stop": 29.223893363937734,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "KNSL": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5397,10 +5534,10 @@
       "limit": 126.9000015258789,
       "target": 133.15650095084433,
       "stop": 123.7717518133962,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "S": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5463,10 +5600,10 @@
       "limit": 75.87000274658203,
       "target": 78.58753646200917,
       "stop": 74.51123588886846,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "SSD": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5474,10 +5611,10 @@
       "limit": 209.32000732421875,
       "target": 220.9717226305094,
       "stop": 203.49414967107342,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "JOBY": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5496,10 +5633,10 @@
       "limit": 204.97000122070312,
       "target": 220.5158517467664,
       "stop": 197.1970759576715,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "CAE": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5529,10 +5666,10 @@
       "limit": 133.77999877929688,
       "target": 142.61136036684107,
       "stop": 129.3643179855248,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "NXE": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5540,10 +5677,10 @@
       "limit": 10.791000366210938,
       "target": 11.713500358383982,
       "stop": 10.329750370124415,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "IDCC": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5551,10 +5688,10 @@
       "limit": 351.3299865722656,
       "target": 376.82281490165144,
       "stop": 338.5835724075727,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "FRO": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5562,10 +5699,10 @@
       "limit": 40.29999923706055,
       "target": 43.24575369626566,
       "stop": 38.82712200745799,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "ACT": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5584,10 +5721,10 @@
       "limit": 92.18000030517578,
       "target": 96.46158908314943,
       "stop": 90.03920591618895,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "TTC": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5606,10 +5743,10 @@
       "limit": 12.380000114440918,
       "target": 13.143452720333784,
       "stop": 11.998273811494485,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "SNAP": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5617,10 +5754,10 @@
       "limit": 5.820000171661377,
       "target": 6.342055155408478,
       "stop": 5.558972679787827,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "XE": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5628,10 +5765,10 @@
       "limit": 23.170000076293945,
       "target": 26.77065690584568,
       "stop": 21.36967166151808,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "ASR": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5639,10 +5776,10 @@
       "limit": 285.0799865722656,
       "target": 300.52754895889905,
       "stop": 277.3562053789489,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "LLYVA": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5661,10 +5798,10 @@
       "limit": 76.83999633789062,
       "target": 81.62720067946847,
       "stop": 74.4463941671017,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "KT": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5672,10 +5809,10 @@
       "limit": 18.989999771118164,
       "target": 19.803847569872005,
       "stop": 18.583075871741244,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "JXN": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5683,10 +5820,10 @@
       "limit": 137.99000549316406,
       "target": 146.0071137390718,
       "stop": 133.9814513702102,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "ETSY": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5694,10 +5831,10 @@
       "limit": 87.9739990234375,
       "target": 95.14159265249543,
       "stop": 84.39020220890853,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "QBTS": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5705,10 +5842,10 @@
       "limit": 22.0,
       "target": 25.36690983495045,
       "stop": 20.316545082524776,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "ORA": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5727,10 +5864,10 @@
       "limit": 22.43000030517578,
       "target": 22.784145030921295,
       "stop": 22.252927942303025,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "WAL": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5738,10 +5875,10 @@
       "limit": 85.4800033569336,
       "target": 89.85223779898163,
       "stop": 83.29388613590957,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "ATR": {
       "first_seen": "2026-08-12T10:53:38.443303",
@@ -5749,10 +5886,10 @@
       "limit": 139.57000732421875,
       "target": 146.13458417029494,
       "stop": 136.28771890118065,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T11:56:17.445811"
     },
     "AOS": {
       "first_seen": "2026-08-12T10:53:38.443303",
