@@ -2894,12 +2894,149 @@
           "news_score": 0.0
         }
       ]
+    },
+    {
+      "time": "2026-08-12T05:33:26.319885",
+      "universe_size": 250,
+      "closed": true,
+      "candidates": [
+        {
+          "symbol": "KMX",
+          "name": "CarMax Inc",
+          "price": 58.18,
+          "change_pct": -1.02,
+          "setup_score": 86.1,
+          "setup_type": "squeeze",
+          "anticipation_score": 56.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 6,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "SYRE",
+          "name": "Spyre Therapeutics, Inc. Common Stock",
+          "price": 105.33,
+          "change_pct": 0.4,
+          "setup_score": 84.1,
+          "setup_type": "squeeze",
+          "anticipation_score": 48.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 24,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "IMVT",
+          "name": "Immunovant, Inc. Common Stock",
+          "price": 39.89,
+          "change_pct": -0.15,
+          "setup_score": 82.7,
+          "setup_type": "squeeze",
+          "anticipation_score": 59.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 22,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "YMM",
+          "name": "Full Truck Alliance Co. Ltd. American Depositary Shares (each representing 20 Class A Ordinary Shares)",
+          "price": 9.7,
+          "change_pct": 0.73,
+          "setup_score": 82.6,
+          "setup_type": "squeeze",
+          "anticipation_score": 66.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 12,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "BILI",
+          "name": "Bilibili Inc. American Depositary Shares",
+          "price": 18.99,
+          "change_pct": 1.33,
+          "setup_score": 81.4,
+          "setup_type": "squeeze",
+          "anticipation_score": 55.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 13,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "EAT",
+          "name": "Brinker International, Inc. Common Stock",
+          "price": 221.38,
+          "change_pct": -2.71,
+          "setup_score": 81.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "PTGX",
+          "name": "Protagonist Therapeutics, Inc. Common Stock",
+          "price": 150.0,
+          "change_pct": 2.83,
+          "setup_score": 80.1,
+          "setup_type": "squeeze",
+          "anticipation_score": 44.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 20,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "PACS",
+          "name": "PACS Group, Inc. Common Stock",
+          "price": 48.45,
+          "change_pct": 0.02,
+          "setup_score": 78.3,
+          "setup_type": "squeeze",
+          "anticipation_score": 63.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 16,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "TXG",
+          "name": "10x Genomics, Inc. Class A Common Stock",
+          "price": 58.57,
+          "change_pct": 12.57,
+          "setup_score": 77.0,
+          "setup_type": "basing",
+          "anticipation_score": 39.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 14,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "UHS",
+          "name": "Universal Health Services, Inc. Common Stock",
+          "price": 168.72,
+          "change_pct": -2.33,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": null,
+          "news_score": 0.0
+        }
+      ]
     }
   ],
-  "last_scan_time": "2026-08-12T04:30:51.912619",
+  "last_scan_time": "2026-08-12T05:33:25.215191",
   "stats": {
     "total_signals": 0,
-    "total_scans": 672,
+    "total_scans": 734,
     "last_signal": null
   },
   "created_at": "2026-08-11T16:36:52.375361",
@@ -4362,10 +4499,10 @@
       "limit": 103.8499984741211,
       "target": 108.87548718013656,
       "stop": 101.33725412111336,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T05:33:26.412782"
     },
     "JOBY": {
       "first_seen": "2026-08-12T04:30:53.227420",
@@ -4384,10 +4521,10 @@
       "limit": 18.989999771118164,
       "target": 19.803847569872005,
       "stop": 18.583075871741244,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T05:33:26.412782"
     },
     "JXN": {
       "first_seen": "2026-08-12T04:30:53.227420",
@@ -4395,10 +4532,10 @@
       "limit": 137.99000549316406,
       "target": 146.0071137390742,
       "stop": 133.981451370209,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T05:33:26.412782"
     },
     "ETSY": {
       "first_seen": "2026-08-12T04:30:53.227420",
@@ -4406,10 +4543,10 @@
       "limit": 87.9739990234375,
       "target": 95.14159265249543,
       "stop": 84.39020220890853,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T05:33:26.412782"
     },
     "QBTS": {
       "first_seen": "2026-08-12T04:30:53.227420",
@@ -4417,10 +4554,10 @@
       "limit": 22.0,
       "target": 25.36690983495045,
       "stop": 20.316545082524776,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T05:33:26.412782"
     },
     "PRH": {
       "first_seen": "2026-08-12T04:30:53.227420",
@@ -4428,10 +4565,10 @@
       "limit": 22.43000030517578,
       "target": 22.784145030982312,
       "stop": 22.252927942272514,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-12T05:33:26.412782"
     }
   },
   "backtest_results": {
