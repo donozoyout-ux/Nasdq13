@@ -9584,12 +9584,149 @@
           "news_score": 0.0
         }
       ]
+    },
+    {
+      "time": "2026-08-13T16:18:45.467620",
+      "universe_size": 250,
+      "closed": false,
+      "candidates": [
+        {
+          "symbol": "FRO",
+          "name": "Frontline Plc Ordinary Shares",
+          "price": 40.71,
+          "change_pct": 2.88,
+          "setup_score": 89.6,
+          "setup_type": "squeeze",
+          "anticipation_score": 52.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 27,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "KNTK",
+          "name": "Kinetik Holdings Inc. Class A Common Stock",
+          "price": 51.66,
+          "change_pct": 0.8,
+          "setup_score": 87.1,
+          "setup_type": "squeeze",
+          "anticipation_score": 87.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 10,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "SYRE",
+          "name": "Spyre Therapeutics, Inc. Common Stock",
+          "price": 102.13,
+          "change_pct": -1.88,
+          "setup_score": 83.6,
+          "setup_type": "squeeze",
+          "anticipation_score": 67.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 27,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "KMX",
+          "name": "CarMax Inc",
+          "price": 59.29,
+          "change_pct": 1.0,
+          "setup_score": 75.7,
+          "setup_type": "squeeze",
+          "anticipation_score": 57.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 8,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "SLAB",
+          "name": "Silicon Laboratories, Inc. Common Stock",
+          "price": 218.92,
+          "change_pct": 0.04,
+          "setup_score": 75.6,
+          "setup_type": "squeeze",
+          "anticipation_score": 54.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 0,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "PTGX",
+          "name": "Protagonist Therapeutics, Inc. Common Stock",
+          "price": 153.25,
+          "change_pct": 0.82,
+          "setup_score": 75.2,
+          "setup_type": "basing",
+          "anticipation_score": 28.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "RGEN",
+          "name": "Repligen Corporation Common Stock",
+          "price": 167.21,
+          "change_pct": 0.91,
+          "setup_score": 74.9,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "DBX",
+          "name": "Dropbox, Inc. Class A Common Stock",
+          "price": 33.98,
+          "change_pct": 1.04,
+          "setup_score": 74.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "IMVT",
+          "name": "Immunovant, Inc. Common Stock",
+          "price": 41.93,
+          "change_pct": -1.57,
+          "setup_score": 73.6,
+          "setup_type": "squeeze",
+          "anticipation_score": 29.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "BLTE",
+          "name": "Belite Bio, Inc American Depositary Shares",
+          "price": 171.0,
+          "change_pct": -4.44,
+          "setup_score": 73.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        }
+      ]
     }
   ],
-  "last_scan_time": "2026-08-13T16:00:12.867198",
+  "last_scan_time": "2026-08-13T16:18:19.275427",
   "stats": {
     "total_signals": 0,
-    "total_scans": 2403,
+    "total_scans": 2421,
     "last_signal": null
   },
   "created_at": "2026-08-11T16:36:52.375361",
@@ -9688,10 +9825,10 @@
       "limit": 196.82000732421875,
       "target": 217.9398019498537,
       "stop": 186.26011001140128,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-13T16:18:45.581143"
     },
     "TWST": {
       "first_seen": "2026-08-12T18:33:18.468133",
@@ -9732,10 +9869,10 @@
       "limit": 247.85000610351562,
       "target": 271.18339542786845,
       "stop": 236.1833114413392,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-13T16:18:45.581143"
     },
     "RAL": {
       "first_seen": "2026-08-12T18:33:18.468133",
@@ -9930,10 +10067,10 @@
       "limit": 10.930000305175781,
       "target": 11.825561234790067,
       "stop": 10.482219840368638,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-13T16:18:45.581143"
     },
     "BLTE": {
       "first_seen": "2026-08-12T18:33:18.468133",
@@ -10447,10 +10584,10 @@
       "limit": 29.889999389648438,
       "target": 33.18126930212084,
       "stop": 28.244364433412237,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-13T16:18:45.581143"
     },
     "VCTR": {
       "first_seen": "2026-08-12T18:33:18.468133",
