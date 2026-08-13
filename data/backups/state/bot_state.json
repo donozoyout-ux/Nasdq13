@@ -10406,12 +10406,149 @@
           "news_score": 0.0
         }
       ]
+    },
+    {
+      "time": "2026-08-13T18:07:22.172574",
+      "universe_size": 250,
+      "closed": false,
+      "candidates": [
+        {
+          "symbol": "SYRE",
+          "name": "Spyre Therapeutics, Inc. Common Stock",
+          "price": 102.47,
+          "change_pct": -1.56,
+          "setup_score": 89.8,
+          "setup_type": "squeeze",
+          "anticipation_score": 67.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 27,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "KNTK",
+          "name": "Kinetik Holdings Inc. Class A Common Stock",
+          "price": 51.88,
+          "change_pct": 1.22,
+          "setup_score": 86.9,
+          "setup_type": "squeeze",
+          "anticipation_score": 87.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 10,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "FRO",
+          "name": "Frontline Plc Ordinary Shares",
+          "price": 40.46,
+          "change_pct": 2.25,
+          "setup_score": 86.3,
+          "setup_type": "squeeze",
+          "anticipation_score": 52.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 27,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "ORKA",
+          "name": "Oruka Therapeutics, Inc. Common Stock",
+          "price": 106.66,
+          "change_pct": -0.69,
+          "setup_score": 76.3,
+          "setup_type": "basing",
+          "anticipation_score": 24.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "TWST",
+          "name": "Twist Bioscience Corporation Common Stock",
+          "price": 124.58,
+          "change_pct": -0.5,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "AVT",
+          "name": "Avnet, Inc. Common Stock",
+          "price": 96.79,
+          "change_pct": -0.53,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "WAL",
+          "name": "Western Alliance Bancorporation Common Stock (DE)",
+          "price": 82.26,
+          "change_pct": -0.44,
+          "setup_score": 75.9,
+          "setup_type": "squeeze",
+          "anticipation_score": 50.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 7,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "KMX",
+          "name": "CarMax Inc",
+          "price": 59.39,
+          "change_pct": 1.16,
+          "setup_score": 75.5,
+          "setup_type": "squeeze",
+          "anticipation_score": 57.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 8,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "SLAB",
+          "name": "Silicon Laboratories, Inc. Common Stock",
+          "price": 218.52,
+          "change_pct": -0.14,
+          "setup_score": 75.2,
+          "setup_type": "squeeze",
+          "anticipation_score": 27.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 0,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "PTGX",
+          "name": "Protagonist Therapeutics, Inc. Common Stock",
+          "price": 153.23,
+          "change_pct": 0.8,
+          "setup_score": 74.9,
+          "setup_type": "basing",
+          "anticipation_score": 28.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        }
+      ]
     }
   ],
-  "last_scan_time": "2026-08-13T17:48:50.468776",
+  "last_scan_time": "2026-08-13T18:06:56.568863",
   "stats": {
     "total_signals": 0,
-    "total_scans": 2511,
+    "total_scans": 2529,
     "last_signal": null
   },
   "created_at": "2026-08-11T16:36:52.375361",
@@ -10587,10 +10724,10 @@
       "limit": 219.75,
       "target": 222.2971162883783,
       "stop": 218.47644185581086,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-13T18:07:22.274575"
     },
     "FNB": {
       "first_seen": "2026-08-12T18:33:18.468133",
