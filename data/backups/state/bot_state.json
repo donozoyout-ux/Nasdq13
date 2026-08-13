@@ -23,7 +23,11 @@
     "WAL:2026-08-13": "2026-08-13T13:53:58.164000",
     "QBTS:2026-08-13": "2026-08-13T13:53:58.264091",
     "S:2026-08-13": "2026-08-13T14:12:07.147970",
-    "KMX:2026-08-13": "2026-08-13T14:12:07.232189"
+    "KMX:2026-08-13": "2026-08-13T14:12:07.232189",
+    "TTEK:2026-08-13": "2026-08-13T18:43:26.917456",
+    "DBX:2026-08-13": "2026-08-13T18:43:27.063268",
+    "APPF:2026-08-13": "2026-08-13T18:43:27.229612",
+    "SNAP:2026-08-13": "2026-08-13T18:43:27.437024"
   },
   "smallcap_setup_sent": {
     "2026-08-11": "2026-08-11T16:40:54.677125",
@@ -10680,12 +10684,149 @@
           "news_score": 0.0
         }
       ]
+    },
+    {
+      "time": "2026-08-13T18:43:27.469476",
+      "universe_size": 250,
+      "closed": false,
+      "candidates": [
+        {
+          "symbol": "SYRE",
+          "name": "Spyre Therapeutics, Inc. Common Stock",
+          "price": 101.83,
+          "change_pct": -2.17,
+          "setup_score": 88.8,
+          "setup_type": "squeeze",
+          "anticipation_score": 67.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 27,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "KNTK",
+          "name": "Kinetik Holdings Inc. Class A Common Stock",
+          "price": 51.62,
+          "change_pct": 0.72,
+          "setup_score": 87.0,
+          "setup_type": "squeeze",
+          "anticipation_score": 60.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 10,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "FRO",
+          "name": "Frontline Plc Ordinary Shares",
+          "price": 40.79,
+          "change_pct": 3.08,
+          "setup_score": 86.2,
+          "setup_type": "squeeze",
+          "anticipation_score": 52.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 27,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "BLTE",
+          "name": "Belite Bio, Inc American Depositary Shares",
+          "price": 166.3,
+          "change_pct": -7.06,
+          "setup_score": 76.3,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "ORKA",
+          "name": "Oruka Therapeutics, Inc. Common Stock",
+          "price": 106.96,
+          "change_pct": -0.41,
+          "setup_score": 76.2,
+          "setup_type": "basing",
+          "anticipation_score": 24.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "DBX",
+          "name": "Dropbox, Inc. Class A Common Stock",
+          "price": 34.68,
+          "change_pct": 3.12,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "breakout",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "APPF",
+          "name": "AppFolio, Inc. Class A Common Stock",
+          "price": 200.4,
+          "change_pct": 1.84,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "breakout",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "KMX",
+          "name": "CarMax Inc",
+          "price": 59.66,
+          "change_pct": 1.62,
+          "setup_score": 75.6,
+          "setup_type": "squeeze",
+          "anticipation_score": 57.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 8,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "SLAB",
+          "name": "Silicon Laboratories, Inc. Common Stock",
+          "price": 218.35,
+          "change_pct": -0.22,
+          "setup_score": 75.2,
+          "setup_type": "squeeze",
+          "anticipation_score": 27.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 0,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "RGEN",
+          "name": "Repligen Corporation Common Stock",
+          "price": 167.2,
+          "change_pct": 0.91,
+          "setup_score": 74.6,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "near",
+          "news_score": 0.0
+        }
+      ]
     }
   ],
-  "last_scan_time": "2026-08-13T18:25:00.765956",
+  "last_scan_time": "2026-08-13T18:43:04.067351",
   "stats": {
     "total_signals": 0,
-    "total_scans": 2547,
+    "total_scans": 2565,
     "last_signal": null
   },
   "created_at": "2026-08-11T16:36:52.375361",
@@ -11224,9 +11365,9 @@
       "limit": 35.65999984741211,
       "target": 37.88055351487066,
       "stop": 34.549723013682836,
-      "status": "open",
-      "outcome": null,
-      "breakout_at": null,
+      "status": "breakout",
+      "outcome": "breakout",
+      "breakout_at": "2026-08-13T18:43:27.576071",
       "resolved_at": null
     },
     "PCOR": {
@@ -11356,10 +11497,10 @@
       "limit": 27.59000015258789,
       "target": 28.88761894695541,
       "stop": 26.94119075540413,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-13T18:43:27.576071"
     },
     "BZ": {
       "first_seen": "2026-08-12T18:33:18.468133",
