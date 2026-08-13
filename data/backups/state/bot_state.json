@@ -10821,12 +10821,149 @@
           "news_score": 0.0
         }
       ]
+    },
+    {
+      "time": "2026-08-13T19:01:29.472629",
+      "universe_size": 250,
+      "closed": false,
+      "candidates": [
+        {
+          "symbol": "KNTK",
+          "name": "Kinetik Holdings Inc. Class A Common Stock",
+          "price": 51.6,
+          "change_pct": 0.68,
+          "setup_score": 86.8,
+          "setup_type": "squeeze",
+          "anticipation_score": 60.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 10,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "FRO",
+          "name": "Frontline Plc Ordinary Shares",
+          "price": 40.72,
+          "change_pct": 2.91,
+          "setup_score": 86.2,
+          "setup_type": "squeeze",
+          "anticipation_score": 52.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 27,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "SYRE",
+          "name": "Spyre Therapeutics, Inc. Common Stock",
+          "price": 102.13,
+          "change_pct": -1.88,
+          "setup_score": 83.2,
+          "setup_type": "squeeze",
+          "anticipation_score": 67.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 27,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "ORKA",
+          "name": "Oruka Therapeutics, Inc. Common Stock",
+          "price": 107.36,
+          "change_pct": -0.04,
+          "setup_score": 76.1,
+          "setup_type": "basing",
+          "anticipation_score": 24.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "GDS",
+          "name": "GDS Holdings Limited ADS",
+          "price": 34.82,
+          "change_pct": 6.35,
+          "setup_score": 76.1,
+          "setup_type": "squeeze",
+          "anticipation_score": 40.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 43,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "DBX",
+          "name": "Dropbox, Inc. Class A Common Stock",
+          "price": 34.77,
+          "change_pct": 3.39,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "breakout",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "RGEN",
+          "name": "Repligen Corporation Common Stock",
+          "price": 167.93,
+          "change_pct": 1.35,
+          "setup_score": 75.3,
+          "setup_type": "basing",
+          "anticipation_score": 45.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "KMX",
+          "name": "CarMax Inc",
+          "price": 59.88,
+          "change_pct": 1.98,
+          "setup_score": 75.2,
+          "setup_type": "squeeze",
+          "anticipation_score": 57.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 8,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "TTEK",
+          "name": "Tetra Tech, Inc. Common Stock",
+          "price": 36.17,
+          "change_pct": 1.9,
+          "setup_score": 75.1,
+          "setup_type": "basing",
+          "anticipation_score": 45.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "breakout",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "PTGX",
+          "name": "Protagonist Therapeutics, Inc. Common Stock",
+          "price": 152.23,
+          "change_pct": 0.14,
+          "setup_score": 73.8,
+          "setup_type": "basing",
+          "anticipation_score": 28.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        }
+      ]
     }
   ],
-  "last_scan_time": "2026-08-13T18:43:04.067351",
+  "last_scan_time": "2026-08-13T19:01:07.366298",
   "stats": {
     "total_signals": 0,
-    "total_scans": 2565,
+    "total_scans": 2583,
     "last_signal": null
   },
   "created_at": "2026-08-11T16:36:52.375361",
@@ -12520,6 +12657,28 @@
       "limit": 33.4900016784668,
       "target": 37.792947203542305,
       "stop": 31.338528915929043,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
+    "GDS": {
+      "first_seen": "2026-08-13T19:01:29.573378",
+      "first_price": 34.82,
+      "limit": 35.399898529052734,
+      "target": 38.712853808208614,
+      "stop": 33.74342088947479,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
+    "MWH": {
+      "first_seen": "2026-08-13T19:01:29.573378",
+      "first_price": 32.85,
+      "limit": 33.36000061035156,
+      "target": 37.43795777140039,
+      "stop": 31.321022029827148,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
