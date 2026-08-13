@@ -9036,12 +9036,149 @@
           "news_score": 0.0
         }
       ]
+    },
+    {
+      "time": "2026-08-13T15:06:24.969405",
+      "universe_size": 250,
+      "closed": false,
+      "candidates": [
+        {
+          "symbol": "SYRE",
+          "name": "Spyre Therapeutics, Inc. Common Stock",
+          "price": 102.62,
+          "change_pct": -1.41,
+          "setup_score": 89.8,
+          "setup_type": "squeeze",
+          "anticipation_score": 67.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 27,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "FRO",
+          "name": "Frontline Plc Ordinary Shares",
+          "price": 40.97,
+          "change_pct": 3.54,
+          "setup_score": 89.0,
+          "setup_type": "squeeze",
+          "anticipation_score": 52.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 27,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "KNTK",
+          "name": "Kinetik Holdings Inc. Class A Common Stock",
+          "price": 51.4,
+          "change_pct": 0.29,
+          "setup_score": 86.7,
+          "setup_type": "squeeze",
+          "anticipation_score": 60.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 10,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "AVTR",
+          "name": "Avantor, Inc. Common Stock",
+          "price": 13.93,
+          "change_pct": -0.04,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 33.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "BVN",
+          "name": "Buenaventura Mining Company Inc.",
+          "price": 34.64,
+          "change_pct": 0.11,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "AVT",
+          "name": "Avnet, Inc. Common Stock",
+          "price": 96.98,
+          "change_pct": -0.34,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "BLTE",
+          "name": "Belite Bio, Inc American Depositary Shares",
+          "price": 171.53,
+          "change_pct": -4.14,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "IMVT",
+          "name": "Immunovant, Inc. Common Stock",
+          "price": 42.75,
+          "change_pct": 0.35,
+          "setup_score": 75.9,
+          "setup_type": "squeeze",
+          "anticipation_score": 56.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 0,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "SLAB",
+          "name": "Silicon Laboratories, Inc. Common Stock",
+          "price": 219.15,
+          "change_pct": 0.15,
+          "setup_score": 75.3,
+          "setup_type": "squeeze",
+          "anticipation_score": 54.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 0,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "KMX",
+          "name": "CarMax Inc",
+          "price": 59.53,
+          "change_pct": 1.4,
+          "setup_score": 75.3,
+          "setup_type": "squeeze",
+          "anticipation_score": 57.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 8,
+          "trigger_type": "none",
+          "news_score": 0.0
+        }
+      ]
     }
   ],
-  "last_scan_time": "2026-08-13T14:47:55.172983",
+  "last_scan_time": "2026-08-13T15:05:59.669675",
   "stats": {
     "total_signals": 0,
-    "total_scans": 2331,
+    "total_scans": 2349,
     "last_signal": null
   },
   "created_at": "2026-08-11T16:36:52.375361",
@@ -9481,9 +9618,9 @@
       "limit": 118.5,
       "target": 128.6264075839535,
       "stop": 113.43679620802325,
-      "status": "open",
-      "outcome": null,
-      "breakout_at": null,
+      "status": "breakout",
+      "outcome": "breakout",
+      "breakout_at": "2026-08-13T15:06:25.071765",
       "resolved_at": null
     },
     "CHRD": {
@@ -10383,10 +10520,10 @@
       "limit": 25.150100708007812,
       "target": 25.390859911721734,
       "stop": 25.029721106150852,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-13T15:06:25.071765"
     },
     "QGEN": {
       "first_seen": "2026-08-12T18:33:18.468133",
@@ -10702,10 +10839,10 @@
       "limit": 57.93000030517578,
       "target": 63.053338538796424,
       "stop": 55.36833118836546,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-13T15:06:25.071765"
     },
     "ORA": {
       "first_seen": "2026-08-13T14:48:19.171289",
