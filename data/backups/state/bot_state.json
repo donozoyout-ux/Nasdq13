@@ -10543,12 +10543,149 @@
           "news_score": 0.0
         }
       ]
+    },
+    {
+      "time": "2026-08-13T18:25:25.871697",
+      "universe_size": 250,
+      "closed": false,
+      "candidates": [
+        {
+          "symbol": "KNTK",
+          "name": "Kinetik Holdings Inc. Class A Common Stock",
+          "price": 51.83,
+          "change_pct": 1.13,
+          "setup_score": 86.8,
+          "setup_type": "squeeze",
+          "anticipation_score": 87.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 10,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "FRO",
+          "name": "Frontline Plc Ordinary Shares",
+          "price": 40.62,
+          "change_pct": 2.65,
+          "setup_score": 86.4,
+          "setup_type": "squeeze",
+          "anticipation_score": 52.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 27,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "SYRE",
+          "name": "Spyre Therapeutics, Inc. Common Stock",
+          "price": 102.31,
+          "change_pct": -1.71,
+          "setup_score": 83.6,
+          "setup_type": "squeeze",
+          "anticipation_score": 67.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 27,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "ORKA",
+          "name": "Oruka Therapeutics, Inc. Common Stock",
+          "price": 106.93,
+          "change_pct": -0.44,
+          "setup_score": 76.2,
+          "setup_type": "basing",
+          "anticipation_score": 24.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "TWST",
+          "name": "Twist Bioscience Corporation Common Stock",
+          "price": 124.69,
+          "change_pct": -0.42,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "AVT",
+          "name": "Avnet, Inc. Common Stock",
+          "price": 96.88,
+          "change_pct": -0.44,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "GTLB",
+          "name": "GitLab Inc. Class A Common Stock",
+          "price": 40.85,
+          "change_pct": 0.09,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "WAL",
+          "name": "Western Alliance Bancorporation Common Stock (DE)",
+          "price": 82.34,
+          "change_pct": -0.34,
+          "setup_score": 75.9,
+          "setup_type": "squeeze",
+          "anticipation_score": 50.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 7,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "BLTE",
+          "name": "Belite Bio, Inc American Depositary Shares",
+          "price": 165.7,
+          "change_pct": -7.4,
+          "setup_score": 75.8,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "KMX",
+          "name": "CarMax Inc",
+          "price": 59.42,
+          "change_pct": 1.21,
+          "setup_score": 75.5,
+          "setup_type": "squeeze",
+          "anticipation_score": 57.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 8,
+          "trigger_type": "none",
+          "news_score": 0.0
+        }
+      ]
     }
   ],
-  "last_scan_time": "2026-08-13T18:06:56.568863",
+  "last_scan_time": "2026-08-13T18:25:00.765956",
   "stats": {
     "total_signals": 0,
-    "total_scans": 2529,
+    "total_scans": 2547,
     "last_signal": null
   },
   "created_at": "2026-08-11T16:36:52.375361",
