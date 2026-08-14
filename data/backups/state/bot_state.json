@@ -13705,12 +13705,149 @@
           "news_score": 0.0
         }
       ]
+    },
+    {
+      "time": "2026-08-14T15:37:24.716878",
+      "universe_size": 250,
+      "closed": false,
+      "candidates": [
+        {
+          "symbol": "FRO",
+          "name": "Frontline Plc Ordinary Shares",
+          "price": 41.04,
+          "change_pct": 1.28,
+          "setup_score": 90.7,
+          "setup_type": "squeeze",
+          "anticipation_score": 63.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 28,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "KNTK",
+          "name": "Kinetik Holdings Inc. Class A Common Stock",
+          "price": 53.02,
+          "change_pct": 2.63,
+          "setup_score": 76.6,
+          "setup_type": "squeeze",
+          "anticipation_score": 68.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 11,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "TTEK",
+          "name": "Tetra Tech, Inc. Common Stock",
+          "price": 36.38,
+          "change_pct": -0.12,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "TWST",
+          "name": "Twist Bioscience Corporation Common Stock",
+          "price": 120.04,
+          "change_pct": -4.19,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "FNB",
+          "name": "F.N.B. Corporation Common Stock",
+          "price": 19.46,
+          "change_pct": 0.67,
+          "setup_score": 75.7,
+          "setup_type": "squeeze",
+          "anticipation_score": 72.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 29,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "OSCR",
+          "name": "Oscar Health, Inc. Class A Common Stock",
+          "price": 32.72,
+          "change_pct": 6.29,
+          "setup_score": 75.5,
+          "setup_type": "squeeze",
+          "anticipation_score": 29.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "KMX",
+          "name": "CarMax Inc",
+          "price": 59.65,
+          "change_pct": -0.66,
+          "setup_score": 74.8,
+          "setup_type": "squeeze",
+          "anticipation_score": 57.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 9,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "VIST",
+          "name": "Vista Energy S.A.B. de C.V. American Depositary Shares, each representing one series A share, with no par value",
+          "price": 68.34,
+          "change_pct": 3.25,
+          "setup_score": 74.8,
+          "setup_type": "squeeze",
+          "anticipation_score": 63.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 24,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "LOAR",
+          "name": "Loar Holdings Inc. Common Stock",
+          "price": 77.05,
+          "change_pct": 4.14,
+          "setup_score": 74.4,
+          "setup_type": "basing",
+          "anticipation_score": 39.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 23,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "RGEN",
+          "name": "Repligen Corporation Common Stock",
+          "price": 166.82,
+          "change_pct": -0.4,
+          "setup_score": 74.4,
+          "setup_type": "basing",
+          "anticipation_score": 22.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "near",
+          "news_score": 0.0
+        }
+      ]
     }
   ],
-  "last_scan_time": "2026-08-14T15:18:42.621540",
+  "last_scan_time": "2026-08-14T15:36:57.418771",
   "stats": {
     "total_signals": 0,
-    "total_scans": 3551,
+    "total_scans": 3569,
     "last_signal": null
   },
   "created_at": "2026-08-11T16:36:52.375361",
@@ -15462,10 +15599,10 @@
       "limit": 49.47999954223633,
       "target": 56.809652721004674,
       "stop": 45.81517295285215,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-14T15:37:24.824460"
     },
     "GLBE": {
       "first_seen": "2026-08-14T11:15:14.716489",
@@ -15935,10 +16072,10 @@
       "limit": 93.31999969482422,
       "target": 100.88893907633744,
       "stop": 89.53553000406761,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-14T15:37:24.824460"
     },
     "MXL": {
       "first_seen": "2026-08-14T14:24:16.839092",
@@ -16067,6 +16204,17 @@
       "limit": 45.0,
       "target": 47.92074759079635,
       "stop": 43.539626204601824,
+      "status": "stopped_out",
+      "outcome": "stop",
+      "breakout_at": null,
+      "resolved_at": "2026-08-14T15:37:24.824460"
+    },
+    "HNGE": {
+      "first_seen": "2026-08-14T15:37:24.824460",
+      "first_price": 88.45,
+      "limit": 93.12999725341797,
+      "target": 101.89858345686929,
+      "stop": 88.74570415169231,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
