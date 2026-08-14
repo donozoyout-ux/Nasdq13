@@ -12192,12 +12192,149 @@
           "news_score": 0.0
         }
       ]
+    },
+    {
+      "time": "2026-08-14T03:29:02.969669",
+      "universe_size": 250,
+      "closed": true,
+      "candidates": [
+        {
+          "symbol": "FRO",
+          "name": "Frontline Plc Ordinary Shares",
+          "price": 40.52,
+          "change_pct": 2.4,
+          "setup_score": 90.2,
+          "setup_type": "squeeze",
+          "anticipation_score": 52.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 27,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "SYRE",
+          "name": "Spyre Therapeutics, Inc. Common Stock",
+          "price": 101.85,
+          "change_pct": -2.15,
+          "setup_score": 88.8,
+          "setup_type": "squeeze",
+          "anticipation_score": 67.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 27,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "KNTK",
+          "name": "Kinetik Holdings Inc. Class A Common Stock",
+          "price": 51.66,
+          "change_pct": 0.8,
+          "setup_score": 83.7,
+          "setup_type": "squeeze",
+          "anticipation_score": 87.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 10,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "GDS",
+          "name": "GDS Holdings Limited ADS",
+          "price": 34.77,
+          "change_pct": 6.2,
+          "setup_score": 76.2,
+          "setup_type": "squeeze",
+          "anticipation_score": 40.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 43,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "KMX",
+          "name": "CarMax Inc",
+          "price": 60.05,
+          "change_pct": 2.28,
+          "setup_score": 75.0,
+          "setup_type": "squeeze",
+          "anticipation_score": 57.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 8,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "RGEN",
+          "name": "Repligen Corporation Common Stock",
+          "price": 167.49,
+          "change_pct": 1.08,
+          "setup_score": 74.8,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "IMVT",
+          "name": "Immunovant, Inc. Common Stock",
+          "price": 41.82,
+          "change_pct": -1.83,
+          "setup_score": 74.3,
+          "setup_type": "squeeze",
+          "anticipation_score": 29.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 0,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "PTGX",
+          "name": "Protagonist Therapeutics, Inc. Common Stock",
+          "price": 151.42,
+          "change_pct": -0.39,
+          "setup_score": 73.1,
+          "setup_type": "basing",
+          "anticipation_score": 28.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "TTAN",
+          "name": "ServiceTitan, Inc. Class A Common Stock",
+          "price": 93.7,
+          "change_pct": 1.85,
+          "setup_score": 73.0,
+          "setup_type": "basing",
+          "anticipation_score": 45.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "DBX",
+          "name": "Dropbox, Inc. Class A Common Stock",
+          "price": 35.93,
+          "change_pct": 6.84,
+          "setup_score": 73.0,
+          "setup_type": "basing",
+          "anticipation_score": 45.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": null,
+          "news_score": 0.0
+        }
+      ]
     }
   ],
-  "last_scan_time": "2026-08-14T02:25:30.371130",
+  "last_scan_time": "2026-08-14T03:29:01.773813",
   "stats": {
     "total_signals": 0,
-    "total_scans": 2998,
+    "total_scans": 3061,
     "last_signal": null
   },
   "created_at": "2026-08-11T16:36:52.375361",
