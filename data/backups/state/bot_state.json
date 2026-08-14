@@ -28,12 +28,15 @@
     "TTEK:2026-08-13": "2026-08-13T18:43:26.917456",
     "DBX:2026-08-13": "2026-08-13T18:43:27.063268",
     "APPF:2026-08-13": "2026-08-13T18:43:27.229612",
-    "SNAP:2026-08-13": "2026-08-13T18:43:27.437024"
+    "SNAP:2026-08-13": "2026-08-13T18:43:27.437024",
+    "CHRD:2026-08-14": "2026-08-14T14:24:16.520992",
+    "VIST:2026-08-14": "2026-08-14T14:24:16.684029"
   },
   "smallcap_setup_sent": {
     "2026-08-11": "2026-08-11T16:40:54.677125",
     "2026-08-12": "2026-08-12T14:02:09.976829",
-    "2026-08-13": "2026-08-13T13:53:57.950251"
+    "2026-08-13": "2026-08-13T13:53:57.950251",
+    "2026-08-14": "2026-08-14T14:24:16.385819"
   },
   "smallcap_predictions_sent": {
     "2026-08-11": "2026-08-11T21:12:44.725175",
@@ -13154,12 +13157,149 @@
           "news_score": 0.0
         }
       ]
+    },
+    {
+      "time": "2026-08-14T14:24:16.735371",
+      "universe_size": 250,
+      "closed": false,
+      "candidates": [
+        {
+          "symbol": "FRO",
+          "name": "Frontline Plc Ordinary Shares",
+          "price": 41.19,
+          "change_pct": 1.65,
+          "setup_score": 90.3,
+          "setup_type": "squeeze",
+          "anticipation_score": 63.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 28,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "PTGX",
+          "name": "Protagonist Therapeutics, Inc. Common Stock",
+          "price": 153.29,
+          "change_pct": 1.24,
+          "setup_score": 78.9,
+          "setup_type": "basing",
+          "anticipation_score": 28.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "TTEK",
+          "name": "Tetra Tech, Inc. Common Stock",
+          "price": 36.34,
+          "change_pct": -0.25,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "PBF",
+          "name": "PBF Energy Inc. Class A Common Stock",
+          "price": 73.96,
+          "change_pct": -0.54,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 33.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 14,
+          "trigger_type": "none",
+          "news_score": 1.0
+        },
+        {
+          "symbol": "TWST",
+          "name": "Twist Bioscience Corporation Common Stock",
+          "price": 120.54,
+          "change_pct": -3.79,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "KNTK",
+          "name": "Kinetik Holdings Inc. Class A Common Stock",
+          "price": 53.21,
+          "change_pct": 3.0,
+          "setup_score": 75.5,
+          "setup_type": "squeeze",
+          "anticipation_score": 68.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 11,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "OSCR",
+          "name": "Oscar Health, Inc. Class A Common Stock",
+          "price": 32.53,
+          "change_pct": 5.67,
+          "setup_score": 75.0,
+          "setup_type": "squeeze",
+          "anticipation_score": 29.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 0,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "FNB",
+          "name": "F.N.B. Corporation Common Stock",
+          "price": 19.51,
+          "change_pct": 0.96,
+          "setup_score": 75.0,
+          "setup_type": "squeeze",
+          "anticipation_score": 72.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 29,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "VIST",
+          "name": "Vista Energy S.A.B. de C.V. American Depositary Shares, each representing one series A share, with no par value",
+          "price": 68.47,
+          "change_pct": 3.44,
+          "setup_score": 74.7,
+          "setup_type": "squeeze",
+          "anticipation_score": 63.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 24,
+          "trigger_type": "breakout",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "RGEN",
+          "name": "Repligen Corporation Common Stock",
+          "price": 167.33,
+          "change_pct": -0.1,
+          "setup_score": 74.6,
+          "setup_type": "basing",
+          "anticipation_score": 22.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "near",
+          "news_score": 0.0
+        }
+      ]
     }
   ],
-  "last_scan_time": "2026-08-14T13:20:53.817989",
+  "last_scan_time": "2026-08-14T14:23:45.811468",
   "stats": {
     "total_signals": 0,
-    "total_scans": 3435,
+    "total_scans": 3497,
     "last_signal": null
   },
   "created_at": "2026-08-11T16:36:52.375361",
@@ -14130,10 +14270,10 @@
       "limit": 42.91999816894531,
       "target": 45.97777311973491,
       "stop": 41.391110693550516,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-14T14:24:16.839092"
     },
     "DBX": {
       "first_seen": "2026-08-14T11:15:14.716489",
@@ -14141,10 +14281,10 @@
       "limit": 35.970001220703125,
       "target": 38.68962011038918,
       "stop": 34.6101917758601,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-14T14:24:16.839092"
     },
     "DUOL": {
       "first_seen": "2026-08-14T11:15:14.716489",
@@ -14152,10 +14292,10 @@
       "limit": 146.85000610351562,
       "target": 164.7327053726779,
       "stop": 137.90865646893448,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-14T14:24:16.839092"
     },
     "KMX": {
       "first_seen": "2026-08-14T11:15:14.716489",
@@ -14185,10 +14325,10 @@
       "limit": 196.82000732421875,
       "target": 217.6626752445907,
       "stop": 186.39867336403276,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-14T14:24:16.839092"
     },
     "QRVO": {
       "first_seen": "2026-08-14T11:15:14.716489",
@@ -14482,10 +14622,10 @@
       "limit": 156.17999267578125,
       "target": 169.3489452102171,
       "stop": 149.59551640856333,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-14T14:24:16.839092"
     },
     "CLF": {
       "first_seen": "2026-08-14T11:15:14.716489",
@@ -14504,9 +14644,9 @@
       "limit": 104.52999877929688,
       "target": 110.25987028327187,
       "stop": 101.66506302730937,
-      "status": "open",
-      "outcome": null,
-      "breakout_at": null,
+      "status": "breakout",
+      "outcome": "breakout",
+      "breakout_at": "2026-08-14T14:24:16.839092",
       "resolved_at": null
     },
     "LLYVK": {
@@ -14636,10 +14776,10 @@
       "limit": 177.55999755859375,
       "target": 200.06861105731906,
       "stop": 166.3056908092311,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-14T14:24:16.839092"
     },
     "KRMN": {
       "first_seen": "2026-08-14T11:15:14.716489",
@@ -14746,10 +14886,10 @@
       "limit": 55.283425787500164,
       "target": 58.648000262940116,
       "stop": 53.60113854978019,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-14T14:24:16.839092"
     },
     "RUSHB": {
       "first_seen": "2026-08-14T11:15:14.716489",
@@ -14900,10 +15040,10 @@
       "limit": 23.989999771118164,
       "target": 27.783360973232263,
       "stop": 22.093319170061115,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-14T14:24:16.839092"
     },
     "OKLO": {
       "first_seen": "2026-08-14T11:15:14.716489",
@@ -14966,10 +15106,10 @@
       "limit": 201.5399932861328,
       "target": 221.56143586517805,
       "stop": 191.5292719966102,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-14T14:24:16.839092"
     },
     "FIGR": {
       "first_seen": "2026-08-14T11:15:14.716489",
@@ -14977,10 +15117,10 @@
       "limit": 33.779998779296875,
       "target": 38.20294432617065,
       "stop": 31.568526005859987,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-14T14:24:16.839092"
     },
     "CHRD": {
       "first_seen": "2026-08-14T11:15:14.716489",
@@ -15043,10 +15183,10 @@
       "limit": 60.689998626708984,
       "target": 67.67681569982194,
       "stop": 57.196590090152505,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-14T14:24:16.839092"
     },
     "CHE": {
       "first_seen": "2026-08-14T11:15:14.716489",
@@ -15252,10 +15392,10 @@
       "limit": 62.349998474121094,
       "target": 67.83127891329302,
       "stop": 59.60935825453513,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-14T14:24:16.839092"
     },
     "VCTR": {
       "first_seen": "2026-08-14T11:15:14.716489",
@@ -15329,6 +15469,149 @@
       "limit": 117.01000213623047,
       "target": 125.10450728073815,
       "stop": 112.96274956397663,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
+    "VIST": {
+      "first_seen": "2026-08-14T14:24:16.839092",
+      "first_price": 68.47,
+      "limit": 71.13999938964844,
+      "target": 76.68524883515711,
+      "stop": 68.36737466689411,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
+    "LTH": {
+      "first_seen": "2026-08-14T14:24:16.839092",
+      "first_price": 44.53,
+      "limit": 47.23500061035156,
+      "target": 50.16192926264715,
+      "stop": 45.77153628420377,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
+    "TEX": {
+      "first_seen": "2026-08-14T14:24:16.839092",
+      "first_price": 67.5,
+      "limit": 71.31677587476216,
+      "target": 76.79026673149653,
+      "stop": 68.58003044639497,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
+    "CAVA": {
+      "first_seen": "2026-08-14T14:24:16.839092",
+      "first_price": 75.08,
+      "limit": 75.64730072021484,
+      "target": 83.36139360520461,
+      "stop": 71.79025427771997,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
+    "SFM": {
+      "first_seen": "2026-08-14T14:24:16.839092",
+      "first_price": 82.94,
+      "limit": 93.31999969482422,
+      "target": 100.88893907633744,
+      "stop": 89.53553000406761,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
+    "MXL": {
+      "first_seen": "2026-08-14T14:24:16.839092",
+      "first_price": 81.54,
+      "limit": 94.55000305175781,
+      "target": 111.21132940134025,
+      "stop": 86.2193398769666,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
+    "SOLS": {
+      "first_seen": "2026-08-14T14:24:16.839092",
+      "first_price": 63.07,
+      "limit": 64.73999786376953,
+      "target": 70.82493641648894,
+      "stop": 61.69752858740983,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
+    "ESI": {
+      "first_seen": "2026-08-14T14:24:16.839092",
+      "first_price": 39.25,
+      "limit": 39.470001220703125,
+      "target": 42.62364592895748,
+      "stop": 37.893178866575944,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
+    "AOS": {
+      "first_seen": "2026-08-14T14:24:16.839092",
+      "first_price": 62.44,
+      "limit": 64.38014147188119,
+      "target": 67.78105503524975,
+      "stop": 62.67968469019691,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
+    "ALV": {
+      "first_seen": "2026-08-14T14:24:16.839092",
+      "first_price": 122.22,
+      "limit": 126.9000015258789,
+      "target": 132.54120639340042,
+      "stop": 124.07939909211815,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
+    "JXN": {
+      "first_seen": "2026-08-14T14:24:16.839092",
+      "first_price": 135.52,
+      "limit": 137.99000549316406,
+      "target": 145.50714029943654,
+      "stop": 134.2314380900278,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
+    "OSK": {
+      "first_seen": "2026-08-14T14:24:16.839092",
+      "first_price": 154.24,
+      "limit": 160.09161320000763,
+      "target": 171.1061126199155,
+      "stop": 154.5843634900537,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
+    "PLXS": {
+      "first_seen": "2026-08-14T14:24:16.839092",
+      "first_price": 269.17,
+      "limit": 298.0,
+      "target": 322.89408673317143,
+      "stop": 285.5529566334143,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
