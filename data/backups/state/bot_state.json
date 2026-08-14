@@ -30,7 +30,8 @@
     "APPF:2026-08-13": "2026-08-13T18:43:27.229612",
     "SNAP:2026-08-13": "2026-08-13T18:43:27.437024",
     "CHRD:2026-08-14": "2026-08-14T14:24:16.520992",
-    "VIST:2026-08-14": "2026-08-14T14:24:16.684029"
+    "VIST:2026-08-14": "2026-08-14T14:24:16.684029",
+    "OSCR:2026-08-14": "2026-08-14T16:32:01.804641"
   },
   "smallcap_setup_sent": {
     "2026-08-11": "2026-08-11T16:40:54.677125",
@@ -14116,12 +14117,149 @@
           "news_score": 0.0
         }
       ]
+    },
+    {
+      "time": "2026-08-14T16:32:01.822328",
+      "universe_size": 250,
+      "closed": false,
+      "candidates": [
+        {
+          "symbol": "FRO",
+          "name": "Frontline Plc Ordinary Shares",
+          "price": 41.1,
+          "change_pct": 1.42,
+          "setup_score": 90.6,
+          "setup_type": "squeeze",
+          "anticipation_score": 63.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 28,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "SYRE",
+          "name": "Spyre Therapeutics, Inc. Common Stock",
+          "price": 102.88,
+          "change_pct": 1.01,
+          "setup_score": 79.0,
+          "setup_type": "squeeze",
+          "anticipation_score": 57.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 28,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "PTGX",
+          "name": "Protagonist Therapeutics, Inc. Common Stock",
+          "price": 153.35,
+          "change_pct": 1.27,
+          "setup_score": 78.8,
+          "setup_type": "basing",
+          "anticipation_score": 28.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "TWST",
+          "name": "Twist Bioscience Corporation Common Stock",
+          "price": 120.13,
+          "change_pct": -4.12,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "MORN",
+          "name": "Morningstar, Inc. Common Stock",
+          "price": 205.99,
+          "change_pct": -0.44,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 24.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 0,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "FNB",
+          "name": "F.N.B. Corporation Common Stock",
+          "price": 19.42,
+          "change_pct": 0.47,
+          "setup_score": 75.5,
+          "setup_type": "squeeze",
+          "anticipation_score": 72.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 29,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "OSCR",
+          "name": "Oscar Health, Inc. Class A Common Stock",
+          "price": 33.15,
+          "change_pct": 7.7,
+          "setup_score": 75.4,
+          "setup_type": "squeeze",
+          "anticipation_score": 56.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 0,
+          "trigger_type": "breakout",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "VIST",
+          "name": "Vista Energy S.A.B. de C.V. American Depositary Shares, each representing one series A share, with no par value",
+          "price": 68.41,
+          "change_pct": 3.35,
+          "setup_score": 74.8,
+          "setup_type": "squeeze",
+          "anticipation_score": 63.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 24,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "KMX",
+          "name": "CarMax Inc",
+          "price": 59.59,
+          "change_pct": -0.77,
+          "setup_score": 74.7,
+          "setup_type": "squeeze",
+          "anticipation_score": 57.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 9,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "LOAR",
+          "name": "Loar Holdings Inc. Common Stock",
+          "price": 77.11,
+          "change_pct": 4.22,
+          "setup_score": 74.5,
+          "setup_type": "basing",
+          "anticipation_score": 39.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 23,
+          "trigger_type": "none",
+          "news_score": 0.0
+        }
+      ]
     }
   ],
-  "last_scan_time": "2026-08-14T16:13:20.222722",
+  "last_scan_time": "2026-08-14T16:31:35.320159",
   "stats": {
     "total_signals": 0,
-    "total_scans": 3605,
+    "total_scans": 3623,
     "last_signal": null
   },
   "created_at": "2026-08-11T16:36:52.375361",
@@ -16511,10 +16649,10 @@
       "limit": 60.970001220703125,
       "target": 65.45319258222109,
       "stop": 58.72840553994414,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-14T16:32:02.015033"
     },
     "LNC": {
       "first_seen": "2026-08-14T16:13:52.124038",
