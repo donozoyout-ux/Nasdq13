@@ -16038,12 +16038,149 @@
           "news_score": 0.0
         }
       ]
+    },
+    {
+      "time": "2026-08-15T01:42:24.140573",
+      "universe_size": 250,
+      "closed": true,
+      "candidates": [
+        {
+          "symbol": "FRO",
+          "name": "Frontline Plc Ordinary Shares",
+          "price": 41.21,
+          "change_pct": 1.7,
+          "setup_score": 90.6,
+          "setup_type": "squeeze",
+          "anticipation_score": 63.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 28,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "SYRE",
+          "name": "Spyre Therapeutics, Inc. Common Stock",
+          "price": 103.63,
+          "change_pct": 1.75,
+          "setup_score": 79.9,
+          "setup_type": "squeeze",
+          "anticipation_score": 53.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 28,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "APLD",
+          "name": "Applied Digital Corporation Common Stock",
+          "price": 31.2,
+          "change_pct": 1.89,
+          "setup_score": 76.1,
+          "setup_type": "squeeze",
+          "anticipation_score": 55.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 16,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "BIO",
+          "name": "Bio-Rad Laboratories, Inc. Class A Common Stock",
+          "price": 356.26,
+          "change_pct": -1.36,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "QRVO",
+          "name": "Qorvo, Inc. Common Stock",
+          "price": 98.11,
+          "change_pct": -0.34,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 22.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "TWST",
+          "name": "Twist Bioscience Corporation Common Stock",
+          "price": 118.57,
+          "change_pct": -5.36,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "MRCY",
+          "name": "Mercury Systems Inc Common Stock",
+          "price": 111.12,
+          "change_pct": 1.21,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 37.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 10,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "IMVT",
+          "name": "Immunovant, Inc. Common Stock",
+          "price": 41.82,
+          "change_pct": 0.0,
+          "setup_score": 75.9,
+          "setup_type": "squeeze",
+          "anticipation_score": 25.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 0,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "FNB",
+          "name": "F.N.B. Corporation Common Stock",
+          "price": 19.48,
+          "change_pct": 0.78,
+          "setup_score": 75.4,
+          "setup_type": "squeeze",
+          "anticipation_score": 72.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 29,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "KMX",
+          "name": "CarMax Inc",
+          "price": 59.92,
+          "change_pct": -0.22,
+          "setup_score": 74.8,
+          "setup_type": "squeeze",
+          "anticipation_score": 63.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 9,
+          "trigger_type": null,
+          "news_score": 0.0
+        }
+      ]
     }
   ],
-  "last_scan_time": "2026-08-15T00:39:43.940763",
+  "last_scan_time": "2026-08-15T01:42:23.135935",
   "stats": {
     "total_signals": 0,
-    "total_scans": 3991,
+    "total_scans": 4053,
     "last_signal": null
   },
   "created_at": "2026-08-11T16:36:52.375361",
@@ -18171,6 +18308,17 @@
       "limit": 34.279998779296875,
       "target": 37.24893018347536,
       "stop": 32.79553307720764,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
+    "GJS": {
+      "first_seen": "2026-08-15T01:42:24.330615",
+      "first_price": 23.57,
+      "limit": 23.56999969482422,
+      "target": 23.940646632344077,
+      "stop": 23.38467622606429,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
