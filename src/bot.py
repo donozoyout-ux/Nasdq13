@@ -4,6 +4,7 @@ Bot orchestrator - reusable by both CLI worker and web app
 import os
 import sys
 import asyncio
+import hashlib
 import yaml
 from datetime import datetime, timedelta
 from typing import Dict, Any, List, Optional
@@ -393,7 +394,9 @@ class SignalBot:
         return bool(self.config.get("smallcap", {}).get("enabled", True))
 
     async def _run_smallcap_setup_report(self, candidates, universe_size):
-        """Send the setup report once per day."""
+        """Send the setup report once per day. Also records each sent candidate
+        into the dashboard signal history so Telegram stocks appear in
+        'Son Sinyaller' / 'Sinyal Geçmişi'."""
         try:
             date_key = datetime.utcnow().strftime("%Y-%m-%d")
             if self.state.is_smallcap_setup_sent(date_key):
@@ -401,6 +404,8 @@ class SignalBot:
             report_text = self.smallcap_scanner.build_setup_report(candidates, universe_size)
             if report_text and await self.notifier.send_report(report_text):
                 self.state.record_smallcap_setup_sent(date_key)
+                for c in candidates:
+                    self._record_smallcap_signal(c, action="ADAY")
                 logger.info("✅ Small-cap setup report sent")
         except Exception as e:
             logger.error(f"Small-cap setup report failed: {e}")
@@ -465,10 +470,39 @@ class SignalBot:
             )
             if await self.notifier.send_smallcap_alert(msg):
                 self.state.record_smallcap_alert_sent(cand["symbol"], date_key)
+                self._record_smallcap_signal(self._candidate_from_dict(cand), action="BREAKOUT")
                 return True
         except Exception as e:
             logger.error(f"Small-cap alert failed: {e}")
         return False
+
+    def _record_smallcap_signal(self, c, action: str):
+        """Record a Telegram-sent small-cap stock into the dashboard signal
+        history + 'Son Sinyaller'. Falls back silently on any error."""
+        try:
+            price = float(getattr(c, "price", 0) or 0)
+            if price <= 0:
+                return
+            strength = float(getattr(c, "setup_score", 0) or 0)
+            ts = datetime.utcnow()
+            entry = {
+                "id": hashlib.md5(
+                    f"{c.symbol}_{action}_{ts.strftime('%Y%m%d%H%M')}".encode()
+                ).hexdigest()[:12],
+                "symbol": c.symbol,
+                "action": action,
+                "direction": "LONG",
+                "strength": strength,
+                "price": price,
+                "timestamp": ts.isoformat(),
+            }
+            self.state.state.setdefault("signal_history", []).append(entry)
+            if self.state.state.get("stats", {}).get("total_signals") is not None:
+                self.state.state["stats"]["total_signals"] += 1
+            self.state.save()
+            logger.info(f"📈 Signal kaydı: {c.symbol} ({action}) @ {price}")
+        except Exception as e:
+            logger.warning(f"Small-cap signal record failed {getattr(c, 'symbol', '?')}: {e}")
 
     def _backup_async(self, path: str, payload: Dict[str, Any]):
         """Fire-and-forget upload to the GitHub backup repo (never blocks the loop)."""
@@ -1032,6 +1066,14 @@ class SignalBot:
                 "timestamp": s.timestamp.isoformat(),
                 "reasons": s.reasons,
             })
+        # Telegram'a gönderilen small-cap hisselerini de 'Son Sinyaller'e ekle
+        # (setup raporu adayları + breakout alertleri). Sinyal motoru boşken
+        # bile dashboard kullanıcının Telegram'da gördüğü hisseleri gösterir.
+        smallcap_sigs = [
+            s for s in self.state.state.get("signal_history", [])[-20:]
+            if s.get("action") in ("ADAY", "BREAKOUT")
+        ][::-1]
+        signals = smallcap_sigs + signals
 
         mkt_status = market_status(self.config)
 
