@@ -18,6 +18,15 @@
       "strength": 72.7,
       "price": 43.76,
       "timestamp": "2026-08-17T18:33:45.873891"
+    },
+    {
+      "id": "f7ae01bd6d05",
+      "symbol": "RGEN",
+      "action": "BREAKOUT",
+      "direction": "LONG",
+      "strength": 76.0,
+      "price": 169.09,
+      "timestamp": "2026-08-17T19:09:53.269945"
     }
   ],
   "reports_sent": {
@@ -60,7 +69,8 @@
     "FRO:2026-08-17": "2026-08-17T14:43:28.491055",
     "CRNX:2026-08-17": "2026-08-17T15:37:51.521946",
     "CHRD:2026-08-17": "2026-08-17T16:58:24.927974",
-    "IMVT:2026-08-17": "2026-08-17T18:33:45.741747"
+    "IMVT:2026-08-17": "2026-08-17T18:33:45.741747",
+    "RGEN:2026-08-17": "2026-08-17T19:09:53.106148"
   },
   "smallcap_setup_sent": {
     "2026-08-11": "2026-08-11T16:40:54.677125",
@@ -23280,12 +23290,149 @@
           "news_score": 0.0
         }
       ]
+    },
+    {
+      "time": "2026-08-17T19:09:53.467881",
+      "universe_size": 250,
+      "closed": false,
+      "candidates": [
+        {
+          "symbol": "FRO",
+          "name": "Frontline Plc Ordinary Shares",
+          "price": 42.28,
+          "change_pct": 2.6,
+          "setup_score": 88.1,
+          "setup_type": "squeeze",
+          "anticipation_score": 52.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 29,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "SYRE",
+          "name": "Spyre Therapeutics, Inc. Common Stock",
+          "price": 104.25,
+          "change_pct": 0.59,
+          "setup_score": 80.7,
+          "setup_type": "squeeze",
+          "anticipation_score": 63.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 29,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "APLD",
+          "name": "Applied Digital Corporation Common Stock",
+          "price": 31.33,
+          "change_pct": 0.42,
+          "setup_score": 79.4,
+          "setup_type": "squeeze",
+          "anticipation_score": 51.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 17,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "FNB",
+          "name": "F.N.B. Corporation Common Stock",
+          "price": 19.4,
+          "change_pct": -0.44,
+          "setup_score": 78.7,
+          "setup_type": "squeeze",
+          "anticipation_score": 45.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 30,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "SNAP",
+          "name": "Snap Inc. Class A Common Stock",
+          "price": 5.24,
+          "change_pct": -3.23,
+          "setup_score": 77.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "KMX",
+          "name": "CarMax Inc",
+          "price": 58.93,
+          "change_pct": -1.65,
+          "setup_score": 76.9,
+          "setup_type": "squeeze",
+          "anticipation_score": 63.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 10,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "BIO",
+          "name": "Bio-Rad Laboratories, Inc. Class A Common Stock",
+          "price": 356.05,
+          "change_pct": -0.06,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 24.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "RGEN",
+          "name": "Repligen Corporation Common Stock",
+          "price": 169.09,
+          "change_pct": 1.35,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 52.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "breakout",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "IDCC",
+          "name": "InterDigital, Inc. Common Stock",
+          "price": 347.18,
+          "change_pct": 1.03,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "TWST",
+          "name": "Twist Bioscience Corporation Common Stock",
+          "price": 123.4,
+          "change_pct": 4.07,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        }
+      ]
     }
   ],
-  "last_scan_time": "2026-08-17T18:51:33.677520",
+  "last_scan_time": "2026-08-17T19:09:39.275524",
   "stats": {
-    "total_signals": 2,
-    "total_scans": 6295,
+    "total_signals": 3,
+    "total_scans": 6313,
     "last_signal": null
   },
   "created_at": "2026-08-11T16:36:52.375361",
@@ -23350,10 +23497,10 @@
       "limit": 61.150001525878906,
       "target": 65.01399806768056,
       "stop": 59.21800325497808,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-17T19:09:53.673896"
     },
     "daily:SNAP": {
       "source": "daily",
@@ -24754,10 +24901,10 @@
       "limit": 545.0499877929688,
       "target": 575.6117814986784,
       "stop": 529.7690909401139,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-17T19:09:53.673896"
     },
     "daily:NEU": {
       "source": "daily",
@@ -24884,6 +25031,19 @@
       "limit": 5.590000152587891,
       "target": 5.837730316417516,
       "stop": 5.466135070673078,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
+    "daily:UGP": {
+      "source": "daily",
+      "symbol": "UGP",
+      "first_seen": "2026-08-17T19:09:53.673896",
+      "first_price": 6.51,
+      "limit": 6.590000152587891,
+      "target": 6.997136795351916,
+      "stop": 6.386431831205878,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
