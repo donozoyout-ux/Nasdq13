@@ -299,23 +299,37 @@ class StateManager:
             if rec.get("status") not in ("open", "breakout"):
                 continue
 
+            # Kayıt anındaki sabit seviyelerle karşılaştır (her taramada güncel
+            # fiyatla yeniden hesaplanan limit/target/stop ile değil).
+            r_limit = rec.get("limit") or 0
+            r_target = rec.get("target") or 0
+            r_stop = rec.get("stop") or 0
+            r_first = rec.get("first_price") or 0
+
             # breakout occurred: price crossed above the entry limit
-            if rec["status"] == "open" and price >= limit and rec.get("first_price", 0) < limit:
-                rec["status"] = "breakout"
-                rec["outcome"] = "breakout"
-                rec["breakout_at"] = now
+            if rec["status"] == "open":
+                if source == "weekly":
+                    # Weekly adayda limit = ilk fiyat olduğundan "çıkış",
+                    # fiyatın ilk fiyatın üzerine çıkmasıdır.
+                    crossed = price > r_first
+                else:
+                    crossed = price >= r_limit and r_first < r_limit
+                if crossed:
+                    rec["status"] = "breakout"
+                    rec["outcome"] = "breakout"
+                    rec["breakout_at"] = now
 
             if rec["status"] == "breakout":
-                if target > 0 and price >= target:
+                if r_target > 0 and price >= r_target:
                     rec["status"] = "target_hit"
                     rec["outcome"] = "hit"
                     rec["resolved_at"] = now
-                elif stop > 0 and price <= stop:
+                elif r_stop > 0 and price <= r_stop:
                     rec["status"] = "stopped_out"
                     rec["outcome"] = "stop"
                     rec["resolved_at"] = now
             elif rec["status"] == "open":
-                if stop > 0 and price <= stop:
+                if r_stop > 0 and price <= r_stop:
                     rec["status"] = "stopped_out"
                     rec["outcome"] = "stop"
                     rec["resolved_at"] = now
@@ -347,8 +361,8 @@ class StateManager:
         counts = {"open": 0, "breakout": 0, "hit": 0, "stop": 0, "expired": 0}
         for rec in track.values():
             st = rec.get("status", "open")
-            # normalize status names: target_hit counts as hit
-            key = "hit" if st == "target_hit" else st
+            # normalize status names: target_hit counts as hit, stopped_out as stop
+            key = "hit" if st == "target_hit" else ("stop" if st == "stopped_out" else st)
             counts[key] = counts.get(key, 0) + 1
         resolved = counts["breakout"] + counts["hit"] + counts["stop"] + counts["expired"]
         favorable = counts["breakout"] + counts["hit"]
