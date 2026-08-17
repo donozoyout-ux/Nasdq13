@@ -9,6 +9,15 @@
       "strength": 74.4,
       "price": 139.28,
       "timestamp": "2026-08-17T16:58:25.046202"
+    },
+    {
+      "id": "a1bbc1db1339",
+      "symbol": "IMVT",
+      "action": "BREAKOUT",
+      "direction": "LONG",
+      "strength": 72.7,
+      "price": 43.76,
+      "timestamp": "2026-08-17T18:33:45.873891"
     }
   ],
   "reports_sent": {
@@ -50,7 +59,8 @@
     "TXG:2026-08-17": "2026-08-17T14:25:16.378514",
     "FRO:2026-08-17": "2026-08-17T14:43:28.491055",
     "CRNX:2026-08-17": "2026-08-17T15:37:51.521946",
-    "CHRD:2026-08-17": "2026-08-17T16:58:24.927974"
+    "CHRD:2026-08-17": "2026-08-17T16:58:24.927974",
+    "IMVT:2026-08-17": "2026-08-17T18:33:45.741747"
   },
   "smallcap_setup_sent": {
     "2026-08-11": "2026-08-11T16:40:54.677125",
@@ -22859,12 +22869,423 @@
           "news_score": 0.0
         }
       ]
+    },
+    {
+      "time": "2026-08-17T18:15:38.365408",
+      "universe_size": 250,
+      "closed": false,
+      "candidates": [
+        {
+          "symbol": "FRO",
+          "name": "Frontline Plc Ordinary Shares",
+          "price": 42.3,
+          "change_pct": 2.64,
+          "setup_score": 87.8,
+          "setup_type": "squeeze",
+          "anticipation_score": 79.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 29,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "SYRE",
+          "name": "Spyre Therapeutics, Inc. Common Stock",
+          "price": 104.08,
+          "change_pct": 0.43,
+          "setup_score": 80.4,
+          "setup_type": "squeeze",
+          "anticipation_score": 63.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 29,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "APLD",
+          "name": "Applied Digital Corporation Common Stock",
+          "price": 31.4,
+          "change_pct": 0.64,
+          "setup_score": 79.6,
+          "setup_type": "squeeze",
+          "anticipation_score": 51.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 17,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "FNB",
+          "name": "F.N.B. Corporation Common Stock",
+          "price": 19.4,
+          "change_pct": -0.41,
+          "setup_score": 78.7,
+          "setup_type": "squeeze",
+          "anticipation_score": 45.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 30,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "BIO",
+          "name": "Bio-Rad Laboratories, Inc. Class A Common Stock",
+          "price": 357.2,
+          "change_pct": 0.26,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 24.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "RGEN",
+          "name": "Repligen Corporation Common Stock",
+          "price": 168.19,
+          "change_pct": 0.82,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 52.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "TWST",
+          "name": "Twist Bioscience Corporation Common Stock",
+          "price": 122.41,
+          "change_pct": 3.24,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "TXG",
+          "name": "10x Genomics, Inc. Class A Common Stock",
+          "price": 58.42,
+          "change_pct": 4.15,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "ROAD",
+          "name": "Construction Partners, Inc. Class A Common Stock",
+          "price": 120.74,
+          "change_pct": -0.67,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "CHRD",
+          "name": "Chord Energy Corporation Common Stock",
+          "price": 140.8,
+          "change_pct": 2.54,
+          "setup_score": 75.2,
+          "setup_type": "squeeze",
+          "anticipation_score": 60.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 9,
+          "trigger_type": "near",
+          "news_score": 0.0
+        }
+      ]
+    },
+    {
+      "time": "2026-08-17T18:33:46.075990",
+      "universe_size": 250,
+      "closed": false,
+      "candidates": [
+        {
+          "symbol": "FRO",
+          "name": "Frontline Plc Ordinary Shares",
+          "price": 42.47,
+          "change_pct": 3.06,
+          "setup_score": 86.7,
+          "setup_type": "squeeze",
+          "anticipation_score": 79.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 29,
+          "trigger_type": "breakout",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "SYRE",
+          "name": "Spyre Therapeutics, Inc. Common Stock",
+          "price": 104.74,
+          "change_pct": 1.07,
+          "setup_score": 81.4,
+          "setup_type": "squeeze",
+          "anticipation_score": 67.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 29,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "APLD",
+          "name": "Applied Digital Corporation Common Stock",
+          "price": 31.68,
+          "change_pct": 1.54,
+          "setup_score": 80.5,
+          "setup_type": "squeeze",
+          "anticipation_score": 51.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 17,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "FNB",
+          "name": "F.N.B. Corporation Common Stock",
+          "price": 19.4,
+          "change_pct": -0.41,
+          "setup_score": 78.7,
+          "setup_type": "squeeze",
+          "anticipation_score": 45.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 30,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "BIO",
+          "name": "Bio-Rad Laboratories, Inc. Class A Common Stock",
+          "price": 356.38,
+          "change_pct": 0.03,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 24.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "RGEN",
+          "name": "Repligen Corporation Common Stock",
+          "price": 168.2,
+          "change_pct": 0.82,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 52.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "TWST",
+          "name": "Twist Bioscience Corporation Common Stock",
+          "price": 122.52,
+          "change_pct": 3.33,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "TXG",
+          "name": "10x Genomics, Inc. Class A Common Stock",
+          "price": 58.04,
+          "change_pct": 3.48,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "ROAD",
+          "name": "Construction Partners, Inc. Class A Common Stock",
+          "price": 120.75,
+          "change_pct": -0.66,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "CHRD",
+          "name": "Chord Energy Corporation Common Stock",
+          "price": 141.52,
+          "change_pct": 3.06,
+          "setup_score": 75.3,
+          "setup_type": "squeeze",
+          "anticipation_score": 87.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 9,
+          "trigger_type": "near",
+          "news_score": 0.0
+        }
+      ]
+    },
+    {
+      "time": "2026-08-17T18:51:49.568030",
+      "universe_size": 250,
+      "closed": false,
+      "candidates": [
+        {
+          "symbol": "FRO",
+          "name": "Frontline Plc Ordinary Shares",
+          "price": 42.36,
+          "change_pct": 2.79,
+          "setup_score": 87.4,
+          "setup_type": "squeeze",
+          "anticipation_score": 79.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 29,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "SYRE",
+          "name": "Spyre Therapeutics, Inc. Common Stock",
+          "price": 104.4,
+          "change_pct": 0.74,
+          "setup_score": 80.9,
+          "setup_type": "squeeze",
+          "anticipation_score": 67.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 29,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "APLD",
+          "name": "Applied Digital Corporation Common Stock",
+          "price": 31.42,
+          "change_pct": 0.71,
+          "setup_score": 79.6,
+          "setup_type": "squeeze",
+          "anticipation_score": 51.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 17,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "FNB",
+          "name": "F.N.B. Corporation Common Stock",
+          "price": 19.39,
+          "change_pct": -0.46,
+          "setup_score": 78.6,
+          "setup_type": "squeeze",
+          "anticipation_score": 45.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 30,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "SNAP",
+          "name": "Snap Inc. Class A Common Stock",
+          "price": 5.24,
+          "change_pct": -3.23,
+          "setup_score": 77.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "BIO",
+          "name": "Bio-Rad Laboratories, Inc. Class A Common Stock",
+          "price": 356.52,
+          "change_pct": 0.07,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 24.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "RGEN",
+          "name": "Repligen Corporation Common Stock",
+          "price": 168.33,
+          "change_pct": 0.9,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 52.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "IDCC",
+          "name": "InterDigital, Inc. Common Stock",
+          "price": 346.98,
+          "change_pct": 0.97,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "TWST",
+          "name": "Twist Bioscience Corporation Common Stock",
+          "price": 122.82,
+          "change_pct": 3.58,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "TXG",
+          "name": "10x Genomics, Inc. Class A Common Stock",
+          "price": 58.12,
+          "change_pct": 3.63,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        }
+      ]
     }
   ],
-  "last_scan_time": "2026-08-17T17:57:13.972478",
+  "last_scan_time": "2026-08-17T18:51:33.677520",
   "stats": {
-    "total_signals": 1,
-    "total_scans": 6241,
+    "total_signals": 2,
+    "total_scans": 6295,
     "last_signal": null
   },
   "created_at": "2026-08-11T16:36:52.375361",
@@ -22877,9 +23298,9 @@
       "limit": 42.43000030517578,
       "target": 45.304480938994786,
       "stop": 40.99275998826628,
-      "status": "open",
-      "outcome": null,
-      "breakout_at": null,
+      "status": "breakout",
+      "outcome": "breakout",
+      "breakout_at": "2026-08-17T18:33:46.277687",
       "resolved_at": null
     },
     "daily:SYRE": {
@@ -23046,9 +23467,9 @@
       "limit": 141.83999633789062,
       "target": 151.50024251243002,
       "stop": 137.00987325062093,
-      "status": "open",
-      "outcome": null,
-      "breakout_at": null,
+      "status": "breakout",
+      "outcome": "breakout",
+      "breakout_at": "2026-08-17T18:51:49.766260",
       "resolved_at": null
     },
     "daily:IBRX": {
@@ -23085,9 +23506,9 @@
       "limit": 84.73500061035156,
       "target": 86.37830090728956,
       "stop": 83.91335046188256,
-      "status": "open",
-      "outcome": null,
-      "breakout_at": null,
+      "status": "breakout",
+      "outcome": "breakout",
+      "breakout_at": "2026-08-17T18:51:49.766260",
       "resolved_at": null
     },
     "daily:SLAB": {
@@ -23358,10 +23779,10 @@
       "limit": 11.258199691772461,
       "target": 12.202360323839846,
       "stop": 10.786119375738767,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-17T18:51:49.766260"
     },
     "daily:ZETA": {
       "source": "daily",
@@ -23410,9 +23831,9 @@
       "limit": 21.53499984741211,
       "target": 22.820825034671728,
       "stop": 20.8920872537823,
-      "status": "open",
-      "outcome": null,
-      "breakout_at": null,
+      "status": "breakout",
+      "outcome": "breakout",
+      "breakout_at": "2026-08-17T18:51:49.766260",
       "resolved_at": null
     },
     "daily:AVT": {
@@ -23436,9 +23857,9 @@
       "limit": 43.709999084472656,
       "target": 46.84573362860902,
       "stop": 42.14213181240447,
-      "status": "open",
-      "outcome": null,
-      "breakout_at": null,
+      "status": "breakout",
+      "outcome": "breakout",
+      "breakout_at": "2026-08-17T18:33:46.277687",
       "resolved_at": null
     },
     "daily:LOAR": {
@@ -23540,10 +23961,10 @@
       "limit": 140.3000030517578,
       "target": 148.9077026193498,
       "stop": 135.9961532679618,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-17T18:51:49.766260"
     },
     "daily:KNTK": {
       "source": "daily",
@@ -23839,10 +24260,10 @@
       "limit": 29.989999771118164,
       "target": 32.842516953786635,
       "stop": 28.56374117978393,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-17T18:33:46.277687"
     },
     "daily:RRC": {
       "source": "daily",
@@ -23982,10 +24403,10 @@
       "limit": 103.05000305175781,
       "target": 107.5707868404578,
       "stop": 100.78961115740782,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-17T18:15:38.567329"
     },
     "daily:STN": {
       "source": "daily",
@@ -24346,10 +24767,10 @@
       "limit": 981.657470703125,
       "target": 1034.6764747911448,
       "stop": 955.1479686591151,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-17T18:51:49.766260"
     },
     "daily:HXL": {
       "source": "daily",
@@ -24385,10 +24806,10 @@
       "limit": 30.34000015258789,
       "target": 32.496850825744204,
       "stop": 29.261574816009734,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-17T18:15:38.567329"
     },
     "daily:EMN": {
       "source": "daily",
@@ -24398,6 +24819,71 @@
       "limit": 75.37000274658203,
       "target": 79.21534074085983,
       "stop": 73.44733374944313,
+      "status": "stopped_out",
+      "outcome": "stop",
+      "breakout_at": null,
+      "resolved_at": "2026-08-17T18:15:38.567329"
+    },
+    "daily:KNSL": {
+      "source": "daily",
+      "symbol": "KNSL",
+      "first_seen": "2026-08-17T18:15:38.567329",
+      "first_price": 370.47,
+      "limit": 381.4100036621094,
+      "target": 405.68334927207746,
+      "stop": 369.27333085712536,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
+    "daily:ENS": {
+      "source": "daily",
+      "symbol": "ENS",
+      "first_seen": "2026-08-17T18:15:38.567329",
+      "first_price": 203.31,
+      "limit": 217.0,
+      "target": 236.9821870707252,
+      "stop": 207.0089064646374,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
+    "daily:SOLS": {
+      "source": "daily",
+      "symbol": "SOLS",
+      "first_seen": "2026-08-17T18:33:46.277687",
+      "first_price": 62.56,
+      "limit": 64.73999786376953,
+      "target": 70.57458379351289,
+      "stop": 61.822704898897854,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
+    "daily:OSK": {
+      "source": "daily",
+      "symbol": "OSK",
+      "first_seen": "2026-08-17T18:33:46.277687",
+      "first_price": 154.29,
+      "limit": 160.09161320000763,
+      "target": 170.7840572569054,
+      "stop": 154.74539117155874,
+      "status": "stopped_out",
+      "outcome": "stop",
+      "breakout_at": null,
+      "resolved_at": "2026-08-17T18:51:49.766260"
+    },
+    "daily:ICL": {
+      "source": "daily",
+      "symbol": "ICL",
+      "first_seen": "2026-08-17T18:33:46.277687",
+      "first_price": 5.47,
+      "limit": 5.590000152587891,
+      "target": 5.837730316417516,
+      "stop": 5.466135070673078,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
