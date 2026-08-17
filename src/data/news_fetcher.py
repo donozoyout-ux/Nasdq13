@@ -246,6 +246,53 @@ class NewsFetcher:
         
         return articles
     
+    async def _fetch_yahoo(self, symbol: str) -> List[NewsArticle]:
+        """Fetch news via Yahoo Finance — no API key required.
+        Uses yfinance's built-in news feed (keyless, free)."""
+        try:
+            import yfinance as yf
+            ticker = yf.Ticker(symbol.replace("=F", ""))
+            if hasattr(ticker, "get_news"):
+                raw = await asyncio.to_thread(ticker.get_news)
+            else:
+                raw = await asyncio.to_thread(lambda: ticker.news)
+            if not raw:
+                return []
+            articles = []
+            cutoff = datetime.utcnow() - timedelta(hours=self.lookback_hours)
+            for item in raw[:self.max_articles]:
+                try:
+                    title = (item.get("content") or {}).get("title", "")
+                    summary = (item.get("content") or {}).get("summary", "")
+                    link = (item.get("content") or {}).get("canonicalUrl", {}).get("url", "")
+                    source = (item.get("content") or {}).get("provider", {}).get("displayName", "Yahoo")
+                    pub_raw = (item.get("content") or {}).get("pubDate", 0)
+                    if isinstance(pub_raw, (int, float)) and pub_raw:
+                        published = datetime.fromtimestamp(pub_raw)
+                    else:
+                        try:
+                            published = datetime.fromisoformat(str(pub_raw).replace("Z", "+00:00"))
+                            published = published.replace(tzinfo=None)
+                        except Exception:
+                            published = datetime.utcnow()
+                    if not title:
+                        continue
+                    if published < cutoff:
+                        continue
+                    articles.append(NewsArticle(
+                        title=title,
+                        description=summary,
+                        url=link,
+                        source=source,
+                        published_at=published,
+                    ))
+                except Exception:
+                    continue
+            return articles
+        except Exception as e:
+            logger.debug(f"Yahoo news unavailable for {symbol}: {e}")
+            return []
+
     async def fetch_for_symbol(self, symbol: str) -> List[NewsArticle]:
         """Fetch news for a specific symbol from all sources"""
         if not self.enabled:
@@ -256,6 +303,7 @@ class NewsFetcher:
         
         # Fetch from all sources concurrently
         tasks = [
+            self._fetch_yahoo(symbol),
             self._fetch_newsapi(query),
             self._fetch_alphavantage(symbol),
             self._fetch_finnhub(symbol),

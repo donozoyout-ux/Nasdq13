@@ -240,7 +240,6 @@
                 </tbody>
             </table>
         </div>
-        <div id="weeklyNarrative" style="margin-top:16px; font-size:13px; line-height:1.6; color:var(--muted); white-space:pre-wrap; font-family:'Segoe UI',Roboto,sans-serif;"></div>
     </div>
 
     <div class="grid-2">
@@ -687,7 +686,6 @@
 
             // Weekly report
             const wBody = document.getElementById('weeklyBody');
-            const wNarr = document.getElementById('weeklyNarrative');
             const wUpd = document.getElementById('weeklyUpdated');
             const wr = data.weekly_report;
             if (wr && wr.candidates && wr.candidates.length > 0) {
@@ -706,16 +704,9 @@
                         <td class="price-change ${(c.rs_4w || 0) >= 0 ? 'pc-up' : 'pc-down'}">${c.rs_4w != null ? c.rs_4w.toFixed(1) + '%' : '-'}</td>
                     </tr>`;
                 }).join('');
-                if (wr.report) {
-                    const plain = wr.report.replace(/<[^>]+>/g, '');
-                    wNarr.textContent = plain;
-                } else {
-                    wNarr.textContent = '';
-                }
                 wUpd.textContent = 'Güncellendi: ' + fmtTime(wr.generated_at) + (wr.index && wr.index.return_4w != null ? ' | S&P 500 4H: ' + wr.index.return_4w + '%' : '');
             } else {
                 wBody.innerHTML = '<tr><td colspan="9" class="empty">Haftalık rapor henüz üretilmedi</td></tr>';
-                wNarr.textContent = '';
             }
         } catch (err) {
             console.error('Refresh error:', err);
