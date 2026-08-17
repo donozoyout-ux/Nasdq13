@@ -21340,12 +21340,149 @@
           "news_score": 0.0
         }
       ]
+    },
+    {
+      "time": "2026-08-17T15:19:44.490787",
+      "universe_size": 250,
+      "closed": false,
+      "candidates": [
+        {
+          "symbol": "FRO",
+          "name": "Frontline Plc Ordinary Shares",
+          "price": 42.2,
+          "change_pct": 2.4,
+          "setup_score": 88.4,
+          "setup_type": "squeeze",
+          "anticipation_score": 52.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 29,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "SYRE",
+          "name": "Spyre Therapeutics, Inc. Common Stock",
+          "price": 103.62,
+          "change_pct": -0.01,
+          "setup_score": 79.6,
+          "setup_type": "squeeze",
+          "anticipation_score": 63.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 29,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "APLD",
+          "name": "Applied Digital Corporation Common Stock",
+          "price": 30.73,
+          "change_pct": -1.51,
+          "setup_score": 77.4,
+          "setup_type": "squeeze",
+          "anticipation_score": 55.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 17,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "KMX",
+          "name": "CarMax Inc",
+          "price": 59.61,
+          "change_pct": -0.52,
+          "setup_score": 77.3,
+          "setup_type": "squeeze",
+          "anticipation_score": 63.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 10,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "BIO",
+          "name": "Bio-Rad Laboratories, Inc. Class A Common Stock",
+          "price": 356.44,
+          "change_pct": 0.05,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 24.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "IDCC",
+          "name": "InterDigital, Inc. Common Stock",
+          "price": 346.26,
+          "change_pct": 0.76,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "QRVO",
+          "name": "Qorvo, Inc. Common Stock",
+          "price": 98.07,
+          "change_pct": -0.05,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 36.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 0,
+          "trigger_type": "near",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "TWST",
+          "name": "Twist Bioscience Corporation Common Stock",
+          "price": 123.1,
+          "change_pct": 3.82,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "ROAD",
+          "name": "Construction Partners, Inc. Class A Common Stock",
+          "price": 119.99,
+          "change_pct": -1.28,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        },
+        {
+          "symbol": "HRB",
+          "name": "H&R Block, Inc. Common Stock",
+          "price": 51.65,
+          "change_pct": -4.21,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": "none",
+          "news_score": 0.0
+        }
+      ]
     }
   ],
-  "last_scan_time": "2026-08-17T15:01:12.997247",
+  "last_scan_time": "2026-08-17T15:19:19.997432",
   "stats": {
     "total_signals": 0,
-    "total_scans": 6103,
+    "total_scans": 6121,
     "last_signal": null
   },
   "created_at": "2026-08-11T16:36:52.375361",
@@ -22483,10 +22620,10 @@
       "limit": 54.119998931884766,
       "target": 57.295306092106266,
       "stop": 52.53234535177401,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-17T15:19:44.601070"
     },
     "ACA": {
       "first_seen": "2026-08-17T11:16:27.397022",
@@ -23110,10 +23247,10 @@
       "limit": 140.3000030517578,
       "target": 148.81290821259006,
       "stop": 136.0435504713417,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-17T15:19:44.601070"
     },
     "EQX": {
       "first_seen": "2026-08-17T11:16:27.397022",
@@ -23561,10 +23698,10 @@
       "limit": 33.81800079345703,
       "target": 35.56253029575327,
       "stop": 32.94573604230891,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-17T15:19:44.601070"
     },
     "PLXS": {
       "first_seen": "2026-08-17T14:25:16.696612",
@@ -23671,10 +23808,10 @@
       "limit": 24.329999923706055,
       "target": 26.090859588046428,
       "stop": 23.44957009153587,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-17T15:19:44.601070"
     },
     "FCFS": {
       "first_seen": "2026-08-17T15:01:38.192398",
