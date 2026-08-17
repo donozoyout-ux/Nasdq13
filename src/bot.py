@@ -324,6 +324,14 @@ class SignalBot:
                         "report": report,
                     },
                 )
+                # Haftalık çıkış adaylarını da prediction tracker'a ekle — böylece
+                # "haftalık tutturma oranı" dashboard'da görülebilir.
+                try:
+                    self.state.update_prediction_tracker(
+                        [c.to_dict() for c in top], source="weekly"
+                    )
+                except Exception as e:
+                    logger.error(f"Weekly prediction tracker update failed: {e}")
                 logger.info(f"✅ Weekly report sent ({key})")
                 return True
         except Exception as e:
@@ -1128,6 +1136,7 @@ class SignalBot:
             "smallcap": smallcap_info,
             "budget": budget_info,
             "predictions": self.state.get_prediction_stats(),
+            "weekly_tracking": self.state.get_prediction_stats(source="weekly"),
             "backtest": self.state.state.get("backtest_results"),
             "ai_status": self._ai_status(),
             "chart_analyses": self.last_chart_analyses,

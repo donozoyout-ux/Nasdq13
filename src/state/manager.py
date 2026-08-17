@@ -242,12 +242,16 @@ class StateManager:
     # Prediction tracker (live backtest of small-cap recommendations)
     # ------------------------------------------------------------------
 
-    def update_prediction_tracker(self, candidates: List[Dict[str, Any]]) -> None:
+    def update_prediction_tracker(self, candidates: List[Dict[str, Any]], source: str = "daily") -> None:
         """Track each recommended candidate's limit/target/stop against later prices.
 
         Every scan we walk the latest candidate dicts (which include trade_plan)
         and record whether each symbol has broken out (price >= limit), hit its
         target, or stopped out. Used to compute a live hit-rate metric.
+
+        `source` distinguishes "daily" small-cap candidates (entry/target/stop from
+        trade_plan) from "weekly" breakout candidates (target/stop derived from ATR%).
+        Track keys are namespaced so both can be tracked independently.
         """
         track = self.state.setdefault("prediction_tracker", {})
         now = datetime.utcnow().isoformat()
@@ -261,12 +265,25 @@ class StateManager:
             limit = tp.get("limit") or 0
             target = tp.get("target") or 0
             stop = tp.get("stop") or 0
-            if limit <= 0 or price <= 0:
+
+            if source == "weekly":
+                # Haftalık adaylarda entry planı yok; beklenen haftalık hareket
+                # (ATR%) etrafında simetrik hedef/stop kur.
+                atr = float(d.get("atr_pct") or 0)
+                if atr <= 0 or price <= 0:
+                    continue
+                limit = price
+                target = price * (1 + atr / 100.0)
+                stop = price * (1 - atr / 100.0)
+            elif limit <= 0 or price <= 0:
                 continue
 
-            rec = track.get(sym)
+            key = f"{source}:{sym}"
+            rec = track.get(key)
             if rec is None:
-                track[sym] = {
+                track[key] = {
+                    "source": source,
+                    "symbol": sym,
                     "first_seen": now,
                     "first_price": price,
                     "limit": limit,
@@ -305,8 +322,8 @@ class StateManager:
 
         # expire open entries older than 7 days (setup stale)
         cutoff = (datetime.utcnow() - timedelta(days=7)).isoformat()
-        for sym in list(track.keys()):
-            rec = track[sym]
+        for key in list(track.keys()):
+            rec = track[key]
             if rec.get("status") == "open" and rec.get("first_seen", "") < cutoff:
                 rec["status"] = "expired"
                 rec["outcome"] = "expired"
@@ -314,9 +331,13 @@ class StateManager:
 
         self.save()
 
-    def get_prediction_stats(self) -> Dict[str, Any]:
-        """Aggregate the live backtest: hit rate of recommended candidates."""
+    def get_prediction_stats(self, source: Optional[str] = None) -> Dict[str, Any]:
+        """Aggregate the live backtest: hit rate of recommended candidates.
+        `source` optionally filters to a single source ("daily" / "weekly")."""
         track = self.state.get("prediction_tracker", {}) or {}
+        if source is not None:
+            prefix = f"{source}:"
+            track = {k: v for k, v in track.items() if k.startswith(prefix)}
         total = len(track)
         if total == 0:
             return {

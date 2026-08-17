@@ -240,6 +240,7 @@
                 </tbody>
             </table>
         </div>
+        <div id="weeklyHitRate" style="margin-top:12px;font-size:13px;color:var(--muted)"></div>
     </div>
 
     <div class="grid-2">
@@ -708,6 +709,22 @@
                 wUpd.textContent = 'Güncellendi: ' + fmtTime(wr.generated_at) + (wr.index && wr.index.return_4w != null ? ' | S&P 500 4H: ' + wr.index.return_4w + '%' : '');
             } else {
                 wBody.innerHTML = '<tr><td colspan="9" class="empty">Haftalık rapor henüz üretilmedi</td></tr>';
+            }
+
+            // Haftalık tutturma oranı (prediction tracker)
+            const wt = data.weekly_tracking || {};
+            const wtEl = document.getElementById('weeklyHitRate');
+            if (wtEl) {
+                if (wt.total && wt.total > 0) {
+                    const hr = wt.hit_rate_pct != null ? wt.hit_rate_pct.toFixed(1) + '%' : '-';
+                    const res = (wt.hit || 0) + (wt.stop || 0) + (wt.breakout || 0) + (wt.expired || 0);
+                    wtEl.innerHTML = `<div style="margin-top:12px;padding:10px 12px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid var(--border)">
+                        <b>Tutturma Oranı:</b> <span style="color:${(wt.hit_rate_pct || 0) >= 50 ? 'var(--green)' : 'var(--red)'};font-size:15px;font-weight:700">${hr}</span>
+                        <span style="color:var(--muted);font-size:12px"> (${wt.total} aday · tuttu: ${wt.hit} · stop: ${wt.stop} · çıkış: ${wt.breakout} · süresi doldu: ${wt.expired} · ${wt.open} açık)</span>
+                    </div>`;
+                } else {
+                    wtEl.textContent = 'Tutturma verisi henüz yok (ilk haftalık rapor sonrası 7 gün izlenir)';
+                }
             }
         } catch (err) {
             console.error('Refresh error:', err);
