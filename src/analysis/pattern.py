@@ -207,3 +207,206 @@ def session_vwap(df: pd.DataFrame) -> float:
     except Exception as e:
         logger.debug(f"Session VWAP fallback: {e}")
     return float((tp * vol).cumsum().iloc[-1] / vol.cumsum().iloc[-1]) if vol.cumsum().iloc[-1] > 0 else 0.0
+
+
+# ----------------------------------------------------------------------
+# Candle Blending + Price Action (Mum Mantığı analizörü)
+# Sistemi: karmaşık formasyon adları yerine gövde/fitil oranları, momentum
+# yutan mumlar ve mum birleştirme (candle blending) ile "kim üstün" sorusuna
+# kural tabanlı (AI'sız) cevap verir.
+# ----------------------------------------------------------------------
+
+def _blend_candles(df: pd.DataFrame, lookback: int = 3) -> Optional[Dict[str, float]]:
+    """Candle Blending: son `lookback` mumu TEK mum olarak birleştirir.
+    Açılış = ilk mumun açılışı, kapanış = son mumun kapanışı,
+    yüksek = en yüksek high, düşük = en düşük low."""
+    if df is None or len(df) < lookback:
+        return None
+    sub = df.tail(lookback)
+    o = float(sub["open"].iloc[0])
+    c = float(sub["close"].iloc[-1])
+    h = float(sub["high"].max())
+    l = float(sub["low"].min())
+    return {"open": o, "close": c, "high": h, "low": l}
+
+
+def _candle_anatomy(o: float, c: float, h: float, l: float) -> Dict[str, Any]:
+    """Tek bir mumun (veya blended mumun) anatomik ölçümleri."""
+    rng = _range(h, l)
+    body = _body(o, c)
+    upper = h - max(o, c)
+    lower = min(o, c) - l
+    bull = c >= o
+    body_ratio = body / rng if rng > 0 else 0.0
+    return {
+        "bull": bull,
+        "body_ratio": body_ratio,
+        "upper_wick_ratio": upper / rng if rng > 0 else 0.0,
+        "lower_wick_ratio": lower / rng if rng > 0 else 0.0,
+        "upper_wick": upper,
+        "lower_wick": lower,
+        "body": body,
+        "range": rng,
+    }
+
+
+def price_action_analysis(df: pd.DataFrame, lookback: int = 8) -> Dict[str, Any]:
+    """Kural tabanlı 'Mum Mantığı + Candle Blending' analizi.
+
+    Adım adım:
+      1) Son mumun anatomisi (gövde vs fitiller) → alıcı/satıcı baskısı
+      2) Önceki 1-2 mumun gövdesini yutan mum (engulfing) → momentum teyidi
+      3) Son 3 mumu TEK mumda birleştir (candle blending) → nihai yön
+      4) 3-5 mumluk kümülatif gövdeler: trend yönünde kim daha büyük hareket yapmış
+      5) Nihai karar: alıcı mı satıcı mı üstün + yön beklentisi + açıklama
+
+    Returns a dict: {bias, direction, verdict, steps, score}.
+    """
+    out = {
+        "bias": 0,          # +1 alıcı üstün / -1 satıcı üstün / 0 nötr
+        "direction": "nötr",
+        "verdict": "",
+        "steps": [],
+        "score": 0.0,
+    }
+    if df is None or len(df) < 5:
+        out["verdict"] = "Yeterli veri yok."
+        return out
+
+    o = df["open"].values
+    h = df["high"].values
+    l = df["low"].values
+    c = df["close"].values
+    n = len(df)
+
+    steps: List[str] = []
+    score = 0.0
+
+    # --- 1) Son mum anatomisi ---
+    last = _candle_anatomy(o[-1], c[-1], h[-1], l[-1])
+    if last["body_ratio"] > 0.55:
+        if last["bull"]:
+            score += 2
+            steps.append(
+                "Son mum: büyük yeşil gövdeli (gövde aralığın %{:.0f}'i) — alıcılar kontrolü elinde tutuyor.".format(
+                    last["body_ratio"] * 100
+                )
+            )
+        else:
+            score -= 2
+            steps.append(
+                "Son mum: büyük kırmızı gövdeli (gövde aralığın %{:.0f}'i) — satıcılar baskın.".format(
+                    last["body_ratio"] * 100
+                )
+            )
+    elif last["body_ratio"] < 0.25:
+        # Kararsızlık / fitil baskısı
+        if last["lower_wick_ratio"] > 0.55:
+            score += 1.5
+            steps.append(
+                "Son mum: uzun alt fitil (%{:.0f}) — düşük seviyeler reddedildi, alıcılar yukarı itti.".format(
+                    last["lower_wick_ratio"] * 100
+                )
+            )
+        elif last["upper_wick_ratio"] > 0.55:
+            score -= 1.5
+            steps.append(
+                "Son mum: uzun üst fitil (%{:.0f}) — üst seviyeler reddedildi, satıcılar aşağı bastırdı.".format(
+                    last["upper_wick_ratio"] * 100
+                )
+            )
+        else:
+            steps.append("Son mum: küçük gövdeli, kararsızlık (doji benzeri).")
+
+    # --- 2) Engulfing momentum teyidi (son mum önceki 1-2 mumun gövdesini yutar) ---
+    if n >= 2:
+        prev = _candle_anatomy(o[-2], c[-2], h[-2], l[-2])
+        if prev["body"] > 0 and last["body"] > prev["body"]:
+            if last["bull"] and not prev["bull"]:
+                score += 2.5
+                steps.append(
+                    "Son mum önceki kırmızı mumun gövdesini tamamen yutuyor (bullish engulfing) — güçlü yön değişimi teyidi."
+                )
+            elif not last["bull"] and prev["bull"]:
+                score -= 2.5
+                steps.append(
+                    "Son mum önceki yeşil mumun gövdesini tamamen yutuyor (bearish engulfing) — güçlü satış teyidi."
+                )
+        elif n >= 3 and prev["body"] <= last["body"] * 0.5:
+            steps.append("Son mum, önceki mumun gövdesini aşıyor ama tam yutma yok — momentum zayıf teyit.")
+
+    # --- 3) Candle Blending: son 3 mumu tek mumda birleştir ---
+    blend = _blend_candles(df, lookback=3)
+    if blend:
+        ba = _candle_anatomy(blend["open"], blend["close"], blend["high"], blend["low"])
+        blend_pct = round((blend["close"] / blend["open"] - 1) * 100, 2) if blend["open"] else 0.0
+        if ba["bull"] and ba["body_ratio"] > 0.5:
+            score += 2
+            steps.append(
+                "Candle blending (son 3 mum): birleşik mum yeşil, gövde %{:.0f} — nihai eğilim yukarı ({}% net hareket).".format(
+                    ba["body_ratio"] * 100, blend_pct
+                )
+            )
+        elif not ba["bull"] and ba["body_ratio"] > 0.5:
+            score -= 2
+            steps.append(
+                "Candle blending (son 3 mum): birleşik mum kırmızı, gövde %{:.0f} — nihai eğilim aşağı ({}% net hareket).".format(
+                    ba["body_ratio"] * 100, blend_pct
+                )
+            )
+        else:
+            # Blended mum fitil baskın — hangi fitil?
+            if ba["lower_wick_ratio"] > ba["upper_wick_ratio"]:
+                score += 1
+                steps.append(
+                    "Candle blending (son 3 mum): birleşik mumda alt fitil uzun (%{:.0f}) — alıcılar alt bölgeyi savundu.".format(
+                        ba["lower_wick_ratio"] * 100
+                    )
+                )
+            else:
+                score -= 1
+                steps.append(
+                    "Candle blending (son 3 mum): birleşik mumda üst fitil uzun (%{:.0f}) — satıcılar üst bölgeyi savundu.".format(
+                        ba["upper_wick_ratio"] * 100
+                    )
+                )
+
+    # --- 4) Son 5 mumun kümülatif gövde netliği ---
+    seg = max(n - 5, 0)
+    net_body = float(np.sum(np.abs(c[seg:] - o[seg:]) * np.sign(c[seg:] - o[seg:])))
+    gross_body = float(np.sum(np.abs(c[seg:] - o[seg:])))
+    if gross_body > 0:
+        net_ratio = net_body / gross_body
+        if net_ratio > 0.25:
+            score += 1.5
+            steps.append(
+                "Son 5 mum: gövdelerin %{:.0f}'i yukarı yönde — toplu momentum alıcılarda.".format(net_ratio * 100)
+            )
+        elif net_ratio < -0.25:
+            score -= 1.5
+            steps.append(
+                "Son 5 mum: gövdelerin %{:.0f}'i aşağı yönde — toplu momentum satıcılarda.".format(abs(net_ratio) * 100)
+            )
+
+    # --- 5) Nihai karar ---
+    if score >= 3:
+        bias, direction = 1, "yükseliş"
+    elif score <= -3:
+        bias, direction = -1, "düşüş"
+    else:
+        bias, direction = 0, "nötr"
+
+    verdict = {
+        1: "Alıcılar üstün — fiyat davranışı yükseliş yönünde. Yön beklentisi: YUKARI.",
+        -1: "Satıcılar üstün — fiyat davranışı düşüş yönünde. Yön beklentisi: AŞAĞI.",
+        0: "Alıcılar ve satıcılar dengede — kesin yön sinyali yok. Kırılım onayı beklenmeli.",
+    }[bias]
+
+    out.update({
+        "bias": bias,
+        "direction": direction,
+        "verdict": verdict,
+        "steps": steps,
+        "score": round(score, 1),
+    })
+    return out

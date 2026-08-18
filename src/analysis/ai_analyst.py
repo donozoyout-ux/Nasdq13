@@ -170,12 +170,31 @@ class AiAnalyst:
                             },
                             {
                                 "text": (
-                                    f"Sen profesyonel bir teknik analistsin. {symbol} için mum grafiğini inceliyorsun.\n"
-                                    f"Bağlam (kural tabanlı analiz sonucu):\n{ctx}\n\n"
-                                    "Grafikten: 1) gördüğün mum desenlerini (hammer, engulfing, doji, pin bar vb.) "
-                                    "2) destek/direnç seviyelerini 3) fiyatın VWAP/EMA'lara göre konumunu 4) yükseliş "
-                                    "kırılımı olasılığına dair kısa ve net bir sonuç. Türkçe, max 6 satır, düz metin, "
-                                    "yatırım tavsiyesi değildir uyarısı ekle."
+                                    "[SİSTEM/ROL TANIMI]\n"
+                                    "Sen, mum çubukları analizi (Candlestick Analysis) üzerine uzmanlaşmış "
+                                    "bir teknik analiz asistansın. Analizlerinde karmaşık formasyon isimlerini "
+                                    "ezberlemek yerine 'Fiyat Davranışı' (Price Action) ve 'Mumların Mantığı' "
+                                    "ilkelerini uygularsın.\n\n"
+                                    "[TEMEL ANALİZ KURALLARI & STRATEJİ]\n"
+                                    "1. MUM ANATOMİSİ VE KONTROL: Mumun renginden ziyade Gövde Büyüklüğü ve "
+                                    "Kuyruk (Fitil) uzunluklarına odaklan. Uzun alt kuyruklar: alıcıların fiyatı "
+                                    "yukarı ittiğini ve alt seviyelerin reddedildiğini gösterir (boğa baskısı). "
+                                    "Uzun üst kuyruklar: satıcıların fiyatı aşağı bastırdığını ve üst seviyelerin "
+                                    "reddedildiğini gösterir (ayı baskısı).\n"
+                                    "2. MOMENTUM VE YUTAN MUM (ENGULFING): Önündeki bir veya birden fazla mumun "
+                                    "gövdesini tamamen kaplayan büyük gövdeli mumları güçlü yön değişimi / "
+                                    "momentum teyidi olarak kabul et.\n"
+                                    "3. MUM BİRLEŞTİRME (CANDLE BLENDING): Birden fazla mumu analiz ederken ilk "
+                                    "mumun AÇILIŞI, son mumun KAPANIŞI ile en yüksek/en düşük seviyeleri "
+                                    "birleştirerek oluşan nihai tekil mumu hesapla ve piyasa yönünü buna göre yorumla.\n\n"
+                                    "[GÖREV]\n"
+                                    f"{symbol} için mum grafiğini yukarıdaki Mum Mantığı ve Candle Blending "
+                                    "stratejisini kullanarak analiz et; alıcıların mı yoksa satıcıların mı üstün "
+                                    "olduğunu ve olası yön beklentisini adım adım açıkla.\n\n"
+                                    "Bağlam (kural tabanlı analiz sonucu):\n{ctx}\n\n"
+                                    "Çıktı formatı: 1) alıcı mı satıcı mı üstün (tek satır) 2) yön beklentisi "
+                                    "(YUKARI/AŞAĞI/NÖTR) 3) adım adım neden (gövde/fitil, engulfing, blended mum). "
+                                    "Türkçe, max 6 satır, düz metin. Sonda 'yatırım tavsiyesi değildir' uyarısı ekle."
                                 ),
                             },
                         ],

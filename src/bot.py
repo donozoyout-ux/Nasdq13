@@ -840,43 +840,44 @@ class SignalBot:
                 await asyncio.sleep(self._smallcap_scan_interval() + 5)
 
     async def _run_chart_analyses(self, candidates):
-        """Vision chart analysis for top candidates (Gemini free tier).
-        Runs ONCE per day (budget control) on the top-N setups only. Results go
-        to last_chart_analyses for the dashboard. Never blocks the scan cycle —
-        a short timeout applies."""
+        """Chart reading for the top candidates.
+        Always runs the rule-based 'Mum Mantığı + Candle Blending' analysis
+        (price_action_analysis). If an LLM key is set, the candlestick image is
+        also sent to the vision model with the same system rules (budget-capped).
+        Results go to last_chart_analyses for the dashboard. Never blocks the
+        scan cycle — a short timeout applies on LLM calls."""
         try:
-            if not self.ai_analyst or not self.ai_analyst._has_llm():
-                return
             cc = self.config.get("ai_report", {}).get("chart_analysis", {}) or {}
             if not cc.get("enabled", True):
                 return
             top_n = int(cc.get("top_n", 3))
-            daily_budget = int(cc.get("daily_budget_calls", 6))
-            today = datetime.utcnow().strftime("%Y-%m-%d")
-            if self._chart_analysis_day != today:
-                self._chart_analysis_day = today
-                self._chart_analysis_budget = daily_budget
-            if self._chart_analysis_budget <= 0:
-                return
-
             top = candidates[:top_n]
             if not top:
                 return
-            import base64 as _b64
-            from src.analysis.chart_builder import build_candlestick_chart
 
-            # Günlük veriyi çek (chart için) — sadece top-N, hızlı
+            from src.analysis.chart_builder import build_candlestick_chart
+            from src.analysis.pattern import price_action_analysis
+
+            has_llm = bool(self.ai_analyst) and self.ai_analyst._has_llm()
+
+            # Günlük bütçe yalnızca LLM (görsel) çağrıları için geçerli
+            if has_llm:
+                daily_budget = int(cc.get("daily_budget_calls", 6))
+                today = datetime.utcnow().strftime("%Y-%m-%d")
+                if self._chart_analysis_day != today:
+                    self._chart_analysis_day = today
+                    self._chart_analysis_budget = daily_budget
+
             symbols = [c.symbol for c in top]
             fetched = await self.smallcap_scanner._fetch_timeframes(symbols, ["1d"])
             for cand in top:
-                if self._chart_analysis_budget <= 0:
-                    break
                 pd_obj = fetched.get(cand.symbol, {}).get("1d")
                 if pd_obj is None or pd_obj.data is None:
                     continue
+
+                # 1) Kural tabanlı analiz her zaman çalışır (AI'sız)
+                rule = price_action_analysis(pd_obj.data)
                 chart = build_candlestick_chart(pd_obj.data, cand.symbol, "1d")
-                if not chart:
-                    continue
                 context = {
                     "symbol": cand.symbol,
                     "price": cand.price,
@@ -889,18 +890,38 @@ class SignalBot:
                     "support_pivot": cand.support_pivot,
                     "candle_patterns": cand.candle_patterns,
                     "expect_horizon": cand.expect_horizon,
+                    "price_action": {
+                        "bias": rule["bias"],
+                        "direction": rule["direction"],
+                        "score": rule["score"],
+                    },
                 }
-                result = await asyncio.wait_for(
-                    self.ai_analyst.analyze_chart(cand.symbol, chart, context),
-                    timeout=45,
-                )
-                self._chart_analysis_budget -= 1
-                if result:
+
+                provider = "rule_based"
+                parts = []
+                if rule["verdict"]:
+                    lines = [f"🧭 {rule['verdict']}", f"📊 Yön beklentisi: {rule['direction'].upper()}"]
+                    lines += [f"• {s}" for s in rule["steps"]]
+                    parts.append("\n".join(lines))
+
+                # 2) LLM yoksa veya bütçe bittiyse sadece kural tabanlı sonuç kaydedilir
+                if has_llm and chart and self._chart_analysis_budget > 0:
+                    result = await asyncio.wait_for(
+                        self.ai_analyst.analyze_chart(cand.symbol, chart, context),
+                        timeout=45,
+                    )
+                    self._chart_analysis_budget -= 1
+                    if result and result.get("comment"):
+                        provider = self.ai_analyst.provider
+                        parts.append(f"🤖 Görsel analiz:\n{result['comment']}")
+
+                if parts:
                     self.last_chart_analyses[cand.symbol] = {
                         "symbol": cand.symbol,
-                        "provider": self.ai_analyst.provider,
+                        "provider": provider,
+                        "rule": rule,
                         "analyzed_at": datetime.utcnow().isoformat(),
-                        "comment": result.get("comment", ""),
+                        "comment": "\n\n".join(parts),
                     }
         except Exception as e:
             logger.warning(f"Chart analysis skipped: {e}")

@@ -298,9 +298,9 @@
             <div id="btSummary" class="empty">Backtest verisi yok</div>
         </div>
         <div class="card">
-            <h2><span class="dot purple" style="background:var(--purple)"></span> AI Grafik Yorumları (Vision)</h2>
-            <div class="last-updated" id="aiChartsUpdated">GEMINI_API_KEY eklendiğinde top adaylar için otomatik</div>
-            <div id="aiChartsList" class="empty">AI grafik yorumu yok</div>
+            <h2><span class="dot purple" style="background:var(--purple)"></span> Grafik Okuma (Mum Mantığı + Candle Blending)</h2>
+            <div class="last-updated" id="aiChartsUpdated">Top adaylar tarandığında otomatik üretilir</div>
+            <div id="aiChartsList" class="empty">Grafik analizi yok</div>
         </div>
     </div>
 
@@ -498,7 +498,7 @@
                 btEl.textContent = 'Backtest henüz çalışmadı — gece piyasa kapalıyken otomatik koşar, sonuçlar buraya gelir.';
             }
 
-            // AI chart analyses
+            // Chart analyses (rule-based + optional AI vision)
             const charts = data.chart_analyses || {};
             const chartsEl = document.getElementById('aiChartsList');
             const chartsUpd = document.getElementById('aiChartsUpdated');
@@ -507,13 +507,27 @@
                 chartsUpd.textContent = 'Güncellendi: ' + fmtTime(charts[chartKeys[0]].analyzed_at);
                 chartsEl.innerHTML = chartKeys.map(sym => {
                     const ch = charts[sym] || {};
+                    const isAI = ch.provider && ch.provider !== 'rule_based';
+                    const tag = isAI ? '🤖 AI grafik okuması' : '🧭 Kural tabanlı grafik okuma (Mum Mantığı)';
+                    let biasBadge = '';
+                    const rule = ch.rule || {};
+                    if (rule.direction) {
+                        const up = rule.direction === 'yükseliş';
+                        const down = rule.direction === 'düşüş';
+                        const color = up ? 'var(--green)' : (down ? 'var(--red)' : 'var(--muted)');
+                        biasBadge = `<div style="margin:6px 0 2px;font-size:12px">
+                            <strong style="color:${color}">Yön beklentisi: ${rule.direction.toUpperCase()}</strong>
+                            <span style="color:var(--muted);font-size:11px"> (puan: ${rule.score || 0})</span>
+                        </div>`;
+                    }
                     return `<div class="news-item">
-                        <div><strong>${sym}</strong> <span style="font-size:11px;color:var(--muted)">AI grafik okuması</span></div>
+                        <div><strong>${sym}</strong> <span style="font-size:11px;color:var(--muted)">${tag}</span></div>
+                        ${biasBadge}
                         <div style="margin-top:4px;font-size:12px;color:var(--muted);white-space:pre-wrap">${ch.comment || ''}</div>
                     </div>`;
                 }).join('');
             } else {
-                chartsEl.textContent = 'Henüz AI grafik yorumu yok. GEMINI_API_KEY env eklendiginde top 3 aday icin otomatik uretilir.';
+                chartsEl.textContent = 'Henüz grafik analizi yok. Top adaylar tarandığında Mum Mantığı + Candle Blending analizi otomatik üretilir (AI anahtarı eklerseniz görsel okuma da eklenir).';
             }
 
             // Stats
