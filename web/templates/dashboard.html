@@ -241,6 +241,19 @@
             </table>
         </div>
         <div id="weeklyHitRate" style="margin-top:12px;font-size:13px;color:var(--muted)"></div>
+        <div style="margin-top:12px;overflow-x:auto;">
+            <table id="trackTable" style="width:100%;font-size:12px">
+                <thead><tr>
+                    <th>Hisse</th>
+                    <th>Giriş</th>
+                    <th>Hedef</th>
+                    <th>Stop</th>
+                    <th>Durum</th>
+                    <th>Sonuç</th>
+                </tr></thead>
+                <tbody id="trackBody"><tr><td colspan="6" class="empty">Takip verisi yok</td></tr></tbody>
+            </table>
+        </div>
     </div>
 
     <div class="grid-2">
@@ -725,6 +738,32 @@
                 } else {
                     wtEl.textContent = 'Tutturma verisi henüz yok (ilk haftalık rapor sonrası 7 gün izlenir)';
                 }
+            }
+
+            // Hangi hisse tuttu / tutmadı (sembol bazlı takip)
+            const tBody = document.getElementById('trackBody');
+            const tRows = (data.prediction_details || []).concat(data.daily_prediction_details || []);
+            if (tRows.length > 0) {
+                const stMeta = {
+                    'target_hit': ['TUTTU ✓', 'var(--green)', 'rgba(16,185,129,.15)'],
+                    'stopped_out': ['STOP ✗', 'var(--red)', 'rgba(239,68,68,.15)'],
+                    'breakout': ['ÇIKIŞ', 'var(--blue)', 'rgba(59,130,246,.15)'],
+                    'expired': ['SÜRESİ DOLDU', 'var(--muted)', 'rgba(255,255,255,.06)'],
+                    'open': ['AÇIK', 'var(--yellow)', 'rgba(245,158,11,.15)'],
+                };
+                tBody.innerHTML = tRows.map(r => {
+                    const meta = stMeta[r.status] || [r.status, 'var(--muted)', 'rgba(255,255,255,.06)'];
+                    return `<tr>
+                        <td><b>${r.symbol}</b>${r.source === 'weekly' ? ' <span style="color:var(--muted);font-size:10px">(haftalık)</span>' : ''}</td>
+                        <td class="mono">${fmtPrice(r.first_price)}</td>
+                        <td class="mono">${fmtPrice(r.target)}</td>
+                        <td class="mono">${fmtPrice(r.stop)}</td>
+                        <td><span class="tag" style="background:${meta[2]};color:${meta[1]}">${meta[0]}</span></td>
+                        <td style="font-size:11px;color:var(--muted)">${r.outcome || '-'}${r.resolved_at ? ' · ' + fmtTime(r.resolved_at) : ''}</td>
+                    </tr>`;
+                }).join('');
+            } else {
+                tBody.innerHTML = '<tr><td colspan="6" class="empty">Henüz takip edilen aday yok (rapordan sonra 7 gün izlenir)</td></tr>';
             }
         } catch (err) {
             console.error('Refresh error:', err);

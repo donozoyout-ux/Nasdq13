@@ -1136,6 +1136,8 @@ class SignalBot:
             "smallcap": smallcap_info,
             "budget": budget_info,
             "predictions": self.state.get_prediction_stats(),
+            "prediction_details": self.state.get_prediction_details(source="weekly"),
+            "daily_prediction_details": self.state.get_prediction_details(source="daily"),
             "weekly_tracking": self.state.get_prediction_stats(source="weekly"),
             "backtest": self.state.state.get("backtest_results"),
             "ai_status": self._ai_status(),

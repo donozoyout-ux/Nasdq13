@@ -286,6 +286,7 @@ class StateManager:
                     "symbol": sym,
                     "first_seen": now,
                     "first_price": price,
+                    "last_price": price,
                     "limit": limit,
                     "target": target,
                     "stop": stop,
@@ -298,6 +299,8 @@ class StateManager:
 
             if rec.get("status") not in ("open", "breakout"):
                 continue
+
+            rec["last_price"] = price
 
             # Kayıt anındaki sabit seviyelerle karşılaştır (her taramada güncel
             # fiyatla yeniden hesaplanan limit/target/stop ile değil).
@@ -376,3 +379,29 @@ class StateManager:
             "expired": counts["expired"],
             "hit_rate_pct": round(hit_rate, 1) if hit_rate is not None else None,
         }
+
+    def get_prediction_details(self, source: Optional[str] = None, limit: int = 50) -> List[Dict[str, Any]]:
+        """Return per-symbol prediction records (newest first) so the dashboard can
+        show WHICH stock hit its target, stopped out, broke out, etc."""
+        track = self.state.get("prediction_tracker", {}) or {}
+        if source is not None:
+            prefix = f"{source}:"
+            track = {k: v for k, v in track.items() if k.startswith(prefix)}
+        rows = []
+        for key, rec in track.items():
+            st = rec.get("status", "open")
+            rows.append({
+                "symbol": rec.get("symbol", key.split(":", 1)[-1]),
+                "source": rec.get("source", source or "daily"),
+                "status": st,
+                "outcome": rec.get("outcome"),
+                "first_price": rec.get("first_price"),
+                "last_price": rec.get("last_price"),
+                "target": rec.get("target"),
+                "stop": rec.get("stop"),
+                "first_seen": rec.get("first_seen"),
+                "breakout_at": rec.get("breakout_at"),
+                "resolved_at": rec.get("resolved_at"),
+            })
+        rows.sort(key=lambda r: r["first_seen"] or "", reverse=True)
+        return rows[:limit]
