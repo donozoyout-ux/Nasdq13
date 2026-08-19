@@ -29179,12 +29179,149 @@
           "news_score": 0.0
         }
       ]
+    },
+    {
+      "time": "2026-08-19T02:47:03.862101",
+      "universe_size": 250,
+      "closed": true,
+      "candidates": [
+        {
+          "symbol": "SYRE",
+          "name": "Spyre Therapeutics, Inc. Common Stock",
+          "price": 107.82,
+          "change_pct": 3.08,
+          "setup_score": 80.9,
+          "setup_type": "squeeze",
+          "anticipation_score": 59.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 30,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "IMVT",
+          "name": "Immunovant, Inc. Common Stock",
+          "price": 44.3,
+          "change_pct": 1.35,
+          "setup_score": 80.3,
+          "setup_type": "basing",
+          "anticipation_score": 51.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "VIRT",
+          "name": "Virtu Financial, Inc. Class A Common Stock",
+          "price": 61.05,
+          "change_pct": 2.61,
+          "setup_score": 77.4,
+          "setup_type": "basing",
+          "anticipation_score": 36.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 9,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "FNB",
+          "name": "F.N.B. Corporation Common Stock",
+          "price": 19.22,
+          "change_pct": -0.93,
+          "setup_score": 77.4,
+          "setup_type": "squeeze",
+          "anticipation_score": 45.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 31,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "VIST",
+          "name": "Vista Energy S.A.B. de C.V. American Depositary Shares, each representing one series A share, with no par value",
+          "price": 69.74,
+          "change_pct": -3.35,
+          "setup_score": 76.7,
+          "setup_type": "squeeze",
+          "anticipation_score": 59.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 27,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "ACA",
+          "name": "Arcosa, Inc. Common Stock",
+          "price": 145.35,
+          "change_pct": 0.23,
+          "setup_score": 76.5,
+          "setup_type": "squeeze",
+          "anticipation_score": 71.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 2,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "RGEN",
+          "name": "Repligen Corporation Common Stock",
+          "price": 166.15,
+          "change_pct": -1.71,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 25.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "PBF",
+          "name": "PBF Energy Inc. Class A Common Stock",
+          "price": 75.2,
+          "change_pct": 0.17,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 33.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 16,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "IDCC",
+          "name": "InterDigital, Inc. Common Stock",
+          "price": 335.77,
+          "change_pct": -3.62,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "TXG",
+          "name": "10x Genomics, Inc. Class A Common Stock",
+          "price": 55.63,
+          "change_pct": -4.07,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": null,
+          "news_score": 0.0
+        }
+      ]
     }
   ],
-  "last_scan_time": "2026-08-19T01:44:09.563349",
+  "last_scan_time": "2026-08-19T02:47:01.773010",
   "stats": {
     "total_signals": 123,
-    "total_scans": 7657,
+    "total_scans": 7719,
     "last_signal": null
   },
   "created_at": "2026-08-11T16:36:52.375361",
