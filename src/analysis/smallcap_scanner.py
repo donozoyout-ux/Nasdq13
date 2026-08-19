@@ -773,6 +773,10 @@ class SmallCapScanner:
         - rr: risk/reward ratio
         """
         atr = c.price * (c.atr_pct / 100.0) if c.price > 0 else 0.0
+        if not atr or atr <= 0:
+            fallback_pct = float(self.sc.get("fallback_atr_pct", 3.0))
+            atr = c.price * (fallback_pct / 100.0) if c.price > 0 else 0.0
+
         limit_from_price = bool(self.sc.get("limit_from_price", False))
         limit = c.price if limit_from_price else (c.donchian_upper if c.donchian_upper > 0 else c.price)
 
