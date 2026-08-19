@@ -241,18 +241,44 @@
             </table>
         </div>
         <div id="weeklyHitRate" style="margin-top:12px;font-size:13px;color:var(--muted)"></div>
-        <div style="margin-top:12px;overflow-x:auto;">
-            <table id="trackTable" style="width:100%;font-size:12px">
-                <thead><tr>
-                    <th>Hisse</th>
-                    <th>Giriş</th>
-                    <th>Hedef</th>
-                    <th>Stop</th>
-                    <th>Durum</th>
-                    <th>Sonuç</th>
-                </tr></thead>
-                <tbody id="trackBody"><tr><td colspan="6" class="empty">Takip verisi yok</td></tr></tbody>
-            </table>
+    </div>
+
+    <div class="grid-2">
+        <div class="card">
+            <h2><span class="dot blue"></span> Takip Edilen Sinyaller</h2>
+            <div class="last-updated" style="font-size:12px">Hedef tutan ✓ · stop olan ✗ · son fiyatla canlı takip</div>
+            <div style="overflow-x:auto;">
+                <table id="trackTable" style="width:100%;font-size:12px">
+                    <thead><tr>
+                        <th>Hisse</th>
+                        <th>Kaynak</th>
+                        <th>Giriş</th>
+                        <th>Son Fiyat</th>
+                        <th>Hedef</th>
+                        <th>Stop</th>
+                        <th>Durum</th>
+                        <th>Sonuç</th>
+                    </tr></thead>
+                    <tbody id="trackBody"><tr><td colspan="8" class="empty">Takip verisi yok</td></tr></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card">
+            <h2><span class="dot green"></span> Telegram Sinyal Takibi</h2>
+            <div class="last-updated" id="telegramTrackInfo" style="font-size:12px">Telegram'a atılan BREAKOUT alarmları burada izlenir (limit/hedef/stop ile)</div>
+            <div style="overflow-x:auto;">
+                <table id="trackTableTelegram" style="width:100%;font-size:12px">
+                    <thead><tr>
+                        <th>Hisse</th>
+                        <th>Giriş</th>
+                        <th>Son Fiyat</th>
+                        <th>Hedef</th>
+                        <th>Stop</th>
+                        <th>Durum</th>
+                    </tr></thead>
+                    <tbody id="trackBodyTelegram"><tr><td colspan="6" class="empty">Henüz Telegram sinyali yok</td></tr></tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -756,7 +782,12 @@
 
             // Hangi hisse tuttu / tutmadı (sembol bazlı takip)
             const tBody = document.getElementById('trackBody');
-            const tRows = (data.prediction_details || []).concat(data.daily_prediction_details || []);
+            const tRows = (data.prediction_details || []).concat(data.daily_prediction_details || [], data.telegram_prediction_details || []);
+            const srcBadge = (s) => {
+                if (s === 'telegram') return ' <span style="color:var(--yellow);font-size:10px">(Telegram)</span>';
+                if (s === 'weekly') return ' <span style="color:var(--muted);font-size:10px">(haftalık)</span>';
+                return ' <span style="color:var(--muted);font-size:10px">(günlük)</span>';
+            };
             if (tRows.length > 0) {
                 const stMeta = {
                     'target_hit': ['TUTTU ✓', 'var(--green)', 'rgba(16,185,129,.15)'],
@@ -768,8 +799,9 @@
                 tBody.innerHTML = tRows.map(r => {
                     const meta = stMeta[r.status] || [r.status, 'var(--muted)', 'rgba(255,255,255,.06)'];
                     return `<tr>
-                        <td><b>${r.symbol}</b>${r.source === 'weekly' ? ' <span style="color:var(--muted);font-size:10px">(haftalık)</span>' : ''}</td>
+                        <td><b>${r.symbol}</b>${srcBadge(r.source)}</td>
                         <td class="mono">${fmtPrice(r.first_price)}</td>
+                        <td class="mono" style="color:${r.last_price != null && r.first_price ? (r.last_price >= r.first_price ? 'var(--green)' : 'var(--red)') : 'var(--muted)'}">${fmtPrice(r.last_price)}</td>
                         <td class="mono">${fmtPrice(r.target)}</td>
                         <td class="mono">${fmtPrice(r.stop)}</td>
                         <td><span class="tag" style="background:${meta[2]};color:${meta[1]}">${meta[0]}</span></td>
@@ -777,7 +809,38 @@
                     </tr>`;
                 }).join('');
             } else {
-                tBody.innerHTML = '<tr><td colspan="6" class="empty">Henüz takip edilen aday yok (rapordan sonra 7 gün izlenir)</td></tr>';
+                tBody.innerHTML = '<tr><td colspan="8" class="empty">Henüz takip edilen aday yok (rapordan sonra 7 gün izlenir)</td></tr>';
+            }
+
+            // Telegram Sinyal Takibi (sağ panel): Telegram'a atılan BREAKOUT'ların canlı fiyat takibi
+            const tgBody = document.getElementById('trackBodyTelegram');
+            const tgRows = data.telegram_prediction_details || [];
+            const tgInfo = document.getElementById('telegramTrackInfo');
+            if (tgRows.length > 0) {
+                tgInfo.textContent = "Telegram'a atılan " + tgRows.length + " sinyal takip ediliyor · son fiyatla güncellenir";
+                const tgMeta = {
+                    'target_hit': ['TUTTU ✓', 'var(--green)', 'rgba(16,185,129,.15)'],
+                    'stopped_out': ['STOP ✗', 'var(--red)', 'rgba(239,68,68,.15)'],
+                    'breakout': ['ÇIKIŞ', 'var(--blue)', 'rgba(59,130,246,.15)'],
+                    'expired': ['SÜRESİ DOLDU', 'var(--muted)', 'rgba(255,255,255,.06)'],
+                    'open': ['AÇIK', 'var(--yellow)', 'rgba(245,158,11,.15)'],
+                };
+                tgBody.innerHTML = tgRows.map(r => {
+                    const meta = tgMeta[r.status] || [r.status, 'var(--muted)', 'rgba(255,255,255,.06)'];
+                    const last = r.last_price;
+                    const first = r.first_price;
+                    const lastCls = last != null && first ? (last >= first ? 'var(--green)' : 'var(--red)') : 'var(--muted)';
+                    return `<tr>
+                        <td><b>${r.symbol}</b></td>
+                        <td class="mono">${fmtPrice(r.first_price)}</td>
+                        <td class="mono" style="color:${lastCls}">${fmtPrice(last)}</td>
+                        <td class="mono">${fmtPrice(r.target)}</td>
+                        <td class="mono">${fmtPrice(r.stop)}</td>
+                        <td><span class="tag" style="background:${meta[2]};color:${meta[1]}">${meta[0]}</span></td>
+                    </tr>`;
+                }).join('');
+            } else {
+                tgBody.innerHTML = '<tr><td colspan="6" class="empty">Henüz Telegram sinyali yok</td></tr>';
             }
         } catch (err) {
             console.error('Refresh error:', err);

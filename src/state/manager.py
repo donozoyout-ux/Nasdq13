@@ -275,6 +275,13 @@ class StateManager:
                 limit = price
                 target = price * (1 + atr / 100.0)
                 stop = price * (1 - atr / 100.0)
+            elif source == "telegram":
+                # Telegram BREAKOUT alarmı kırılım anında atılır: fiyat zaten
+                # limit seviyesinde/üstündedir, bu yüzden hedef/stop takibi
+                # doğrudan "breakout" durumuyla başlar (çapraz beklemez).
+                if limit <= 0 or price <= 0:
+                    continue
+                limit = min(limit, price)   # giriş referansı = kırılım fiyatı
             elif limit <= 0 or price <= 0:
                 continue
 
@@ -290,9 +297,9 @@ class StateManager:
                     "limit": limit,
                     "target": target,
                     "stop": stop,
-                    "status": "open",          # open | breakout | target_hit | stopped_out | expired
-                    "outcome": None,           # None | breakout | hit | stop | expired
-                    "breakout_at": None,
+                    "status": "breakout" if source == "telegram" else "open",  # open | breakout | target_hit | stopped_out | expired
+                    "outcome": "breakout" if source == "telegram" else None,   # None | breakout | hit | stop | expired
+                    "breakout_at": now if source == "telegram" else None,
                     "resolved_at": None,
                 }
                 continue

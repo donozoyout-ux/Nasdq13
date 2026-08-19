@@ -478,7 +478,17 @@ class SignalBot:
             )
             if await self.notifier.send_smallcap_alert(msg):
                 self.state.record_smallcap_alert_sent(cand["symbol"], date_key)
-                self._record_smallcap_signal(self._candidate_from_dict(cand), action="BREAKOUT")
+                c = self._candidate_from_dict(cand)
+                self._record_smallcap_signal(c, action="BREAKOUT")
+                # Telegram'a atılan kırılım alarmını da fiyat takibine al
+                # (dashboard'daki 'Telegram Sinyal Takibi' paneli için: limit/hedef/stop
+                # ile birlikte, hedef tutunca ✓ / stop olunca ✗ gösterilir).
+                try:
+                    self.state.update_prediction_tracker(
+                        [c.with_plans(self.smallcap_scanner)], source="telegram"
+                    )
+                except Exception as e:
+                    logger.warning(f"Telegram prediction track failed {cand['symbol']}: {e}")
                 return True
         except Exception as e:
             logger.error(f"Small-cap alert failed: {e}")
@@ -648,6 +658,7 @@ class SignalBot:
                 dist_to_resistance_pct=d.get("dist_to_resistance_pct", 0),
                 bbw_slope_pct=d.get("bbw_slope_pct", 0),
                 squeeze_days=int(d.get("squeeze_days", 0)),
+                atr_pct=float(d.get("atr_pct", 0) or 0),
                 atr_contraction_pct=d.get("atr_contraction_pct", 0),
                 expect_horizon=d.get("expect_horizon", "birikim"),
                 trigger_score=d.get("trigger_score", 0),
@@ -1159,6 +1170,7 @@ class SignalBot:
             "predictions": self.state.get_prediction_stats(),
             "prediction_details": self.state.get_prediction_details(source="weekly"),
             "daily_prediction_details": self.state.get_prediction_details(source="daily"),
+            "telegram_prediction_details": self.state.get_prediction_details(source="telegram"),
             "weekly_tracking": self.state.get_prediction_stats(source="weekly"),
             "backtest": self.state.state.get("backtest_results"),
             "ai_status": self._ai_status(),
