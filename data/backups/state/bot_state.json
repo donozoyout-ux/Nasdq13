@@ -1179,7 +1179,8 @@
     "2026-08-15": "2026-08-15T00:39:47.216752",
     "2026-08-16": "2026-08-16T00:29:09.663292",
     "2026-08-17": "2026-08-17T00:29:46.292747",
-    "2026-08-18": "2026-08-18T00:11:56.247640"
+    "2026-08-18": "2026-08-18T00:11:56.247640",
+    "2026-08-19": "2026-08-19T00:41:16.394044"
   },
   "smallcap_premarket_sent": {
     "2026-08-14": "2026-08-14T13:20:57.522974",
@@ -28904,12 +28905,149 @@
           "news_score": 0.0
         }
       ]
+    },
+    {
+      "time": "2026-08-19T00:41:16.664035",
+      "universe_size": 250,
+      "closed": true,
+      "candidates": [
+        {
+          "symbol": "SYRE",
+          "name": "Spyre Therapeutics, Inc. Common Stock",
+          "price": 107.82,
+          "change_pct": 3.08,
+          "setup_score": 80.4,
+          "setup_type": "squeeze",
+          "anticipation_score": 59.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 30,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "CHRD",
+          "name": "Chord Energy Corporation Common Stock",
+          "price": 143.94,
+          "change_pct": 0.74,
+          "setup_score": 77.1,
+          "setup_type": "basing",
+          "anticipation_score": 56.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 8,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "VIRT",
+          "name": "Virtu Financial, Inc. Class A Common Stock",
+          "price": 61.05,
+          "change_pct": 2.61,
+          "setup_score": 76.9,
+          "setup_type": "basing",
+          "anticipation_score": 36.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 9,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "FNB",
+          "name": "F.N.B. Corporation Common Stock",
+          "price": 19.22,
+          "change_pct": -0.93,
+          "setup_score": 76.9,
+          "setup_type": "squeeze",
+          "anticipation_score": 45.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 31,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "VIST",
+          "name": "Vista Energy S.A.B. de C.V. American Depositary Shares, each representing one series A share, with no par value",
+          "price": 69.74,
+          "change_pct": -3.35,
+          "setup_score": 76.2,
+          "setup_type": "squeeze",
+          "anticipation_score": 59.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 27,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "RGEN",
+          "name": "Repligen Corporation Common Stock",
+          "price": 166.15,
+          "change_pct": -1.71,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 25.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "PBF",
+          "name": "PBF Energy Inc. Class A Common Stock",
+          "price": 75.2,
+          "change_pct": 0.17,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 33.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 16,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "IDCC",
+          "name": "InterDigital, Inc. Common Stock",
+          "price": 335.77,
+          "change_pct": -3.62,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "QRVO",
+          "name": "Qorvo, Inc. Common Stock",
+          "price": 95.7,
+          "change_pct": -0.35,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 37.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 1,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "TXG",
+          "name": "10x Genomics, Inc. Class A Common Stock",
+          "price": 55.63,
+          "change_pct": -4.07,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": null,
+          "news_score": 0.0
+        }
+      ]
     }
   ],
-  "last_scan_time": "2026-08-18T23:38:25.768470",
+  "last_scan_time": "2026-08-19T00:41:13.771298",
   "stats": {
     "total_signals": 123,
-    "total_scans": 7533,
+    "total_scans": 7595,
     "last_signal": null
   },
   "created_at": "2026-08-11T16:36:52.375361",
@@ -30621,6 +30759,20 @@
       "outcome": "stop",
       "breakout_at": null,
       "resolved_at": "2026-08-18T23:38:27.868350"
+    },
+    "daily:SWX": {
+      "source": "daily",
+      "symbol": "SWX",
+      "first_seen": "2026-08-19T00:41:16.869814",
+      "first_price": 91.71,
+      "last_price": 91.71,
+      "limit": 93.81197138363711,
+      "target": 97.18605274322374,
+      "stop": 92.1249307038438,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
     }
   },
   "backtest_results": {
