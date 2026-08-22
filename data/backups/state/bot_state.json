@@ -3038,143 +3038,6 @@
   ],
   "scan_history": [
     {
-      "time": "2026-08-12T16:09:20.043634",
-      "universe_size": 250,
-      "closed": false,
-      "candidates": [
-        {
-          "symbol": "IMVT",
-          "name": "Immunovant, Inc. Common Stock",
-          "price": 42.07,
-          "change_pct": 5.47,
-          "setup_score": 87.4,
-          "setup_type": "squeeze",
-          "anticipation_score": 75.0,
-          "expect_horizon": "1-2 seans",
-          "squeeze_days": 23,
-          "trigger_type": "near",
-          "news_score": 0.0
-        },
-        {
-          "symbol": "SYRE",
-          "name": "Spyre Therapeutics, Inc. Common Stock",
-          "price": 104.62,
-          "change_pct": -0.67,
-          "setup_score": 82.5,
-          "setup_type": "squeeze",
-          "anticipation_score": 52.0,
-          "expect_horizon": "1-2 seans",
-          "squeeze_days": 25,
-          "trigger_type": "none",
-          "news_score": 0.0
-        },
-        {
-          "symbol": "FRO",
-          "name": "Frontline Plc Ordinary Shares",
-          "price": 39.2,
-          "change_pct": 2.78,
-          "setup_score": 80.1,
-          "setup_type": "squeeze",
-          "anticipation_score": 59.0,
-          "expect_horizon": "1-2 seans",
-          "squeeze_days": 26,
-          "trigger_type": "none",
-          "news_score": 0.0
-        },
-        {
-          "symbol": "KMX",
-          "name": "CarMax Inc",
-          "price": 57.85,
-          "change_pct": -0.58,
-          "setup_score": 78.9,
-          "setup_type": "squeeze",
-          "anticipation_score": 53.0,
-          "expect_horizon": "1-2 seans",
-          "squeeze_days": 7,
-          "trigger_type": "none",
-          "news_score": 0.0
-        },
-        {
-          "symbol": "BOKF",
-          "name": "BOK Financial Corporation Common Stock",
-          "price": 144.08,
-          "change_pct": 0.03,
-          "setup_score": 77.8,
-          "setup_type": "squeeze",
-          "anticipation_score": 66.0,
-          "expect_horizon": "1-2 seans",
-          "squeeze_days": 23,
-          "trigger_type": "none",
-          "news_score": 0.0
-        },
-        {
-          "symbol": "PTGX",
-          "name": "Protagonist Therapeutics, Inc. Common Stock",
-          "price": 152.52,
-          "change_pct": 1.68,
-          "setup_score": 76.7,
-          "setup_type": "basing",
-          "anticipation_score": 60.0,
-          "expect_horizon": "1-2 seans",
-          "squeeze_days": 0,
-          "trigger_type": "near",
-          "news_score": 0.0
-        },
-        {
-          "symbol": "WAL",
-          "name": "Western Alliance Bancorporation Common Stock (DE)",
-          "price": 81.92,
-          "change_pct": 0.52,
-          "setup_score": 76.1,
-          "setup_type": "squeeze",
-          "anticipation_score": 53.0,
-          "expect_horizon": "1-2 seans",
-          "squeeze_days": 6,
-          "trigger_type": "none",
-          "news_score": 0.0
-        },
-        {
-          "symbol": "AVAV",
-          "name": "AeroVironment, Inc. Common Stock",
-          "price": 192.49,
-          "change_pct": -1.8,
-          "setup_score": 76.0,
-          "setup_type": "basing",
-          "anticipation_score": 18.0,
-          "expect_horizon": "1 hafta",
-          "squeeze_days": 0,
-          "trigger_type": "none",
-          "news_score": 0.0
-        },
-        {
-          "symbol": "BVN",
-          "name": "Buenaventura Mining Company Inc.",
-          "price": 34.56,
-          "change_pct": -0.68,
-          "setup_score": 76.0,
-          "setup_type": "basing",
-          "anticipation_score": 18.0,
-          "expect_horizon": "1 hafta",
-          "squeeze_days": 0,
-          "trigger_type": "none",
-          "news_score": 0.0
-        },
-        {
-          "symbol": "DBX",
-          "name": "Dropbox, Inc. Class A Common Stock",
-          "price": 33.67,
-          "change_pct": -2.66,
-          "setup_score": 76.0,
-          "setup_type": "basing",
-          "anticipation_score": 18.0,
-          "expect_horizon": "1 hafta",
-          "squeeze_days": 0,
-          "trigger_type": "none",
-          "news_score": 0.0
-        }
-      ]
-    },
-    {
       "time": "2026-08-12T16:27:24.540999",
       "universe_size": 250,
       "closed": false,
@@ -30436,12 +30299,149 @@
           "news_score": 0.0
         }
       ]
+    },
+    {
+      "time": "2026-08-22T11:04:32.171599",
+      "universe_size": 250,
+      "closed": true,
+      "candidates": [
+        {
+          "symbol": "NAVN",
+          "name": "Navan, Inc. Class A Common Stock",
+          "price": 29.16,
+          "change_pct": 2.1,
+          "setup_score": 99.4,
+          "setup_type": "squeeze",
+          "anticipation_score": 55.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 2,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "CHWY",
+          "name": "Chewy, Inc. Class A Common Stock",
+          "price": 24.02,
+          "change_pct": 0.59,
+          "setup_score": 83.1,
+          "setup_type": "squeeze",
+          "anticipation_score": 64.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 9,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "GLBE",
+          "name": "Global-E Online Ltd. Ordinary Shares",
+          "price": 40.55,
+          "change_pct": -0.59,
+          "setup_score": 79.3,
+          "setup_type": "squeeze",
+          "anticipation_score": 52.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 2,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "LB",
+          "name": "LandBridge Company LLC Class A Shares Representing Limited Liability Company Interests",
+          "price": 89.71,
+          "change_pct": 3.08,
+          "setup_score": 79.3,
+          "setup_type": "basing",
+          "anticipation_score": 24.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "OR",
+          "name": "OR Royalties Inc. Common Shares",
+          "price": 36.09,
+          "change_pct": 2.27,
+          "setup_score": 77.0,
+          "setup_type": "basing",
+          "anticipation_score": 18.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "HQY",
+          "name": "HealthEquity, Inc. Common Stock",
+          "price": 105.41,
+          "change_pct": 1.09,
+          "setup_score": 76.9,
+          "setup_type": "squeeze",
+          "anticipation_score": 56.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 3,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "IBRX",
+          "name": "ImmunityBio, Inc. Common Stock",
+          "price": 7.79,
+          "change_pct": -0.64,
+          "setup_score": 76.5,
+          "setup_type": "squeeze",
+          "anticipation_score": 55.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 17,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "SRRK",
+          "name": "Scholar Rock Holding Corporation Common Stock",
+          "price": 56.5,
+          "change_pct": 2.26,
+          "setup_score": 76.1,
+          "setup_type": "basing",
+          "anticipation_score": 24.0,
+          "expect_horizon": "1 hafta",
+          "squeeze_days": 0,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "MORN",
+          "name": "Morningstar, Inc. Common Stock",
+          "price": 215.97,
+          "change_pct": -0.7,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "anticipation_score": 41.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 3,
+          "trigger_type": null,
+          "news_score": 0.0
+        },
+        {
+          "symbol": "ALV",
+          "name": "Autoliv, Inc. Common Stock",
+          "price": 125.37,
+          "change_pct": 3.02,
+          "setup_score": 75.1,
+          "setup_type": "squeeze",
+          "anticipation_score": 63.0,
+          "expect_horizon": "1-2 seans",
+          "squeeze_days": 7,
+          "trigger_type": null,
+          "news_score": 0.0
+        }
+      ]
     }
   ],
-  "last_scan_time": "2026-08-22T10:01:28.462873",
+  "last_scan_time": "2026-08-22T11:04:30.167824",
   "stats": {
     "total_signals": 246,
-    "total_scans": 8784,
+    "total_scans": 8846,
     "last_signal": null
   },
   "created_at": "2026-08-11T16:36:52.375361",
@@ -31338,10 +31338,10 @@
       "limit": 43.9900016784668,
       "target": 47.026790079532866,
       "stop": 42.47160747793376,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:LB": {
       "source": "daily",
@@ -31394,10 +31394,10 @@
       "limit": 8.270000457763672,
       "target": 9.09831344498193,
       "stop": 7.855843964154543,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:SRRK": {
       "source": "daily",
@@ -31548,10 +31548,10 @@
       "limit": 145.97999572753906,
       "target": 147.36456187394336,
       "stop": 145.28771265433693,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:ESTC": {
       "source": "daily",
@@ -31604,10 +31604,10 @@
       "limit": 23.950000762939453,
       "target": 25.942109186930544,
       "stop": 22.953946550943908,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:MTDR": {
       "source": "daily",
@@ -31618,10 +31618,10 @@
       "limit": 60.380001068115234,
       "target": 64.28130671116028,
       "stop": 58.42934824659271,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:ZG": {
       "source": "daily",
@@ -31660,10 +31660,10 @@
       "limit": 55.7400016784668,
       "target": 59.89282363919433,
       "stop": 53.66359069810303,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:TWST": {
       "source": "daily",
@@ -31730,10 +31730,10 @@
       "limit": 55.283425787500164,
       "target": 58.393865022421906,
       "stop": 53.72820617003929,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:NEU": {
       "source": "daily",
@@ -31744,10 +31744,10 @@
       "limit": 981.6599731445312,
       "target": 1036.7127572163922,
       "stop": 954.1335811086008,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:HIMS": {
       "source": "daily",
@@ -31772,10 +31772,10 @@
       "limit": 43.810001373291016,
       "target": 47.84400497294935,
       "stop": 41.79299957346185,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:OGC": {
       "source": "daily",
@@ -31800,10 +31800,10 @@
       "limit": 58.66999816894531,
       "target": 63.15117038269548,
       "stop": 56.42941206207023,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:KMX": {
       "source": "daily",
@@ -31870,10 +31870,10 @@
       "limit": 77.4800033569336,
       "target": 81.52791104784586,
       "stop": 75.45604951147746,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:PCVX": {
       "source": "daily",
@@ -31926,10 +31926,10 @@
       "limit": 17.469999313354492,
       "target": 18.664510372871867,
       "stop": 16.872743783595805,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:JAN": {
       "source": "daily",
@@ -31940,10 +31940,10 @@
       "limit": 32.77735105280955,
       "target": 34.55693055299702,
       "stop": 31.887561302715817,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:BAH": {
       "source": "daily",
@@ -31954,10 +31954,10 @@
       "limit": 80.4000015258789,
       "target": 86.21431226077074,
       "stop": 77.492846158433,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:TTEK": {
       "source": "daily",
@@ -31996,10 +31996,10 @@
       "limit": 36.29999923706055,
       "target": 38.7460656772746,
       "stop": 35.07696601695352,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:SYRE": {
       "source": "daily",
@@ -32094,10 +32094,10 @@
       "limit": 119.55999755859375,
       "target": 126.2687804045538,
       "stop": 116.20560613561373,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:DOX": {
       "source": "daily",
@@ -32150,10 +32150,10 @@
       "limit": 5.820000171661377,
       "target": 6.325312375894025,
       "stop": 5.567344069545054,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:PCTY": {
       "source": "daily",
@@ -32192,10 +32192,10 @@
       "limit": 60.4900016784668,
       "target": 64.25600946433477,
       "stop": 58.60699778553281,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:ICL": {
       "source": "daily",
@@ -32276,10 +32276,10 @@
       "limit": 93.12999725341797,
       "target": 101.82292289804698,
       "stop": 88.78353443110346,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:PTGX": {
       "source": "daily",
@@ -32290,10 +32290,10 @@
       "limit": 160.80999755859375,
       "target": 171.85335591831443,
       "stop": 155.2883183787334,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:MGY": {
       "source": "daily",
@@ -32332,10 +32332,10 @@
       "limit": 219.75,
       "target": 222.05093709017575,
       "stop": 218.59953145491212,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:FRO": {
       "source": "daily",
@@ -32346,10 +32346,10 @@
       "limit": 45.16999816894531,
       "target": 48.149174716918864,
       "stop": 43.68040989495854,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:LLYVK": {
       "source": "daily",
@@ -32360,10 +32360,10 @@
       "limit": 109.75,
       "target": 115.32332762514778,
       "stop": 106.96333618742611,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:PCOR": {
       "source": "daily",
@@ -32416,10 +32416,10 @@
       "limit": 196.000681433824,
       "target": 205.0660742175397,
       "stop": 191.4679850419662,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:SM": {
       "source": "daily",
@@ -32472,10 +32472,10 @@
       "limit": 127.36000061035156,
       "target": 137.54635531666185,
       "stop": 122.26682325719642,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:TAP": {
       "source": "daily",
@@ -32486,10 +32486,10 @@
       "limit": 44.5,
       "target": 47.093022601813885,
       "stop": 43.20348869909306,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:QBTS": {
       "source": "daily",
@@ -32500,10 +32500,10 @@
       "limit": 22.0,
       "target": 24.86350014437636,
       "stop": 20.56824992781182,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:CELH": {
       "source": "daily",
@@ -32528,10 +32528,10 @@
       "limit": 38.61000061035156,
       "target": 40.57900236265071,
       "stop": 37.62549973420199,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:PPC": {
       "source": "daily",
@@ -32556,10 +32556,10 @@
       "limit": 153.0,
       "target": 162.93171130286157,
       "stop": 148.0341443485692,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:EMN": {
       "source": "daily",
@@ -32584,10 +32584,10 @@
       "limit": 99.1500015258789,
       "target": 104.86759917187787,
       "stop": 96.29120270287943,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:ALKS": {
       "source": "daily",
@@ -32598,10 +32598,10 @@
       "limit": 53.849998474121094,
       "target": 57.3871255365876,
       "stop": 52.081434942887846,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:DDS": {
       "source": "daily",
@@ -32612,10 +32612,10 @@
       "limit": 651.8599853515625,
       "target": 706.7379104235445,
       "stop": 624.4210228155715,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:TGTX": {
       "source": "daily",
@@ -32626,10 +32626,10 @@
       "limit": 57.57500076293945,
       "target": 62.437665204640766,
       "stop": 55.1436685420888,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:JXN": {
       "source": "daily",
@@ -32640,10 +32640,10 @@
       "limit": 137.99000549316406,
       "target": 145.55012711087377,
       "stop": 134.20994468430922,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:PJT": {
       "source": "daily",
@@ -32682,10 +32682,10 @@
       "limit": 73.5199966430664,
       "target": 79.559211138021,
       "stop": 70.50038939558911,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:BTG": {
       "source": "daily",
@@ -32710,10 +32710,10 @@
       "limit": 115.5199966430664,
       "target": 126.53256030024941,
       "stop": 110.01371481447491,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:AWI": {
       "source": "daily",
@@ -32724,10 +32724,10 @@
       "limit": 188.32000732421875,
       "target": 196.84183475977426,
       "stop": 184.059093606441,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:OMF": {
       "source": "daily",
@@ -32738,10 +32738,10 @@
       "limit": 66.3499984741211,
       "target": 69.4468816579896,
       "stop": 64.80155688218684,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     },
     "daily:LAD": {
       "source": "daily",
@@ -32752,10 +32752,10 @@
       "limit": 438.67132328915716,
       "target": 465.83541745321565,
       "stop": 425.0892762071279,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-22T11:04:32.465386"
     }
   }
 }
