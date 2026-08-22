@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NASDAQ Sinyal Botu</title>
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card: #151d2a;
+      --border: #1e293b;
+      --green: #22c55e;
+      --red: #ef4444;
+      --blue: #3b82f6;
+      --muted: #64748b;
+      --text: #f1f5f9;
+      --surface: #111827;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Header & KPI Grid */
+    .header {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 1.25rem;
+      background: linear-gradient(135deg, var(--green), var(--blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+      padding: 0 1.5rem;
+    }
+
+    .kpi-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+    }
+
+    .kpi-card .label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+    }
+
+    .kpi-card .value {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .kpi-card .green { color: var(--green); }
+    .kpi-card .red   { color: var(--red);   }
+    .kpi-card .blue  { color: var(--blue);  }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 2px;
+      margin-top: 1rem;
+      padding: 0 1.5rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-size: 0.875rem;
+      cursor: pointer;
+      border-radius: 6px 6px 0 0;
+      transition: background 0.2s;
+    }
+
+    .tab-btn.active {
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .tab-content {
+      display: none;
+      margin-top: 1rem;
+      padding: 0 1.5rem;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 600px;
+    }
+
+    th, td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background: var(--bg);
+      color: var(--muted);
+      font-size: 0.75rem;
+    }
+
+    tr:hover td {
+      background: var(--bg);
+    }
+
+    /* Responsive */
+    .table-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* --- Preserve existing dashboard JS functions --- */
+
+    const fmtPrice = (p) => p == null ? '-' : p.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    const fmtPct = (p) => p == null ? '-' : (p > 0 ? '+' : '') + p.toFixed(2) + '%';
+    const fmtTime = (iso) => {
+      if (!iso) return '-';
+      const d = new Date(iso);
+      if (isNaN(d.getTime())) return iso;
+      return d.toLocaleString('tr-TR', {hour12: false});
+    };
+    const scoreClass = (s) => {
+      if (s == null) return 'neutral';
+      if (s >= 60) return 'buy';
+      if (s <= -60) return 'sell';
+      if (s >= 45 || s <= -45) return 'watch';
+      return 'neutral';
+    };
+    const scoreLabel = (s) => {
+      if (s == null) return '-';
+      if (s >= 75) return 'STRONG BUY';
+      if (s >= 60) return 'BUY';
+      if (s >= 45) return 'WATCH';
+      if (s <= -75) return 'STRONG SELL';
+      if (s <= -60) return 'SELL';
+      if (s <= -45) return 'WATCH';
+      return 'NÖTR';
+    };
+    const flagEmoji = (snap) => {
+      if (!snap) return '';
+      const f = [];
+      if (snap.is_breakout_up) f.push('📈');
+      if (snap.is_breakout_down) f.push('📉');
+      if (snap.is_volume_spike) f.push('🔊');
+      if (snap.is_golden_cross) f.push('✨');
+      if (snap.is_death_cross) f.push('💀');
+      if (snap.is_vwap_reclaim) f.push('🎯');
+      return f.join(' ');
+    };
+    const actionClass = (a) => (a || '').toLowerCase().replace(' ', '_');
+
+    /* --- Tab switching --- */
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    function showTab(tabId) {
+      tabBtns.forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+      if (activeBtn) activeBtn.classList.add('active');
+      tabContents.forEach(content => content.classList.remove('active'));
+      const activeContent = document.getElementById(tabId);
+      if (activeContent) activeContent.classList.add('active');
+    }
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => showTab(btn.dataset.tab));
+    });
+
+    /* --- URL hash navigation --- */
+    function initHashNavigation() {
+      const hash = window.location.hash;
+      if (hash) {
+        const targetTab = hash.replace('#', '');
+        showTab(targetTab);
+      }
+    }
+    window.addEventListener('load', initHashNavigation);
+    window.addEventListener('hashchange', initHashNavigation);
+
+    /* --- Preserve renderCandidates from original dashboard --- */
+    const renderCandidates = (cands, bgt) => {
+      const body = document.getElementById('candidatesBody');
+      const info = document.getElementById('candidatesInfo');
+      if (!body) return;
+      if (!cands || cands.length === 0) {
+        body.innerHTML = '<tr><td colspan="11" class="empty">Aday bekleniyor...</td></tr>';
+        return;
+      }
+      info.textContent = (bgt.budget_try || 0).toLocaleString('tr-TR') + ' TL ≈ $' +
+        ((bgt.budget_usd || 0).toFixed(0)) + ' · kur ' + (bgt.usd_try_rate || '-');
+      body.innerHTML = cands.map(c => {
+        const bp = c.budget_plan || {};
+        const tp = c.trade_plan || {};
+        const tv = 'https://www.tradingview.com/chart/?symbol=' + c.symbol;
+        const shares = bp.shares || 0;
+        const affordable = shares > 0;
+        const posTxt = affordable
+          ? `${shares} adet = $${bp.position_usd != null ? bp.position_usd.toFixed(2) : '-'} (~${bp.position_try != null ? Math.round(bp.position_try) : '-'} TL)`
+          : '<span style="color:#f87171">Bütçe yetmiyor</span>';
+        const riskTxt = affordable
+          ? `$${bp.risk_usd != null ? bp.risk_usd.toFixed(2) : '-'} (~${bp.risk_try != null ? Math.round(bp.risk_try) : '-'} TL)`
+          : '-';
+        const rewTxt = affordable
+          ? `$${bp.reward_usd != null ? bp.reward_usd.toFixed(2) : '-'} (~${bp.reward_try != null ? Math.round(bp.reward_try) : '-'} TL)`
+          : '-';
+        return `<tr>
+          <td><span class="symbol-badge">${c.symbol}</span><div style="font-size:11px;color:var(--muted)">${c.name || ''}</div></td>
+          <td><span class="tag">${c.setup_type || '-'}</span></td>
+          <td style="font-size:11px;color:var(--muted)">${(c.candle_patterns || []).slice(0,2).join(', ') || '-'}${c.pattern_bonus ? ' <span style="color:' + (c.pattern_bonus>0?'#3fb950':'#f85149') + '">(' + (c.pattern_bonus>0?'+':'') + c.pattern_bonus.toFixed(0) + ')</span>' : ''}</td>
+          <td class="mono">${fmtPrice(c.price)}</td>
+          <td class="mono">${c.setup_score != null ? c.setup_score.toFixed(0) : '-'}</td>
+          <td class="mono">${c.anticipation_score != null ? c.anticipation_score.toFixed(0) : '-'}</td>
+          <td class="mono">${tp.limit != null ? '$' + tp.limit.toFixed(2) : '-'}</td>
+          <td class="mono">${tp.target != null ? '$' + tp.target.toFixed(2) : '-'} <span style="color:var(--muted)">(+${tp.upside_pct != null ? tp.upside_pct.toFixed(1) : '-'}%)</span></td>
+          <td class="mono">${tp.stop != null ? '$' + tp.stop.toFixed(2) : '-'}</td>
+          <td>${posTxt}<br><span style="font-size:11px;color:var(--muted)">Risk ${riskTxt} · Hedef ${rewTxt}</span></td>
+          <td><a href="${tv}" target="_blank" rel="noopener" style="color:#10b981;text-decoration:none;font-size:12px">TV ↗</a></td>
+        </tr>`;
+      }).join('');
+    };
+
+    /* --- Preserve refresh function core logic (adapted) --- */
+    async function loadTabData(tabId) {
+      const endpoints = {
+        'tab-market': '/api/dashboard',
+        'tab-signals': '/api/dashboard',
+        'tab-backtest': '/api/dashboard',
+        'tab-news': '/api/dashboard'
+      };
+      const el = document.querySelector(`#${tabId} .placeholder`);
+      if (!el) return;
+      el.innerHTML = 'Yükleniyor...';
+      try {
+        const res = await fetch(endpoints[tabId] || '/api/placeholder');
+        const json = await res.json();
+        el.innerHTML = '';
+        if (!json || Object.keys(json).length === 0) {
+          el.innerHTML = 'Veri yok';
+          return;
+        }
+        // Render based on tab type
+        if (tabId === 'tab-market') {
+          const tbody = el.parentNode.querySelector('table tbody');
+          if (!tbody) return;
+          let rows = '';
+          const symbols = (json.config && json.config.symbols) || [];
+          symbols.forEach(sym => {
+            const tfsData = json.market && json.market[sym] || {};
+            const tfs = json.config && json.config.timeframes || [];
+            const primary = tfsData[tfs[tfs.length-1]] || tfsData[tfs[0]] || null;
+            if (!primary) return;
+            const chg = primary.change_pct;
+            rows += `<tr>
+              <td>${sym}</td>
+              <td class="mono">${fmtPrice(primary.price)}</td>
+              <td class="price-change ${chg >= 0 ? 'pc-up' : 'pc-down'}">${fmtPct(chg)}</td>
+              <td><span class="score ${scoreClass(primary.composite_score)}">${scoreLabel(primary.composite_score)} (${primary.composite_score != null ? primary.composite_score.toFixed(0) : '-'})</span></td>
+              <td>${primary.rsi_14 != null ? primary.rsi_14.toFixed(1) : '-'}</td>
+              <td>${primary.volume_ratio != null ? primary.volume_ratio.toFixed(1) + 'x' : '-'}</td>
+              <td>${json.news && json.news[sym] ? (json.news[sym].score != null ? json.news[sym].score.toFixed(1) : '-') : '-'}</td>
+              <td>${flagEmoji(primary)}</td>
+            </tr>`;
+          });
+          tbody.innerHTML = rows || '<tr><td colspan="8" class="empty">İlk tarama bekleniyor...</td></tr>';
+        } else if (tabId === 'tab-signals') {
+          const sList = document.getElementById('signalsList');
+          const news = json.news || {};
+          const hasNews = Object.values(news).some(n => n && n.article_count > 0);
+          if (hasNews) {
+            let nHtml = '';
+            Object.keys(news).forEach(sym => {
+              const n = news[sym];
+              if (!n || !n.latest_article) return;
+              const ns = n.score != null ? n.score : 0;
+              const cls = ns > 0 ? 'ns-pos' : (ns < 0 ? 'ns-neg' : 'ns-neu');
+              nHtml += `<div class="news-item">
+                <div><strong>${sym}</strong>
+                  <span class="news-score ${cls}">${ns > 0 ? '+' : ''}${ns.toFixed(1)}</span>
+                  <span style="color:var(--muted);font-size:11px">(${n.article_count} haber)</span>
+                </div>
+                <div style="margin-top:4px;font-size:12px;color:var(--muted)">${n.latest_article.substring(0, 110)}${n.latest_article.length > 110 ? '...' : ''}</div>
+              </div>`;
+            });
+            sList.innerHTML = nHtml || '<div class="empty">Haber bulunamadı</div>';
+          } else {
+            sList.innerHTML = '<div class="empty">Haber verisi yok (API key gerekiyor)</div>';
+          }
+          // Also fill track bodies from preserved data structures
+          const tBody = document.getElementById('trackBody');
+          const tRows = (json.prediction_details || []).concat(json.daily_prediction_details || [], json.telegram_prediction_details || []);
+          if (tRows.length > 0) {
+            const stMeta = {
+              'target_hit': ['TUTTU ✓', 'var(--green)', 'rgba(16,185,129,.15)'],
+              'stopped_out': ['STOP ✗', 'var(--red)', 'rgba(239,68,68,.15)'],
+              'breakout': ['ÇIKIŞ', 'var(--blue)', 'rgba(59,130,246,.15)'],
+              'expired': ['SÜRESİ DOLDU', 'var(--muted)', 'rgba(255,255,255,.06)'],
+              'open': ['AÇIK', 'var(--yellow)', 'rgba(245,158,11,.15)'],
+            };
+            tBody.innerHTML = tRows.map(r => {
+              const meta = stMeta[r.status] || [r.status, 'var(--muted)', 'rgba(255,255,255,.06)'];
+              return `<tr>
+                <td><b>${r.symbol}</b>${r.source === 'telegram' ? ' <span style="color:var(--yellow);font-size:10px">(Telegram)</span>' : ''}${r.source === 'weekly' ? ' <span style="color:var(--muted);font-size:10px">(haftalık)</span>' : ''}</td>
+                <td class="mono">${fmtPrice(r.first_price)}</td>
+                <td class="mono" style="color:${r.last_price != null && r.first_price ? (r.last_price >= r.first_price ? 'var(--green)' : 'var(--red)') : 'var(--muted)'}">${fmtPrice(r.last_price)}</td>
+                <td class="mono">${fmtPrice(r.target)}</td>
+                <td class="mono">${fmtPrice(r.stop)}</td>
+                <td><span class="tag" style="background:${meta[2]};color:${meta[1]}">${meta[0]}</span></td>
+                <td style="font-size:11px;color:var(--muted)">${r.outcome || '-'}${r.resolved_at ? ' · ' + fmtTime(r.resolved_at) : ''}</td>
+              </tr>`;
+            }).join('');
+          } else {
+            tBody.innerHTML = '<tr><td colspan="8" class="empty">Henüz takip edilen aday yok (rapordan sonra 7 gün izlenir)</td></tr>';
+          }
+          // Telegram signal tracking
+          const tgBody = document.getElementById('trackBodyTelegram');
+          const tgRows = json.telegram_prediction_details || [];
+          if (tgRows.length > 0) {
+            const tgMeta = {
+              'target_hit': ['TUTTU ✓', 'var(--green)', 'rgba(16,185,129,.15)'],
+              'stopped_out': ['STOP ✗', 'var(--red)', 'rgba(239,68,68,.15)'],
+              'breakout': ['ÇIKIŞ', 'var(--blue)', 'rgba(59,130,246,.15)'],
+              'expired': ['SÜRESİ DOLDU', 'var(--muted)', 'rgba(255,255,255,.06)'],
+              'open': ['AÇIK', 'var(--yellow)', 'rgba(245,158,11,.15)'],
+            };
+            tgBody.innerHTML = tgRows.map(r => {
+              const meta = tgMeta[r.status] || [r.status, 'var(--muted)', 'rgba(255,255,255,.06)'];
+              const last = r.last_price;
+              const first = r.first_price;
+              const lastCls = last != null && first ? (last >= first ? 'var(--green)' : 'var(--red)') : 'var(--muted)';
+              return `<tr>
+                <td><b>${r.symbol}</b></td>
+                <td class="mono">${fmtPrice(r.first_price)}</td>
+                <td class="mono" style="color:${lastCls}">${fmtPrice(last)}</td>
+                <td class="mono">${fmtPrice(r.target)}</td>
+                <td class="mono">${fmtPrice(r.stop)}</td>
+                <td><span class="tag" style="background:${meta[2]};color:${meta[1]}">${meta[0]}</span></td>
+              </tr>`;
+            }).join('');
+          } else {
+            tgBody.innerHTML = '<tr><td colspan="6" class="empty">Henüz Telegram sinyali yok</td></tr>';
+          }
+          // History
+          const hBody = document.getElementById('historyBody');
+          const history = (json.history || []).slice().reverse();
+          if (history.length > 0) {
+            hBody.innerHTML = history.map(h => `
+              <tr>
+                <td>${h.symbol}</td>
+                <td><span class="tag ${actionClass(h.action)}">${h.action}</span></td>
+                <td class="mono">${fmtPrice(h.price)}</td>
+                <td class="mono">${h.strength != null ? h.strength.toFixed(1) : '-'}</td>
+                <td>${fmtTime(h.timestamp)}</td>
+              </tr>
+            `).join('');
+          } else {
+            hBody.innerHTML = '<tr><td colspan="5" class="empty">Geçmiş sinyal yok</td></tr>';
+          }
+          // Scan history
+          const shBody = document.getElementById('scanHistoryBody');
+          const shInfo = document.getElementById('scanHistoryInfo');
+          const scanHist = (json.smallcap && json.smallcap.scan_history || []).slice().reverse();
+          if (scanHist.length > 0) {
+            const lastSc = scanHist[0];
+            shInfo.textContent = 'Son tarama: ' + fmtTime(lastSc.time) + ' · ' + (lastSc.universe_size || 0) + ' hisse tarandı';
+            shBody.innerHTML = scanHist.map(sc => {
+              const adays = (sc.candidates || []).map(c =>
+                `<span class="tag" style="background:${scoreClass(c.setup_score)==='buy'?'rgba(16,185,129,.15)':(scoreClass(c.setup_score)==='watch'?'rgba(245,158,11,.15)':'rgba(255,255,255,.06)')}">color:var(--text)"><b>${c.symbol}</b> ${c.setup_score != null ? c.setup_score.toFixed(0) : '-'}</span>`).join(' ');
+              return `<tr>
+                <td class="mono" style="white-space:nowrap">${fmtTime(sc.time)}</td>
+                <td class="mono">${sc.universe_size || 0}</td>
+                <td>${sc.closed ? 'Piyasa kapalı' : 'Açık'}</td>
+                <td>${adays || '<span class="muted">Aday yok</span>'}</td>
+              </tr>`;
+            }).join('');
+          } else {
+            shInfo.textContent = '';
+            shBody.innerHTML = '<tr><td colspan="4" class="empty">Tarama geçmişi bekleniyor...</td></tr>';
+          }
+          // Weekly report
+          const wBody = document.getElementById('weeklyBody');
+          const wUpd = document.getElementById('weeklyUpdated');
+          const wr = json.weekly_report;
+          if (wr && wr.candidates && wr.candidates.length > 0) {
+            wBody.innerHTML = wr.candidates.map((c, i) => {
+              const chg = c.change_pct;
+              const dist = c.dist_52w_high_pct;
+              return `<tr>
+                <td>${i + 1}</td>
+                <td><span class="symbol-badge">${c.symbol}</span><div style="font-size:11px;color:var(--muted)">${c.name || ''}</div></td>
+                <td class="mono">${fmtPrice(c.price)}</td>
+                <td class="price-change ${chg >= 0 ? 'pc-up' : 'pc-down'}">${fmtPct(chg)}</td>
+                <td><span class="tag">${c.setup_type || '-'}</span></td>
+                <td><span class="score buy">${c.setup_score != null ? c.setup_score.toFixed(0) : '-'}</span></td>
+                <td class="mono">${dist != null ? dist.toFixed(1) + '%' : '-'}</td>
+                <td class="mono">${c.atr_pct != null ? c.atr_pct.toFixed(1) + '%' : '-'}</td>
+                <td class="price-change ${(c.rs_4w || 0) >= 0 ? 'pc-up' : 'pc-down'}">${c.rs_4w != null ? c.rs_4w.toFixed(1) + '%' : '-'}</td>
+              </tr>`;
+            }).join('');
+            wUpd.textContent = 'Güncellendi: ' + fmtTime(wr.generated_at) + (wr.index && wr.index.return_4w != null ? ' | S&P 500 4H: ' + wr.index.return_4w + '%' : '');
+          } else {
+            wBody.innerHTML = '<tr><td colspan="9" class="empty">Haftalık rapor henüz üretilmedi</td></tr>';
+          }
+          // Weekly tracking
+          const wtEl = document.getElementById('weeklyHitRate');
+          const wt = json.weekly_tracking || {};
+          if (wtEl) {
+            if (wt.total && wt.total > 0) {
+              const hr = wt.hit_rate_pct != null ? wt.hit_rate_pct.toFixed(1) + '%' : '-';
+              const res = (wt.hit || 0) + (wt.stop || 0) + (wt.breakout || 0) + (wt.expired || 0);
+              wtEl.innerHTML = `<div style="margin-top:12px;padding:10px 12px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid var(--border)">
+                <b>Tutturma Oranı:</b> <span style="color:${(wt.hit_rate_pct || 0) >= 50 ? 'var(--green)' : 'var(--red)'};font-size:15px;font-weight:700">${hr}</span>
+                <span style="color:var(--muted);font-size:12px"> (${wt.total} aday · tuttu: ${wt.hit} · stop: ${wt.stop} · çıkış: ${wt.breakout} · süresi doldu: ${wt.expired} · ${wt.open} açık)</span>
+              </div>`;
+            } else {
+              wtEl.textContent = 'Tutturma verisi henüz yok (ilk haftalık rapor sonrası 7 gün izlenir)';
+            }
+          }
+          // Stats
+          const scInfo = json.smallcap || {};
+          const followedSymbols = (json.config && json.config.symbols) || []).length;
+          const scUniverse = scInfo.universe_size || 0;
+          let lastScanLabel = json.status && json.status.last_scan_at;
+          let followedLabel = followedSymbols + (scUniverse ? ` (+${scUniverse} mid-cap)` : '');
+          if (followedSymbols === 0 && scUniverse > 0) {
+            followedLabel = scUniverse + ' (mid-cap evreni)';
+          }
+          if (scInfo.last_scan_at) {
+            lastScanLabel = scInfo.last_scan_at;
+          }
+          document.getElementById('statScans').textContent = json.status && json.status.scan_count;
+          document.getElementById('statSignals').textContent =
+            (json.stats && json.stats.total_signals) || 0;
+          document.getElementById('statLastScan').textContent = fmtTime(lastScanLabel);
+          document.getElementById('statSymbols').textContent = followedLabel;
+          // Budget stat card
+          const bgt = json.budget || {};
+          const bgtEl = document.getElementById('statBudget');
+          if (bgt.budget_try) {
+            bgtEl.textContent = bgt.budget_try.toLocaleString('tr-TR') + ' TL ≈ $' +
+              (bgt.budget_usd != null ? bgt.budget_usd.toFixed(0) : '-');
+            bgtEl.title = 'Kur: ' + (bgt.usd_try_rate || '-') +
+              ' · Pozisyon başı max ~$' + ((bgt.budget_usd || 0) / (bgt.max_trades || 3)).toFixed(0);
+          } else {
+            bgtEl.textContent = 'Tanımlı değil';
+          }
+        } else if (tabId === 'tab-backtest') {
+          const bt = json.backtest;
+          const btEl = document.getElementById('btSummary');
+          const btUpd = document.getElementById('btUpdated');
+          if (bt && bt.total_trades > 0) {
+            const wr = bt.win_rate_pct != null ? bt.win_rate_pct.toFixed(1) : '-';
+            const ret = bt.avg_symbol_return_pct != null ? bt.avg_symbol_return_pct.toFixed(2) : '-';
+            const pf = bt.profit_factor != null ? bt.profit_factor.toFixed(2) : '-';
+            const mdd = bt.max_drawdown_pct != null ? bt.max_drawdown_pct.toFixed(2) : '-';
+            btEl.innerHTML = `
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;text-align:center">
+                <div><div style="font-size:24px;font-weight:700;color:var(--blue)">${bt.total_trades}</div><div style="font-size:11px;color:var(--muted)">Trade</div></div>
+                <div><div style="font-size:24px;font-weight:700;color:${wr >= 50 ? 'var(--green)' : 'var(--red)'}">%${wr}</div><div style="font-size:11px;color:var(--muted)">Win Rate</div></div>
+                <div><div style="font-size:24px;font-weight:700;color:${ret >= 0 ? 'var(--green)' : 'var(--red)'}">%${ret}</div><div style="font-size:11px;color:var(--muted)">Ort. Getiri</div></div>
+                <div><div style="font-size:24px;font-weight:700;color:var(--purple)">${pf}</div><div style="font-size:11px;color:var(--muted)">Profit Factor</div></div>
+                <div><div style="font-size:24px;font-weight:700;color:var(--yellow)">%${mdd}</div><div style="font-size:11px;color:var(--muted)">Max Drawdown</div></div>
+              </div>`;
+            btUpd.textContent = 'Semboller: ' + (bt.symbols_with_trades || 0) + '/' + (bt.symbols_backtested || 0) +
+              ' · Kayıp: ' + (bt.total_losses || 0) + ' · Kazanç: ' + (bt.total_wins || 0) +
+              ' · Son çalışma: ' + fmtTime(bt.generated_at);
+          } else {
+            btEl.textContent = 'Backtest henüz çalışmadı — gece piyasa kapalıyken otomatik koşar, sonuçlar buraya gelir.';
+          }
+          // Chart analyses
+          const charts = json.chart_analyses || {};
+          const chartsEl = document.getElementById('aiChartsList');
+          const chartsUpd = document.getElementById('aiChartsUpdated');
+          const chartKeys = Object.keys(charts);
+          if (chartKeys.length > 0) {
+            chartsUpd.textContent = 'Güncellendi: ' + fmtTime(charts[chartKeys[0]].analyzed_at);
+            chartsEl.innerHTML = chartKeys.map(sym => {
+              const ch = charts[sym] || {};
+              const isAI = ch.provider && ch.provider !== 'rule_based';
+              const tag = isAI ? '🤖 AI grafik okuması' : '🧭 Kural tabanlı grafik okuma (Mum Mantığı)';
+              let biasBadge = '';
+              const rule = ch.rule || {};
+              if (rule.direction) {
+                const up = rule.direction === 'yükseliş';
+                const down = rule.direction === 'düşüş';
+                const color = up ? 'var(--green)' : (down ? 'var(--red)' : 'var(--muted)');
+                biasBadge = `<div style="margin:6px 0 2px;font-size:12px">
+                  <strong style="color:${color}">Yön beklentisi: ${rule.direction.toUpperCase()}</strong>
+                  <span style="color:var(--muted);font-size:11px"> (puan: ${rule.score || 0})</span>
+                </div>`;
+              }
+              return `<div class="news-item">
+                <div><strong>${sym}</strong> <span style="font-size:11px;color:var(--muted)">${tag}</span></div>
+                ${biasBadge}
+                <div style="margin-top:4px;font-size:12px;color:var(--muted);white-space:pre-wrap">${ch.comment || ''}</div>
+              </div>`;
+            }).join('');
+          } else {
+            chartsEl.textContent = 'Henüz grafik analizi yok. Top adaylar tarandığında Mum Mantığı + Candle Blending analizi otomatik üretilir (AI anahtarı eklensinine görsel okuma da eklenir).';
+          }
+        } else if (tabId === 'tab-news') {
+          // News tab already has signals + news rendered above
+        }
+      } catch (err) {
+        console.error(err);
+        el.innerHTML = 'Yükleme hatası';
+      }
+    }
+
+    /* --- Initial tab data load on page start --- */
+    document.addEventListener('DOMContentLoaded', () => {
+      // Show first tab content & load its data
+      showTab('tab-market');
+      loadTabData('tab-market');
+    });
+
+    /* --- Table responsive wrapper injection --- */
+    document.addEventListener('DOMContentLoaded', () => {
+      const tables = document.querySelectorAll('table');
+      tables.forEach(t => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'table-wrapper';
+        t.parentNode.insertBefore(wrapper, t);
+        wrapper.appendChild(t);
+      });
+    });
+  </style>
+</head>
+<body>
+
+  <!-- Header & KPI Cards -->
+  <div class="header">
+    <h1>NASDAQ Sinyal Botu</h1>
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="label">Toplam Tarama</div>
+        <div class="value green" id="statScans">0</div>
+      </div>
+      <div class="kpi-card">
+        <div class="label">Toplam Sinyal</div>
+        <div class="value blue" id="statSignals">0</div>
+      </div>
+      <div class="kpi-card">
+        <div class="label">Öngörü İsabeti</div>
+        <div class="value green" id="statHitrate">%0</div>
+      </div>
+      <div class="kpi-card">
+        <div class="label">Bütçe</div>
+        <div class="value blue" id="statBudget">$0</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs" id="tabs-container">
+    <button class="tab-btn active" data-tab="tab-market">📈 Piyasa & Taramalar</button>
+    <button class="tab-btn" data-tab="tab-signals">🎯 Sinyal & Takip</button>
+    <button class="tab-btn" data-tab="tab-backtest">📊 Backtest & Analiz</button>
+    <button class="tab-btn" data-tab="tab-news">📰 Haber & Akış</button>
+  </div>
+
+  <!-- Tab: Market & Scans -->
+  <div class="tab-content active" id="tab-market">
+    <div class="table-wrapper">
+      <table id="marketTable">
+        <thead>
+          <tr>
+            <th>Sembol</th>
+            <th>Fiyat</th>
+            <th>Değişim</th>
+            <th>Skor</th>
+            <th>RSI</th>
+            <th>Hacim</th>
+            <th>Haber</th>
+            <th>Durum</th>
+          </tr>
+        </thead>
+        <tbody id="marketBody">
+          <tr><td colspan="8" class="empty">İlk tarama bekleniyor...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="margin: 1rem 0 0.5rem;">Bugünün Adayları</h3>
+    <div class="table-wrapper">
+      <table id="candidatesTable">
+        <thead>
+          <tr>
+            <th>Hisse</th>
+            <th>Setup</th>
+            <th>Desen</th>
+            <th>Fiyat</th>
+            <th>Setup Skor</th>
+            <th>Öngörü</th>
+            <th>Limit</th>
+            <th>Hedef</th>
+            <th>Stop</th>
+            <th>Pozisyon</th>
+            <th>Grafik</th>
+          </tr>
+        </thead>
+        <tbody id="candidatesBody">
+          <tr><td colspan="11" class="empty">Aday bekleniyor...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="margin: 1rem 0 0.5rem;">Haftalık Çıkış Adayları</h3>
+    <div class="table-wrapper">
+      <table id="weeklyTable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Hisse</th>
+            <th>Fiyat</th>
+            <th>Haftalık</th>
+            <th>Setup</th>
+            <th>Çıkış Skoru</th>
+            <th>52H Mesafe</th>
+            <th>Beklenen Hrk.</th>
+            <th>Rölatif Güç</th>
+          </tr>
+        </thead>
+        <tbody id="weeklyBody">
+          <tr><td colspan="9" class="empty">Veri bekleniyor...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Tab: Signals & Tracking -->
+  <div class="tab-content" id="tab-signals">
+    <h2>Takip Edilen Sinyaller</h2>
+    <div class="table-wrapper">
+      <table id="trackTable">
+        <thead>
+          <tr>
+            <th>Hisse</th>
+            <th>Kaynak</th>
+            <th>Giriş</th>
+            <th>Son Fiyat</th>
+            <th>Hedef</th>
+            <th>Stop</th>
+            <th>Durum</th>
+            <th>Sonuç</th>
+          </tr>
+        </thead>
+        <tbody id="trackBody">
+          <tr><td colspan="8" class="empty">Takip verisi yok</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-wrapper">
+      <h3>Telegram Sinyal Takibi</h3>
+      <table id="trackTableTelegram">
+        <thead>
+          <tr>
+            <th>Hisse</th>
+            <th>Giriş</th>
+            <th>Son Fiyat</th>
+            <th>Hedef</th>
+            <th>Stop</th>
+            <th>Durum</th>
+          </tr>
+        </thead>
+        <tbody id="trackBodyTelegram">
+          <tr><td colspan="6" class="empty">Henüz Telegram sinyali yok</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Son Sinyaller</h3>
+    <div id="signalsList">
+      <div class="empty">Henüz sinyal yok</div>
+    </div>
+
+    <h3>Haber Akışı</h3>
+    <div id="newsList">
+      <div class="empty">Haber verisi yok</div>
+    </div>
+
+    <h3>Sinyal Geçmişi</h3>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Sembol</th>
+            <th>Aksiyon</th>
+            <th>Fiyat</th>
+            <th>Güç</th>
+            <th>Tarih</th>
+          </tr>
+        </thead>
+        <tbody id="historyBody">
+          <tr><td colspan="5" class="empty">Geçmiş sinyal yok</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Tab: Backtest & Analysis -->
+  <div class="tab-content" id="tab-backtest">
+    <h2>Gerçek Backtest — Sistem Ne Kazandırıyor?</h2>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Periyot</th>
+            <th>Getiri</th>
+            <th>Maximum Drawdown</th>
+          </tr>
+        </thead>
+        <tbody id="btSummary">
+          <tr><td colspan="3" class="empty">Backtest verisi yok</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top: 1rem;">
+      <h3>Grafik Okuma (Mum Mantığı + Candle Blending)</h3>
+      <div id="aiChartsList" class="empty">Grafik analizi yok</div>
+    </div>
+
+    <div style="margin-top: 1rem;">
+      <h3>Tarama Geçmişi</h3>
+      <div style="overflow-x:auto;">
+        <table id="scanHistoryTable">
+          <thead>
+            <tr>
+              <th>Tarih</th>
+              <th>Evren</th>
+              <th>Durum</th>
+              <th>Top 10 Adaylar (setup skoru)</th>
+            </tr>
+          </thead>
+          <tbody id="scanHistoryBody">
+            <tr><td colspan="4" class="empty">Tarama geçmişi bekleniyor...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab: News & Flow -->
+  <div class="tab-content" id="tab-news">
+    <h2>Son Sinyaller</h2>
+    <div id="signalsList2" style="margin-bottom: 1rem;">
+      <div class="empty">Henüz sinyal yok</div>
+    </div>
+
+    <h3>Haber Akışı</h3>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Haber</th>
+            <th>Etkilenen Sembol</th>
+          </tr>
+        </thead>
+        <tbody id="newsList2">
+          <tr><td colspan="2" class="empty">Haber verisi yok</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Hidden hash target for URL navigation -->
+  <input type="text" id="hash-target" value="">
+
+  <script>
+    // Initialize hash navigation first
+    initHashNavigation();
+
+    // Tab switching
+    showTab('tab-market');
+
+    // Load data for the active tab
+    loadTabData('tab-market');
+  </script>
+</body>
+</html>
