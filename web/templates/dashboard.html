@@ -15,6 +15,8 @@
       --muted: #64748b;
       --text: #f1f5f9;
       --surface: #111827;
+      --accent: #00d4aa;
+      --accent-glow: rgba(0, 212, 170, 0.4);
     }
 
     * {
@@ -29,10 +31,56 @@
       padding: 0;
     }
 
+    /* Animated gradient background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #0b0f19 0%, #151d2a 35%, #0b0f19 70%, #151d2a 100%);
+      background-size: 400% 400%;
+      animation: bgShift 15s ease infinite;
+      z-index: -1;
+    }
+
+    @keyframes bgShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    @keyframes floatParticle {
+      0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+      33% { transform: translateY(-30px) translateX(20px); opacity: 0.6; }
+      66% { transform: translateY(-10px) translateX(-20px); opacity: 0.5; }
+    }
+
+    /* Floating particles */
+    .float-particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .float-particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: var(--green);
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: floatParticle 8s ease-in-out infinite;
+    }
+    @keyframes floatParticle {
+      0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+      33% { transform: translateY(-30px) translateX(20px); opacity: 0.6; }
+      66% { transform: translateY(-10px) translateX(-20px); opacity: 0.5; }
+    }
+
     /* Header & KPI Grid */
     .header {
       padding: 1rem 1.5rem;
       border-bottom: 1px solid var(--border);
+      position: relative;
+      z-index: 10;
     }
 
     .header h1 {
@@ -42,6 +90,13 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      background-size: 200% auto;
+      animation: titleGlow 3s ease-in-out infinite;
+    }
+
+    @keyframes titleGlow {
+      0%, 100% { text-shadow: 0 0 10px var(--accent-glow), 0 0 20px var(--accent-glow); }
+      50% { text-shadow: 0 0 20px var(--green), 0 0 40px var(--green), 0 0 60px var(--green); }
     }
 
     .kpi-grid {
@@ -50,6 +105,8 @@
       gap: 1rem;
       margin-top: 1rem;
       padding: 0 1.5rem;
+      position: relative;
+      z-index: 10;
     }
 
     .kpi-card {
@@ -57,6 +114,30 @@
       border: 1px solid var(--border);
       border-radius: 8px;
       padding: 1rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 0%;
+      background: linear-gradient(var(--green), var(--blue));
+      border-radius: 8px 0 0 8px;
+      transition: height 0.5s ease;
+    }
+
+    .kpi-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 20px rgba(34, 197, 94, 0.15);
+    }
+
+    .kpi-card:hover::before {
+      height: 100%;
     }
 
     .kpi-card .label {
@@ -74,15 +155,43 @@
     .kpi-card .red   { color: var(--red);   }
     .kpi-card .blue  { color: var(--blue);  }
 
+    /* Pulse animation for value changes */
+    @keyframes pulse-green {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
+    }
+
+    .pulse-green {
+      animation: pulse-green 2s ease-in-out infinite;
+    }
+
     /* Tabs */
     .tabs {
       display: flex;
       gap: 2px;
       margin-top: 1rem;
       padding: 0 1.5rem;
-      background: var(--card);
+      background: linear-gradient(135deg, var(--card), var(--surface));
       border: 1px solid var(--border);
       border-radius: 8px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .tabs::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--green), var(--blue));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .tabs.active::before {
+      opacity: 1;
     }
 
     .tab-btn {
@@ -94,40 +203,173 @@
       font-size: 0.875rem;
       cursor: pointer;
       border-radius: 6px 6px 0 0;
-      transition: background 0.2s;
+      transition: all 0.2s ease;
+      position: relative;
+      z-index: 10;
+    }
+
+    .tab-btn::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--green);
+      transition: width 0.3s ease;
+    }
+
+    .tab-btn:hover {
+      color: var(--text);
+      transform: translateY(-2px);
+    }
+
+    .tab-btn:hover::after {
+      width: 100%;
     }
 
     .tab-btn.active {
       background: var(--bg);
       color: var(--text);
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
     }
 
     .tab-content {
       display: none;
       margin-top: 1rem;
       padding: 0 1.5rem;
+      position: relative;
+      z-index: 10;
     }
 
     .tab-content.active {
       display: block;
     }
 
-    /* Tables */
+    /* Table row hover with glow */
     table {
       width: 100%;
       border-collapse: collapse;
       min-width: 600px;
+      background: var(--card);
+      border-radius: 8px;
+      overflow: hidden;
     }
 
     th, td {
       padding: 0.75rem;
       text-align: left;
       border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
     }
 
     th {
       background: var(--bg);
       color: var(--muted);
+      font-size: 0.75rem;
+    }
+
+    tr {
+      transition: all 0.2s ease;
+    }
+
+    tr:hover td {
+      background: rgba(34, 197, 94, 0.08);
+    }
+
+    tr:hover {
+      background: rgba(34, 197, 94, 0.03);
+    }
+
+    .score {
+      font-weight: 700; padding: 3px 10px; border-radius: 6px; font-size: 12px;
+    }
+    .score.buy { background: rgba(34, 197, 94, 0.18); color: var(--green); }
+    .score.sell { background: rgba(239, 68, 68, 0.18); color: var(--red); }
+    .score.watch { background: rgba(245, 158, 11, 0.18); color: #f59e0b; }
+    .score.neutral { background: rgba(100, 116, 139, 0.18); color: var(--muted); }
+
+    .tag {
+      display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;
+    }
+    .tag.strong_buy { background: rgba(34, 197, 94, 0.22); color: var(--green); }
+    .tag.buy { background: rgba(34, 197, 94, 0.12); color: var(--green); }
+    .tag.strong_sell { background: rgba(239, 68, 68, 0.22); color: var(--red); }
+    .tag.sell { background: rgba(239, 68, 68, 0.12); color: var(--red); }
+    .tag.watch { background: rgba(245, 158, 11, 0.12); color: #f59e0b; }
+    .tag.neutral { background: rgba(100, 116, 139, 0.12); color: var(--muted); }
+
+    .signal-row { border-left: 3px solid var(--green); padding-left: 12px; }
+    .signal-row.sell { border-left-color: var(--red); }
+
+    .empty {
+      text-align: center; color: var(--muted); padding: 40px 20px; font-size: 14px;
+    }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    @media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    .mono { font-family: "SF Mono", Consolas, monospace; font-size: 12px; }
+    .symbol-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-weight: 700; font-size: 13px;
+    }
+    .price-change { font-size: 12px; }
+    .pc-up { color: var(--green); }
+    .pc-down { color: var(--red); }
+
+    .sparkline { opacity: .7; }
+    .news-item {
+      padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px;
+    }
+    .news-item:last-child { border-bottom: none; }
+    .news-score { font-weight: 700; margin-right: 8px; }
+    .ns-pos { color: var(--green); }
+    .ns-neg { color: var(--red); }
+    .ns-neu { color: var(--muted); }
+
+    .last-updated {
+      color: var(--muted); font-size: 12px; text-align: right; margin-bottom: 12px;
+    }
+    .symbol-row td:first-child { font-weight: 600; }
+    .tf-cell { font-size: 11px; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+  <!-- Floating particles canvas -->
+  <div class="float-particles" id="particlesContainer"></div>
+
+  <!-- Header & KPI Cards -->
+  <div class="header">
+    <h1>📊 NASDAQ Sinyal Botu</h1>
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="label">Toplam Tarama</div>
+        <div class="value green" id="statScans">0</div>
+      </div>
+      <div class="kpi-card">
+        <div class="label">Toplam Sinyal</div>
+        <div class="value blue" id="statSignals">0</div>
+      </div>
+      <div class="kpi-card">
+        <div class="label">Öngörü İsabeti</div>
+        <div class="value green" id="statHitrate">%0</div>
+      </div>
+      <div class="kpi-card">
+        <div class="label">Bütçe</div>
+        <div class="value blue" id="statBudget">$0</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs" id="tabs-container">
+    <button class="tab-btn active" data-tab="tab-market">📈 Piyasa & Taramalar</button>
+    <button class="tab-btn" data-tab="tab-signals">🎯 Sinyal & Takip</button>
+    <button class="tab-btn" data-tab="tab-backtest">📊 Backtest & Analiz</button>
+    <button class="tab-btn" data-tab="tab-news">📰 Haber & Akış</button>
+  </div>
       font-size: 0.75rem;
     }
 
@@ -142,6 +384,21 @@
     }
 
     /* --- Preserve existing dashboard JS functions --- */
+
+    // Generate floating particles for ambiance
+    const particlesContainer = document.getElementById('particlesContainer');
+    const particleCount = 12;
+    const colors = [var(--green), var(--blue), var(--red), var(--muted)];
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'float-particle';
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.top = Math.random() * 100 + '%';
+      particle.style.animationDelay = (i * 0.5) + 's';
+      particle.style.background = colors[i % 4];
+      particle.style.animation = 'floatParticle 10s ease-in-out infinite';
+      particlesContainer.appendChild(particle);
+    }
 
     const fmtPrice = (p) => p == null ? '-' : p.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
     const fmtPct = (p) => p == null ? '-' : (p > 0 ? '+' : '') + p.toFixed(2) + '%';
