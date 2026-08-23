@@ -90,13 +90,11 @@ async def health():
     """Health check for uptime monitoring / Render"""
     b = bot
     status = "ok"
-    code = 200
     if b is not None and not b.health_ok:
         status = "degraded"
-        code = 503
     market = market_status(config) if config else market_status({})
     return JSONResponse(
-        status_code=code,
+        status_code=200,
         content={
             "status": status,
             "running": b.is_running if b else False,
