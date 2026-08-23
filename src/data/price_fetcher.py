@@ -132,43 +132,27 @@ class PriceFetcher:
     
     async def fetch_all(self) -> Dict[str, Dict[str, PriceData]]:
         """Fetch all symbols and timeframes concurrently"""
-        tasks = []
+        to_fetch = []
         for symbol in self.symbols:
             for timeframe in self.timeframes:
-                # Check cache first
                 cache_key = f"{symbol}_{timeframe}"
                 if cache_key in self._cache:
                     cached = self._cache[cache_key]
-                    if (datetime.utcnow() - cached.fetched_at).seconds < self._cache_ttl:
+                    if (datetime.utcnow() - cached.fetched_at).total_seconds() < self._cache_ttl:
                         continue
-                
-                tasks.append(self._fetch_single(symbol, timeframe))
-        
-        if not tasks:
-            return self._get_cached_data()
-        
-        results = await asyncio.gather(*tasks, return_exceptions=True)
-        
-        # Organize results
-        organized: Dict[str, Dict[str, PriceData]] = {}
-        idx = 0
-        for symbol in self.symbols:
-            organized[symbol] = {}
-            for timeframe in self.timeframes:
-                cache_key = f"{symbol}_{timeframe}"
-                result = results[idx]
-                idx += 1
-                
-                if isinstance(result, PriceData):
-                    organized[symbol][timeframe] = result
-                    self._cache[cache_key] = result
-                elif isinstance(result, Exception):
-                    logger.error(f"Failed to fetch {symbol} {timeframe}: {result}")
-                    # Use cached if available
-                    if cache_key in self._cache:
-                        organized[symbol][timeframe] = self._cache[cache_key]
-        
-        return organized
+                to_fetch.append((symbol, timeframe))
+
+        if to_fetch:
+            tasks = [self._fetch_single(sym, tf) for sym, tf in to_fetch]
+            results = await asyncio.gather(*tasks, return_exceptions=True)
+            for (sym, tf), res in zip(to_fetch, results):
+                cache_key = f"{sym}_{tf}"
+                if isinstance(res, PriceData):
+                    self._cache[cache_key] = res
+                elif isinstance(res, Exception):
+                    logger.error(f"Failed to fetch {sym} {tf}: {res}")
+
+        return self._get_cached_data()
     
     def _get_cached_data(self) -> Dict[str, Dict[str, PriceData]]:
         """Return cached data organized by symbol/timeframe"""

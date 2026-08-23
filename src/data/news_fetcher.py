@@ -262,12 +262,18 @@ class NewsFetcher:
             cutoff = datetime.utcnow() - timedelta(hours=self.lookback_hours)
             for item in raw[:self.max_articles]:
                 try:
-                    title = (item.get("content") or {}).get("title", "")
-                    summary = (item.get("content") or {}).get("summary", "")
-                    link = (item.get("content") or {}).get("canonicalUrl", {}).get("url", "")
-                    source = (item.get("content") or {}).get("provider", {}).get("displayName", "Yahoo")
-                    pub_raw = (item.get("content") or {}).get("pubDate", 0)
-                    if isinstance(pub_raw, (int, float)) and pub_raw:
+                    content = item.get("content") if isinstance(item.get("content"), dict) else {}
+                    title = item.get("title") or content.get("title", "")
+                    summary = item.get("summary") or item.get("description") or content.get("summary", "")
+                    link = item.get("link") or item.get("url") or content.get("canonicalUrl", {}).get("url", "")
+                    provider = item.get("publisher") or item.get("provider")
+                    if isinstance(provider, dict):
+                        source = provider.get("displayName", "Yahoo")
+                    else:
+                        source = str(provider) if provider else content.get("provider", {}).get("displayName", "Yahoo")
+
+                    pub_raw = item.get("providerPublishTime") or item.get("pubDate") or content.get("pubDate", 0)
+                    if isinstance(pub_raw, (int, float)) and pub_raw > 0:
                         published = datetime.fromtimestamp(pub_raw)
                     else:
                         try:
@@ -275,18 +281,20 @@ class NewsFetcher:
                             published = published.replace(tzinfo=None)
                         except Exception:
                             published = datetime.utcnow()
+
                     if not title:
                         continue
                     if published < cutoff:
                         continue
                     articles.append(NewsArticle(
                         title=title,
-                        description=summary,
+                        description=summary or title,
                         url=link,
                         source=source,
                         published_at=published,
                     ))
-                except Exception:
+                except Exception as e:
+                    logger.debug(f"Parsing Yahoo article item failed: {e}")
                     continue
             return articles
         except Exception as e:
