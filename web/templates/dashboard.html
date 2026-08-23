@@ -1299,19 +1299,32 @@
 
       // Signals Timeline Feed
       const sList = document.getElementById('signalsList');
-      const signals = data.signals || [];
+      const signals = data.signals || data.history || [];
       if (signals.length === 0) {
         sList.innerHTML = '<div class="empty-state">Canlı sinyal akışı bulunamadı.</div>';
       } else {
-        sList.innerHTML = signals.slice().reverse().map(s => `
-          <div class="feed-item" style="margin-bottom:0.5rem">
-            <div style="display:flex;align-items:center;justify-content:space-between">
-              <div><span class="symbol-badge">${s.symbol || 'SYSTEM'}</span> <span class="tag ${s.type === 'BUY' ? 'tag-buy' : 'tag-sell'}">${s.type || 'SIGNAL'}</span></div>
-              <span style="font-size:0.72rem;color:var(--muted)" class="mono">${fmtTime(s.timestamp)}</span>
+        sList.innerHTML = signals.slice().reverse().map(s => {
+          const sym = s.symbol || 'SİSTEM';
+          const act = s.action || s.type || 'SİNYAL';
+          const isBuy = act.toUpperCase().includes('BUY') || act.toUpperCase().includes('AL');
+          const isSell = act.toUpperCase().includes('SELL') || act.toUpperCase().includes('SAT');
+          const tagCls = isBuy ? 'tag-buy' : (isSell ? 'tag-sell' : 'tag-blue');
+          const priceTxt = s.price ? ` · Fiyat: $${s.price.toFixed(2)}` : '';
+          const msg = s.message || s.reason || `${sym} hissesinde algoritmik teknik sinyal tetiklendi.${priceTxt}`;
+
+          return `
+            <div class="feed-item" style="margin-bottom:0.5rem">
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <div>
+                  <span class="symbol-badge">📌 ${sym} Hissesi</span>
+                  <span class="tag ${tagCls}">${act}</span>
+                </div>
+                <span style="font-size:0.72rem;color:var(--muted)" class="mono">${fmtTime(s.timestamp)}</span>
+              </div>
+              <div style="font-size:0.78rem;margin-top:0.35rem;color:var(--text)">${msg}</div>
             </div>
-            <div style="font-size:0.78rem;margin-top:0.3rem;color:var(--text)">${s.message || s.reason || 'Sinyal tetiklendi.'}</div>
-          </div>
-        `).join('');
+          `;
+        }).join('');
       }
     }
 
