@@ -626,20 +626,7 @@ class SignalBot:
                 "universe_size": self.smallcap_universe_size,
                 "closed": bool(closed),
                 "candidates": [
-                    {
-                        "symbol": c.get("symbol", ""),
-                        "name": c.get("name", ""),
-                        "price": c.get("price", 0),
-                        "change_pct": c.get("change_pct", 0),
-                        "setup_score": c.get("setup_score", 0),
-                        "setup_type": c.get("setup_type", "watch"),
-                        "anticipation_score": c.get("anticipation_score", 0),
-                        "expect_horizon": c.get("expect_horizon", "birikim"),
-                        "squeeze_days": int(c.get("squeeze_days", 0)),
-                        "trigger_type": c.get("trigger_type"),
-                        "news_score": c.get("news_score", 0),
-                    }
-                    for c in top
+                    dict(c) for c in top
                 ],
             }
             self.state.record_scan_history(snapshot)

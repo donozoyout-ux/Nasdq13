@@ -1627,7 +1627,7 @@
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
           <div style="background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.2);padding:0.75rem;border-radius:8px">
             <div style="font-size:0.72rem;color:var(--muted);font-weight:600">🧭 TEKNİK ANALİZ AĞIRLIĞI</div>
-            <div style="font-size:1.1rem;font-weight:700;color:var(--blue);margin-top:0.2rem">%${(100 - Math.min(abs(newsScore), 40)).toFixed(0)}</div>
+            <div style="font-size:1.1rem;font-weight:700;color:var(--blue);margin-top:0.2rem">%${(100 - Math.min(Math.abs(newsScore), 40)).toFixed(0)}</div>
             <div style="font-size:0.7rem;color:var(--muted);margin-top:0.2rem">Mum Mantığı & Gösterge Formasyonları</div>
           </div>
           <div style="background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.2);padding:0.75rem;border-radius:8px">
