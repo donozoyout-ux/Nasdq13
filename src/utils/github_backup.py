@@ -36,7 +36,7 @@ class GithubBackup:
         self.branch = cfg.get("branch", "archive")
         self.root = cfg.get("path", "data/backups").strip("/")
         self.token_env = cfg.get("token_env", "GITHUB_BACKUP_TOKEN")
-        self.token = os.getenv(self.token_env, "")
+        self.token = os.getenv(self.token_env, "") or os.getenv("GITHUB_TOKEN", "") or os.getenv("GH_TOKEN", "")
         self._client: Optional[httpx.AsyncClient] = None
         self.last_error: Optional[str] = None
         # Serialize writes: concurrent uploads to different files still bump the
@@ -75,10 +75,9 @@ class GithubBackup:
         self._client = None
 
     async def download_json(self, path: str) -> Optional[Dict[str, Any]]:
-        """Fetch a JSON file from repo:root/{path} on self.branch.
-        Returns None if the file does not exist or the token is missing."""
-        if not self._available():
-            logger.warning("GitHub backup download unavailable (token set=%s)", bool(self.token))
+        """Fetch a JSON file from repo:root/{path} on self.branch or main.
+        Supports tokenless public raw downloads when token is not provided."""
+        if not self.enabled:
             return None
         async with self._write_lock:
             return await self._download_json_locked(path)
@@ -86,20 +85,32 @@ class GithubBackup:
     async def _download_json_locked(self, path: str) -> Optional[Dict[str, Any]]:
         full_path = f"{self.root}/{path}" if self.root else path
         try:
-            client = await self._client_get()
-            url = f"{GITHUB_API}/repos/{self.repo}/contents/{full_path}"
-            r = await client.get(url, params={"ref": self.branch})
-            if r.status_code == 404:
-                logger.info(f"GitHub backup download: {full_path} not found")
-                return None
-            if r.status_code != 200:
-                logger.warning(f"GitHub backup download failed {r.status_code} for {full_path}: {r.text[:200]}")
-                return None
-            content = base64.b64decode(r.json().get("content", ""))
-            return json.loads(content.decode("utf-8"))
+            # 1. If API token is set, try GitHub Contents API
+            if self.token:
+                client = await self._client_get()
+                url = f"{GITHUB_API}/repos/{self.repo}/contents/{full_path}"
+                r = await client.get(url, params={"ref": self.branch})
+                if r.status_code == 200:
+                    content = base64.b64decode(r.json().get("content", ""))
+                    return json.loads(content.decode("utf-8"))
+
+            # 2. Public raw download fallback from archive branch (token-free!)
+            async with httpx.AsyncClient(timeout=15.0) as unauth:
+                raw_url = f"https://raw.githubusercontent.com/{self.repo}/{self.branch}/{full_path}"
+                r = await unauth.get(raw_url)
+                if r.status_code == 200:
+                    logger.info(f"GitHub public raw download OK: {raw_url}")
+                    return r.json()
+
+                # 3. Public raw download fallback from main branch
+                main_url = f"https://raw.githubusercontent.com/{self.repo}/main/{path}"
+                r_main = await unauth.get(main_url)
+                if r_main.status_code == 200:
+                    logger.info(f"GitHub main raw download OK: {main_url}")
+                    return r_main.json()
         except Exception as e:
             logger.warning(f"GitHub backup download error for {full_path}: {e}")
-            return None
+        return None
 
     async def _find_sha(self, client: httpx.AsyncClient, path: str) -> Optional[str]:
         """Return the current file sha (if it exists) so we can overwrite."""

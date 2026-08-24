@@ -29,6 +29,7 @@ wheels/
 # Data & logs
 /data/*
 !/data/midcap_universe.json
+!/data/bot_state.json
 /logs/
 *.log
 __pycache__/

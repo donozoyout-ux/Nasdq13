@@ -531,31 +531,57 @@ class SignalBot:
             logger.warning(f"GitHub backup schedule failed {path}: {e}")
 
     async def _restore_state_from_backup(self):
-        """If bot_state.json is missing on the ephemeral disk (fresh deploy /
-        Render restart), restore it from the GitHub archive branch so signal
-        history, dedup keys and the prediction tracker survive redeploys."""
+        """Restore state from GitHub backup if local state is empty or missing."""
         try:
-            import os as _os
             if not self.github_backup or not self.github_backup.enabled:
                 return
-            local = self.state.file_path
-            if _os.path.exists(local) and _os.path.getsize(local) > 0:
-                logger.info("State file exists locally — no restore needed")
+
+            scan_hist = self.state.state.get("scan_history", [])
+            sig_hist = self.state.state.get("signal_history", [])
+
+            # Skip restore only if local state already has active history
+            if len(scan_hist) > 0 or len(sig_hist) > 0:
+                logger.info(f"State exists locally with {len(scan_hist)} scans & {len(sig_hist)} signals — restoring memory pointers")
+                # Re-hydrate candidates pointer from the latest scan history entry
+                if scan_hist:
+                    last_scan = scan_hist[-1]
+                    self.smallcap_candidates = last_scan.get("candidates", [])
+                    self.smallcap_universe_size = last_scan.get("universe_size", 0)
+                    if last_scan.get("time"):
+                        try:
+                            self.smallcap_last_scan = datetime.fromisoformat(last_scan["time"])
+                        except Exception:
+                            pass
                 return
-            logger.info("State file missing on disk — trying GitHub restore...")
+
+            logger.info("Local state is empty — downloading latest state from GitHub...")
             raw = await self.github_backup.download_json("state/bot_state.json")
+            if not raw:
+                # Secondary fallback: try raw repository root state
+                raw = await self.github_backup.download_json("data/bot_state.json")
+
             if raw:
                 self.state.load_raw(raw)
-                # Re-hydrate dashboard copies of restored state
+                scan_hist = self.state.state.get("scan_history", [])
+                if scan_hist:
+                    last_scan = scan_hist[-1]
+                    self.smallcap_candidates = last_scan.get("candidates", [])
+                    self.smallcap_universe_size = last_scan.get("universe_size", 0)
+                    if last_scan.get("time"):
+                        try:
+                            self.smallcap_last_scan = datetime.fromisoformat(last_scan["time"])
+                        except Exception:
+                            pass
+
                 reports = self.state.state.get("weekly_reports", [])
                 if reports:
                     last = reports[-1]
                     if last.get("report"):
                         self.last_weekly_report = last
+
                 logger.info(
-                    "State restored from GitHub backup "
-                    f"({len(self.state.state.get('scan_history', []))} scans, "
-                    f"{len(self.state.state.get('signal_history', []))} signals)"
+                    "State successfully restored from GitHub backup "
+                    f"({len(scan_hist)} scans, {len(self.state.state.get('signal_history', []))} signals)"
                 )
             else:
                 logger.info("No GitHub state backup found yet — starting fresh")
