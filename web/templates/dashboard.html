@@ -399,6 +399,17 @@
       background: rgba(255, 255, 255, 0.02);
     }
 
+    .clickable-row {
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.15s ease;
+    }
+    .clickable-row:hover td {
+      background: rgba(59, 130, 246, 0.12) !important;
+    }
+    .clickable-row:hover .symbol-badge {
+      color: var(--green);
+    }
+
     .mono {
       font-family: 'JetBrains Mono', monospace;
     }
@@ -409,6 +420,7 @@
       font-weight: 700;
       font-size: 0.85rem;
       color: #ffffff;
+      transition: color 0.15s ease;
     }
 
     /* Status Tags & Pill Badges */
@@ -461,6 +473,143 @@
       transition: opacity 0.2s;
     }
     .tv-link:hover { opacity: 0.8; text-decoration: underline; }
+
+    /* Modal Overlay & Card Styling */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 7, 13, 0.88);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.25s ease-in-out;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal-card {
+      background: #0f172a;
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 1140px;
+      max-height: 92vh;
+      overflow-y: auto;
+      box-shadow: 0 24px 70px rgba(0,0,0,0.8), 0 0 35px rgba(59, 130, 246, 0.2);
+      padding: 1.5rem;
+      position: relative;
+      transform: translateY(20px) scale(0.97);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .modal-overlay.active .modal-card {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .modal-close-btn {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--card-border);
+      color: var(--muted);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 1.3rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    .modal-close-btn:hover {
+      background: rgba(239, 68, 68, 0.2);
+      color: var(--red);
+      border-color: var(--red);
+    }
+
+    .modal-stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 0.75rem;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      margin: 1rem 0;
+    }
+    .modal-stat {
+      display: flex;
+      flex-direction: column;
+    }
+    .modal-stat .m-label {
+      font-size: 0.68rem;
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .modal-stat .m-val {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-top: 0.1rem;
+    }
+
+    .modal-body-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-top: 1rem;
+    }
+    @media (max-width: 900px) {
+      .modal-body-grid { grid-template-columns: 1fr; }
+    }
+
+    .modal-box {
+      background: rgba(17, 24, 39, 0.6);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    .modal-box:last-child { margin-bottom: 0; }
+    .modal-box-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .modal-reasons-list {
+      margin-top: 0.5rem;
+      display: grid;
+      gap: 0.4rem;
+    }
+    .reason-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      font-size: 0.78rem;
+      color: var(--text);
+      background: rgba(255,255,255,0.03);
+      padding: 0.45rem 0.65rem;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.04);
+      line-height: 1.4;
+    }
 
     /* Footer */
     .footer {
@@ -585,7 +734,7 @@
       <div class="section-card">
         <div class="section-header">
           <div class="section-title">⚡ Canlı Piyasa Taramaları</div>
-          <div class="section-meta">Anlık algoritmik skor ve osilatör indikatörleri</div>
+          <div class="section-meta">Anlık algoritmik skor ve osilatör indikatörleri (Detay için tıklayın)</div>
         </div>
         <div class="table-responsive">
           <table id="marketTable">
@@ -612,7 +761,7 @@
       <div class="section-card">
         <div class="section-header">
           <div class="section-title">🌟 Bugünün Setup Adayları</div>
-          <div class="section-meta" id="candidatesInfo">Hesaplanan pozisyon bütçeleri</div>
+          <div class="section-meta" id="candidatesInfo">Hesaplanan pozisyon bütçeleri (Detay & Strateji için satıra tıklayın)</div>
         </div>
         <div class="table-responsive">
           <table id="candidatesTable">
@@ -642,7 +791,7 @@
       <div class="section-card">
         <div class="section-header">
           <div class="section-title">🚀 Haftalık Çıkış Adayları</div>
-          <div class="section-meta" id="weeklyUpdated">Haftalık analiz raporu</div>
+          <div class="section-meta" id="weeklyUpdated">Haftalık analiz raporu (Detay için tıklayın)</div>
         </div>
         <div class="table-responsive">
           <table id="weeklyTable">
@@ -836,12 +985,81 @@
 
   </div>
 
+  <!-- Interactive Stock Analysis Modal -->
+  <div class="modal-overlay" id="stockModal" onclick="closeStockModal(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div style="display:flex;align-items:center;gap:0.75rem">
+          <div class="brand-icon" style="font-size:1.4rem">📌</div>
+          <div>
+            <h2 id="modalTitle" style="font-size:1.3rem;font-weight:700">Hisse Analiz & Strateji Detayı</h2>
+            <div id="modalSubtitle" style="font-size:0.75rem;color:var(--muted)">Algoritmik Kırılım & Duygu Analiz Rasyoneli</div>
+          </div>
+        </div>
+        <button class="modal-close-btn" onclick="closeStockModal()">&times;</button>
+      </div>
+
+      <div class="modal-stats-bar">
+        <div class="modal-stat">
+          <span class="m-label">FİYAT</span>
+          <span class="m-val mono" id="modalPrice">$0.00</span>
+        </div>
+        <div class="modal-stat">
+          <span class="m-label">DEĞİŞİM %</span>
+          <span class="m-val mono" id="modalChange">%0.0</span>
+        </div>
+        <div class="modal-stat">
+          <span class="m-label">SETUP SKORU</span>
+          <span class="m-val" id="modalSetupScore">0 / 100</span>
+        </div>
+        <div class="modal-stat">
+          <span class="m-label">BEKLENEN HORIZON</span>
+          <span class="m-val" id="modalHorizon" style="color:var(--blue)">-</span>
+        </div>
+      </div>
+
+      <div class="modal-body-grid">
+        <!-- Left Side: Rationale, News vs Technical & Trade Plan -->
+        <div>
+          <!-- Section 1: Why it was selected -->
+          <div class="modal-box">
+            <div class="modal-box-title">🔍 Neden Çıkabilir? (Strateji Rasyoneli)</div>
+            <div id="modalReasons" class="modal-reasons-list"></div>
+          </div>
+
+          <!-- Section 2: News vs Technical Breakdown -->
+          <div class="modal-box">
+            <div class="modal-box-title">⚖️ Analiz Tipi: Haber mi, Teknik mi?</div>
+            <div id="modalAnalysisType" style="margin-top:0.6rem"></div>
+          </div>
+
+          <!-- Section 3: Trade & Risk Plan -->
+          <div class="modal-box">
+            <div class="modal-box-title">💰 İşlem Planı & Risk Hesaplaması</div>
+            <div id="modalTradePlan" style="margin-top:0.6rem"></div>
+          </div>
+        </div>
+
+        <!-- Right Side: Live TradingView Chart Widget -->
+        <div>
+          <div class="modal-box" style="height:100%;min-height:430px;display:flex;flex-direction:column">
+            <div class="modal-box-title" style="margin-bottom:0.75rem">📈 Canlı Grafik Üzerinde Analiz (TradingView)</div>
+            <div id="modalTvContainer" style="flex:1;width:100%;min-height:360px;border-radius:8px;overflow:hidden;background:#0f172a">
+              <div class="empty-state">Grafik yükleniyor...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- JavaScript Application Logic -->
   <script>
     // Global State
     let countdownSec = 15;
     let refreshTimer = null;
     let activeTabId = 'tab-market';
+    window.latestDashboardData = null;
 
     // Particle Animation Setup
     function initParticles() {
@@ -934,13 +1152,13 @@
     // Data Fetching & Dashboard Updating
     async function updateDashboard() {
       const refreshBtn = document.getElementById('refreshBtn');
-      const refreshIcon = document.getElementById('refreshIcon');
       if (refreshBtn) refreshBtn.classList.add('spinning');
 
       try {
         const res = await fetch('/api/dashboard');
         if (!res.ok) throw new Error('HTTP status ' + res.status);
         const data = await res.json();
+        window.latestDashboardData = data;
         
         renderHeaderAndStatus(data);
         renderMarketTab(data);
@@ -1021,7 +1239,6 @@
         let html = '';
         symbols.forEach(sym => {
           const tfs = market[sym] || {};
-          // Get primary timeframe data (e.g., 1d or 1h)
           const primaryKey = Object.keys(tfs).pop();
           const snap = tfs[primaryKey];
           if (!snap) return;
@@ -1030,7 +1247,7 @@
           const chgCls = chg >= 0 ? 'price-up' : 'price-down';
           const newsScore = (data.news && data.news[sym]) ? data.news[sym].score : null;
 
-          html += `<tr>
+          html += `<tr class="clickable-row" onclick="openStockModal('${sym}')" title="${sym} detaylı analizi için tıklayın">
             <td><span class="symbol-badge">📌 ${sym}</span></td>
             <td class="mono">${fmtPrice(snap.price)}</td>
             <td class="mono ${chgCls}">${fmtPct(chg)}</td>
@@ -1050,7 +1267,7 @@
       const info = document.getElementById('candidatesInfo');
       
       if (data.budget && data.budget.budget_try) {
-        info.textContent = `Bütçe: ${data.budget.budget_try.toLocaleString('tr-TR')} TL ≈ $${(data.budget.budget_usd || 0).toFixed(0)} · Kur: ${data.budget.usd_try_rate || '-'}`;
+        info.textContent = `Bütçe: ${data.budget.budget_try.toLocaleString('tr-TR')} TL ≈ $${(data.budget.budget_usd || 0).toFixed(0)} · Kur: ${data.budget.usd_try_rate || '-'} (Detay için satıra tıklayın)`;
       }
 
       if (!candidates || candidates.length === 0) {
@@ -1065,7 +1282,7 @@
             ? `<span style="color:var(--green)">${shares} Adet = $${(bp.position_usd || 0).toFixed(2)}</span>`
             : `<span style="color:var(--red)">Bütçe Yetersiz</span>`;
 
-          return `<tr>
+          return `<tr class="clickable-row" onclick="openStockModal('${c.symbol}')" title="${c.symbol} detaylı analizi için tıklayın">
             <td><span class="symbol-badge">${c.symbol}</span><div style="font-size:0.7rem;color:var(--muted)">${c.name || ''}</div></td>
             <td><span class="tag tag-blue">${c.setup_type || 'BREAKOUT'}</span></td>
             <td style="font-size:0.72rem;color:var(--muted)">${(c.candle_patterns || []).join(', ') || '-'}</td>
@@ -1076,7 +1293,7 @@
             <td class="mono price-up">${tp.target != null ? '$' + tp.target.toFixed(2) : '-'}</td>
             <td class="mono price-down">${tp.stop != null ? '$' + tp.stop.toFixed(2) : '-'}</td>
             <td style="font-size:0.72rem">${posTxt}</td>
-            <td><a href="${tvUrl}" target="_blank" rel="noopener" class="tv-link">TradingView ↗</a></td>
+            <td><a href="${tvUrl}" target="_blank" rel="noopener" class="tv-link" onclick="event.stopPropagation()">TV ↗</a></td>
           </tr>`;
         }).join('');
       }
@@ -1088,7 +1305,7 @@
       const wUpd = document.getElementById('weeklyUpdated');
 
       if (wr.generated_at && wUpd) {
-        wUpd.textContent = `Son Rapor: ${fmtTime(wr.generated_at)} ${wr.index && wr.index.return_4w != null ? ' | S&P 500 4H: ' + wr.index.return_4w + '%' : ''}`;
+        wUpd.textContent = `Son Rapor: ${fmtTime(wr.generated_at)} ${wr.index && wr.index.return_4w != null ? ' | S&P 500 4H: ' + wr.index.return_4w + '%' : ''} (Detay için tıklayın)`;
       }
 
       if (wCandidates.length === 0) {
@@ -1097,7 +1314,7 @@
         wBody.innerHTML = wCandidates.map((c, i) => {
           const chg = c.change_pct;
           const chgCls = chg >= 0 ? 'price-up' : 'price-down';
-          return `<tr>
+          return `<tr class="clickable-row" onclick="openStockModal('${c.symbol}')" title="${c.symbol} detaylı analizi için tıklayın">
             <td class="mono">${i + 1}</td>
             <td><span class="symbol-badge">${c.symbol}</span></td>
             <td class="mono">${fmtPrice(c.price)}</td>
@@ -1133,7 +1350,7 @@
           const last = r.last_price;
           const lastCls = (last != null && first) ? (last >= first ? 'price-up' : 'price-down') : '';
 
-          return `<tr>
+          return `<tr class="clickable-row" onclick="openStockModal('${r.symbol}')">
             <td><span class="symbol-badge">${r.symbol}</span></td>
             <td class="mono">${fmtPrice(first)}</td>
             <td class="mono ${lastCls}">${fmtPrice(last)}</td>
@@ -1153,7 +1370,7 @@
       } else {
         tgBody.innerHTML = tgDetails.map(r => {
           const meta = stMeta[r.status] || [r.status, 'tag-neutral'];
-          return `<tr>
+          return `<tr class="clickable-row" onclick="openStockModal('${r.symbol}')">
             <td><span class="symbol-badge">${r.symbol}</span></td>
             <td class="mono">${fmtPrice(r.first_price)}</td>
             <td class="mono">${fmtPrice(r.last_price)}</td>
@@ -1171,7 +1388,7 @@
         hBody.innerHTML = '<tr><td colspan="5" class="empty-state">Henüz sinyal geçmişi kaydı yok.</td></tr>';
       } else {
         hBody.innerHTML = history.map(h => `
-          <tr>
+          <tr class="clickable-row" onclick="openStockModal('${h.symbol}')">
             <td><span class="symbol-badge">${h.symbol}</span></td>
             <td><span class="tag ${h.action === 'BUY' ? 'tag-buy' : (h.action === 'SELL' ? 'tag-sell' : 'tag-watch')}">${h.action}</span></td>
             <td class="mono">${fmtPrice(h.price)}</td>
@@ -1240,7 +1457,7 @@
           const dir = rule.direction ? rule.direction.toUpperCase() : '';
           const dirCls = dir === 'YÜKSELİŞ' ? 'price-up' : (dir === 'DÜŞÜŞ' ? 'price-down' : '');
 
-          return `<div class="feed-item">
+          return `<div class="feed-item clickable-row" onclick="openStockModal('${sym}')">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.4rem">
               <div><span class="symbol-badge">${sym}</span> <span style="font-size:0.7rem;color:var(--muted)">${badgeTag}</span></div>
               ${dir ? `<div class="${dirCls}" style="font-size:0.75rem;font-weight:700">YÖN: ${dir}</div>` : ''}
@@ -1260,7 +1477,7 @@
       if (scanHist.length > 0) {
         if (shInfo) shInfo.textContent = `Son tarama evreni: ${scanHist[0].universe_size || 0} hisse · ${fmtTime(scanHist[0].time)}`;
         shBody.innerHTML = scanHist.map(sc => {
-          const adays = (sc.candidates || []).map(c => `<span class="tag tag-neutral" style="margin-right:4px"><b>${c.symbol}</b> (${c.setup_score != null ? c.setup_score.toFixed(0) : '-'})</span>`).join(' ');
+          const adays = (sc.candidates || []).map(c => `<span class="tag tag-neutral" style="margin-right:4px;cursor:pointer" onclick="openStockModal('${c.symbol}')"><b>${c.symbol}</b> (${c.setup_score != null ? c.setup_score.toFixed(0) : '-'})</span>`).join(' ');
           return `<tr>
             <td class="mono" style="font-size:0.72rem;color:var(--muted)">${fmtTime(sc.time)}</td>
             <td class="mono">${sc.universe_size || 0} Hisse</td>
@@ -1287,7 +1504,7 @@
           const score = n.score != null ? n.score : 0;
           const scoreCls = score > 0 ? 'tag-buy' : (score < 0 ? 'tag-sell' : 'tag-neutral');
 
-          return `<div class="feed-item">
+          return `<div class="feed-item clickable-row" onclick="openStockModal('${sym}')">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.3rem">
               <div><span class="symbol-badge">${sym}</span> <span style="font-size:0.7rem;color:var(--muted)">(${n.article_count || 0} Haber)</span></div>
               <span class="tag ${scoreCls}">Sentiment: ${score.toFixed(1)}</span>
@@ -1313,7 +1530,7 @@
           const msg = s.message || s.reason || `${sym} hissesinde algoritmik teknik sinyal tetiklendi.${priceTxt}`;
 
           return `
-            <div class="feed-item" style="margin-bottom:0.5rem">
+            <div class="feed-item clickable-row" onclick="openStockModal('${sym}')" style="margin-bottom:0.5rem">
               <div style="display:flex;align-items:center;justify-content:space-between">
                 <div>
                   <span class="symbol-badge">📌 ${sym} Hissesi</span>
@@ -1327,6 +1544,174 @@
         }).join('');
       }
     }
+
+    // Modal Opening & Analysis Logic
+    function openStockModal(symbol) {
+      if (!symbol || symbol === 'SİSTEM') return;
+
+      const modal = document.getElementById('stockModal');
+      const data = window.latestDashboardData || {};
+
+      // 1. Find Stock Objects
+      const smallcapList = (data.smallcap && data.smallcap.candidates) || [];
+      const weeklyList = (data.weekly_report && data.weekly_report.candidates) || [];
+      const marketDict = data.market || {};
+
+      let cand = smallcapList.find(c => c.symbol === symbol) || weeklyList.find(c => c.symbol === symbol);
+      
+      let price = cand ? cand.price : 0;
+      let change = cand ? cand.change_pct : 0;
+      let setupScore = cand ? (cand.setup_score || 0) : 0;
+      let setupType = cand ? (cand.setup_type || 'BREAKOUT') : 'TAKİP';
+      let horizon = cand ? (cand.expect_horizon || '1-2 seans') : 'Kısa Vadeli';
+      let name = cand ? (cand.name || symbol) : symbol;
+
+      if (!price && marketDict[symbol]) {
+        const tfs = marketDict[symbol];
+        const primaryKey = Object.keys(tfs).pop();
+        if (primaryKey && tfs[primaryKey]) {
+          price = tfs[primaryKey].price || 0;
+          change = tfs[primaryKey].change_pct || 0;
+          setupScore = tfs[primaryKey].composite_score || setupScore;
+        }
+      }
+
+      // Populate Header Stats
+      document.getElementById('modalTitle').textContent = `${symbol} — ${name}`;
+      document.getElementById('modalPrice').textContent = fmtPrice(price);
+      
+      const changeEl = document.getElementById('modalChange');
+      changeEl.textContent = fmtPct(change);
+      changeEl.className = `m-val mono ${change >= 0 ? 'price-up' : 'price-down'}`;
+
+      document.getElementById('modalSetupScore').innerHTML = `<span class="tag tag-blue">${setupType}</span> <strong style="font-size:1.1rem;color:var(--green)">${setupScore.toFixed(0)} / 100</strong>`;
+      document.getElementById('modalHorizon').textContent = horizon;
+
+      // Populate Section 1: Neden Çıkabilir? (Strateji Rasyoneli)
+      const reasonsEl = document.getElementById('modalReasons');
+      let reasonsList = [];
+      if (cand && cand.reasons && cand.reasons.length > 0) {
+        reasonsList = cand.reasons;
+      } else {
+        if (cand && cand.squeeze_days > 0) reasonsList.push(`${cand.squeeze_days} gündür konsolidasyon / Squeeze daralmasında`);
+        if (cand && cand.vol_ratio > 1.2) reasonsList.push(`Hacim Oranı normalin ${cand.vol_ratio.toFixed(1)}x katı seviyesinde`);
+        if (cand && cand.dist_52w_high_pct != null) reasonsList.push(`52 Haftalık Zirvesine %${Math.abs(cand.dist_52w_high_pct).toFixed(1)} mesafede (Güçlü trend)`);
+        if (cand && cand.rsi_14 != null) reasonsList.push(`RSI (14) = ${cand.rsi_14.toFixed(1)} momentum seviyesinde`);
+        if (cand && cand.rs_4w > 0) reasonsList.push(`S&P 500'e göre 4 haftalık Rölatif Güç: +%${cand.rs_4w.toFixed(1)}`);
+      }
+
+      if (cand && cand.candle_patterns && cand.candle_patterns.length > 0) {
+        reasonsList.push(`Mum Formasyonu: ${cand.candle_patterns.join(', ')} (+${cand.pattern_bonus || 0} puan bonus)`);
+      }
+
+      if (reasonsList.length === 0) {
+        reasonsList = ['Teknik osilatörler ve momentum kırılımı nedeniyle algoritmik takibe alındı.'];
+      }
+
+      reasonsEl.innerHTML = reasonsList.map(r => `
+        <div class="reason-item">
+          <span class="reason-bullet">⚡</span>
+          <div>${r}</div>
+        </div>
+      `).join('');
+
+      // Populate Section 2: Analiz Tipi (Haber mi, Teknik mi?)
+      const typeEl = document.getElementById('modalAnalysisType');
+      const newsItem = data.news && data.news[symbol];
+      const hasNews = newsItem && (newsItem.article_count > 0 || newsItem.latest_article);
+
+      let newsScore = (cand && cand.news_score) || (newsItem ? newsItem.score : 0);
+      let newsBadge = newsScore > 0 ? '<span class="tag tag-buy">POZİTİF HABER</span>' : (newsScore < 0 ? '<span class="tag tag-sell">NEGATİF HABER</span>' : '<span class="tag tag-neutral">NÖTR HABER</span>');
+
+      let analysisHtml = `
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
+          <div style="background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.2);padding:0.75rem;border-radius:8px">
+            <div style="font-size:0.72rem;color:var(--muted);font-weight:600">🧭 TEKNİK ANALİZ AĞIRLIĞI</div>
+            <div style="font-size:1.1rem;font-weight:700;color:var(--blue);margin-top:0.2rem">%${(100 - Math.min(abs(newsScore), 40)).toFixed(0)}</div>
+            <div style="font-size:0.7rem;color:var(--muted);margin-top:0.2rem">Mum Mantığı & Gösterge Formasyonları</div>
+          </div>
+          <div style="background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.2);padding:0.75rem;border-radius:8px">
+            <div style="font-size:0.72rem;color:var(--muted);font-weight:600">📰 HABER & SENTİMENT AĞIRLIĞI</div>
+            <div style="font-size:1.1rem;font-weight:700;color:var(--green);margin-top:0.2rem">${newsBadge}</div>
+            <div style="font-size:0.7rem;color:var(--muted);margin-top:0.2rem">Skor: ${newsScore.toFixed(1)}</div>
+          </div>
+        </div>
+      `;
+
+      if (hasNews && newsItem.latest_article) {
+        analysisHtml += `
+          <div style="margin-top:0.75rem;padding:0.65rem;border-radius:8px;background:rgba(255,255,255,0.03);border:1px solid var(--card-border)">
+            <div style="font-size:0.72rem;font-weight:600;color:var(--text);margin-bottom:0.2rem">Son İlgili Haber Akışı:</div>
+            <div style="font-size:0.76rem;color:var(--muted);line-height:1.4">${newsItem.latest_article}</div>
+            <div style="margin-top:0.4rem"><a href="https://finance.yahoo.com/quote/${symbol}/news" target="_blank" rel="noopener" class="tv-link">Haber Kaynağını Oku ↗</a></div>
+          </div>
+        `;
+      } else {
+        analysisHtml += `
+          <div style="margin-top:0.75rem;padding:0.65rem;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid var(--card-border);font-size:0.75rem;color:var(--muted)">
+            ℹ️ Son saatlerde bu hisse için kritik haber akışı bulunmuyor. Bu sinyal %100 <strong>Kural Tabanlı Algoritmik Mum & İndikatör Analizine</strong> dayanmaktadır.
+          </div>
+        `;
+      }
+
+      typeEl.innerHTML = analysisHtml;
+
+      // Populate Section 3: Trade & Risk Plan
+      const planEl = document.getElementById('modalTradePlan');
+      const tp = cand ? (cand.trade_plan || {}) : {};
+      const bp = cand ? (cand.budget_plan || {}) : {};
+
+      const limit = tp.limit || price;
+      const target = tp.target || (price ? price * 1.15 : 0);
+      const stop = tp.stop || (price ? price * 0.93 : 0);
+      const shares = bp.shares || 0;
+
+      planEl.innerHTML = `
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:0.5rem;text-align:center">
+          <div style="padding:0.5rem;background:rgba(255,255,255,0.03);border-radius:6px">
+            <div style="font-size:0.68rem;color:var(--muted)">GİRİŞ / LİMİT</div>
+            <div class="mono" style="font-size:0.9rem;font-weight:700">${fmtPrice(limit)}</div>
+          </div>
+          <div style="padding:0.5rem;background:rgba(16,185,129,0.08);border-radius:6px">
+            <div style="font-size:0.68rem;color:var(--green)">HEDEF (TP)</div>
+            <div class="mono price-up" style="font-size:0.9rem;font-weight:700">${fmtPrice(target)}</div>
+          </div>
+          <div style="padding:0.5rem;background:rgba(239,68,68,0.08);border-radius:6px">
+            <div style="font-size:0.68rem;color:var(--red)">STOP LOSS (SL)</div>
+            <div class="mono price-down" style="font-size:0.9rem;font-weight:700">${fmtPrice(stop)}</div>
+          </div>
+        </div>
+        <div style="margin-top:0.6rem;font-size:0.75rem;color:var(--muted);display:flex;justify-content:space-between">
+          <span>Önerilen Pozisyon: <strong>${shares} Adet</strong> (${bp.position_usd ? '$' + bp.position_usd.toFixed(2) : '-'})</span>
+          <span>TradingView: <a href="https://www.tradingview.com/chart/?symbol=${symbol}" target="_blank" rel="noopener" class="tv-link">Tam Ekran Çizim ↗</a></span>
+        </div>
+      `;
+
+      // Populate Section 4: TradingView Chart Embed Widget
+      const tvContainer = document.getElementById('modalTvContainer');
+      const cleanSymbol = symbol.replace('=F', '');
+      tvContainer.innerHTML = `
+        <iframe src="https://s.tradingview.com/widgetembed/?frameElementId=tv_modal_frame&symbol=${cleanSymbol}&interval=D&hidesidetoolbar=1&symboledit=1&saveimage=1&toolbarbg=0f172a&studies=[]&theme=dark&style=1&timezone=exchange" width="100%" height="100%" frameborder="0" allowtransparency="true" scrolling="no" style="min-height:360px"></iframe>
+      `;
+
+      // Open Modal
+      modal.classList.add('active');
+    }
+
+    function closeStockModal(event) {
+      if (event && event.target && !event.target.classList.contains('modal-overlay') && !event.target.classList.contains('modal-close-btn')) {
+        return;
+      }
+      const modal = document.getElementById('stockModal');
+      if (modal) modal.classList.remove('active');
+      const tvContainer = document.getElementById('modalTvContainer');
+      if (tvContainer) tvContainer.innerHTML = '';
+    }
+
+    // Keyboard ESC listener for modal
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeStockModal();
+    });
 
     // Manual Refresh Trigger
     function manualRefresh() {
