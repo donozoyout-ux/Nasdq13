@@ -6,9 +6,9 @@
       "symbol": "NAVN",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 91.53713134738612,
-      "price": 29.270000457763672,
-      "timestamp": "2026-08-25T17:31:41.447784"
+      "strength": 91.79349594588481,
+      "price": 29.315000534057617,
+      "timestamp": "2026-08-25T17:31:48.360332"
     },
     {
       "id": "d86c4c26d1f1",
@@ -17,34 +17,34 @@
       "direction": "LONG",
       "strength": 85.16299241055295,
       "price": 7.980000019073486,
-      "timestamp": "2026-08-25T17:31:41.451344"
+      "timestamp": "2026-08-25T17:31:48.364425"
     },
     {
       "id": "ec1063e5ea0f",
       "symbol": "HQY",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 84.9275034034066,
+      "strength": 84.92770058838077,
       "price": 104.63500213623047,
-      "timestamp": "2026-08-25T17:31:41.454797"
+      "timestamp": "2026-08-25T17:31:48.368411"
     },
     {
       "id": "48455e6b17b7",
       "symbol": "LYFT",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 76.61747151383614,
-      "price": 17.575000762939453,
-      "timestamp": "2026-08-25T17:31:41.458184"
+      "strength": 76.59576776994032,
+      "price": 17.579999923706055,
+      "timestamp": "2026-08-25T17:31:48.372361"
     },
     {
       "id": "d36c7d2b541d",
       "symbol": "SNAP",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 76.35940803382664,
-      "price": 5.699999809265137,
-      "timestamp": "2026-08-25T17:31:41.520073"
+      "strength": 76.33403805496829,
+      "price": 5.709499835968018,
+      "timestamp": "2026-08-25T17:31:48.376672"
     },
     {
       "id": "cbe1e18ee023",
@@ -52,8 +52,8 @@
       "action": "ADAY",
       "direction": "LONG",
       "strength": 76.0,
-      "price": 36.005001068115234,
-      "timestamp": "2026-08-25T17:31:41.523331"
+      "price": 35.9900016784668,
+      "timestamp": "2026-08-25T17:31:48.425308"
     },
     {
       "id": "c216b3d7dc17",
@@ -62,7 +62,7 @@
       "direction": "LONG",
       "strength": 76.0,
       "price": 65.04499816894531,
-      "timestamp": "2026-08-25T17:31:41.526422"
+      "timestamp": "2026-08-25T17:31:48.428916"
     },
     {
       "id": "c5bcfe43d0e1",
@@ -71,7 +71,7 @@
       "direction": "LONG",
       "strength": 76.0,
       "price": 55.86009979248047,
-      "timestamp": "2026-08-25T17:31:41.529969"
+      "timestamp": "2026-08-25T17:31:48.432654"
     },
     {
       "id": "27524c838242",
@@ -80,7 +80,7 @@
       "direction": "LONG",
       "strength": 75.80873410724158,
       "price": 14.470000267028809,
-      "timestamp": "2026-08-25T17:31:41.532841"
+      "timestamp": "2026-08-25T17:31:48.436718"
     },
     {
       "id": "a818f41b4cd3",
@@ -89,7 +89,7 @@
       "direction": "LONG",
       "strength": 74.22259136212625,
       "price": 24.510000228881836,
-      "timestamp": "2026-08-25T17:31:41.620381"
+      "timestamp": "2026-08-25T17:31:48.523258"
     },
     {
       "id": "add40124948f",
@@ -98,7 +98,7 @@
       "direction": "LONG",
       "strength": 72.84712755598832,
       "price": 58.8849983215332,
-      "timestamp": "2026-08-25T17:31:41.623310"
+      "timestamp": "2026-08-25T17:31:48.527685"
     },
     {
       "id": "6b6426bceaf3",
@@ -107,16 +107,16 @@
       "direction": "LONG",
       "strength": 72.49808429118774,
       "price": 86.2249984741211,
-      "timestamp": "2026-08-25T17:31:41.626524"
+      "timestamp": "2026-08-25T17:31:48.532175"
     },
     {
       "id": "d23868993070",
       "symbol": "ACA",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 72.20064133682796,
+      "strength": 72.20083852180214,
       "price": 145.38499450683594,
-      "timestamp": "2026-08-25T17:31:41.629809"
+      "timestamp": "2026-08-25T17:31:48.536255"
     },
     {
       "id": "8ba20a157cb1",
@@ -125,7 +125,7 @@
       "direction": "LONG",
       "strength": 72.0,
       "price": 343.54998779296875,
-      "timestamp": "2026-08-25T17:31:41.721441"
+      "timestamp": "2026-08-25T17:31:48.540162"
     },
     {
       "id": "70651529e6a7",
@@ -134,7 +134,7 @@
       "direction": "LONG",
       "strength": 72.0,
       "price": 931.669921875,
-      "timestamp": "2026-08-25T17:31:41.724869"
+      "timestamp": "2026-08-25T17:31:48.543827"
     },
     {
       "id": "cd95fb15fd32",
@@ -143,7 +143,7 @@
       "direction": "LONG",
       "strength": 72.0,
       "price": 80.61000061035156,
-      "timestamp": "2026-08-25T17:31:41.728396"
+      "timestamp": "2026-08-25T17:31:48.626842"
     },
     {
       "id": "709dde865514",
@@ -152,7 +152,7 @@
       "direction": "LONG",
       "strength": 72.0,
       "price": 39.185001373291016,
-      "timestamp": "2026-08-25T17:31:41.731860"
+      "timestamp": "2026-08-25T17:31:48.631512"
     },
     {
       "id": "8d15e7dab6b1",
@@ -161,7 +161,7 @@
       "direction": "LONG",
       "strength": 72.0,
       "price": 89.73999786376953,
-      "timestamp": "2026-08-25T17:31:41.735335"
+      "timestamp": "2026-08-25T17:31:48.635849"
     },
     {
       "id": "f654dc7105bc",
@@ -170,25 +170,16 @@
       "direction": "LONG",
       "strength": 72.0,
       "price": 38.4900016784668,
-      "timestamp": "2026-08-25T17:31:41.820516"
+      "timestamp": "2026-08-25T17:31:48.724388"
     },
     {
       "id": "c2524481dca1",
       "symbol": "SYRE",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 71.3976200370954,
+      "strength": 71.39781722206956,
       "price": 107.61000061035156,
-      "timestamp": "2026-08-25T17:31:41.823490"
-    },
-    {
-      "id": "941338687976",
-      "symbol": "KMX",
-      "action": "ADAY",
-      "direction": "LONG",
-      "strength": 71.38802227363857,
-      "price": 63.939998626708984,
-      "timestamp": "2026-08-25T17:31:41.826521"
+      "timestamp": "2026-08-25T17:31:48.729388"
     },
     {
       "id": "4789dc91d887",
@@ -197,16 +188,25 @@
       "direction": "LONG",
       "strength": 71.33333333333333,
       "price": 31.422399520874023,
-      "timestamp": "2026-08-25T17:31:41.829412"
+      "timestamp": "2026-08-25T17:31:48.734134"
+    },
+    {
+      "id": "941338687976",
+      "symbol": "KMX",
+      "action": "ADAY",
+      "direction": "LONG",
+      "strength": 71.30520277374346,
+      "price": 63.900001525878906,
+      "timestamp": "2026-08-25T17:31:48.739016"
     },
     {
       "id": "ac25e067d9ac",
       "symbol": "ALV",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 70.98681925215831,
+      "strength": 70.9870164371325,
       "price": 124.29000091552734,
-      "timestamp": "2026-08-25T17:31:41.832359"
+      "timestamp": "2026-08-25T17:31:48.823249"
     },
     {
       "id": "f421c1307b74",
@@ -215,7 +215,7 @@
       "direction": "LONG",
       "strength": 70.42786069651741,
       "price": 44.380001068115234,
-      "timestamp": "2026-08-25T17:31:41.922219"
+      "timestamp": "2026-08-25T17:31:48.826994"
     },
     {
       "id": "191c357669fc",
@@ -224,7 +224,7 @@
       "direction": "LONG",
       "strength": 69.04377104377105,
       "price": 91.29000091552734,
-      "timestamp": "2026-08-25T17:31:41.925815"
+      "timestamp": "2026-08-25T17:31:48.831516"
     },
     {
       "id": "6eff696c0af0",
@@ -233,7 +233,7 @@
       "direction": "LONG",
       "strength": 68.83743842364532,
       "price": 91.87999725341797,
-      "timestamp": "2026-08-25T17:31:41.929094"
+      "timestamp": "2026-08-25T17:31:48.835931"
     },
     {
       "id": "e3ed6848121e",
@@ -242,7 +242,7 @@
       "direction": "LONG",
       "strength": 68.0,
       "price": 62.220001220703125,
-      "timestamp": "2026-08-25T17:31:41.932148"
+      "timestamp": "2026-08-25T17:31:48.840383"
     },
     {
       "id": "3ceff9e51390",
@@ -251,7 +251,7 @@
       "direction": "LONG",
       "strength": 68.0,
       "price": 11.295000076293945,
-      "timestamp": "2026-08-25T17:31:42.020451"
+      "timestamp": "2026-08-25T17:31:48.925356"
     },
     {
       "id": "32a450a28b77",
@@ -260,88 +260,88 @@
       "direction": "LONG",
       "strength": 68.0,
       "price": 31.020000457763672,
-      "timestamp": "2026-08-25T17:31:42.023441"
+      "timestamp": "2026-08-25T17:31:48.929773"
     },
     {
       "id": "da1a64b2798f",
       "symbol": "KNTK",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 67.93699350416215,
+      "strength": 67.93719068913632,
       "price": 54.56999969482422,
-      "timestamp": "2026-08-25T17:31:42.026457"
+      "timestamp": "2026-08-25T17:31:48.934222"
     },
     {
       "id": "e81d2bb6e73b",
       "symbol": "CRNX",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 67.90236837200999,
+      "strength": 67.90256555698417,
       "price": 84.81500244140625,
-      "timestamp": "2026-08-25T17:31:42.029653"
+      "timestamp": "2026-08-25T17:31:48.938761"
     },
     {
       "id": "57e4007c522b",
       "symbol": "DOX",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 67.71409036861942,
+      "strength": 67.7142875535936,
       "price": 62.00640106201172,
-      "timestamp": "2026-08-25T17:31:42.032904"
+      "timestamp": "2026-08-25T17:31:49.024749"
     },
     {
       "id": "678586f165b8",
       "symbol": "ICL",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 67.65544775204548,
+      "strength": 67.65564493701966,
       "price": 5.639999866485596,
-      "timestamp": "2026-08-25T17:31:42.120683"
+      "timestamp": "2026-08-25T17:31:49.029248"
     },
     {
       "id": "9363d5916c34",
       "symbol": "BZ",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 67.22804744613265,
-      "price": 16.110000610351562,
-      "timestamp": "2026-08-25T17:31:42.123751"
+      "strength": 67.13342577135894,
+      "price": 16.100000381469727,
+      "timestamp": "2026-08-25T17:31:49.033670"
     },
     {
       "id": "74a9ba03adce",
       "symbol": "MTCH",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 66.86316029522153,
+      "strength": 66.86335748019572,
       "price": 42.07099914550781,
-      "timestamp": "2026-08-25T17:31:42.127011"
+      "timestamp": "2026-08-25T17:31:49.038189"
     },
     {
       "id": "eb2512dbbcac",
       "symbol": "ZG",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 66.83439986285875,
+      "strength": 66.83459704783293,
       "price": 37.4900016784668,
-      "timestamp": "2026-08-25T17:31:42.130001"
+      "timestamp": "2026-08-25T17:31:49.124330"
     },
     {
       "id": "124d876bc6a6",
       "symbol": "DBX",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 66.77139336591468,
+      "strength": 66.77159055088885,
       "price": 34.45000076293945,
-      "timestamp": "2026-08-25T17:31:42.133057"
+      "timestamp": "2026-08-25T17:31:49.129084"
     },
     {
       "id": "b4531c0ee996",
       "symbol": "RRC",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 66.52434924673574,
-      "price": 41.08000183105469,
-      "timestamp": "2026-08-25T17:31:42.220788"
+      "strength": 66.51631368544327,
+      "price": 41.06999969482422,
+      "timestamp": "2026-08-25T17:31:49.133777"
     },
     {
       "id": "0ce21f7dd678",
@@ -350,7 +350,7 @@
       "direction": "LONG",
       "strength": 66.0,
       "price": 35.27000045776367,
-      "timestamp": "2026-08-25T17:31:42.224021"
+      "timestamp": "2026-08-25T17:31:49.138381"
     },
     {
       "id": "e4b6bdc537ae",
@@ -359,16 +359,16 @@
       "direction": "LONG",
       "strength": 66.0,
       "price": 16.44499969482422,
-      "timestamp": "2026-08-25T17:31:42.227204"
+      "timestamp": "2026-08-25T17:31:49.223224"
     },
     {
       "id": "51f9f9045987",
       "symbol": "OMF",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 65.92358357546578,
+      "strength": 65.92378076043997,
       "price": 63.141998291015625,
-      "timestamp": "2026-08-25T17:31:42.230962"
+      "timestamp": "2026-08-25T17:31:49.226466"
     },
     {
       "id": "13e01c7fddc0",
@@ -377,7 +377,7 @@
       "direction": "LONG",
       "strength": 65.78378378378379,
       "price": 99.23999786376953,
-      "timestamp": "2026-08-25T17:31:42.318836"
+      "timestamp": "2026-08-25T17:31:49.230748"
     },
     {
       "id": "6be3ad6afc43",
@@ -385,71 +385,71 @@
       "action": "ADAY",
       "direction": "LONG",
       "strength": 65.55112219451371,
-      "price": 49.13999938964844,
-      "timestamp": "2026-08-25T17:31:42.322133"
+      "price": 49.130001068115234,
+      "timestamp": "2026-08-25T17:31:49.235001"
     },
     {
       "id": "f9ad67e9b920",
       "symbol": "EDU",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 65.39686458817272,
+      "strength": 65.3970617731469,
       "price": 56.91999816894531,
-      "timestamp": "2026-08-25T17:31:42.325257"
+      "timestamp": "2026-08-25T17:31:49.239518"
     },
     {
       "id": "ed84d0b1da91",
       "symbol": "IMVT",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 65.17421322023648,
+      "strength": 65.17441040521065,
       "price": 43.560001373291016,
-      "timestamp": "2026-08-25T17:31:42.328722"
+      "timestamp": "2026-08-25T17:31:49.325947"
     },
     {
       "id": "2c7121fc79a9",
       "symbol": "CHRD",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 65.1206222155707,
+      "strength": 65.12081940054489,
       "price": 142.24000549316406,
-      "timestamp": "2026-08-25T17:31:42.332069"
+      "timestamp": "2026-08-25T17:31:49.330100"
     },
     {
       "id": "b92ef72a364d",
       "symbol": "Z",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 64.78118404378901,
-      "price": 36.505001068115234,
-      "timestamp": "2026-08-25T17:31:42.421097"
+      "strength": 64.796402201104,
+      "price": 36.5099983215332,
+      "timestamp": "2026-08-25T17:31:49.334114"
     },
     {
       "id": "1c079fb42976",
       "symbol": "OKLO",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 64.56950520088827,
-      "price": 44.16189956665039,
-      "timestamp": "2026-08-25T17:31:42.424246"
+      "strength": 64.54354983267547,
+      "price": 44.154998779296875,
+      "timestamp": "2026-08-25T17:31:49.337972"
     },
     {
       "id": "1eba12d50441",
       "symbol": "ONBPP",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 64.35950325722658,
+      "strength": 64.35970044220076,
       "price": 24.94029998779297,
-      "timestamp": "2026-08-25T17:31:42.427733"
+      "timestamp": "2026-08-25T17:31:49.341954"
     },
     {
       "id": "335979d95946",
       "symbol": "RIOT",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 64.24138136572819,
-      "price": 21.28499984741211,
-      "timestamp": "2026-08-25T17:31:42.519490"
+      "strength": 64.13565065656346,
+      "price": 21.270000457763672,
+      "timestamp": "2026-08-25T17:31:49.424683"
     },
     {
       "id": "d4104bc7ec42",
@@ -457,8 +457,8 @@
       "action": "ADAY",
       "direction": "LONG",
       "strength": 64.0,
-      "price": 60.60499954223633,
-      "timestamp": "2026-08-25T17:31:42.522919"
+      "price": 60.61000061035156,
+      "timestamp": "2026-08-25T17:31:49.428599"
     },
     {
       "id": "7a54b7da407a",
@@ -467,7 +467,7 @@
       "direction": "LONG",
       "strength": 64.0,
       "price": 40.310001373291016,
-      "timestamp": "2026-08-25T17:31:42.526728"
+      "timestamp": "2026-08-25T17:31:49.432853"
     },
     {
       "id": "7ef7ea6b02f1",
@@ -476,7 +476,7 @@
       "direction": "LONG",
       "strength": 64.0,
       "price": 35.5,
-      "timestamp": "2026-08-25T17:31:42.530318"
+      "timestamp": "2026-08-25T17:31:49.437554"
     },
     {
       "id": "0611176ced9a",
@@ -484,8 +484,8 @@
       "action": "ADAY",
       "direction": "LONG",
       "strength": 64.0,
-      "price": 27.915000915527344,
-      "timestamp": "2026-08-25T17:31:42.620026"
+      "price": 27.90999984741211,
+      "timestamp": "2026-08-25T17:31:49.442104"
     },
     {
       "id": "7ff12038cf7a",
@@ -493,71 +493,71 @@
       "action": "ADAY",
       "direction": "LONG",
       "strength": 64.0,
-      "price": 41.060001373291016,
-      "timestamp": "2026-08-25T17:31:42.623619"
-    },
-    {
-      "id": "7df6aa789ada",
-      "symbol": "DUOL",
-      "action": "ADAY",
-      "direction": "LONG",
-      "strength": 63.7365357650409,
-      "price": 144.34500122070312,
-      "timestamp": "2026-08-25T17:31:42.626959"
-    },
-    {
-      "id": "a4da1a2157c0",
-      "symbol": "SATA",
-      "action": "ADAY",
-      "direction": "LONG",
-      "strength": 63.73415163683343,
-      "price": 100.00499725341797,
-      "timestamp": "2026-08-25T17:31:42.630085"
+      "price": 41.099998474121094,
+      "timestamp": "2026-08-25T17:31:49.525397"
     },
     {
       "id": "f00f978dc2d8",
       "symbol": "PPC",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 63.652561966748216,
-      "price": 32.084999084472656,
-      "timestamp": "2026-08-25T17:31:42.633753"
+      "strength": 63.77856354451083,
+      "price": 32.11000061035156,
+      "timestamp": "2026-08-25T17:31:49.529701"
     },
     {
-      "id": "832e81149551",
-      "symbol": "HIMS",
+      "id": "7df6aa789ada",
+      "symbol": "DUOL",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 63.60411895214026,
-      "price": 32.33000183105469,
-      "timestamp": "2026-08-25T17:31:42.720817"
+      "strength": 63.73673295001508,
+      "price": 144.34500122070312,
+      "timestamp": "2026-08-25T17:31:49.535453"
+    },
+    {
+      "id": "a4da1a2157c0",
+      "symbol": "SATA",
+      "action": "ADAY",
+      "direction": "LONG",
+      "strength": 63.73432316529453,
+      "price": 100.00499725341797,
+      "timestamp": "2026-08-25T17:31:49.623935"
     },
     {
       "id": "90f3978f65ab",
       "symbol": "VIST",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 63.600053598789685,
+      "strength": 63.60025078376386,
       "price": 67.68000030517578,
-      "timestamp": "2026-08-25T17:31:42.724117"
+      "timestamp": "2026-08-25T17:31:49.628325"
+    },
+    {
+      "id": "832e81149551",
+      "symbol": "HIMS",
+      "action": "ADAY",
+      "direction": "LONG",
+      "strength": 63.553145589700186,
+      "price": 32.31999969482422,
+      "timestamp": "2026-08-25T17:31:49.634418"
     },
     {
       "id": "e4600d21587c",
       "symbol": "MORN",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 63.470777540575924,
+      "strength": 63.47097472555011,
       "price": 215.1699981689453,
-      "timestamp": "2026-08-25T17:31:42.727505"
+      "timestamp": "2026-08-25T17:31:49.638525"
     },
     {
       "id": "cd04e58a8a48",
       "symbol": "CGON",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 63.22894500741328,
+      "strength": 63.229142192387464,
       "price": 79.06999969482422,
-      "timestamp": "2026-08-25T17:31:42.730739"
+      "timestamp": "2026-08-25T17:31:49.642829"
     },
     {
       "id": "54734aad0ab8",
@@ -566,7 +566,7 @@
       "direction": "LONG",
       "strength": 63.0,
       "price": 35.73500061035156,
-      "timestamp": "2026-08-25T17:31:42.733908"
+      "timestamp": "2026-08-25T17:31:49.726650"
     },
     {
       "id": "9a633fe2ec8a",
@@ -574,8 +574,8 @@
       "action": "ADAY",
       "direction": "LONG",
       "strength": 63.0,
-      "price": 222.0,
-      "timestamp": "2026-08-25T17:31:42.822113"
+      "price": 221.75,
+      "timestamp": "2026-08-25T17:31:49.730792"
     },
     {
       "id": "df09ea79c46c",
@@ -584,70 +584,70 @@
       "direction": "LONG",
       "strength": 63.0,
       "price": 45.8849983215332,
-      "timestamp": "2026-08-25T17:31:42.825456"
+      "timestamp": "2026-08-25T17:31:49.735174"
     },
     {
       "id": "f67da5a6b570",
       "symbol": "KNSL",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 62.964869878107734,
+      "strength": 62.96506706308192,
       "price": 391.3800048828125,
-      "timestamp": "2026-08-25T17:31:42.829472"
+      "timestamp": "2026-08-25T17:31:49.739430"
     },
     {
       "id": "e74e83b679b3",
       "symbol": "HSIC",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 62.683323220361224,
+      "strength": 62.68352040533541,
       "price": 89.41670227050781,
-      "timestamp": "2026-08-25T17:31:42.833394"
+      "timestamp": "2026-08-25T17:31:49.827837"
     },
     {
       "id": "4e23fd1ae30d",
       "symbol": "MATX",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 62.63021761361193,
+      "strength": 62.630414798586116,
       "price": 222.22000122070312,
-      "timestamp": "2026-08-25T17:31:42.921902"
+      "timestamp": "2026-08-25T17:31:49.833354"
     },
     {
       "id": "d9ec505f679e",
       "symbol": "FRO",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 62.59161346684241,
+      "strength": 62.591810651816594,
       "price": 43.275001525878906,
-      "timestamp": "2026-08-25T17:31:42.925885"
+      "timestamp": "2026-08-25T17:31:49.838788"
     },
     {
       "id": "ba37ee675d48",
       "symbol": "GLBE",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 62.524409478803314,
+      "strength": 62.52460666377749,
       "price": 39.90999984741211,
-      "timestamp": "2026-08-25T17:31:42.929905"
+      "timestamp": "2026-08-25T17:31:49.925092"
     },
     {
       "id": "2e6ab5ffd3c6",
       "symbol": "LLYVK",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 62.505498301478326,
+      "strength": 62.50569548645251,
       "price": 106.47000122070312,
-      "timestamp": "2026-08-25T17:31:43.020500"
+      "timestamp": "2026-08-25T17:31:49.930720"
     },
     {
       "id": "89cceb1023d1",
       "symbol": "VIRT",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 62.1568292548241,
+      "strength": 62.15702643979829,
       "price": 64.12699890136719,
-      "timestamp": "2026-08-25T17:31:43.025121"
+      "timestamp": "2026-08-25T17:31:49.936681"
     },
     {
       "id": "ccc937802520",
@@ -656,16 +656,16 @@
       "direction": "LONG",
       "strength": 61.81062355658199,
       "price": 16.0,
-      "timestamp": "2026-08-25T17:31:43.029822"
+      "timestamp": "2026-08-25T17:31:50.025612"
     },
     {
       "id": "b4865880ce6d",
       "symbol": "PCTY",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 61.728865361381125,
+      "strength": 61.72906254635531,
       "price": 151.6699981689453,
-      "timestamp": "2026-08-25T17:31:43.119221"
+      "timestamp": "2026-08-25T17:31:50.031670"
     },
     {
       "id": "2953dd202a58",
@@ -674,7 +674,7 @@
       "direction": "LONG",
       "strength": 61.348837209302324,
       "price": 84.73999786376953,
-      "timestamp": "2026-08-25T17:31:43.123346"
+      "timestamp": "2026-08-25T17:31:50.037563"
     },
     {
       "id": "319874fc49fd",
@@ -683,25 +683,25 @@
       "direction": "LONG",
       "strength": 61.0,
       "price": 12.359999656677246,
-      "timestamp": "2026-08-25T17:31:43.127325"
-    },
-    {
-      "id": "4d4b48f8873c",
-      "symbol": "SLAB",
-      "action": "ADAY",
-      "direction": "LONG",
-      "strength": 60.33651892759452,
-      "price": 218.07000732421875,
-      "timestamp": "2026-08-25T17:31:43.132570"
+      "timestamp": "2026-08-25T17:31:50.043487"
     },
     {
       "id": "9ea161e20193",
       "symbol": "CPB",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 60.31510239513102,
-      "price": 23.434999465942383,
-      "timestamp": "2026-08-25T17:31:43.222563"
+      "strength": 60.34818692051945,
+      "price": 23.440000534057617,
+      "timestamp": "2026-08-25T17:31:50.130941"
+    },
+    {
+      "id": "4d4b48f8873c",
+      "symbol": "SLAB",
+      "action": "ADAY",
+      "direction": "LONG",
+      "strength": 60.336716112568695,
+      "price": 218.07000732421875,
+      "timestamp": "2026-08-25T17:31:50.138880"
     },
     {
       "id": "620590f1fa93",
@@ -710,16 +710,16 @@
       "direction": "LONG",
       "strength": 60.0,
       "price": 27.520000457763672,
-      "timestamp": "2026-08-25T17:31:43.226281"
+      "timestamp": "2026-08-25T17:31:50.223696"
     },
     {
       "id": "63cb33192c23",
       "symbol": "WEX",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 59.1209594494145,
+      "strength": 59.12115663438868,
       "price": 199.8699951171875,
-      "timestamp": "2026-08-25T17:31:43.231853"
+      "timestamp": "2026-08-25T17:31:50.229073"
     },
     {
       "id": "8844c71a9690",
@@ -728,7 +728,7 @@
       "direction": "LONG",
       "strength": 59.0,
       "price": 133.80999755859375,
-      "timestamp": "2026-08-25T17:31:43.322944"
+      "timestamp": "2026-08-25T17:31:50.235741"
     },
     {
       "id": "5f9ccf1ca14a",
@@ -737,7 +737,7 @@
       "direction": "LONG",
       "strength": 59.0,
       "price": 115.37000274658203,
-      "timestamp": "2026-08-25T17:31:43.329680"
+      "timestamp": "2026-08-25T17:31:50.241788"
     },
     {
       "id": "92779f5f56e5",
@@ -746,70 +746,70 @@
       "direction": "LONG",
       "strength": 58.986301369863014,
       "price": 40.68000030517578,
-      "timestamp": "2026-08-25T17:31:43.339632"
+      "timestamp": "2026-08-25T17:31:50.329133"
     },
     {
       "id": "62138f808181",
       "symbol": "TTEK",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 58.15465749287225,
+      "strength": 58.15485467784644,
       "price": 36.775001525878906,
-      "timestamp": "2026-08-25T17:31:43.421337"
+      "timestamp": "2026-08-25T17:31:50.337317"
     },
     {
       "id": "11ba9b5b01bf",
       "symbol": "APLD",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 58.13395810164418,
-      "price": 28.450000762939453,
-      "timestamp": "2026-08-25T17:31:43.427176"
+      "strength": 58.07780538860993,
+      "price": 28.440000534057617,
+      "timestamp": "2026-08-25T17:31:50.426555"
     },
     {
       "id": "a5d9b15d3845",
       "symbol": "UGP",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 57.45545502408587,
+      "strength": 57.455652209060055,
       "price": 6.614999771118164,
-      "timestamp": "2026-08-25T17:31:43.435246"
+      "timestamp": "2026-08-25T17:31:50.432996"
     },
     {
       "id": "dbf0400fce07",
       "symbol": "CHE",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 57.33257274339749,
+      "strength": 57.332769928371675,
       "price": 541.5399780273438,
-      "timestamp": "2026-08-25T17:31:43.519759"
+      "timestamp": "2026-08-25T17:31:50.438648"
     },
     {
       "id": "e36a9c007b1d",
       "symbol": "CAG",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 57.24302630234246,
+      "strength": 57.24322348731664,
       "price": 16.174999237060547,
-      "timestamp": "2026-08-25T17:31:43.529179"
+      "timestamp": "2026-08-25T17:31:50.525047"
     },
     {
       "id": "e13aac2923fc",
       "symbol": "GAP",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 56.93821666951908,
-      "price": 20.055099487304688,
-      "timestamp": "2026-08-25T17:31:43.545455"
+      "strength": 56.96902276227965,
+      "price": 20.06999969482422,
+      "timestamp": "2026-08-25T17:31:50.530470"
     },
     {
       "id": "3635a94fe605",
       "symbol": "PTGX",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 56.636712477768896,
-      "price": 152.47999572753906,
-      "timestamp": "2026-08-25T17:31:43.623853"
+      "strength": 56.524317432778844,
+      "price": 152.3699951171875,
+      "timestamp": "2026-08-25T17:31:50.537497"
     },
     {
       "id": "2d3c1304b62c",
@@ -818,7 +818,7 @@
       "direction": "LONG",
       "strength": 56.0,
       "price": 53.17499923706055,
-      "timestamp": "2026-08-25T17:31:43.631861"
+      "timestamp": "2026-08-25T17:31:50.543194"
     },
     {
       "id": "f9022070bfa5",
@@ -827,70 +827,70 @@
       "direction": "LONG",
       "strength": 56.0,
       "price": 132.0800018310547,
-      "timestamp": "2026-08-25T17:31:43.638633"
+      "timestamp": "2026-08-25T17:31:50.625653"
     },
     {
       "id": "c8455bcfae5e",
       "symbol": "AXTA",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 55.8072814755902,
+      "strength": 55.807478660564385,
       "price": 36.209999084472656,
-      "timestamp": "2026-08-25T17:31:43.723608"
+      "timestamp": "2026-08-25T17:31:50.630974"
     },
     {
       "id": "cf3c39d20f4b",
       "symbol": "MSGS",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 55.64850815939184,
+      "strength": 55.64870534436602,
       "price": 406.1499938964844,
-      "timestamp": "2026-08-25T17:31:43.731846"
+      "timestamp": "2026-08-25T17:31:50.636060"
     },
     {
       "id": "cd4cf6f9285e",
       "symbol": "MOS",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 55.646573641148834,
+      "strength": 55.64677082612301,
       "price": 24.225000381469727,
-      "timestamp": "2026-08-25T17:31:43.819807"
+      "timestamp": "2026-08-25T17:31:50.723284"
     },
     {
       "id": "66bfc7ea5082",
       "symbol": "S",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 55.62218563313381,
+      "strength": 55.62238281810799,
       "price": 20.225000381469727,
-      "timestamp": "2026-08-25T17:31:43.826424"
+      "timestamp": "2026-08-25T17:31:50.727404"
     },
     {
       "id": "e5a0bec75760",
       "symbol": "LW",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 55.56434480292357,
+      "strength": 55.61372231576661,
       "price": 54.279998779296875,
-      "timestamp": "2026-08-25T17:31:43.833562"
+      "timestamp": "2026-08-25T17:31:50.732261"
     },
     {
       "id": "2c8b445c68b1",
       "symbol": "SFM",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 55.26280599159187,
+      "strength": 55.26300317656605,
       "price": 84.54000091552734,
-      "timestamp": "2026-08-25T17:31:43.840885"
+      "timestamp": "2026-08-25T17:31:50.737239"
     },
     {
       "id": "caa8446120ee",
       "symbol": "TGTX",
       "action": "ADAY",
       "direction": "LONG",
-      "strength": 55.22931273012495,
+      "strength": 55.22950991509913,
       "price": 55.970001220703125,
-      "timestamp": "2026-08-25T17:31:43.925880"
+      "timestamp": "2026-08-25T17:31:50.823261"
     },
     {
       "id": "38c37153d44c",
@@ -898,8 +898,8 @@
       "action": "ADAY",
       "direction": "LONG",
       "strength": 55.21212121212121,
-      "price": 19.610000610351562,
-      "timestamp": "2026-08-25T17:31:43.934491"
+      "price": 19.58169937133789,
+      "timestamp": "2026-08-25T17:31:50.828054"
     },
     {
       "id": "990bcb518b0f",
@@ -908,7 +908,7 @@
       "direction": "LONG",
       "strength": 55.082049444643495,
       "price": 134.0399932861328,
-      "timestamp": "2026-08-25T17:31:43.940606"
+      "timestamp": "2026-08-25T17:31:50.834118"
     },
     {
       "id": "71a1e0d71ba0",
@@ -917,7 +917,7 @@
       "direction": "LONG",
       "strength": 55.0,
       "price": 5.864999771118164,
-      "timestamp": "2026-08-25T17:31:44.025986"
+      "timestamp": "2026-08-25T17:31:50.841069"
     }
   ],
   "reports_sent": {
@@ -925,7 +925,7 @@
     "2026-08-08": "2026-08-08T11:45:01.797030",
     "2026-W33": "2026-08-10T08:54:10.227200",
     "2026-08-10": "2026-08-10T12:30:50.484144",
-    "2026-08-25": "2026-08-25T17:29:34.624509"
+    "2026-08-25": "2026-08-25T17:29:45.223313"
   },
   "smallcap_alerts_sent": {
     "MAAS:2026-08-10": "2026-08-10T19:24:20.025620",
@@ -933,7 +933,7 @@
   },
   "smallcap_setup_sent": {
     "2026-08-10": "2026-08-10T08:54:26.177916",
-    "2026-08-25": "2026-08-25T17:31:41.444593"
+    "2026-08-25": "2026-08-25T17:31:48.357257"
   },
   "smallcap_predictions_sent": {
     "2026-08-10": "2026-08-10T08:54:28.444430"
@@ -2787,38 +2787,38 @@
       ]
     },
     {
-      "time": "2026-08-25T17:31:44.034292",
+      "time": "2026-08-25T17:31:50.926653",
       "universe_size": 250,
       "closed": false,
       "candidates": [
         {
           "symbol": "NAVN",
           "name": "Navan, Inc. Class A Common Stock",
-          "price": 29.27,
-          "change_pct": -0.31,
+          "price": 29.32,
+          "change_pct": -0.15,
           "market_cap": 7462079227.0,
-          "setup_score": 91.5,
+          "setup_score": 91.8,
           "setup_type": "squeeze",
           "reasons": [
             "📐 Bollinger sıkışması (son bazda %1)",
             "🎯 52 haftalık zirvede / zirveye dayanmış",
-            "⚡ S&P 500'e göre +7.9 puan güçlü",
+            "⚡ S&P 500'e göre +8.1 puan güçlü",
             "📈 Fiyat > EMA21 > EMA50",
             "🔥 RSI 61",
             "🔇 Hacim daralması (birikim)",
             "🕯️ inside_bar, pin_bar, shooting_star (desen desteği)",
             "📍 Pivot direnç: 29.99"
           ],
-          "rsi_14": 60.9,
+          "rsi_14": 61.3,
           "bb_width_percentile": 1.1,
-          "dist_52w_high_pct": -2.4,
+          "dist_52w_high_pct": -2.25,
           "vol_ratio": 0.45,
-          "rs_4w": 7.88,
+          "rs_4w": 8.06,
           "donchian_upper": 29.99,
-          "atr_pct": 4.22,
+          "atr_pct": 4.21,
           "anticipation_score": 62.0,
-          "dist_to_resistance_pct": -2.4,
-          "bbw_slope_pct": -55.98,
+          "dist_to_resistance_pct": -2.25,
+          "bbw_slope_pct": -55.89,
           "squeeze_days": 4,
           "atr_contraction_pct": -17.07,
           "expect_horizon": "1-2 seans",
@@ -2831,14 +2831,15 @@
           "pattern_bonus": 2.0,
           "resistance_pivot": 29.99,
           "support_pivot": 29.0,
-          "dist_to_pivot_res_pct": 2.46,
-          "dist_to_pivot_sup_pct": -0.92,
+          "dist_to_pivot_res_pct": 2.3,
+          "dist_to_pivot_sup_pct": -1.07,
           "is_nr7": false,
           "session_vwap": 29.4,
-          "trigger_score": 47.8,
+          "trigger_score": 52.9,
           "trigger_type": "none",
           "trigger_reasons": [
-            "🕐 1H trend destekli (fiyat > EMA21)"
+            "🕐 1H trend destekli (fiyat > EMA21)",
+            "💹 MACD pozitif"
           ],
           "news_score": 0.0,
           "news_headline": "This Business Travel Software Stock Flies High. What Will Be Its Next Move?",
@@ -3018,7 +3019,7 @@
           "symbol": "LYFT",
           "name": "Lyft, Inc. Class A Common Stock",
           "price": 17.58,
-          "change_pct": -0.59,
+          "change_pct": -0.57,
           "market_cap": 6658522980.0,
           "setup_score": 76.6,
           "setup_type": "basing",
@@ -3031,16 +3032,16 @@
             "🕯️ bullish_engulfing, inside_bar, doji (desen desteği)",
             "📍 Pivot direnç: 17.75"
           ],
-          "rsi_14": 61.3,
-          "bb_width_percentile": 26.9,
-          "dist_52w_high_pct": -31.19,
+          "rsi_14": 61.4,
+          "bb_width_percentile": 27.0,
+          "dist_52w_high_pct": -31.17,
           "vol_ratio": 0.48,
-          "rs_4w": 10.56,
+          "rs_4w": 10.59,
           "donchian_upper": 17.97,
           "atr_pct": 3.81,
           "anticipation_score": 48.0,
-          "dist_to_resistance_pct": -2.2,
-          "bbw_slope_pct": -39.48,
+          "dist_to_resistance_pct": -2.17,
+          "bbw_slope_pct": -39.46,
           "squeeze_days": 3,
           "atr_contraction_pct": -2.23,
           "expect_horizon": "1-2 seans",
@@ -3053,8 +3054,8 @@
           "pattern_bonus": 4.0,
           "resistance_pivot": 17.75,
           "support_pivot": 17.0,
-          "dist_to_pivot_res_pct": 1.02,
-          "dist_to_pivot_sup_pct": -3.27,
+          "dist_to_pivot_res_pct": 1.0,
+          "dist_to_pivot_sup_pct": -3.3,
           "is_nr7": false,
           "session_vwap": 17.66,
           "trigger_score": 30.3,
@@ -3092,30 +3093,30 @@
         {
           "symbol": "SNAP",
           "name": "Snap Inc. Class A Common Stock",
-          "price": 5.7,
-          "change_pct": 3.07,
+          "price": 5.71,
+          "change_pct": 3.25,
           "market_cap": 9682106901.0,
-          "setup_score": 76.4,
+          "setup_score": 76.3,
           "setup_type": "basing",
           "reasons": [
             "🎯 52 haftalık zirvede / zirveye dayanmış",
-            "⚡ S&P 500'e göre +16.3 puan güçlü",
+            "⚡ S&P 500'e göre +16.5 puan güçlü",
             "📈 Fiyat > EMA21 > EMA50",
             "🔥 RSI 64",
             "🔇 Hacim daralması (birikim)",
             "🕯️ doji, doji, bullish_engulfing (desen desteği)",
             "📍 Pivot direnç: 5.82"
           ],
-          "rsi_14": 63.7,
-          "bb_width_percentile": 48.2,
-          "dist_52w_high_pct": -38.58,
+          "rsi_14": 63.8,
+          "bb_width_percentile": 48.3,
+          "dist_52w_high_pct": -38.48,
           "vol_ratio": 0.51,
-          "rs_4w": 16.3,
+          "rs_4w": 16.5,
           "donchian_upper": 5.82,
-          "atr_pct": 4.64,
+          "atr_pct": 4.63,
           "anticipation_score": 43.0,
-          "dist_to_resistance_pct": -2.06,
-          "bbw_slope_pct": -31.09,
+          "dist_to_resistance_pct": -1.9,
+          "bbw_slope_pct": -30.91,
           "squeeze_days": 3,
           "atr_contraction_pct": 4.11,
           "expect_horizon": "1-2 seans",
@@ -3128,8 +3129,8 @@
           "pattern_bonus": 8.0,
           "resistance_pivot": 5.82,
           "support_pivot": 5.45,
-          "dist_to_pivot_res_pct": 2.11,
-          "dist_to_pivot_sup_pct": -4.3,
+          "dist_to_pivot_res_pct": 1.94,
+          "dist_to_pivot_sup_pct": -4.46,
           "is_nr7": false,
           "session_vwap": 5.64,
           "trigger_score": 55.7,
@@ -3170,8 +3171,8 @@
         {
           "symbol": "SM",
           "name": "SM Energy Company Common Stock",
-          "price": 36.01,
-          "change_pct": -1.25,
+          "price": 35.99,
+          "change_pct": -1.29,
           "market_cap": 8560367907.0,
           "setup_score": 76.0,
           "setup_type": "basing",
@@ -3183,16 +3184,16 @@
             "🔇 Hacim daralması (birikim)",
             "🕯️ shooting_star, hammer (desen desteği)"
           ],
-          "rsi_14": 63.1,
+          "rsi_14": 63.0,
           "bb_width_percentile": 85.2,
-          "dist_52w_high_pct": -5.87,
+          "dist_52w_high_pct": -5.91,
           "vol_ratio": 0.25,
-          "rs_4w": 18.24,
+          "rs_4w": 18.19,
           "donchian_upper": 38.25,
           "atr_pct": 4.09,
           "anticipation_score": 18.0,
-          "dist_to_resistance_pct": -5.87,
-          "bbw_slope_pct": 36.48,
+          "dist_to_resistance_pct": -5.91,
+          "bbw_slope_pct": 36.44,
           "squeeze_days": 0,
           "atr_contraction_pct": 0.86,
           "expect_horizon": "1 hafta",
@@ -3202,10 +3203,10 @@
           ],
           "pattern_bias": 1,
           "pattern_bonus": 8.0,
-          "resistance_pivot": 37.0,
-          "support_pivot": 36.0,
-          "dist_to_pivot_res_pct": 2.76,
-          "dist_to_pivot_sup_pct": -0.01,
+          "resistance_pivot": 36.0,
+          "support_pivot": 35.0,
+          "dist_to_pivot_res_pct": 0.03,
+          "dist_to_pivot_sup_pct": -2.75,
           "is_nr7": false,
           "session_vwap": 35.91,
           "trigger_score": 40.5,
@@ -3216,23 +3217,23 @@
           "news_source": "",
           "trade_plan": {
             "limit": 38.25,
-            "target": 41.19580769721658,
-            "stop": 36.77709615139171,
-            "upside_pct": 7.701458031938779,
+            "target": 41.19580769721375,
+            "stop": 36.777096151393124,
+            "upside_pct": 7.701458031931385,
             "rr": 2.0
           },
           "budget_plan": {
             "shares": 1,
             "position_usd": 38.25,
             "position_try": 1826.055,
-            "risk_usd": 1.47290384860829,
-            "risk_try": 70.31642973255977,
-            "reward_usd": 2.94580769721658,
-            "reward_try": 140.63285946511954,
+            "risk_usd": 1.472903848606876,
+            "risk_try": 70.31642973249227,
+            "reward_usd": 2.945807697213752,
+            "reward_try": 140.63285946498453,
             "limit": 38.25,
-            "target": 41.19580769721658,
-            "stop": 36.77709615139171,
-            "upside_pct": 7.701458031938779,
+            "target": 41.19580769721375,
+            "stop": 36.777096151393124,
+            "upside_pct": 7.701458031931385,
             "rr": 2.0,
             "affordable": true,
             "budget_enough_for_one": true,
@@ -3250,7 +3251,7 @@
           "setup_type": "basing",
           "reasons": [
             "🎯 52 haftalık zirvede / zirveye dayanmış",
-            "⚡ S&P 500'e göre +35.0 puan güçlü",
+            "⚡ S&P 500'e göre +35.1 puan güçlü",
             "📈 Fiyat > EMA21 > EMA50",
             "🔥 RSI 72",
             "🔇 Hacim daralması (birikim)",
@@ -3280,7 +3281,7 @@
           "dist_to_pivot_res_pct": 1.47,
           "dist_to_pivot_sup_pct": -0.07,
           "is_nr7": false,
-          "session_vwap": 65.62,
+          "session_vwap": 65.61,
           "trigger_score": 44.0,
           "trigger_type": "none",
           "trigger_reasons": [],
@@ -3362,23 +3363,23 @@
           "news_source": "",
           "trade_plan": {
             "limit": 60.380001068115234,
-            "target": 64.27163706870726,
-            "stop": 58.43418306781922,
-            "upside_pct": 6.445240032708588,
+            "target": 64.2716370687698,
+            "stop": 58.43418306778795,
+            "upside_pct": 6.4452400328121495,
             "rr": 2.0
           },
           "budget_plan": {
             "shares": 1,
             "position_usd": 60.380001068115234,
             "position_try": 2882.5412509918215,
-            "risk_usd": 1.9458180002960148,
-            "risk_try": 92.89335133413175,
-            "reward_usd": 3.8916360005920296,
-            "reward_try": 185.7867026682635,
+            "risk_usd": 1.9458180003272858,
+            "risk_try": 92.89335133562463,
+            "reward_usd": 3.8916360006545716,
+            "reward_try": 185.78670267124926,
             "limit": 60.380001068115234,
-            "target": 64.27163706870726,
-            "stop": 58.43418306781922,
-            "upside_pct": 6.445240032708588,
+            "target": 64.2716370687698,
+            "stop": 58.43418306778795,
+            "upside_pct": 6.4452400328121495,
             "rr": 2.0,
             "affordable": true,
             "budget_enough_for_one": true,
@@ -3427,7 +3428,7 @@
           "dist_to_pivot_res_pct": 1.04,
           "dist_to_pivot_sup_pct": -3.25,
           "is_nr7": false,
-          "session_vwap": 14.31,
+          "session_vwap": 14.3,
           "trigger_score": 55.4,
           "trigger_type": "none",
           "trigger_reasons": [
@@ -3542,7 +3543,7 @@
       ]
     }
   ],
-  "last_scan_time": "2026-08-25T17:31:13.039662",
+  "last_scan_time": "2026-08-25T17:31:21.931174",
   "stats": {
     "total_signals": 102,
     "total_scans": 551,
@@ -3553,9 +3554,9 @@
     "daily:NAVN": {
       "source": "daily",
       "symbol": "NAVN",
-      "first_seen": "2026-08-25T17:31:44.119104",
-      "first_price": 29.27,
-      "last_price": 29.27,
+      "first_seen": "2026-08-25T17:31:50.932521",
+      "first_price": 29.32,
+      "last_price": 29.32,
       "limit": 29.989999771118164,
       "target": 32.46105053534671,
       "stop": 28.754474389003892,
@@ -3567,7 +3568,7 @@
     "daily:IBRX": {
       "source": "daily",
       "symbol": "IBRX",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 7.98,
       "last_price": 7.98,
       "limit": 8.270000457763672,
@@ -3581,7 +3582,7 @@
     "daily:HQY": {
       "source": "daily",
       "symbol": "HQY",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 104.64,
       "last_price": 104.64,
       "limit": 107.62000274658203,
@@ -3595,7 +3596,7 @@
     "daily:LYFT": {
       "source": "daily",
       "symbol": "LYFT",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 17.58,
       "last_price": 17.58,
       "limit": 17.969999313354492,
@@ -3609,9 +3610,9 @@
     "daily:SNAP": {
       "source": "daily",
       "symbol": "SNAP",
-      "first_seen": "2026-08-25T17:31:44.119104",
-      "first_price": 5.7,
-      "last_price": 5.7,
+      "first_seen": "2026-08-25T17:31:50.932521",
+      "first_price": 5.71,
+      "last_price": 5.71,
       "limit": 5.820000171661377,
       "target": 6.348733640336317,
       "stop": 5.555633437323907,
@@ -3623,12 +3624,12 @@
     "daily:SM": {
       "source": "daily",
       "symbol": "SM",
-      "first_seen": "2026-08-25T17:31:44.119104",
-      "first_price": 36.01,
-      "last_price": 36.01,
+      "first_seen": "2026-08-25T17:31:50.932521",
+      "first_price": 35.99,
+      "last_price": 35.99,
       "limit": 38.25,
-      "target": 41.19580769721658,
-      "stop": 36.77709615139171,
+      "target": 41.19580769721375,
+      "stop": 36.777096151393124,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -3637,7 +3638,7 @@
     "daily:TXG": {
       "source": "daily",
       "symbol": "TXG",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 65.04,
       "last_price": 65.04,
       "limit": 66.94000244140625,
@@ -3651,12 +3652,12 @@
     "daily:MTDR": {
       "source": "daily",
       "symbol": "MTDR",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 55.86,
       "last_price": 55.86,
       "limit": 60.380001068115234,
-      "target": 64.27163706870726,
-      "stop": 58.43418306781922,
+      "target": 64.2716370687698,
+      "stop": 58.43418306778795,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -3665,7 +3666,7 @@
     "daily:AVTR": {
       "source": "daily",
       "symbol": "AVTR",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 14.47,
       "last_price": 14.47,
       "limit": 14.619999885559082,
@@ -3679,7 +3680,7 @@
     "daily:GLXY": {
       "source": "daily",
       "symbol": "GLXY",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 24.51,
       "last_price": 24.51,
       "limit": 25.100000381469727,
@@ -3693,7 +3694,7 @@
     "daily:SRRK": {
       "source": "daily",
       "symbol": "SRRK",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 58.88,
       "last_price": 58.88,
       "limit": 59.47999954223633,
@@ -3707,12 +3708,12 @@
     "daily:LB": {
       "source": "daily",
       "symbol": "LB",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 86.22,
       "last_price": 86.22,
       "limit": 91.69000244140625,
-      "target": 99.99877771379147,
-      "stop": 87.53561480521364,
+      "target": 99.99877771390219,
+      "stop": 87.53561480515829,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -3721,12 +3722,12 @@
     "daily:ACA": {
       "source": "daily",
       "symbol": "ACA",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 145.38,
       "last_price": 145.38,
       "limit": 145.97999572753906,
-      "target": 147.2674025446773,
-      "stop": 145.33629231896992,
+      "target": 147.26740254467703,
+      "stop": 145.33629231897007,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -3735,12 +3736,12 @@
     "daily:IDCC": {
       "source": "daily",
       "symbol": "IDCC",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 343.55,
       "last_price": 343.55,
       "limit": 352.989990234375,
-      "target": 376.40267648114707,
-      "stop": 341.28364711098897,
+      "target": 376.40267648114724,
+      "stop": 341.2836471109889,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -3749,12 +3750,12 @@
     "daily:NEU": {
       "source": "daily",
       "symbol": "NEU",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 931.67,
       "last_price": 931.67,
       "limit": 981.6599731445312,
-      "target": 1034.5648746417862,
-      "stop": 955.2075223959038,
+      "target": 1034.5648746429597,
+      "stop": 955.207522395317,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -3763,7 +3764,7 @@
     "daily:ESTC": {
       "source": "daily",
       "symbol": "ESTC",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 80.61,
       "last_price": 80.61,
       "limit": 88.20999908447266,
@@ -3777,7 +3778,7 @@
     "daily:SSRM": {
       "source": "daily",
       "symbol": "SSRM",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 39.19,
       "last_price": 39.19,
       "limit": 39.22999954223633,
@@ -3791,7 +3792,7 @@
     "daily:AUGO": {
       "source": "daily",
       "symbol": "AUGO",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 89.74,
       "last_price": 89.74,
       "limit": 90.43000030517578,
@@ -3805,7 +3806,7 @@
     "daily:OR": {
       "source": "daily",
       "symbol": "OR",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 38.49,
       "last_price": 38.49,
       "limit": 38.720001220703125,
@@ -3819,7 +3820,7 @@
     "daily:SYRE": {
       "source": "daily",
       "symbol": "SYRE",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 107.61,
       "last_price": 107.61,
       "limit": 110.17500305175781,
@@ -3830,12 +3831,26 @@
       "breakout_at": null,
       "resolved_at": null
     },
+    "daily:JAN": {
+      "source": "daily",
+      "symbol": "JAN",
+      "first_seen": "2026-08-25T17:31:50.932521",
+      "first_price": 31.42,
+      "last_price": 31.42,
+      "limit": 31.90874388026597,
+      "target": 33.61021807407925,
+      "stop": 31.058006783359332,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
     "daily:KMX": {
       "source": "daily",
       "symbol": "KMX",
-      "first_seen": "2026-08-25T17:31:44.119104",
-      "first_price": 63.94,
-      "last_price": 63.94,
+      "first_seen": "2026-08-25T17:31:50.932521",
+      "first_price": 63.9,
+      "last_price": 63.9,
       "limit": 64.58999633789062,
       "target": 68.79027959473515,
       "stop": 62.48985470946836,
@@ -3844,24 +3859,10 @@
       "breakout_at": null,
       "resolved_at": null
     },
-    "daily:JAN": {
-      "source": "daily",
-      "symbol": "JAN",
-      "first_seen": "2026-08-25T17:31:44.119104",
-      "first_price": 31.42,
-      "last_price": 31.42,
-      "limit": 31.90874388026597,
-      "target": 33.61021805403165,
-      "stop": 31.05800679338313,
-      "status": "open",
-      "outcome": null,
-      "breakout_at": null,
-      "resolved_at": null
-    },
     "daily:ALV": {
       "source": "daily",
       "symbol": "ALV",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 124.29,
       "last_price": 124.29,
       "limit": 126.9000015258789,
@@ -3875,7 +3876,7 @@
     "daily:LTH": {
       "source": "daily",
       "symbol": "LTH",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 44.38,
       "last_price": 44.38,
       "limit": 47.23500061035156,
@@ -3889,7 +3890,7 @@
     "daily:HNGE": {
       "source": "daily",
       "symbol": "HNGE",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 91.29,
       "last_price": 91.29,
       "limit": 93.12999725341797,
@@ -3903,7 +3904,7 @@
     "daily:TTAN": {
       "source": "daily",
       "symbol": "TTAN",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 91.88,
       "last_price": 91.88,
       "limit": 96.75900268554688,
@@ -3917,7 +3918,7 @@
     "daily:PCVX": {
       "source": "daily",
       "symbol": "PCVX",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 62.22,
       "last_price": 62.22,
       "limit": 63.97999954223633,
@@ -3931,7 +3932,7 @@
     "daily:NXE": {
       "source": "daily",
       "symbol": "NXE",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 11.3,
       "last_price": 11.3,
       "limit": 11.3149995803833,
@@ -3945,12 +3946,12 @@
     "daily:OGC": {
       "source": "daily",
       "symbol": "OGC",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 31.02,
       "last_price": 31.02,
       "limit": 31.899999618530273,
-      "target": 34.39351833433061,
-      "stop": 30.653240260630106,
+      "target": 34.393518334404746,
+      "stop": 30.653240260593037,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -3959,12 +3960,12 @@
     "daily:KNTK": {
       "source": "daily",
       "symbol": "KNTK",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 54.57,
       "last_price": 54.57,
       "limit": 56.099998474121094,
-      "target": 59.1127221378067,
-      "stop": 54.59363664227829,
+      "target": 59.112722138140604,
+      "stop": 54.59363664211134,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -3973,7 +3974,7 @@
     "daily:CRNX": {
       "source": "daily",
       "symbol": "CRNX",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 84.82,
       "last_price": 84.82,
       "limit": 84.84500122070312,
@@ -3987,12 +3988,12 @@
     "daily:DOX": {
       "source": "daily",
       "symbol": "DOX",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 62.01,
       "last_price": 62.01,
       "limit": 62.400001525878906,
-      "target": 65.845984069028,
-      "stop": 60.677010254304356,
+      "target": 65.8459840690355,
+      "stop": 60.67701025430061,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -4001,12 +4002,12 @@
     "daily:ICL": {
       "source": "daily",
       "symbol": "ICL",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 5.64,
       "last_price": 5.64,
       "limit": 5.824999809265137,
-      "target": 6.100926770629449,
-      "stop": 5.68703632858298,
+      "target": 6.100926770627792,
+      "stop": 5.687036328583809,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -4015,9 +4016,9 @@
     "daily:BZ": {
       "source": "daily",
       "symbol": "BZ",
-      "first_seen": "2026-08-25T17:31:44.119104",
-      "first_price": 16.11,
-      "last_price": 16.11,
+      "first_seen": "2026-08-25T17:31:50.932521",
+      "first_price": 16.1,
+      "last_price": 16.1,
       "limit": 17.469999313354492,
       "target": 18.82047040733911,
       "stop": 16.794763766362184,
@@ -4029,12 +4030,12 @@
     "daily:MTCH": {
       "source": "daily",
       "symbol": "MTCH",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 42.07,
       "last_price": 42.07,
       "limit": 42.34000015258789,
       "target": 44.75897327933587,
-      "stop": 41.130513589213905,
+      "stop": 41.1305135892139,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -4043,7 +4044,7 @@
     "daily:ZG": {
       "source": "daily",
       "symbol": "ZG",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 37.49,
       "last_price": 37.49,
       "limit": 38.45000076293945,
@@ -4057,7 +4058,7 @@
     "daily:DBX": {
       "source": "daily",
       "symbol": "DBX",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 34.45,
       "last_price": 34.45,
       "limit": 36.29999923706055,
@@ -4071,12 +4072,12 @@
     "daily:RRC": {
       "source": "daily",
       "symbol": "RRC",
-      "first_seen": "2026-08-25T17:31:44.119104",
-      "first_price": 41.08,
-      "last_price": 41.08,
+      "first_seen": "2026-08-25T17:31:50.932521",
+      "first_price": 41.07,
+      "last_price": 41.07,
       "limit": 41.5099983215332,
-      "target": 43.57559889642238,
-      "stop": 40.477198034088616,
+      "target": 43.5755988964239,
+      "stop": 40.477198034087856,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -4085,7 +4086,7 @@
     "daily:CELH": {
       "source": "daily",
       "symbol": "CELH",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 35.27,
       "last_price": 35.27,
       "limit": 35.650001525878906,
@@ -4099,7 +4100,7 @@
     "daily:PATH": {
       "source": "daily",
       "symbol": "PATH",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 16.44,
       "last_price": 16.44,
       "limit": 16.81999969482422,
@@ -4113,12 +4114,12 @@
     "daily:OMF": {
       "source": "daily",
       "symbol": "OMF",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 63.14,
       "last_price": 63.14,
       "limit": 66.3499984741211,
-      "target": 69.38237858532375,
-      "stop": 64.83380841851977,
+      "target": 69.38237858527933,
+      "stop": 64.83380841854198,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -4127,12 +4128,12 @@
     "daily:VOYA": {
       "source": "daily",
       "symbol": "VOYA",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 99.24,
       "last_price": 99.24,
       "limit": 103.05000305175781,
-      "target": 107.29385060503503,
-      "stop": 100.9280792751192,
+      "target": 107.29385060503502,
+      "stop": 100.92807927511922,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -4141,9 +4142,9 @@
     "daily:ALKS": {
       "source": "daily",
       "symbol": "ALKS",
-      "first_seen": "2026-08-25T17:31:44.119104",
-      "first_price": 49.14,
-      "last_price": 49.14,
+      "first_seen": "2026-08-25T17:31:50.932521",
+      "first_price": 49.13,
+      "last_price": 49.13,
       "limit": 51.65999984741211,
       "target": 54.99568627018994,
       "stop": 49.99215663602319,
@@ -4155,7 +4156,7 @@
     "daily:EDU": {
       "source": "daily",
       "symbol": "EDU",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 56.92,
       "last_price": 56.92,
       "limit": 60.4900016784668,
@@ -4169,7 +4170,7 @@
     "daily:IMVT": {
       "source": "daily",
       "symbol": "IMVT",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 43.56,
       "last_price": 43.56,
       "limit": 45.41999816894531,
@@ -4183,7 +4184,7 @@
     "daily:CHRD": {
       "source": "daily",
       "symbol": "CHRD",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 142.24,
       "last_price": 142.24,
       "limit": 153.0,
@@ -4197,7 +4198,7 @@
     "daily:Z": {
       "source": "daily",
       "symbol": "Z",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 36.51,
       "last_price": 36.51,
       "limit": 37.58000183105469,
@@ -4211,9 +4212,9 @@
     "daily:OKLO": {
       "source": "daily",
       "symbol": "OKLO",
-      "first_seen": "2026-08-25T17:31:44.119104",
-      "first_price": 44.16,
-      "last_price": 44.16,
+      "first_seen": "2026-08-25T17:31:50.932521",
+      "first_price": 44.15,
+      "last_price": 44.15,
       "limit": 49.47999954223633,
       "target": 55.98708472449904,
       "stop": 46.22645695110497,
@@ -4225,12 +4226,12 @@
     "daily:ONBPP": {
       "source": "daily",
       "symbol": "ONBPP",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 24.94,
       "last_price": 24.94,
       "limit": 25.149999618530273,
-      "target": 25.429556942362513,
-      "stop": 25.010220956614152,
+      "target": 25.429556942354033,
+      "stop": 25.010220956618394,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -4239,9 +4240,9 @@
     "daily:RIOT": {
       "source": "daily",
       "symbol": "RIOT",
-      "first_seen": "2026-08-25T17:31:44.119104",
-      "first_price": 21.28,
-      "last_price": 21.28,
+      "first_seen": "2026-08-25T17:31:50.932521",
+      "first_price": 21.27,
+      "last_price": 21.27,
       "limit": 23.84000015258789,
       "target": 27.814001375317194,
       "stop": 21.852999541223237,
@@ -4253,9 +4254,9 @@
     "daily:PCOR": {
       "source": "daily",
       "symbol": "PCOR",
-      "first_seen": "2026-08-25T17:31:44.119104",
-      "first_price": 60.6,
-      "last_price": 60.6,
+      "first_seen": "2026-08-25T17:31:50.932521",
+      "first_price": 60.61,
+      "last_price": 60.61,
       "limit": 64.0,
       "target": 69.05782288808824,
       "stop": 61.47108855595588,
@@ -4267,7 +4268,7 @@
     "daily:FIGR": {
       "source": "daily",
       "symbol": "FIGR",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 40.31,
       "last_price": 40.31,
       "limit": 40.4900016784668,
@@ -4281,7 +4282,7 @@
     "daily:TFPM": {
       "source": "daily",
       "symbol": "TFPM",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 35.5,
       "last_price": 35.5,
       "limit": 35.57490158081055,
@@ -4295,9 +4296,9 @@
     "daily:ZETA": {
       "source": "daily",
       "symbol": "ZETA",
-      "first_seen": "2026-08-25T17:31:44.119104",
-      "first_price": 27.92,
-      "last_price": 27.92,
+      "first_seen": "2026-08-25T17:31:50.932521",
+      "first_price": 27.91,
+      "last_price": 27.91,
       "limit": 29.889999389648438,
       "target": 32.71637323912668,
       "stop": 28.476812464909315,
@@ -4309,9 +4310,9 @@
     "daily:GTLB": {
       "source": "daily",
       "symbol": "GTLB",
-      "first_seen": "2026-08-25T17:31:44.119104",
-      "first_price": 41.06,
-      "last_price": 41.06,
+      "first_seen": "2026-08-25T17:31:50.932521",
+      "first_price": 41.1,
+      "last_price": 41.1,
       "limit": 43.810001373291016,
       "target": 47.70717770512782,
       "stop": 41.861413207372614,
@@ -4320,10 +4321,24 @@
       "breakout_at": null,
       "resolved_at": null
     },
+    "daily:PPC": {
+      "source": "daily",
+      "symbol": "PPC",
+      "first_seen": "2026-08-25T17:31:50.932521",
+      "first_price": 32.11,
+      "last_price": 32.11,
+      "limit": 32.849998474121094,
+      "target": 35.4262945469395,
+      "stop": 31.56185043771189,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
     "daily:DUOL": {
       "source": "daily",
       "symbol": "DUOL",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 144.35,
       "last_price": 144.35,
       "limit": 151.0,
@@ -4337,40 +4352,12 @@
     "daily:SATA": {
       "source": "daily",
       "symbol": "SATA",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 100.0,
       "last_price": 100.0,
       "limit": 100.01000213623047,
-      "target": 101.75675704418602,
-      "stop": 99.13662468225269,
-      "status": "open",
-      "outcome": null,
-      "breakout_at": null,
-      "resolved_at": null
-    },
-    "daily:PPC": {
-      "source": "daily",
-      "symbol": "PPC",
-      "first_seen": "2026-08-25T17:31:44.119104",
-      "first_price": 32.08,
-      "last_price": 32.08,
-      "limit": 32.849998474121094,
-      "target": 35.4262945469395,
-      "stop": 31.56185043771189,
-      "status": "open",
-      "outcome": null,
-      "breakout_at": null,
-      "resolved_at": null
-    },
-    "daily:HIMS": {
-      "source": "daily",
-      "symbol": "HIMS",
-      "first_seen": "2026-08-25T17:31:44.119104",
-      "first_price": 32.33,
-      "last_price": 32.33,
-      "limit": 34.45600128173828,
-      "target": 39.24981438477361,
-      "stop": 32.05909473022062,
+      "target": 101.75675647176588,
+      "stop": 99.13662496846277,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -4379,7 +4366,7 @@
     "daily:VIST": {
       "source": "daily",
       "symbol": "VIST",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 67.68,
       "last_price": 67.68,
       "limit": 73.5199966430664,
@@ -4390,15 +4377,29 @@
       "breakout_at": null,
       "resolved_at": null
     },
+    "daily:HIMS": {
+      "source": "daily",
+      "symbol": "HIMS",
+      "first_seen": "2026-08-25T17:31:50.932521",
+      "first_price": 32.32,
+      "last_price": 32.32,
+      "limit": 34.45600128173828,
+      "target": 39.24981438477361,
+      "stop": 32.05909473022062,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
     "daily:MORN": {
       "source": "daily",
       "symbol": "MORN",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 215.17,
       "last_price": 215.17,
       "limit": 221.1999969482422,
-      "target": 235.48458891655466,
-      "stop": 214.05770096408594,
+      "target": 235.48458891512203,
+      "stop": 214.05770096480228,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -4407,7 +4408,7 @@
     "daily:CGON": {
       "source": "daily",
       "symbol": "CGON",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 79.07,
       "last_price": 79.07,
       "limit": 80.97000122070312,
@@ -4421,7 +4422,7 @@
     "daily:BVN": {
       "source": "daily",
       "symbol": "BVN",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 35.74,
       "last_price": 35.74,
       "limit": 36.540000915527344,
@@ -4435,9 +4436,9 @@
     "daily:APPF": {
       "source": "daily",
       "symbol": "APPF",
-      "first_seen": "2026-08-25T17:31:44.119104",
-      "first_price": 222.0,
-      "last_price": 222.0,
+      "first_seen": "2026-08-25T17:31:50.932521",
+      "first_price": 221.75,
+      "last_price": 221.75,
       "limit": 228.5800018310547,
       "target": 246.2966205230696,
       "stop": 219.7216924850472,
@@ -4449,12 +4450,12 @@
     "daily:NE": {
       "source": "daily",
       "symbol": "NE",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 45.88,
       "last_price": 45.88,
       "limit": 47.790000915527344,
-      "target": 50.67958314398967,
-      "stop": 46.345209801296186,
+      "target": 50.679583143989674,
+      "stop": 46.34520980129618,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -4463,12 +4464,12 @@
     "daily:KNSL": {
       "source": "daily",
       "symbol": "KNSL",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 391.38,
       "last_price": 391.38,
       "limit": 398.5299987792969,
-      "target": 421.4712989594119,
-      "stop": 387.05934868923936,
+      "target": 421.4712989594121,
+      "stop": 387.05934868923924,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -4477,7 +4478,7 @@
     "daily:HSIC": {
       "source": "daily",
       "symbol": "HSIC",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 89.42,
       "last_price": 89.42,
       "limit": 92.18000030517578,
@@ -4491,7 +4492,7 @@
     "daily:MATX": {
       "source": "daily",
       "symbol": "MATX",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 222.22,
       "last_price": 222.22,
       "limit": 227.57840875653167,
@@ -4505,12 +4506,12 @@
     "daily:FRO": {
       "source": "daily",
       "symbol": "FRO",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 43.28,
       "last_price": 43.28,
       "limit": 45.16999816894531,
-      "target": 48.046431179923054,
-      "stop": 43.731781663456445,
+      "target": 48.046431180051776,
+      "stop": 43.731781663392084,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -4519,7 +4520,7 @@
     "daily:GLBE": {
       "source": "daily",
       "symbol": "GLBE",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 39.91,
       "last_price": 39.91,
       "limit": 43.9900016784668,
@@ -4533,7 +4534,7 @@
     "daily:LLYVK": {
       "source": "daily",
       "symbol": "LLYVK",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 106.47,
       "last_price": 106.47,
       "limit": 109.75,
@@ -4547,12 +4548,12 @@
     "daily:VIRT": {
       "source": "daily",
       "symbol": "VIRT",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 64.13,
       "last_price": 64.13,
       "limit": 68.68000030517578,
-      "target": 75.07664944869578,
-      "stop": 65.48167573341578,
+      "target": 75.07664944870552,
+      "stop": 65.48167573341091,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -4561,12 +4562,12 @@
     "daily:BIPH": {
       "source": "daily",
       "symbol": "BIPH",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 16.0,
       "last_price": 16.0,
       "limit": 16.299999237060547,
-      "target": 16.644444745381463,
-      "stop": 16.12777648290009,
+      "target": 16.644444745379968,
+      "stop": 16.12777648290084,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -4575,7 +4576,7 @@
     "daily:PCTY": {
       "source": "daily",
       "symbol": "PCTY",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 151.67,
       "last_price": 151.67,
       "limit": 156.17999267578125,
@@ -4589,7 +4590,7 @@
     "daily:ETSY": {
       "source": "daily",
       "symbol": "ETSY",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 84.74,
       "last_price": 84.74,
       "limit": 87.9739990234375,
@@ -4603,7 +4604,7 @@
     "daily:SBSW": {
       "source": "daily",
       "symbol": "SBSW",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 12.36,
       "last_price": 12.36,
       "limit": 12.8100004196167,
@@ -4614,10 +4615,24 @@
       "breakout_at": null,
       "resolved_at": null
     },
+    "daily:CPB": {
+      "source": "daily",
+      "symbol": "CPB",
+      "first_seen": "2026-08-25T17:31:50.932521",
+      "first_price": 23.44,
+      "last_price": 23.44,
+      "limit": 24.260000228881836,
+      "target": 25.674872112459752,
+      "stop": 23.552564287092878,
+      "status": "open",
+      "outcome": null,
+      "breakout_at": null,
+      "resolved_at": null
+    },
     "daily:SLAB": {
       "source": "daily",
       "symbol": "SLAB",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 218.07,
       "last_price": 218.07,
       "limit": 219.75,
@@ -4628,24 +4643,10 @@
       "breakout_at": null,
       "resolved_at": null
     },
-    "daily:CPB": {
-      "source": "daily",
-      "symbol": "CPB",
-      "first_seen": "2026-08-25T17:31:44.119104",
-      "first_price": 23.43,
-      "last_price": 23.43,
-      "limit": 24.260000228881836,
-      "target": 25.674872112453475,
-      "stop": 23.55256428709602,
-      "status": "open",
-      "outcome": null,
-      "breakout_at": null,
-      "resolved_at": null
-    },
     "daily:CAI": {
       "source": "daily",
       "symbol": "CAI",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 27.52,
       "last_price": 27.52,
       "limit": 27.649999618530273,
@@ -4659,7 +4660,7 @@
     "daily:WEX": {
       "source": "daily",
       "symbol": "WEX",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 199.87,
       "last_price": 199.87,
       "limit": 203.99000549316406,
@@ -4673,7 +4674,7 @@
     "daily:MHK": {
       "source": "daily",
       "symbol": "MHK",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 133.81,
       "last_price": 133.81,
       "limit": 140.3000030517578,
@@ -4687,12 +4688,12 @@
     "daily:VCTR": {
       "source": "daily",
       "symbol": "VCTR",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 115.37,
       "last_price": 115.37,
       "limit": 119.55999755859375,
-      "target": 126.04608052687271,
-      "stop": 116.31695607445427,
+      "target": 126.04608052687318,
+      "stop": 116.31695607445404,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -4701,12 +4702,12 @@
     "daily:CUBE": {
       "source": "daily",
       "symbol": "CUBE",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 40.68,
       "last_price": 40.68,
       "limit": 43.040000915527344,
-      "target": 44.61322997472753,
-      "stop": 42.25338638592725,
+      "target": 44.613229974727496,
+      "stop": 42.25338638592727,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -4715,12 +4716,12 @@
     "daily:TTEK": {
       "source": "daily",
       "symbol": "TTEK",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 36.78,
       "last_price": 36.78,
       "limit": 37.59000015258789,
-      "target": 39.61584630431562,
-      "stop": 36.57707707672403,
+      "target": 39.615846304316115,
+      "stop": 36.57707707672378,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -4729,9 +4730,9 @@
     "daily:APLD": {
       "source": "daily",
       "symbol": "APLD",
-      "first_seen": "2026-08-25T17:31:44.119104",
-      "first_price": 28.45,
-      "last_price": 28.45,
+      "first_seen": "2026-08-25T17:31:50.932521",
+      "first_price": 28.44,
+      "last_price": 28.44,
       "limit": 33.040000915527344,
       "target": 37.760821627063976,
       "stop": 30.679590559759028,
@@ -4743,7 +4744,7 @@
     "daily:UGP": {
       "source": "daily",
       "symbol": "UGP",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 6.61,
       "last_price": 6.61,
       "limit": 6.800000190734863,
@@ -4757,12 +4758,12 @@
     "daily:CHE": {
       "source": "daily",
       "symbol": "CHE",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 541.54,
       "last_price": 541.54,
       "limit": 556.2683198780808,
-      "target": 580.9211279399092,
-      "stop": 543.9419158471666,
+      "target": 580.9211279397448,
+      "stop": 543.9419158472488,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -4771,12 +4772,12 @@
     "daily:CAG": {
       "source": "daily",
       "symbol": "CAG",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 16.17,
       "last_price": 16.17,
       "limit": 16.739999771118164,
-      "target": 17.65326237031282,
-      "stop": 16.283368471520834,
+      "target": 17.653262370690474,
+      "stop": 16.28336847133201,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -4785,12 +4786,12 @@
     "daily:GAP": {
       "source": "daily",
       "symbol": "GAP",
-      "first_seen": "2026-08-25T17:31:44.119104",
-      "first_price": 20.06,
-      "last_price": 20.06,
+      "first_seen": "2026-08-25T17:31:50.932521",
+      "first_price": 20.07,
+      "last_price": 20.07,
       "limit": 21.639999389648438,
-      "target": 22.844731723344633,
-      "stop": 21.037633222800338,
+      "target": 22.84473172326144,
+      "stop": 21.037633222841936,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -4799,9 +4800,9 @@
     "daily:PTGX": {
       "source": "daily",
       "symbol": "PTGX",
-      "first_seen": "2026-08-25T17:31:44.119104",
-      "first_price": 152.48,
-      "last_price": 152.48,
+      "first_seen": "2026-08-25T17:31:50.932521",
+      "first_price": 152.37,
+      "last_price": 152.37,
       "limit": 160.80999755859375,
       "target": 172.4047295048919,
       "stop": 155.01263158544467,
@@ -4813,12 +4814,12 @@
     "daily:ARE": {
       "source": "daily",
       "symbol": "ARE",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 53.17,
       "last_price": 53.17,
       "limit": 55.7400016784668,
-      "target": 59.81401649446354,
-      "stop": 53.70299427046842,
+      "target": 59.81401649446699,
+      "stop": 53.7029942704667,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -4827,12 +4828,12 @@
     "daily:RHP": {
       "source": "daily",
       "symbol": "RHP",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 132.08,
       "last_price": 132.08,
       "limit": 137.4600067138672,
-      "target": 143.57465661540297,
-      "stop": 134.4026817630993,
+      "target": 143.574656615402,
+      "stop": 134.4026817630998,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -4841,7 +4842,7 @@
     "daily:AXTA": {
       "source": "daily",
       "symbol": "AXTA",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 36.21,
       "last_price": 36.21,
       "limit": 38.61000061035156,
@@ -4855,7 +4856,7 @@
     "daily:MSGS": {
       "source": "daily",
       "symbol": "MSGS",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 406.15,
       "last_price": 406.15,
       "limit": 438.92999267578125,
@@ -4869,12 +4870,12 @@
     "daily:MOS": {
       "source": "daily",
       "symbol": "MOS",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 24.23,
       "last_price": 24.23,
       "limit": 25.18000030517578,
-      "target": 27.20542478999293,
-      "stop": 24.167288062767206,
+      "target": 27.20542478999291,
+      "stop": 24.167288062767216,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -4883,7 +4884,7 @@
     "daily:S": {
       "source": "daily",
       "symbol": "S",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 20.23,
       "last_price": 20.23,
       "limit": 23.950000762939453,
@@ -4897,12 +4898,12 @@
     "daily:LW": {
       "source": "daily",
       "symbol": "LW",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 54.28,
       "last_price": 54.28,
       "limit": 55.459999084472656,
-      "target": 58.5616527477427,
-      "stop": 53.909172252837635,
+      "target": 58.56165274976485,
+      "stop": 53.909172251826554,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -4911,7 +4912,7 @@
     "daily:SFM": {
       "source": "daily",
       "symbol": "SFM",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 84.54,
       "last_price": 84.54,
       "limit": 93.31999969482422,
@@ -4925,7 +4926,7 @@
     "daily:TGTX": {
       "source": "daily",
       "symbol": "TGTX",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 55.97,
       "last_price": 55.97,
       "limit": 57.85499954223633,
@@ -4939,9 +4940,9 @@
     "daily:XE": {
       "source": "daily",
       "symbol": "XE",
-      "first_seen": "2026-08-25T17:31:44.119104",
-      "first_price": 19.61,
-      "last_price": 19.61,
+      "first_seen": "2026-08-25T17:31:50.932521",
+      "first_price": 19.58,
+      "last_price": 19.58,
       "limit": 23.989999771118164,
       "target": 27.752263811558457,
       "stop": 22.108867750898018,
@@ -4953,12 +4954,12 @@
     "daily:ATR": {
       "source": "daily",
       "symbol": "ATR",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 134.04,
       "last_price": 134.04,
       "limit": 139.57000732421875,
-      "target": 145.2403373388058,
-      "stop": 136.73484231692524,
+      "target": 145.24033734373896,
+      "stop": 136.73484231445866,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
@@ -4967,12 +4968,12 @@
     "daily:BTG": {
       "source": "daily",
       "symbol": "BTG",
-      "first_seen": "2026-08-25T17:31:44.119104",
+      "first_seen": "2026-08-25T17:31:50.932521",
       "first_price": 5.86,
       "last_price": 5.86,
       "limit": 5.889999866485596,
-      "target": 6.343347141083246,
-      "stop": 5.6633262291867705,
+      "target": 6.3433471410668485,
+      "stop": 5.663326229194969,
       "status": "open",
       "outcome": null,
       "breakout_at": null,
