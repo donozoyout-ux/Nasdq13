@@ -194,6 +194,33 @@ async def api_weekly_report():
     }
 
 
+@app.get("/api/performance")
+async def api_performance():
+    """Calculate win rate and performance metrics from tracked signals."""
+    b = get_bot()
+    if b is None:
+        return {"win_rate": 0.0, "total_signals": 0, "wins": 0, "losses": 0}
+    
+    # Get signal history from state
+    signal_history = b.state.state.get("signal_history", [])
+    
+    # Filter signals that have a status (WIN/LOSS/EXPIRED)
+    tracked = [s for s in signal_history if s.get("status") in ("WIN", "LOSS", "EXPIRED")]
+    
+    total = len(tracked)
+    wins = sum(1 for s in tracked if s.get("status") == "WIN")
+    losses = sum(1 for s in tracked if s.get("status") == "LOSS")
+    
+    win_rate = round((wins / total * 100) if total > 0 else 0.0, 1)
+    
+    return {
+        "win_rate": win_rate,
+        "total_signals": total,
+        "wins": wins,
+        "losses": losses,
+    }
+
+
 @app.get("/favicon.ico")
 async def favicon():
     favicon_path = os.path.join(STATIC_DIR, "favicon.ico")

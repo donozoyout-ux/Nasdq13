@@ -3,6 +3,7 @@ Bot orchestrator - reusable by both CLI worker and web app
 """
 import os
 import sys
+import yfinance as yf
 import asyncio
 import hashlib
 import yaml
@@ -820,6 +821,7 @@ class SignalBot:
         asyncio.create_task(self._run_initial_reports())
         asyncio.create_task(self._smallcap_loop())
         asyncio.create_task(self._backtest_loop())
+        asyncio.create_task(self._signal_tracking_loop())
 
         while self.is_running:
             try:
@@ -1089,6 +1091,109 @@ class SignalBot:
                 "Analiz AI'sız çalışıyor — kural tabanlı (tamamen ücretsiz ve bağımsız)"
             ),
         }
+
+    async def _signal_tracking_loop(self):
+        """Background job that runs daily at 23:30 TR (market close).
+        Checks all active signals from the last 7 days using yfinance,
+        updates their status (WIN/LOSS/EXPIRED), and calculates win rate."""
+        from datetime import datetime, timedelta, timezone
+        
+        # TR timezone: Europe/Istanbul is UTC+3 (summer) or UTC+2 (winter)
+        # Market close is approximately 23:30 TR
+        # We check if current TR time is 23:30 or later
+        now_tr = now_turkey()
+        target_hour = 23
+        target_minute = 30
+        
+        # Only run if it's past 23:30 TR
+        if now_tr.hour < target_hour or (now_tr.hour == target_hour and now_tr.minute < target_minute):
+            return  # Skip - wait for next cycle
+        
+        logger.info(f"🔔 Starting signal tracking at {now_tr.strftime('%Y-%m-%d %H:%M %Z')}")
+        
+        # Get all signals from the last 7 days
+        seven_days_ago = datetime.now(timezone.utc) - timedelta(days=7)
+        all_signals = self.state.state.get("signal_history", [])
+        recent_signals = [s for s in all_signals if datetime.fromisoformat(s.get("timestamp", "")).replace(tzinfo=timezone.utc) > seven_days_ago]
+        
+        # Group signals by symbol to track
+        signals_by_symbol = {}
+        for sig in recent_signals:
+            sym = sig.get("symbol", "")
+            if sym not in signals_by_symbol:
+                signals_by_symbol[sym] = []
+            signals_by_symbol[sym].append(sig)
+        
+        updated_count = 0
+        
+        for symbol, signals in signals_by_symbol.items():
+            try:
+                # Fetch daily data for this symbol using yfinance
+                ticker = yf.Ticker(symbol)
+                hist = ticker.history(period="8d", interval="1d")  # Get 8 days to be safe
+                
+                if hist.empty or len(hist) < 2:
+                    logger.warning(f"No yfinance data for {symbol} during tracking")
+                    continue
+                
+                # Get the most recent complete trading day
+                # hist index is datetime, latest day is the last one
+                latest_day = hist.index[-1].date()
+                prev_day = hist.index[-2].date() if len(hist) >= 2 else None
+                
+                # Get high and low from the latest complete day
+                latest_high = float(high := hist["High"].iloc[-1])
+                latest_low = float(low := hist["Low"].iloc[-1])
+                
+                # Check each signal for this symbol
+                for sig in signals:
+                    # Skip if signal already has a status
+                    existing_status = sig.get("status")
+                    if existing_status in ("WIN", "LOSS", "EXPIRED"):
+                        continue
+                    
+                    entry = sig.get("entry_price", 0)
+                    target = sig.get("target_price", 0)
+                    stop = sig.get("stop_price", 0)
+                    
+                    status = None
+                    
+                    # Check if today's high >= target => WIN
+                    # Check if today's low <= stop => LOSS
+                    # Neither within 7 days => EXPIRED
+                    
+                    if latest_high >= target:
+                        status = "WIN"
+                    elif latest_low <= stop:
+                        status = "LOSS"
+                    else:
+                        # Check if we have enough data (7 days)
+                        if len(hist) >= 8:
+                            status = "EXPIRED"
+                        # else: still within the tracking window, don't update yet
+                    
+                    if status:
+                        # Update the signal status in state
+                        # Find and update the signal in signal_history
+                        for i, s in enumerate(all_signals):
+                            if s.get("id") == sig.get("id"):
+                                all_signals[i]["status"] = status
+                                updated_count += 1
+                                logger.info(f"Signal {symbol} status updated: {status} (entry={entry}, target={target}, stop={stop})")
+                                break
+            except Exception as e:
+                logger.error(f"Error tracking signals for {symbol}: {e}")
+                logger.exception(e)
+        
+        # Save the updated signal history
+        if updated_count > 0:
+            # Reverse back (we modified all_signals but need to update state)
+            self.state.state["signal_history"] = all_signals
+            self.state.save()
+            logger.info(f"📊 Signal tracking complete: {updated_count} signals updated out of {len(signals_by_symbol)} symbols")
+        
+        logger.info("🔔 Signal tracking job finished")
+
 
     def get_dashboard_state(self) -> Dict[str, Any]:
         """Full state for the dashboard API"""

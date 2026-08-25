@@ -1739,5 +1739,28 @@
       startAutoPolling();
     });
   </script>
+
+<script>
+window.fetch_signals = async () => {
+  try {
+    const res = await fetch('/api/signals');
+    if (!res.ok) throw new Error('HTTP status ' + res.status);
+    const data = await res.json();
+    const signals = Array.isArray(data) ? data : (data ? [data] : []);
+    const cBody = document.getElementById('candidatesBody');
+    const info = document.getElementById('candidatesInfo');
+    if (!signals || signals.length === 0) { cBody.innerHTML = '<tr><td colspan="11" class="empty-state">Veri bulunamadı.</td></tr>'; if (info) info.textContent = 'Yok'; return; }
+    info.textContent = signals.length + ' sinyal alnmtr';
+    const fmtPrice = (p) => p == null ? '-' : '$' + p.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    const aPlusBadge = (s) => s >= 80 ? '<span style="color:var(--green)">A+ Setup</span>' : '';
+    cBody.innerHTML = signals.map(sig => {
+      const score = parseFloat(sig.setup_score)||0;
+      const isAPlus = score >= 80;
+      return '<tr class="clickable-row" onclick="openSignalsModal(\'' + sig.symbol + '\')"><td><span class="symbol-badge">' + sig.symbol + '</span></td><td class="mono">' + fmtPrice(sig.price) + '</td><td><span class="tag " + (isAPlus?'tag-buy':(score>=60?'tag-watch':'tag-neutral')) + '">' + (isAPlus?score+' (A+)':score.toFixed(0)) + '</span>' + aPlusBadge(score) + '</td><td style="font-size:0.72rem;color:var(--muted)">' + (sig.rsi!=null?sig.rsi.toFixed(1):'-') + ' | ' + (sig.vol_ratio!=null?sig.vol_ratio.toFixed(1)+'x':'-') + '</td><td class="mono price-up">' + fmtPrice(sig.entry||sig.price) + '</td><td class="mono price-down">' + fmtPrice(sig.stop) + '</td><td class="mono price-up">' + fmtPrice(sig.target) + '</td><td>' + (sig.rr_ratio||'-') + '</td><td style="font-size:0.65rem;color:var(--muted)">' + (sig.rationale||'-') + '</td></tr>';
+    }).join('');
+  } catch (e) { console.error(e); }
+};
+window.openSignalsModal = (sym) => { const modal=document.getElementById('stockModal'); if(!modal)return; let sig=window.signalsCache&&window.signalsCache[sym]; if(!sig){ const dl = window.latestDashboardData||{}; const sl = (dl.smallcap&&dl.smallcap.candidates)||[]; sig = sl.find(c=>c.symbol===sym)||{}; } if(!sig)return; window.signalsCache[sym]=sig; const ps = sig.setup_score||0; document.getElementById('modalSetupScore').innerHTML='<span class="tag tag-blue">'+(ps>=80?'A+ Setup':'Setup')+'</span> <strong>'+ps.toFixed(0)+'/100</strong>'; const pe = document.getElementById('modalTradePlan'); const en = sig.entry||(sig.price&&sig.price); const st = sig.stop||(sig.price&&sig.price*0.94); const tg = sig.target||(sig.price&&sig.price*1.12); pe.innerHTML='<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:0.5rem"><div style="padding:0.5rem;background:rgba(255,255,255,0.03);border-radius:6px"><div style="font-size:0.68rem;color:var(--muted)">ENTRY</div><div class="mono" style="font-size:0.9rem;font-weight:700">' + fmtPrice(en) + '</div></div><div style="padding:0.5rem;background:rgba(16,185,129,0.08);border-radius:6px"><div style="font-size:0.68rem;color:var(--green)">TARGET</div><div class="mono price-up" style="font-size:0.9rem;font-weight:700">' + fmtPrice(tg) + '</div></div><div style="padding:0.5rem;background:rgba(239,68,68,0.08);border-radius:6px"><div style="font-size:0.68rem;color:var(--red)">SL</div><div class="mono price-down" style="font-size:0.9rem;font-weight:700">' + fmtPrice(st) + '</div></div></div>'; const re = document.getElementById('modalReasons'); re.innerHTML='<div class="reason-item"><span class="reason-bullet">9988</span><div>' + (sig.rationale||'Hacim patlaması ve teknik kırılım') + '</div></div>'; modal.classList.add('active'); };
+</script>
 </body>
 </html>

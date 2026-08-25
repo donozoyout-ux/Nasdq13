@@ -114,7 +114,10 @@ class StateManager:
             "action": signal.action,
             "direction": signal.direction,
             "strength": signal.strength,
-            "price": signal.price,
+            "entry_price": signal.price,
+            "target_price": signal.take_profit_1,
+            "stop_price": signal.stop_loss,
+            "risk_reward_ratio": signal.risk_reward_ratio,
             "timestamp": signal.timestamp.isoformat(),
         })
 
