@@ -302,7 +302,7 @@ class SmallCapScanner:
         # 52-week high distance
         n52 = min(252, len(close))
         high_52 = float(high.tail(n52).max())
-        dist_52 = (snap.price / high_52 - 1) * 100 if high_52 > 0 else 0.0
+        dist_52 = ((high_52 - snap.price) / high_52 * 100 if high_52 > 0 else 0.0
 
         # Relative strength vs index (last ~21 sessions)
         ret_stock = float(close.iloc[-1] / close.iloc[-21] - 1) * 100 if len(close) >= 21 else 0.0

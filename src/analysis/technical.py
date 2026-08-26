@@ -189,7 +189,7 @@ class TechnicalAnalyzer:
         return obv
 
     def _calc_donchian(self, df: pd.DataFrame) -> Tuple[pd.Series, pd.Series]:
-        upper = df["high"].rolling(window=self.donchian_period).max()
+        upper = df["high"].shift(1).rolling(window=self.donchian_period).max()
         lower = df["low"].rolling(window=self.donchian_period).min()
         return upper, lower
 
@@ -332,8 +332,12 @@ class TechnicalAnalyzer:
 
         return np.clip(score, 0, 100)
 
-    def _calculate_composite(self, parts: Dict[str, float], direction: int) -> float:
-        """Combine weighted scores into composite (-100 to +100)"""
+    def _calculate_composite(self, parts: Dict[str, float]) -> float:
+        """Combine weighted scores into composite (-100 to +100).
+        
+        The composite score ranges from -100 (strongly bearish) to +100 (strongly bullish).
+        Direction is encoded in the score sign, not multiplied separately.
+        """
         composite = 0.0
         for name, weight in [
             ("breakout", self.w_breakout),
@@ -345,8 +349,10 @@ class TechnicalAnalyzer:
             score = parts.get(name, 50.0)
             deviation = (score - 50) * 2
             composite += deviation * (weight / 100.0)
-
-        return composite * direction
+        
+        # Clamp to [-100, 100] range
+        composite = max(-100.0, min(100.0, composite))
+        return composite
 
     # ------------------------------------------------------------------
     # Main analysis pipeline
