@@ -16,7 +16,8 @@
     "2026-08-28": "2026-08-28T18:02:07.524763"
   },
   "smallcap_predictions_sent": {
-    "2026-08-10": "2026-08-10T08:54:28.444430"
+    "2026-08-10": "2026-08-10T08:54:28.444430",
+    "2026-08-28": "2026-08-28T20:03:26.719766"
   },
   "smallcap_premarket_sent": {},
   "weekly_reports": [
@@ -1889,12 +1890,18 @@
       "universe_size": 250,
       "closed": false,
       "candidates": []
+    },
+    {
+      "time": "2026-08-28T20:03:26.823218",
+      "universe_size": 250,
+      "closed": true,
+      "candidates": []
     }
   ],
-  "last_scan_time": "2026-08-28T19:20:45.119618",
+  "last_scan_time": "2026-08-28T19:51:09.524468",
   "stats": {
     "total_signals": 0,
-    "total_scans": 566,
+    "total_scans": 571,
     "last_signal": null
   },
   "created_at": "2026-08-07T16:55:16.177758",
