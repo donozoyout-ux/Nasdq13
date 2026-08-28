@@ -1871,12 +1871,18 @@
       "universe_size": 250,
       "closed": false,
       "candidates": []
+    },
+    {
+      "time": "2026-08-28T18:32:11.531657",
+      "universe_size": 250,
+      "closed": false,
+      "candidates": []
     }
   ],
-  "last_scan_time": "2026-08-28T17:51:24.723238",
+  "last_scan_time": "2026-08-28T18:19:53.623918",
   "stats": {
     "total_signals": 0,
-    "total_scans": 551,
+    "total_scans": 556,
     "last_signal": null
   },
   "created_at": "2026-08-07T16:55:16.177758",
