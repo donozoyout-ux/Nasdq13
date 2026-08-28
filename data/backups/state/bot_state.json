@@ -2973,12 +2973,751 @@
           }
         }
       ]
+    },
+    {
+      "time": "2026-08-28T11:36:12.793684",
+      "universe_size": 250,
+      "closed": true,
+      "candidates": [
+        {
+          "symbol": "NAVN",
+          "name": "Navan, Inc. Class A Common Stock",
+          "price": 30.58,
+          "change_pct": 4.26,
+          "market_cap": 7777449992.0,
+          "setup_score": 100.0,
+          "setup_type": "squeeze",
+          "reasons": [
+            "📐 Bollinger sıkışması (son bazda %1)",
+            "🎯 52 haftalık zirvede / zirveye dayanmış",
+            "⚡ S&P 500'e göre +10.5 puan güçlü",
+            "📈 Fiyat > EMA21 > EMA50",
+            "🔥 RSI 67",
+            "🔊 Hacim artışı (1.9x)",
+            "🕯️ pin_bar, shooting_star (desen desteği)"
+          ],
+          "rsi_14": 67.4,
+          "bb_width_percentile": 0.5,
+          "dist_52w_high_pct": -0.97,
+          "vol_ratio": 1.9,
+          "rs_4w": 10.54,
+          "donchian_upper": 30.88,
+          "atr_pct": 4.11,
+          "anticipation_score": 63.0,
+          "dist_to_resistance_pct": -0.97,
+          "bbw_slope_pct": -45.22,
+          "squeeze_days": 6,
+          "atr_contraction_pct": -12.83,
+          "expect_horizon": "1-2 seans",
+          "candle_patterns": [
+            "pin_bar",
+            "shooting_star"
+          ],
+          "pattern_bias": 0,
+          "pattern_bonus": 2.0,
+          "resistance_pivot": 31.0,
+          "support_pivot": 30.0,
+          "dist_to_pivot_res_pct": 1.37,
+          "dist_to_pivot_sup_pct": -1.9,
+          "is_nr7": false,
+          "session_vwap": 30.15,
+          "trigger_score": 0.0,
+          "trigger_type": null,
+          "trigger_reasons": [],
+          "news_score": 0.0,
+          "news_headline": "",
+          "news_source": "",
+          "trade_plan": {
+            "limit": 30.8799991607666,
+            "target": 33.39131312915081,
+            "stop": 29.624342176574498,
+            "upside_pct": 8.132493641952099,
+            "rr": 2.0
+          },
+          "budget_plan": {
+            "shares": 1,
+            "position_usd": 30.8799991607666,
+            "position_try": 1474.2111599349976,
+            "risk_usd": 1.255656984192104,
+            "risk_try": 59.94506442533105,
+            "reward_usd": 2.511313968384208,
+            "reward_try": 119.8901288506621,
+            "limit": 30.8799991607666,
+            "target": 33.39131312915081,
+            "stop": 29.624342176574498,
+            "upside_pct": 8.132493641952099,
+            "rr": 2.0,
+            "affordable": true,
+            "budget_enough_for_one": true,
+            "budget_usd": 67.02974444909928,
+            "alloc_usd": 22.34324814969976
+          }
+        },
+        {
+          "symbol": "ERAS",
+          "name": "Erasca, Inc. Common Stock",
+          "price": 19.49,
+          "change_pct": 1.78,
+          "market_cap": 6816862062.0,
+          "setup_score": 88.6,
+          "setup_type": "squeeze",
+          "reasons": [
+            "📐 Bollinger sıkışması (son bazda %3)",
+            "🎯 52 haftalık zirvede / zirveye dayanmış",
+            "📈 Fiyat > EMA21 > EMA50",
+            "🔥 RSI 61",
+            "🕯️ doji, bullish_engulfing, shooting_star (desen desteği)",
+            "📍 Pivot direnç: 19.96"
+          ],
+          "rsi_14": 60.9,
+          "bb_width_percentile": 2.5,
+          "dist_52w_high_pct": -19.73,
+          "vol_ratio": 1.31,
+          "rs_4w": 0.39,
+          "donchian_upper": 20.4,
+          "atr_pct": 6.05,
+          "anticipation_score": 44.0,
+          "dist_to_resistance_pct": -4.46,
+          "bbw_slope_pct": 21.83,
+          "squeeze_days": 29,
+          "atr_contraction_pct": 4.29,
+          "expect_horizon": "1-2 seans",
+          "candle_patterns": [
+            "doji",
+            "bullish_engulfing",
+            "shooting_star"
+          ],
+          "pattern_bias": 0,
+          "pattern_bonus": 2.0,
+          "resistance_pivot": 19.96,
+          "support_pivot": 19.0,
+          "dist_to_pivot_res_pct": 2.41,
+          "dist_to_pivot_sup_pct": -2.51,
+          "is_nr7": false,
+          "session_vwap": 19.68,
+          "trigger_score": 0.0,
+          "trigger_type": null,
+          "trigger_reasons": [],
+          "news_score": 0.0,
+          "news_headline": "",
+          "news_source": "",
+          "trade_plan": {
+            "limit": 20.399999618530273,
+            "target": 22.759545742223427,
+            "stop": 19.220226556683695,
+            "upside_pct": 11.566402783409213,
+            "rr": 2.0
+          },
+          "budget_plan": {
+            "shares": 1,
+            "position_usd": 20.399999618530273,
+            "position_try": 973.8959817886353,
+            "risk_usd": 1.1797730618465785,
+            "risk_try": 56.32236597255566,
+            "reward_usd": 2.3595461236931534,
+            "reward_try": 112.64473194511115,
+            "limit": 20.399999618530273,
+            "target": 22.759545742223427,
+            "stop": 19.220226556683695,
+            "upside_pct": 11.566402783409213,
+            "rr": 2.0,
+            "affordable": true,
+            "budget_enough_for_one": true,
+            "budget_usd": 67.02974444909928,
+            "alloc_usd": 22.34324814969976
+          }
+        },
+        {
+          "symbol": "MSA",
+          "name": "MSA Safety Incorporated Common Stock",
+          "price": 191.67,
+          "change_pct": 0.6,
+          "market_cap": 7394300653.0,
+          "setup_score": 78.5,
+          "setup_type": "squeeze",
+          "reasons": [
+            "📐 Bollinger sıkışması (son bazda %8)",
+            "🎯 52 haftalık zirvede / zirveye dayanmış",
+            "⚡ S&P 500'e göre +6.3 puan güçlü",
+            "📈 Fiyat > EMA21 > EMA50",
+            "🔥 RSI 65",
+            "🔇 Hacim daralması (birikim)"
+          ],
+          "rsi_14": 65.2,
+          "bb_width_percentile": 8.3,
+          "dist_52w_high_pct": -7.47,
+          "vol_ratio": 0.57,
+          "rs_4w": 6.3,
+          "donchian_upper": 196.0,
+          "atr_pct": 2.22,
+          "anticipation_score": 66.0,
+          "dist_to_resistance_pct": -2.21,
+          "bbw_slope_pct": -75.03,
+          "squeeze_days": 6,
+          "atr_contraction_pct": -16.74,
+          "expect_horizon": "1-2 seans",
+          "candle_patterns": [
+            "doji"
+          ],
+          "pattern_bias": 0,
+          "pattern_bonus": 0.0,
+          "resistance_pivot": 195.0,
+          "support_pivot": 190.0,
+          "dist_to_pivot_res_pct": 1.74,
+          "dist_to_pivot_sup_pct": -0.87,
+          "is_nr7": false,
+          "session_vwap": 190.97,
+          "trigger_score": 0.0,
+          "trigger_type": null,
+          "trigger_reasons": [],
+          "news_score": 0.0,
+          "news_headline": "",
+          "news_source": "",
+          "trade_plan": {
+            "limit": 196.000681433824,
+            "target": 204.50784439587665,
+            "stop": 191.7470999527977,
+            "upside_pct": 4.340374176160666,
+            "rr": 2.0
+          },
+          "budget_plan": {
+            "shares": 0,
+            "position_usd": 0.0,
+            "position_try": 0.0,
+            "risk_usd": 0.0,
+            "risk_try": 0.0,
+            "reward_usd": 0.0,
+            "reward_try": 0.0,
+            "limit": 196.000681433824,
+            "target": 204.50784439587665,
+            "stop": 191.7470999527977,
+            "upside_pct": 4.340374176160666,
+            "rr": 2.0,
+            "affordable": false,
+            "budget_enough_for_one": false,
+            "budget_usd": 67.02974444909928,
+            "alloc_usd": 22.34324814969976
+          }
+        },
+        {
+          "symbol": "FIGR",
+          "name": "Figure Technology Solutions, Inc. Class A Common Stock",
+          "price": 38.02,
+          "change_pct": 2.54,
+          "market_cap": 8530846693.0,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "reasons": [
+            "🎯 52 haftalık zirvede / zirveye dayanmış",
+            "⚡ S&P 500'e göre +43.4 puan güçlü",
+            "📈 Fiyat > EMA21 > EMA50",
+            "🔥 RSI 62",
+            "🔇 Hacim daralması (birikim)",
+            "🕯️ inside_bar, hammer (desen desteği)"
+          ],
+          "rsi_14": 61.6,
+          "bb_width_percentile": 85.7,
+          "dist_52w_high_pct": -51.26,
+          "vol_ratio": 0.72,
+          "rs_4w": 43.36,
+          "donchian_upper": 41.5,
+          "atr_pct": 6.64,
+          "anticipation_score": 18.0,
+          "dist_to_resistance_pct": -8.39,
+          "bbw_slope_pct": 20.15,
+          "squeeze_days": 0,
+          "atr_contraction_pct": 10.95,
+          "expect_horizon": "1 hafta",
+          "candle_patterns": [
+            "inside_bar",
+            "hammer"
+          ],
+          "pattern_bias": 1,
+          "pattern_bonus": 8.0,
+          "resistance_pivot": 39.0,
+          "support_pivot": 38.0,
+          "dist_to_pivot_res_pct": 2.58,
+          "dist_to_pivot_sup_pct": -0.05,
+          "is_nr7": false,
+          "session_vwap": 37.4,
+          "trigger_score": 0.0,
+          "trigger_type": null,
+          "trigger_reasons": [],
+          "news_score": 0.0,
+          "news_headline": "",
+          "news_source": "",
+          "trade_plan": {
+            "limit": 41.5,
+            "target": 46.54881879344421,
+            "stop": 38.975590603277894,
+            "upside_pct": 12.165828417937853,
+            "rr": 2.0
+          },
+          "budget_plan": {
+            "shares": 1,
+            "position_usd": 41.5,
+            "position_try": 1981.21,
+            "risk_usd": 2.524409396722106,
+            "risk_try": 120.51530459951336,
+            "reward_usd": 5.048818793444212,
+            "reward_try": 241.0306091990267,
+            "limit": 41.5,
+            "target": 46.54881879344421,
+            "stop": 38.975590603277894,
+            "upside_pct": 12.165828417937853,
+            "rr": 2.0,
+            "affordable": true,
+            "budget_enough_for_one": true,
+            "budget_usd": 67.02974444909928,
+            "alloc_usd": 22.34324814969976
+          }
+        },
+        {
+          "symbol": "OGC",
+          "name": "OceanaGold Corporation Common Shares",
+          "price": 31.45,
+          "change_pct": 2.51,
+          "market_cap": 7051656823.0,
+          "setup_score": 76.0,
+          "setup_type": "basing",
+          "reasons": [
+            "🎯 52 haftalık zirvede / zirveye dayanmış",
+            "⚡ S&P 500'e göre +22.8 puan güçlü",
+            "📈 Fiyat > EMA21 > EMA50",
+            "🔥 RSI 67",
+            "🔇 Hacim daralması (birikim)",
+            "🕯️ doji, bullish_engulfing, shooting_star (desen desteği)"
+          ],
+          "rsi_14": 67.1,
+          "bb_width_percentile": 77.7,
+          "dist_52w_high_pct": -26.79,
+          "vol_ratio": 0.66,
+          "rs_4w": 22.78,
+          "donchian_upper": 31.9,
+          "atr_pct": 3.83,
+          "anticipation_score": 29.0,
+          "dist_to_resistance_pct": -1.41,
+          "bbw_slope_pct": -7.27,
+          "squeeze_days": 0,
+          "atr_contraction_pct": 0.07,
+          "expect_horizon": "1-2 seans",
+          "candle_patterns": [
+            "doji",
+            "bullish_engulfing",
+            "shooting_star",
+            "bullish_engulfing"
+          ],
+          "pattern_bias": 1,
+          "pattern_bonus": 8.0,
+          "resistance_pivot": 32.0,
+          "support_pivot": 31.0,
+          "dist_to_pivot_res_pct": 1.75,
+          "dist_to_pivot_sup_pct": -1.43,
+          "is_nr7": false,
+          "session_vwap": 31.24,
+          "trigger_score": 0.0,
+          "trigger_type": null,
+          "trigger_reasons": [],
+          "news_score": 0.0,
+          "news_headline": "",
+          "news_source": "",
+          "trade_plan": {
+            "limit": 31.899999618530273,
+            "target": 34.30668505645764,
+            "stop": 30.69665689956659,
+            "upside_pct": 7.544468547671568,
+            "rr": 2.0
+          },
+          "budget_plan": {
+            "shares": 1,
+            "position_usd": 31.899999618530273,
+            "position_try": 1522.9059817886352,
+            "risk_usd": 1.2033427189636825,
+            "risk_try": 57.447581403326204,
+            "reward_usd": 2.406685437927365,
+            "reward_try": 114.89516280665241,
+            "limit": 31.899999618530273,
+            "target": 34.30668505645764,
+            "stop": 30.69665689956659,
+            "upside_pct": 7.544468547671568,
+            "rr": 2.0,
+            "affordable": true,
+            "budget_enough_for_one": true,
+            "budget_usd": 67.02974444909928,
+            "alloc_usd": 22.34324814969976
+          }
+        },
+        {
+          "symbol": "SLAB",
+          "name": "Silicon Laboratories, Inc. Common Stock",
+          "price": 218.95,
+          "change_pct": 0.05,
+          "market_cap": 7305652321.0,
+          "setup_score": 75.5,
+          "setup_type": "squeeze",
+          "reasons": [
+            "📐 Bollinger sıkışması (son bazda %0)",
+            "🎯 52 haftalık zirvede / zirveye dayanmış",
+            "📈 Fiyat > EMA21 > EMA50",
+            "🔥 RSI 56",
+            "📦 NR7 daralma barı",
+            "📍 Pivot direnç: 219.47"
+          ],
+          "rsi_14": 56.4,
+          "bb_width_percentile": 0.0,
+          "dist_52w_high_pct": -0.88,
+          "vol_ratio": 0.84,
+          "rs_4w": -3.01,
+          "donchian_upper": 219.75,
+          "atr_pct": 0.48,
+          "anticipation_score": 76.0,
+          "dist_to_resistance_pct": -0.36,
+          "bbw_slope_pct": -43.93,
+          "squeeze_days": 4,
+          "atr_contraction_pct": -14.86,
+          "expect_horizon": "1-2 seans",
+          "candle_patterns": [
+            "inside_bar",
+            "inside_bar"
+          ],
+          "pattern_bias": 0,
+          "pattern_bonus": 0.0,
+          "resistance_pivot": 219.47,
+          "support_pivot": 217.77,
+          "dist_to_pivot_res_pct": 0.24,
+          "dist_to_pivot_sup_pct": -0.54,
+          "is_nr7": true,
+          "session_vwap": 218.82,
+          "trigger_score": 0.0,
+          "trigger_type": null,
+          "trigger_reasons": [],
+          "news_score": 0.0,
+          "news_headline": "",
+          "news_source": "",
+          "trade_plan": {
+            "limit": 219.75,
+            "target": 221.8412794185218,
+            "stop": 218.7043602907391,
+            "upside_pct": 0.9516629890884198,
+            "rr": 2.0
+          },
+          "budget_plan": {
+            "shares": 0,
+            "position_usd": 0.0,
+            "position_try": 0.0,
+            "risk_usd": 0.0,
+            "risk_try": 0.0,
+            "reward_usd": 0.0,
+            "reward_try": 0.0,
+            "limit": 219.75,
+            "target": 221.8412794185218,
+            "stop": 218.7043602907391,
+            "upside_pct": 0.9516629890884198,
+            "rr": 2.0,
+            "affordable": false,
+            "budget_enough_for_one": false,
+            "budget_usd": 67.02974444909928,
+            "alloc_usd": 22.34324814969976
+          }
+        },
+        {
+          "symbol": "BZ",
+          "name": "KANZHUN LIMITED American Depository Shares",
+          "price": 18.0,
+          "change_pct": -4.46,
+          "market_cap": 8330502654.0,
+          "setup_score": 74.7,
+          "setup_type": "basing",
+          "reasons": [
+            "🎯 52 haftalık zirvede / zirveye dayanmış",
+            "⚡ S&P 500'e göre +5.8 puan güçlü",
+            "📈 Fiyat > EMA21 > EMA50",
+            "🔥 RSI 63",
+            "🔊 Hacim artışı (2.0x)",
+            "🕯️ hammer, bearish_engulfing, bullish_engulfing (desen desteği)"
+          ],
+          "rsi_14": 63.4,
+          "bb_width_percentile": 54.0,
+          "dist_52w_high_pct": -28.24,
+          "vol_ratio": 1.99,
+          "rs_4w": 5.81,
+          "donchian_upper": 19.33,
+          "atr_pct": 4.75,
+          "anticipation_score": 18.0,
+          "dist_to_resistance_pct": -6.9,
+          "bbw_slope_pct": 71.1,
+          "squeeze_days": 0,
+          "atr_contraction_pct": 37.69,
+          "expect_horizon": "1 hafta",
+          "candle_patterns": [
+            "hammer",
+            "bearish_engulfing",
+            "bullish_engulfing",
+            "inside_bar"
+          ],
+          "pattern_bias": 1,
+          "pattern_bonus": 8.0,
+          "resistance_pivot": 19.0,
+          "support_pivot": 18.0,
+          "dist_to_pivot_res_pct": 5.56,
+          "dist_to_pivot_sup_pct": 0.0,
+          "is_nr7": false,
+          "session_vwap": 18.19,
+          "trigger_score": 0.0,
+          "trigger_type": null,
+          "trigger_reasons": [],
+          "news_score": 0.0,
+          "news_headline": "",
+          "news_source": "",
+          "trade_plan": {
+            "limit": 19.334999084472656,
+            "target": 21.04407859654318,
+            "stop": 18.480459328437394,
+            "upside_pct": 8.839304851289253,
+            "rr": 2.0
+          },
+          "budget_plan": {
+            "shares": 1,
+            "position_usd": 19.334999084472656,
+            "position_try": 923.0528562927246,
+            "risk_usd": 0.8545397560352619,
+            "risk_try": 40.795727953123404,
+            "reward_usd": 1.7090795120705238,
+            "reward_try": 81.59145590624681,
+            "limit": 19.334999084472656,
+            "target": 21.04407859654318,
+            "stop": 18.480459328437394,
+            "upside_pct": 8.839304851289253,
+            "rr": 2.0,
+            "affordable": true,
+            "budget_enough_for_one": true,
+            "budget_usd": 67.02974444909928,
+            "alloc_usd": 22.34324814969976
+          }
+        },
+        {
+          "symbol": "PCTY",
+          "name": "Paylocity Holding Corporation Common Stock",
+          "price": 158.15,
+          "change_pct": 4.02,
+          "market_cap": 8390958698.0,
+          "setup_score": 74.6,
+          "setup_type": "basing",
+          "reasons": [
+            "🎯 52 haftalık zirvede / zirveye dayanmış",
+            "⚡ S&P 500'e göre +11.7 puan güçlü",
+            "📈 Fiyat > EMA21 > EMA50",
+            "🔥 RSI 70",
+            "🔇 Hacim daralması (birikim)",
+            "🕯️ inside_bar, hammer (desen desteği)"
+          ],
+          "rsi_14": 70.0,
+          "bb_width_percentile": 36.9,
+          "dist_52w_high_pct": -13.09,
+          "vol_ratio": 0.77,
+          "rs_4w": 11.74,
+          "donchian_upper": 158.81,
+          "atr_pct": 3.55,
+          "anticipation_score": 85.0,
+          "dist_to_resistance_pct": -0.42,
+          "bbw_slope_pct": -34.47,
+          "squeeze_days": 8,
+          "atr_contraction_pct": -8.48,
+          "expect_horizon": "1-2 seans",
+          "candle_patterns": [
+            "inside_bar",
+            "hammer"
+          ],
+          "pattern_bias": 1,
+          "pattern_bonus": 8.0,
+          "resistance_pivot": 160.0,
+          "support_pivot": 155.0,
+          "dist_to_pivot_res_pct": 1.17,
+          "dist_to_pivot_sup_pct": -1.99,
+          "is_nr7": false,
+          "session_vwap": 156.83,
+          "trigger_score": 0.0,
+          "trigger_type": null,
+          "trigger_reasons": [],
+          "news_score": 0.0,
+          "news_headline": "",
+          "news_source": "",
+          "trade_plan": {
+            "limit": 158.80999755859375,
+            "target": 170.04635310217594,
+            "stop": 153.19181978680265,
+            "upside_pct": 7.075345202644745,
+            "rr": 2.0
+          },
+          "budget_plan": {
+            "shares": 0,
+            "position_usd": 0.0,
+            "position_try": 0.0,
+            "risk_usd": 0.0,
+            "risk_try": 0.0,
+            "reward_usd": 0.0,
+            "reward_try": 0.0,
+            "limit": 158.80999755859375,
+            "target": 170.04635310217594,
+            "stop": 153.19181978680265,
+            "upside_pct": 7.075345202644745,
+            "rr": 2.0,
+            "affordable": false,
+            "budget_enough_for_one": false,
+            "budget_usd": 67.02974444909928,
+            "alloc_usd": 22.34324814969976
+          }
+        },
+        {
+          "symbol": "NE",
+          "name": "Noble Corporation plc A Ordinary Shares",
+          "price": 46.74,
+          "change_pct": 3.45,
+          "market_cap": 7461677269.0,
+          "setup_score": 74.3,
+          "setup_type": "basing",
+          "reasons": [
+            "🎯 52 haftalık zirvede / zirveye dayanmış",
+            "⚡ S&P 500'e göre +8.8 puan güçlü",
+            "📈 Fiyat > EMA21 > EMA50",
+            "🔥 RSI 63",
+            "🔇 Hacim daralması (birikim)",
+            "🕯️ bearish_engulfing, doji, bullish_engulfing (desen desteği)"
+          ],
+          "rsi_14": 62.9,
+          "bb_width_percentile": 70.4,
+          "dist_52w_high_pct": -14.07,
+          "vol_ratio": 0.7,
+          "rs_4w": 8.85,
+          "donchian_upper": 47.79,
+          "atr_pct": 3.14,
+          "anticipation_score": 22.0,
+          "dist_to_resistance_pct": -2.2,
+          "bbw_slope_pct": 0.59,
+          "squeeze_days": 0,
+          "atr_contraction_pct": -3.72,
+          "expect_horizon": "1 hafta",
+          "candle_patterns": [
+            "bearish_engulfing",
+            "doji",
+            "bullish_engulfing"
+          ],
+          "pattern_bias": 1,
+          "pattern_bonus": 8.0,
+          "resistance_pivot": 47.0,
+          "support_pivot": 46.0,
+          "dist_to_pivot_res_pct": 0.56,
+          "dist_to_pivot_sup_pct": -1.58,
+          "is_nr7": false,
+          "session_vwap": 46.1,
+          "trigger_score": 0.0,
+          "trigger_type": null,
+          "trigger_reasons": [],
+          "news_score": 0.0,
+          "news_headline": "",
+          "news_source": "",
+          "trade_plan": {
+            "limit": 47.790000915527344,
+            "target": 50.72944937926214,
+            "stop": 46.32027668365995,
+            "upside_pct": 6.150760425659985,
+            "rr": 2.0
+          },
+          "budget_plan": {
+            "shares": 1,
+            "position_usd": 47.790000915527344,
+            "position_try": 2281.4946437072754,
+            "risk_usd": 1.4697242318673958,
+            "risk_try": 70.16463482934948,
+            "reward_usd": 2.9394484637347986,
+            "reward_try": 140.3292696586993,
+            "limit": 47.790000915527344,
+            "target": 50.72944937926214,
+            "stop": 46.32027668365995,
+            "upside_pct": 6.150760425659985,
+            "rr": 2.0,
+            "affordable": true,
+            "budget_enough_for_one": true,
+            "budget_usd": 67.02974444909928,
+            "alloc_usd": 22.34324814969976
+          }
+        },
+        {
+          "symbol": "TTAN",
+          "name": "ServiceTitan, Inc. Class A Common Stock",
+          "price": 100.64,
+          "change_pct": 9.12,
+          "market_cap": 9600812351.0,
+          "setup_score": 73.9,
+          "setup_type": "basing",
+          "reasons": [
+            "🎯 52 haftalık zirvede / zirveye dayanmış",
+            "⚡ S&P 500'e göre +22.1 puan güçlü",
+            "📈 Fiyat > EMA21 > EMA50",
+            "🔥 RSI 68",
+            "🔊 Hacim artışı (1.9x)"
+          ],
+          "rsi_14": 68.3,
+          "bb_width_percentile": 45.6,
+          "dist_52w_high_pct": -16.13,
+          "vol_ratio": 1.87,
+          "rs_4w": 22.06,
+          "donchian_upper": 100.86,
+          "atr_pct": 4.94,
+          "anticipation_score": 74.0,
+          "dist_to_resistance_pct": -0.22,
+          "bbw_slope_pct": -30.99,
+          "squeeze_days": 5,
+          "atr_contraction_pct": 0.58,
+          "expect_horizon": "1-2 seans",
+          "candle_patterns": [],
+          "pattern_bias": 0,
+          "pattern_bonus": 0.0,
+          "resistance_pivot": 105.0,
+          "support_pivot": 100.0,
+          "dist_to_pivot_res_pct": 4.33,
+          "dist_to_pivot_sup_pct": -0.64,
+          "is_nr7": false,
+          "session_vwap": 98.52,
+          "trigger_score": 0.0,
+          "trigger_type": null,
+          "trigger_reasons": [],
+          "news_score": 0.0,
+          "news_headline": "",
+          "news_source": "",
+          "trade_plan": {
+            "limit": 100.86000061035156,
+            "target": 110.79498179447985,
+            "stop": 95.89251001828741,
+            "upside_pct": 9.850268812221907,
+            "rr": 2.0
+          },
+          "budget_plan": {
+            "shares": 0,
+            "position_usd": 0.0,
+            "position_try": 0.0,
+            "risk_usd": 0.0,
+            "risk_try": 0.0,
+            "reward_usd": 0.0,
+            "reward_try": 0.0,
+            "limit": 100.86000061035156,
+            "target": 110.79498179447985,
+            "stop": 95.89251001828741,
+            "upside_pct": 9.850268812221907,
+            "rr": 2.0,
+            "affordable": false,
+            "budget_enough_for_one": false,
+            "budget_usd": 67.02974444909928,
+            "alloc_usd": 22.34324814969976
+          }
+        }
+      ]
     }
   ],
-  "last_scan_time": "2026-08-28T10:33:28.695101",
+  "last_scan_time": "2026-08-28T11:36:11.098659",
   "stats": {
     "total_signals": 0,
-    "total_scans": 614,
+    "total_scans": 676,
     "last_signal": null
   },
   "created_at": "2026-08-07T16:55:16.177758",
@@ -4052,10 +4791,10 @@
       "limit": 196.000681433824,
       "target": 204.50784438610697,
       "stop": 191.74709995768254,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:FIGR": {
       "source": "daily",
@@ -4066,10 +4805,10 @@
       "limit": 41.5,
       "target": 46.54881879344421,
       "stop": 38.975590603277894,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:OGC": {
       "source": "daily",
@@ -4108,10 +4847,10 @@
       "limit": 19.334999084472656,
       "target": 21.04407859654318,
       "stop": 18.480459328437394,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:PCTY": {
       "source": "daily",
@@ -4164,10 +4903,10 @@
       "limit": 36.150001525878906,
       "target": 39.75512634721924,
       "stop": 34.347439115208736,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:CRNX": {
       "source": "daily",
@@ -4220,10 +4959,10 @@
       "limit": 23.950000762939453,
       "target": 26.06784315641759,
       "stop": 22.891079566200382,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:GTLB": {
       "source": "daily",
@@ -4248,10 +4987,10 @@
       "limit": 28.31999969482422,
       "target": 31.077032062602093,
       "stop": 26.94148351093528,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:DSGX": {
       "source": "daily",
@@ -4318,10 +5057,10 @@
       "limit": 126.63999938964844,
       "target": 131.7272292778593,
       "stop": 124.09638444554301,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:IMVT": {
       "source": "daily",
@@ -4332,10 +5071,10 @@
       "limit": 45.41999816894531,
       "target": 48.28293870403822,
       "stop": 43.988527901398854,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:HIMS": {
       "source": "daily",
@@ -4346,10 +5085,10 @@
       "limit": 34.45600128173828,
       "target": 39.196224606581026,
       "stop": 32.08588961931691,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:ALKS": {
       "source": "daily",
@@ -4360,10 +5099,10 @@
       "limit": 51.65999984741211,
       "target": 54.82995435544504,
       "stop": 50.075022593395644,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:LAD": {
       "source": "daily",
@@ -4374,10 +5113,10 @@
       "limit": 401.27111020234696,
       "target": 426.1151282050709,
       "stop": 388.849101200985,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:KYMR": {
       "source": "daily",
@@ -4388,10 +5127,10 @@
       "limit": 127.8499984741211,
       "target": 138.07098990284962,
       "stop": 122.73950275975683,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:DBX": {
       "source": "daily",
@@ -4416,10 +5155,10 @@
       "limit": 6.0,
       "target": 6.6121659056042885,
       "stop": 5.693917047197855,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:SM": {
       "source": "daily",
@@ -4458,10 +5197,10 @@
       "limit": 38.45000076293945,
       "target": 41.94302811570223,
       "stop": 36.70348708655806,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:RRC": {
       "source": "daily",
@@ -4486,10 +5225,10 @@
       "limit": 88.20999908447266,
       "target": 95.54962066203069,
       "stop": 84.54018829569364,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:SRRK": {
       "source": "daily",
@@ -4500,10 +5239,10 @@
       "limit": 61.7599983215332,
       "target": 66.62952755395128,
       "stop": 59.325233705324166,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:LB": {
       "source": "daily",
@@ -4570,10 +5309,10 @@
       "limit": 73.5199966430664,
       "target": 79.33850259878513,
       "stop": 70.61074366520705,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:MTDR": {
       "source": "daily",
@@ -4584,10 +5323,10 @@
       "limit": 60.380001068115234,
       "target": 64.34161548174121,
       "stop": 58.399193861302244,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:BVN": {
       "source": "daily",
@@ -4612,10 +5351,10 @@
       "limit": 23.84000015258789,
       "target": 27.555848013308864,
       "stop": 21.982076222227406,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:LTH": {
       "source": "daily",
@@ -4626,10 +5365,10 @@
       "limit": 46.79999923706055,
       "target": 49.339472475291785,
       "stop": 45.53026261794493,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:OMF": {
       "source": "daily",
@@ -4640,10 +5379,10 @@
       "limit": 66.3499984741211,
       "target": 69.29105495349998,
       "stop": 64.87947023443165,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:GAP": {
       "source": "daily",
@@ -4654,10 +5393,10 @@
       "limit": 21.639999389648438,
       "target": 22.985537559474565,
       "stop": 20.967230304735374,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:ONBPP": {
       "source": "daily",
@@ -4668,10 +5407,10 @@
       "limit": 25.149999618530273,
       "target": 25.426519876162548,
       "stop": 25.011739489714135,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:FRO": {
       "source": "daily",
@@ -4696,10 +5435,10 @@
       "limit": 16.299999237060547,
       "target": 16.638067242712097,
       "stop": 16.130965234234772,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:OSK": {
       "source": "daily",
@@ -4724,10 +5463,10 @@
       "limit": 31.93000030517578,
       "target": 33.643016956402825,
       "stop": 31.07349197956226,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:SBSW": {
       "source": "daily",
@@ -4738,10 +5477,10 @@
       "limit": 12.8100004196167,
       "target": 13.757889478528732,
       "stop": 12.336055890160683,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:NXE": {
       "source": "daily",
@@ -4766,10 +5505,10 @@
       "limit": 37.58000183105469,
       "target": 41.147038705606036,
       "stop": 35.79648339377901,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:TGTX": {
       "source": "daily",
@@ -4794,10 +5533,10 @@
       "limit": 77.4800033569336,
       "target": 81.49575047597669,
       "stop": 75.47212979741204,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:ICL": {
       "source": "daily",
@@ -4808,10 +5547,10 @@
       "limit": 5.824999809265137,
       "target": 6.085773559565396,
       "stop": 5.694612934115007,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:MORN": {
       "source": "daily",
@@ -4892,10 +5631,10 @@
       "limit": 85.43000030517578,
       "target": 92.05421185706757,
       "stop": 82.11789452922989,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:CGON": {
       "source": "daily",
@@ -4920,10 +5659,10 @@
       "limit": 16.739999771118164,
       "target": 17.63153768121812,
       "stop": 16.294230816068186,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:MOS": {
       "source": "daily",
@@ -4934,10 +5673,10 @@
       "limit": 25.200000762939453,
       "target": 27.22550200438139,
       "stop": 24.187250142218485,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:KMX": {
       "source": "daily",
@@ -4948,10 +5687,10 @@
       "limit": 65.27999877929688,
       "target": 69.2803448295574,
       "stop": 63.279825754166616,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:PCVX": {
       "source": "daily",
@@ -4962,10 +5701,10 @@
       "limit": 63.97999954223633,
       "target": 68.56303964628292,
       "stop": 61.688479490213034,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:PCOR": {
       "source": "daily",
@@ -5032,10 +5771,10 @@
       "limit": 238.92999267578125,
       "target": 257.9863199653925,
       "stop": 229.40182903097562,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:ONBPO": {
       "source": "daily",
@@ -5046,10 +5785,10 @@
       "limit": 25.15999984741211,
       "target": 25.438437005768858,
       "stop": 25.020781268233733,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:KEX": {
       "source": "daily",
@@ -5116,10 +5855,10 @@
       "limit": 352.989990234375,
       "target": 376.46135544993496,
       "stop": 341.25430762659505,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:EMN": {
       "source": "daily",
@@ -5130,10 +5869,10 @@
       "limit": 75.75,
       "target": 79.34781933333596,
       "stop": 73.95109033333202,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:DOX": {
       "source": "daily",
@@ -5158,10 +5897,10 @@
       "limit": 160.80999755859375,
       "target": 172.1571605604629,
       "stop": 155.13641605765918,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:AVTR": {
       "source": "daily",
@@ -5200,10 +5939,10 @@
       "limit": 981.6599731445312,
       "target": 1032.914339958745,
       "stop": 956.0327897374244,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:QRVO": {
       "source": "daily",
@@ -5214,10 +5953,10 @@
       "limit": 99.1500015258789,
       "target": 104.52526353174818,
       "stop": 96.46237052294427,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:ETSY": {
       "source": "daily",
@@ -5228,10 +5967,10 @@
       "limit": 87.9739990234375,
       "target": 94.70061991523598,
       "stop": 84.61068857753827,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:ACT": {
       "source": "daily",
@@ -5242,10 +5981,10 @@
       "limit": 50.31589841130723,
       "target": 52.05797849871271,
       "stop": 49.44485836760449,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:KNTK": {
       "source": "daily",
@@ -5256,10 +5995,10 @@
       "limit": 56.099998474121094,
       "target": 59.30004734385808,
       "stop": 54.4999740392526,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:PATH": {
       "source": "daily",
@@ -5284,10 +6023,10 @@
       "limit": 254.99000549316406,
       "target": 275.0572190578326,
       "stop": 244.9563987108298,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:JXN": {
       "source": "daily",
@@ -5298,10 +6037,10 @@
       "limit": 137.99000549316406,
       "target": 144.97421807418874,
       "stop": 134.49789920265172,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:LINE": {
       "source": "daily",
@@ -5312,10 +6051,10 @@
       "limit": 43.404998779296875,
       "target": 45.92037937067238,
       "stop": 42.14730848360912,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:RYTM": {
       "source": "daily",
@@ -5326,10 +6065,10 @@
       "limit": 119.75,
       "target": 128.72514421773081,
       "stop": 115.26242789113459,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:AXTA": {
       "source": "daily",
@@ -5340,10 +6079,10 @@
       "limit": 38.61000061035156,
       "target": 40.38219532429659,
       "stop": 37.72390325337905,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:AVT": {
       "source": "daily",
@@ -5354,10 +6093,10 @@
       "limit": 100.0,
       "target": 107.32376250286939,
       "stop": 96.33811874856531,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:EMP": {
       "source": "daily",
@@ -5382,10 +6121,10 @@
       "limit": 40.0,
       "target": 41.960635060788256,
       "stop": 39.019682469605875,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:MTCH": {
       "source": "daily",
@@ -5396,10 +6135,10 @@
       "limit": 42.4900016784668,
       "target": 44.848633818031374,
       "stop": 41.31068560868451,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:NOV": {
       "source": "daily",
@@ -5410,10 +6149,10 @@
       "limit": 21.670000076293945,
       "target": 23.104468126581658,
       "stop": 20.95276605115009,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     },
     "daily:FLR": {
       "source": "daily",
@@ -5424,10 +6163,10 @@
       "limit": 57.93000030517578,
       "target": 62.440104044739435,
       "stop": 55.67494843539395,
-      "status": "open",
-      "outcome": null,
+      "status": "stopped_out",
+      "outcome": "stop",
       "breakout_at": null,
-      "resolved_at": null
+      "resolved_at": "2026-08-28T11:36:12.887614"
     }
   }
 }
