@@ -1957,12 +1957,18 @@
       "universe_size": 250,
       "closed": true,
       "candidates": []
+    },
+    {
+      "time": "2026-08-29T09:26:42.023568",
+      "universe_size": 250,
+      "closed": true,
+      "candidates": []
     }
   ],
-  "last_scan_time": "2026-08-29T08:03:37.329829",
+  "last_scan_time": "2026-08-29T09:15:36.025186",
   "stats": {
     "total_signals": 0,
-    "total_scans": 1097,
+    "total_scans": 1159,
     "last_signal": null
   },
   "created_at": "2026-08-07T16:55:16.177758",
