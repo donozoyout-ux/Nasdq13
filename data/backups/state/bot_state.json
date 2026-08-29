@@ -1981,12 +1981,18 @@
       "universe_size": 250,
       "closed": true,
       "candidates": []
+    },
+    {
+      "time": "2026-08-29T15:47:48.231855",
+      "universe_size": 250,
+      "closed": true,
+      "candidates": []
     }
   ],
-  "last_scan_time": "2026-08-29T14:24:46.018968",
+  "last_scan_time": "2026-08-29T15:36:50.328665",
   "stats": {
     "total_signals": 0,
-    "total_scans": 1406,
+    "total_scans": 1468,
     "last_signal": null
   },
   "created_at": "2026-08-07T16:55:16.177758",
