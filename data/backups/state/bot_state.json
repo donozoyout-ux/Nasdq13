@@ -1951,12 +1951,18 @@
       "universe_size": 250,
       "closed": true,
       "candidates": []
+    },
+    {
+      "time": "2026-08-29T08:14:35.318741",
+      "universe_size": 250,
+      "closed": true,
+      "candidates": []
     }
   ],
-  "last_scan_time": "2026-08-29T06:51:37.927286",
+  "last_scan_time": "2026-08-29T08:03:37.329829",
   "stats": {
     "total_signals": 0,
-    "total_scans": 1035,
+    "total_scans": 1097,
     "last_signal": null
   },
   "created_at": "2026-08-07T16:55:16.177758",
