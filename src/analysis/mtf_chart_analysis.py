@@ -167,7 +167,7 @@ class MultiTimeframeChartAnalysisService:
         reasons: List[str] = []
         reasons.append(
             f"1D rejim: {d_trend or '-'} / {d_structure or '-'}; ana yön filtresi "
-            f"{'LONG lehine' if daily_bull else 'long için onaysız'}\."
+            f"{'LONG lehine' if daily_bull else 'long için onaysız'}."
         )
         reasons.append(
             f"1H yapı: {h_trend or '-'} / {h_structure or '-'} / {hourly.get('setup') or '-'}; "
