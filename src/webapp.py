@@ -9,11 +9,12 @@ import sys
 import asyncio
 from contextlib import asynccontextmanager
 from datetime import datetime, timedelta
+from pathlib import Path
 from typing import Optional
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -23,12 +24,14 @@ import uvicorn
 from src.utils.logger import get_logger
 from src.utils.timezone import market_status
 from src.bot import SignalBot, load_config
+from src.analysis.chart_analysis import ChartAnalysisService
 
 logger = get_logger("webapp")
 
 # Global bot instance
 bot: Optional[SignalBot] = None
 config = None
+chart_analysis_service = ChartAnalysisService()
 
 # Vercel is serverless/Fluid and must not start the long-running scanner loop.
 # Railway and local production keep the historical default of starting the bot.
@@ -95,7 +98,13 @@ def get_bot() -> Optional[SignalBot]:
 
 @app.get("/", response_class=HTMLResponse)
 async def dashboard(request: Request):
-    return render_template(request, "dashboard.html", {"request": request})
+    """Serve the dashboard and attach the on-demand interactive chart reader."""
+    dashboard_path = Path(TEMPLATES_DIR) / "dashboard.html"
+    html = dashboard_path.read_text(encoding="utf-8")
+    chart_script = '<script src="/static/stock-chart.js?v=1"></script>'
+    if chart_script not in html:
+        html = html.replace("</body>", f"  {chart_script}\n</body>")
+    return HTMLResponse(content=html)
 
 
 @app.get("/health")
@@ -191,6 +200,20 @@ async def api_dashboard():
                 "config": {"symbols": [], "timeframes": [], "thresholds": {}},
                 "market": {}, "signals": [], "news": {}, "stats": {}, "history": []}
     return b.get_dashboard_state()
+
+
+@app.get("/api/chart/{symbol}")
+async def api_chart_analysis(symbol: str, timeframe: str = "15m"):
+    """Return explainable OHLCV chart data + technical reading for one symbol."""
+    try:
+        return await chart_analysis_service.analyze(symbol=symbol, timeframe=timeframe)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except RuntimeError as exc:
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
+    except Exception as exc:
+        logger.exception("Unexpected chart analysis failure for %s %s", symbol, timeframe)
+        raise HTTPException(status_code=500, detail="chart analysis failed") from exc
 
 
 @app.get("/api/weekly-report")
