@@ -98,7 +98,7 @@ def get_bot() -> Optional[SignalBot]:
 
 @app.get("/", response_class=HTMLResponse)
 async def dashboard(request: Request):
-    """Serve dashboard with chart, MTF, deep intelligence and outcome learning layers."""
+    """Serve dashboard with chart, MTF, learning and Weekly Focus layers."""
     dashboard_path = Path(TEMPLATES_DIR) / "dashboard.html"
     html = dashboard_path.read_text(encoding="utf-8")
     scripts = [
@@ -106,6 +106,7 @@ async def dashboard(request: Request):
         '<script src="/static/mtf-chart.js?v=1"></script>',
         '<script src="/static/chart-intelligence-v2.js?v=1"></script>',
         '<script src="/static/learning-panel.js?v=2"></script>',
+        '<script src="/static/weekly-focus-button.js?v=1"></script>',
     ]
     for script in scripts:
         if script not in html:
