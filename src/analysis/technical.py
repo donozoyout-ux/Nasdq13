@@ -334,7 +334,7 @@ class TechnicalAnalyzer:
 
     def _calculate_composite(self, parts: Dict[str, float]) -> float:
         """Combine weighted scores into composite (-100 to +100).
-        
+
         The composite score ranges from -100 (strongly bearish) to +100 (strongly bullish).
         Direction is encoded in the score sign, not multiplied separately.
         """
@@ -349,7 +349,7 @@ class TechnicalAnalyzer:
             score = parts.get(name, 50.0)
             deviation = (score - 50) * 2
             composite += deviation * (weight / 100.0)
-        
+
         # Clamp to [-100, 100] range
         composite = max(-100.0, min(100.0, composite))
         return composite
@@ -484,11 +484,6 @@ class TechnicalAnalyzer:
             snap.volume_score = self._score_volume(snap)
             snap.breakout_score = self._score_breakout(snap)
 
-            direction = 1
-            if (snap.is_breakout_down or snap.is_death_cross or
-                    snap.rsi_14 < self.rsi_oversold or snap.change_pct < -1):
-                direction = -1
-
             snap.composite_score = self._calculate_composite(
                 {
                     "breakout": snap.breakout_score,
@@ -496,8 +491,7 @@ class TechnicalAnalyzer:
                     "trend": snap.trend_score,
                     "momentum": snap.momentum_score,
                     "volatility": snap.volatility_score,
-                },
-                direction
+                }
             )
 
             return snap
