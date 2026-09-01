@@ -5,7 +5,8 @@
     "2026-W32": "2026-08-08T11:45:55.238695",
     "2026-08-08": "2026-08-08T11:45:01.797030",
     "2026-W33": "2026-08-10T08:54:10.227200",
-    "2026-08-10": "2026-08-10T12:30:50.484144"
+    "2026-08-10": "2026-08-10T12:30:50.484144",
+    "2026-W36": "2026-09-01T03:22:28.459162"
   },
   "smallcap_alerts_sent": {
     "MAAS:2026-08-10": "2026-08-10T19:24:20.025620",
@@ -15,7 +16,8 @@
     "2026-08-10": "2026-08-10T08:54:26.177916"
   },
   "smallcap_predictions_sent": {
-    "2026-08-10": "2026-08-10T08:54:28.444430"
+    "2026-08-10": "2026-08-10T08:54:28.444430",
+    "2026-09-01": "2026-09-01T04:31:55.573835"
   },
   "smallcap_premarket_sent": {},
   "weekly_reports": [
@@ -792,6 +794,12 @@
         }
       ],
       "report": "🤖 HAFTALIK ÇIKIŞ ADAYLARI\n📅 10.08.2026 · 50 hisse tarandı, 12 aday seçildi\n──────────────────────────────\n📊 <b>S&P 500:</b> son 4 hafta +2.4% (piyasa yükseliş)\n\n🏆 <b>1. Shopify (SHOP)</b> — Çıkış Skoru: <b>78/100</b>\n   💰 Fiyat: <b>151.57 USD</b> | Haftalık: +29.38%\n   📐 Setup: <b>Zirveye DayalÄ± Konsolidasyon</b>\n   📈 4H getiri: +23.7% | 8H: +40.0%\n   🎯 52H zirveye mesafe: -16.8%\n   ⚡ Beklenen haftalık hareket: ±11.1%\n   🔍 RSI: 63 | Hacim: 2.1x\n   • 🎯 52 haftalık zirvede / zirveye dayanmış\n   • ✨ Haftalık Golden Cross\n   • ⚡ S&P 500'e göre son 4 haftada +21.3 puan güçlü\n   • 🔥 RSI 63 (güçlü momentum, aşırı alım değil)\n   • 🔊 Haftalık hacim artışı (2.1x)\n   💡 52 haftalık zirvesine dayanmış durumda. Direncin kırılması halinde yeni zirve bölgesi serbest kalır ve hareket hızlanabilir. S&P 500'e göre son 4 haftada +21.3 puan üstün performans gösteriyor.\n\n🏆 <b>2. Uber (UBER)</b> — Çıkış Skoru: <b>75/100</b>\n   💰 Fiyat: <b>75.02 USD</b> | Haftalık: +6.62%\n   📐 Setup: <b>Volatilite SÄ±kÄ±ÅŸmasÄ± (Squeeze)</b>\n   📈 4H getiri: +0.6% | 8H: +9.0%\n   🎯 52H zirveye mesafe: -26.4%\n   ⚡ Beklenen haftalık hareket: ±7.8%\n   🔍 RSI: 51 | Hacim: 1.6x\n   • 📐 Bollinger bant genişliği son 60 haftanın %4'inde (sıkışma)\n   • 🎯 52 haftalık zirvede / zirveye dayanmış\n   • 🔊 Haftalık hacim artışı (1.6x)\n   💡 Haftalık volatilite sıkışması yaşıyor; Bollinger bantları son 60 haftanın en dar seviyesinde. Geçmişte bu tür sıkışmalar genelde güçlü bir hareketle çözülür.\n\n🏆 <b>3. Palantir (PLTR)</b> — Çıkış Skoru: <b>70/100</b>\n   💰 Fiyat: <b>172.01 USD</b> | Haftalık: +39.78%\n   📐 Setup: <b>GÃ¼Ã§lÃ¼ Trend DevamÄ±</b>\n   📈 4H getiri: +35.7% | 8H: +34.4%\n   🎯 52H zirveye mesafe: -17.1%\n   ⚡ Beklenen haftalık hareket: ±11.2%\n   🔍 RSI: 61 | Hacim: 2.0x\n   • 🎯 52 haftalık zirvede / zirveye dayanmış\n   • ⚡ S&P 500'e göre son 4 haftada +33.3 puan güçlü\n   • 🔥 RSI 61 (güçlü momentum, aşırı alım değil)\n   • 🔊 Haftalık hacim artışı (2.0x)\n   💡 Haftalık EMA'lar yukarı dizilmiş durumda (EMA21 > EMA50). Güçlü bir yükseliş trendi içinde; geri çekilmeler alım fırsatı olarak görülebilir. S&P 500'e göre son 4 haftada +33.3 puan üstün performans gösteriyor.\n\n🏆 <b>4. Amgen (AMGN)</b> — Çıkış Skoru: <b>70/100</b>\n   💰 Fiyat: <b>410.95 USD</b> | Haftalık: +6.70%\n   📐 Setup: <b>Zirveye DayalÄ± Konsolidasyon</b>\n   📈 4H getiri: +13.1% | 8H: +15.7%\n   🎯 52H zirveye mesafe: -1.8%\n   ⚡ Beklenen haftalık hareket: ±5.2%\n   🔍 RSI: 70 | Hacim: 1.3x\n   • 🎯 52 haftalık zirvede / zirveye dayanmış\n   • 📈 Fiyat EMA21 > EMA50 üzerinde (yükseliş trendi)\n   • ⚡ S&P 500'e göre son 4 haftada +10.7 puan güçlü\n   • 🔥 RSI 70 (güçlü momentum, aşırı alım değil)\n   💡 52 haftalık zirvesine dayanmış durumda. Direncin kırılması halinde yeni zirve bölgesi serbest kalır ve hareket hızlanabilir. S&P 500'e göre son 4 haftada +10.7 puan üstün performans gösteriyor.\n\n🏆 <b>5. Pfizer (PFE)</b> — Çıkış Skoru: <b>69/100</b>\n   💰 Fiyat: <b>26.76 USD</b> | Haftalık: +7.00%\n   📐 Setup: <b>Volatilite SÄ±kÄ±ÅŸmasÄ± (Squeeze)</b>\n   📈 4H getiri: +12.7% | 8H: +3.9%\n   🎯 52H zirveye mesafe: -3.7%\n   ⚡ Beklenen haftalık hareket: ±4.5%\n   🔍 RSI: 61 | Hacim: 1.3x\n   • 📐 Bollinger bant genişliği son 60 haftanın %25'inde (sıkışma)\n   • 🎯 52 haftalık zirvede / zirveye dayanmış\n   • 📈 Fiyat EMA21 > EMA50 üzerinde (yükseliş trendi)\n   • ⚡ S&P 500'e göre son 4 haftada +10.2 puan güçlü\n   • 🔥 RSI 61 (güçlü momentum, aşırı alım değil)\n   💡 Haftalık volatilite sıkışması yaşıyor; Bollinger bantları son 60 haftanın en dar seviyesinde. Geçmişte bu tür sıkışmalar genelde güçlü bir hareketle çözülür. S&P 500'e göre son 4 haftada +10.2 puan üstün performans gösteriyor.\n\n🏆 <b>6. Airbnb (ABNB)</b> — Çıkış Skoru: <b>69/100</b>\n   💰 Fiyat: <b>178.07 USD</b> | Haftalık: +17.52%\n   📐 Setup: <b>Zirveye DayalÄ± Konsolidasyon</b>\n   📈 4H getiri: +19.8% | 8H: +34.6%\n   🎯 52H zirveye mesafe: -0.2%\n   ⚡ Beklenen haftalık hareket: ±6.3%\n   🔍 RSI: 75 | Hacim: 1.8x\n   • 🎯 52 haftalık zirvede / zirveye dayanmış\n   • 📈 Fiyat EMA21 > EMA50 üzerinde (yükseliş trendi)\n   • ⚡ S&P 500'e göre son 4 haftada +17.4 puan güçlü\n   • ⚠️ RSI 75 (aşırı alım bölgesi)\n   • 🔊 Haftalık hacim artışı (1.8x)\n   💡 52 haftalık zirvesine dayanmış durumda. Direncin kırılması halinde yeni zirve bölgesi serbest kalır ve hareket hızlanabilir. S&P 500'e göre son 4 haftada +17.4 puan üstün performans gösteriyor.\n\n🏆 <b>7. CrowdStrike (CRWD)</b> — Çıkış Skoru: <b>68/100</b>\n   💰 Fiyat: <b>214.42 USD</b> | Haftalık: +12.34%\n   📐 Setup: <b>Zirveye DayalÄ± Konsolidasyon</b>\n   📈 4H getiri: +14.6% | 8H: +25.6%\n   🎯 52H zirveye mesafe: -2.2%\n   ⚡ Beklenen haftalık hareket: ±8.8%\n   🔍 RSI: 71 | Hacim: 0.7x\n   • 🎯 52 haftalık zirvede / zirveye dayanmış\n   • 📈 Fiyat EMA21 > EMA50 üzerinde (yükseliş trendi)\n   • ⚡ S&P 500'e göre son 4 haftada +12.1 puan güçlü\n   • 🔥 RSI 71 (güçlü momentum, aşırı alım değil)\n   • 🔇 Haftalık hacim daralması (sıkışma birikimi)\n   💡 52 haftalık zirvesine dayanmış durumda. Direncin kırılması halinde yeni zirve bölgesi serbest kalır ve hareket hızlanabilir. S&P 500'e göre son 4 haftada +12.1 puan üstün performans gösteriyor. Hacim daralması birikimi işaret ediyor; patlama için yakıt birikiyor.\n\n🏆 <b>8. Lockheed (LMT)</b> — Çıkış Skoru: <b>68/100</b>\n   💰 Fiyat: <b>587.95 USD</b> | Haftalık: +0.89%\n   📐 Setup: <b>Zirveye DayalÄ± Konsolidasyon</b>\n   📈 4H getiri: +12.4% | 8H: +8.8%\n   🎯 52H zirveye mesafe: -14.5%\n   ⚡ Beklenen haftalık hareket: ±5.9%\n   🔍 RSI: 58 | Hacim: 0.8x\n   • 🎯 52 haftalık zirvede / zirveye dayanmış\n   • 📈 Fiyat EMA21 > EMA50 üzerinde (yükseliş trendi)\n   • ⚡ S&P 500'e göre son 4 haftada +10.0 puan güçlü\n   • 🔥 RSI 58 (güçlü momentum, aşırı alım değil)\n   • 🔇 Haftalık hacim daralması (sıkışma birikimi)\n   💡 52 haftalık zirvesine dayanmış durumda. Direncin kırılması halinde yeni zirve bölgesi serbest kalır ve hareket hızlanabilir. S&P 500'e göre son 4 haftada +10.0 puan üstün performans gösteriyor. Hacim daralması birikimi işaret ediyor; patlama için yakıt birikiyor.\n\n🏆 <b>9. Amazon (AMZN)</b> — Çıkış Skoru: <b>66/100</b>\n   💰 Fiyat: <b>274.48 USD</b> | Haftalık: +1.07%\n   📐 Setup: <b>Zirveye DayalÄ± Konsolidasyon</b>\n   📈 4H getiri: +11.9% | 8H: +15.1%\n   🎯 52H zirveye mesafe: -4.4%\n   ⚡ Beklenen haftalık hareket: ±6.7%\n   🔍 RSI: 61 | Hacim: 1.1x\n   • 🎯 52 haftalık zirvede / zirveye dayanmış\n   • 📈 Fiyat EMA21 > EMA50 üzerinde (yükseliş trendi)\n   • ⚡ S&P 500'e göre son 4 haftada +9.5 puan güçlü\n   • 🔥 RSI 61 (güçlü momentum, aşırı alım değil)\n   💡 52 haftalık zirvesine dayanmış durumda. Direncin kırılması halinde yeni zirve bölgesi serbest kalır ve hareket hızlanabilir. S&P 500'e göre son 4 haftada +9.5 puan üstün performans gösteriyor.\n\n🏆 <b>10. Microsoft (MSFT)</b> — Çıkış Skoru: <b>65/100</b>\n   💰 Fiyat: <b>499.99 USD</b> | Haftalık: +7.59%\n   📐 Setup: <b>Zirveye DayalÄ± Konsolidasyon</b>\n   📈 4H getiri: +29.8% | 8H: +28.0%\n   🎯 52H zirveye mesafe: -9.1%\n   ⚡ Beklenen haftalık hareket: ±6.6%\n   🔍 RSI: 66 | Hacim: 1.2x\n   • 🎯 52 haftalık zirvede / zirveye dayanmış\n   • ✨ Haftalık Golden Cross\n   • ⚡ S&P 500'e göre son 4 haftada +27.4 puan güçlü\n   • 🔥 RSI 66 (güçlü momentum, aşırı alım değil)\n   💡 52 haftalık zirvesine dayanmış durumda. Direncin kırılması halinde yeni zirve bölgesi serbest kalır ve hareket hızlanabilir. S&P 500'e göre son 4 haftada +27.4 puan üstün performans gösteriyor.\n\n🏆 <b>11. NVIDIA (NVDA)</b> — Çıkış Skoru: <b>64/100</b>\n   💰 Fiyat: <b>223.96 USD</b> | Haftalık: +11.56%\n   📐 Setup: <b>GÃ¼Ã§lÃ¼ Trend DevamÄ±</b>\n   📈 4H getiri: +6.2% | 8H: +9.1%\n   🎯 52H zirveye mesafe: -5.2%\n   ⚡ Beklenen haftalık hareket: ±7.4%\n   🔍 RSI: 61 | Hacim: 0.9x\n   • 🎯 52 haftalık zirvede / zirveye dayanmış\n   • 📈 Fiyat EMA21 > EMA50 üzerinde (yükseliş trendi)\n   • ⚡ S&P 500'e göre son 4 haftada +3.8 puan güçlü\n   • 🔥 RSI 61 (güçlü momentum, aşırı alım değil)\n   💡 Haftalık EMA'lar yukarı dizilmiş durumda (EMA21 > EMA50). Güçlü bir yükseliş trendi içinde; geri çekilmeler alım fırsatı olarak görülebilir. S&P 500'e göre son 4 haftada +3.8 puan üstün performans gösteriyor.\n\n🏆 <b>12. Adobe (ADBE)</b> — Çıkış Skoru: <b>63/100</b>\n   💰 Fiyat: <b>265.21 USD</b> | Haftalık: +5.91%\n   📐 Setup: <b>Zirveye DayalÄ± Konsolidasyon</b>\n   📈 4H getiri: +18.6% | 8H: +30.0%\n   🎯 52H zirveye mesafe: -28.5%\n   ⚡ Beklenen haftalık hareket: ±9.2%\n   🔍 RSI: 54 | Hacim: 0.8x\n   • 🎯 52 haftalık zirvede / zirveye dayanmış\n   • ⚡ S&P 500'e göre son 4 haftada +16.2 puan güçlü\n   • 🔇 Haftalık hacim daralması (sıkışma birikimi)\n   💡 52 haftalık zirvesine dayanmış durumda. Direncin kırılması halinde yeni zirve bölgesi serbest kalır ve hareket hızlanabilir. S&P 500'e göre son 4 haftada +16.2 puan üstün performans gösteriyor. Hacim daralması birikimi işaret ediyor; patlama için yakıt birikiyor.\n\n⚠️ <i>Bu rapor otomatik üretilmiştir ve yatırım tavsiyesi değildir. Ani hareketler her iki yönde de gerçekleşebilir.</i>"
+    },
+    {
+      "key": "2026-W36",
+      "generated_at": "2026-09-01T03:22:27.286400",
+      "candidates": [],
+      "report": "🤖 HAFTALIK ÇIKIŞ ADAYLARI\n📅 01.09.2026 · 50 hisse tarandı, 0 aday seçildi\n──────────────────────────────\n📊 <b>S&P 500:</b> son 4 hafta -0.9% (piyasa yatay)\n\n⚠️ <i>Bu rapor otomatik üretilmiştir ve yatırım tavsiyesi değildir. Ani hareketler her iki yönde de gerçekleşebilir.</i>"
     }
   ],
   "scan_history": [
@@ -1864,12 +1872,18 @@
           "news_score": 0.0
         }
       ]
+    },
+    {
+      "time": "2026-09-01T04:31:55.579121",
+      "universe_size": 250,
+      "closed": true,
+      "candidates": []
     }
   ],
-  "last_scan_time": "2026-09-01T02:48:50.195119",
+  "last_scan_time": "2026-09-01T04:31:54.386051",
   "stats": {
     "total_signals": 0,
-    "total_scans": 551,
+    "total_scans": 613,
     "last_signal": null
   },
   "created_at": "2026-08-07T16:55:16.177758",
@@ -2770,5 +2784,6 @@
         ]
       }
     ]
-  }
+  },
+  "prediction_tracker": {}
 }
