@@ -17,10 +17,11 @@ echo "Core symbols: ${SYMBOLS}"
 echo "Running Python compile check..."
 python -m compileall -q src
 
-# Verify the ASGI app imports cleanly before binding the port.
-echo "Verifying ASGI app import..."
-python -c "import src.webapp"
+# Verify the live ASGI wrapper imports cleanly before binding the port. The
+# wrapper keeps the existing bot lifespan and API, then adds SSE + Excel feeds.
+echo "Verifying Live Dashboard ASGI import..."
+python -c "import src.live_dashboard"
 
 # Railway injects PORT automatically. Fall back to 8000 for local runs.
-echo "Starting web server on port ${PORT:-8000}..."
-exec uvicorn src.webapp:app --host 0.0.0.0 --port "${PORT:-8000}"
+echo "Starting live web server on port ${PORT:-8000}..."
+exec uvicorn src.live_dashboard:app --host 0.0.0.0 --port "${PORT:-8000}"
