@@ -1,6 +1,7 @@
 """
 Web App - Dashboard + Bot Host
-Runs the bot in background and serves a live dashboard on Render.
+
+Railway runs the persistent bot/backend. Vercel serves the dashboard only.
 Usage: uvicorn src.webapp:app --host 0.0.0.0 --port $PORT
 """
 import os
@@ -26,29 +27,41 @@ from src.bot import SignalBot, load_config
 logger = get_logger("webapp")
 
 # Global bot instance
-bot: SignalBot = None
+bot: Optional[SignalBot] = None
 config = None
+
+# Vercel is serverless/Fluid and must not start the long-running scanner loop.
+# Railway and local production keep the historical default of starting the bot.
+_is_vercel = bool(os.getenv("VERCEL"))
+_default_run_bot = "false" if _is_vercel else "true"
+RUN_BOT = os.getenv("RUN_BOT", _default_run_bot).strip().lower() in {"1", "true", "yes", "on"}
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Start bot as background task on app startup"""
+    """Start the persistent bot only on worker-capable hosts such as Railway."""
     global bot, config
+
+    if not RUN_BOT:
+        logger.info("Dashboard-only mode: background bot startup disabled")
+        yield
+        return
+
     config = load_config()
     bot = SignalBot(config)
-
     task = asyncio.create_task(bot.run())
     logger.info("Bot background task started")
 
-    yield
-
-    logger.info("Shutting down bot...")
-    await bot.stop()
-    task.cancel()
     try:
-        await task
-    except asyncio.CancelledError:
-        pass
+        yield
+    finally:
+        logger.info("Shutting down bot...")
+        await bot.stop()
+        task.cancel()
+        try:
+            await task
+        except asyncio.CancelledError:
+            pass
 
 
 app = FastAPI(title="NASDAQ Signal Bot", lifespan=lifespan)
@@ -64,7 +77,7 @@ templates = Jinja2Templates(directory=TEMPLATES_DIR)
 
 
 def render_template(request: Request, name: str, context: dict):
-    """Render a Jinja2 template with Starlette 0.x / 1.x compatibility."""
+    """Render a Jinja2 template with Starlette compatibility."""
     try:
         sig = inspect.signature(templates.TemplateResponse)
         params = list(sig.parameters.keys())
@@ -76,7 +89,7 @@ def render_template(request: Request, name: str, context: dict):
 
 
 def get_bot() -> Optional[SignalBot]:
-    """Return the bot instance or None if not ready"""
+    """Return the bot instance or None if this deployment is dashboard-only."""
     return bot
 
 
@@ -87,7 +100,6 @@ async def dashboard(request: Request):
 
 @app.get("/health")
 async def health():
-    """Health check for uptime monitoring / Render"""
     b = bot
     status = "ok"
     if b is not None and not b.health_ok:
@@ -97,6 +109,7 @@ async def health():
         status_code=200,
         content={
             "status": status,
+            "mode": "bot" if RUN_BOT else "dashboard-only",
             "running": b.is_running if b else False,
             "last_scan": b.last_scan_at.isoformat() if b and b.last_scan_at else None,
             "scan_count": b.scan_count if b else 0,
@@ -113,13 +126,15 @@ async def health():
 async def api_status():
     b = get_bot()
     if b is None:
-        return {"running": False, "healthy": False, "scan_count": 0, "error_count": 0,
+        return {"running": False, "healthy": True, "mode": "dashboard-only",
+                "scan_count": 0, "error_count": 0,
                 "last_scan_at": None, "scan_interval_seconds": 60,
                 "symbols": [], "timeframes": []}
     market = market_status(b.config)
     return {
         "running": b.is_running,
         "healthy": b.health_ok,
+        "mode": "bot",
         "scan_count": b.scan_count,
         "error_count": b.error_count,
         "last_scan_at": b.last_scan_at.isoformat() if b.last_scan_at else None,
@@ -170,8 +185,9 @@ async def api_news():
 async def api_dashboard():
     b = get_bot()
     if b is None:
-        return {"status": {"running": False, "healthy": False, "scan_count": 0,
-                           "error_count": 0, "last_scan_at": None, "scan_interval_seconds": 60},
+        return {"status": {"running": False, "healthy": True, "mode": "dashboard-only",
+                           "scan_count": 0, "error_count": 0, "last_scan_at": None,
+                           "scan_interval_seconds": 60},
                 "config": {"symbols": [], "timeframes": [], "thresholds": {}},
                 "market": {}, "signals": [], "news": {}, "stats": {}, "history": []}
     return b.get_dashboard_state()
@@ -196,23 +212,17 @@ async def api_weekly_report():
 
 @app.get("/api/performance")
 async def api_performance():
-    """Calculate win rate and performance metrics from tracked signals."""
     b = get_bot()
     if b is None:
         return {"win_rate": 0.0, "total_signals": 0, "wins": 0, "losses": 0}
-    
-    # Get signal history from state
+
     signal_history = b.state.state.get("signal_history", [])
-    
-    # Filter signals that have a status (WIN/LOSS/EXPIRED)
     tracked = [s for s in signal_history if s.get("status") in ("WIN", "LOSS", "EXPIRED")]
-    
     total = len(tracked)
     wins = sum(1 for s in tracked if s.get("status") == "WIN")
     losses = sum(1 for s in tracked if s.get("status") == "LOSS")
-    
     win_rate = round((wins / total * 100) if total > 0 else 0.0, 1)
-    
+
     return {
         "win_rate": win_rate,
         "total_signals": total,
@@ -229,7 +239,6 @@ async def favicon():
     return JSONResponse(status_code=204, content=None)
 
 
-# Mount static files at /static (directory always exists due to makedirs above)
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 
