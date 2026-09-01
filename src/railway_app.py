@@ -10,11 +10,80 @@ from src.analysis.mtf_chart_analysis import MultiTimeframeChartAnalysisService
 from src.analysis.chart_intelligence_v2 import ChartIntelligenceV2Service
 from src.analysis.learning_engine import LearningEngine
 from src.analysis.learning_case_analytics import LearningCaseAnalytics
+from src.analysis.adaptive_learning import AdaptiveLearningEngine
+from src.analysis.smallcap_scanner import SmallCapScanner, SmallCapCandidate
 from src.utils.logger import get_logger
 
 logger = get_logger("railway_app")
 mtf_chart_service = MultiTimeframeChartAnalysisService()
 chart_intelligence_v2 = ChartIntelligenceV2Service()
+
+
+# ---------------------------------------------------------------------------
+# Adaptive Learning V1 runtime hook
+# ---------------------------------------------------------------------------
+# The persistent bot is created later by src.webapp's lifespan. Wrapping
+# screen_setups here lets Railway apply the learned overlay before watchlist,
+# reports and chart analysis are built, without changing the base strategy
+# formulas inside smallcap_scanner.py.
+if not getattr(SmallCapScanner, "_adaptive_learning_runtime_patch", False):
+    _base_screen_setups = SmallCapScanner.screen_setups
+
+    async def _adaptive_screen_setups(self, *args, **kwargs):
+        candidates, universe = await _base_screen_setups(self, *args, **kwargs)
+        try:
+            b = get_bot()
+            state = b.state.state if b is not None else {}
+            config = b.config if b is not None else getattr(self, "config", {})
+            engine = AdaptiveLearningEngine(state, config)
+            ranked, status = engine.rank_candidates(candidates)
+            if b is not None:
+                b.adaptive_learning_status = status
+            if status.get("live_reranking_active"):
+                logger.info(
+                    "Adaptive Learning ACTIVE: %s completed cases, %s approved factors",
+                    status.get("completed_cases"),
+                    status.get("approved_factor_count"),
+                )
+            else:
+                logger.info(
+                    "Adaptive Learning %s: %s/%s completed cases",
+                    status.get("stage"),
+                    status.get("completed_cases", 0),
+                    status.get("guardrails", {}).get("min_completed_cases", 100),
+                )
+            return ranked, universe
+        except Exception:
+            # Learning is an overlay. A learning failure must never break the
+            # canonical scanner or prevent candidates from being produced.
+            logger.exception("Adaptive Learning overlay failed; base ranking preserved")
+            return candidates, universe
+
+    SmallCapScanner.screen_setups = _adaptive_screen_setups
+    SmallCapScanner._adaptive_learning_runtime_patch = True
+
+
+# Expose adaptive metadata in the existing candidate dict without changing the
+# canonical setup_score field used for audit/debug comparisons.
+if not getattr(SmallCapCandidate, "_adaptive_learning_to_dict_patch", False):
+    _base_candidate_to_dict = SmallCapCandidate.to_dict
+
+    def _adaptive_candidate_to_dict(self):
+        data = _base_candidate_to_dict(self)
+        base_score = getattr(self, "adaptive_base_score", self.setup_score)
+        adaptive_score = getattr(self, "adaptive_score", self.setup_score)
+        adjustment = getattr(self, "adaptive_adjustment", 0.0)
+        data.update({
+            "base_setup_score": round(float(base_score), 1),
+            "adaptive_score": round(float(adaptive_score), 1),
+            "adaptive_adjustment": round(float(adjustment), 2),
+            "adaptive_learning_applied": bool(getattr(self, "adaptive_learning_applied", False)),
+            "adaptive_factors": getattr(self, "adaptive_factors", []),
+        })
+        return data
+
+    SmallCapCandidate.to_dict = _adaptive_candidate_to_dict
+    SmallCapCandidate._adaptive_learning_to_dict_patch = True
 
 
 @app.get("/api/mtf-chart/{symbol}")
@@ -110,3 +179,18 @@ async def api_symbol_learning_cases(symbol: str):
     except Exception as exc:
         logger.exception("Unexpected symbol learning case failure for %s", clean)
         raise HTTPException(status_code=500, detail="symbol learning case report failed") from exc
+
+
+@app.get("/api/adaptive-learning-status")
+async def api_adaptive_learning_status():
+    """Show whether Adaptive Learning is collecting, validating or actively re-ranking."""
+    b = get_bot()
+    try:
+        if b is not None and getattr(b, "adaptive_learning_status", None):
+            return b.adaptive_learning_status
+        state = b.state.state if b is not None else {}
+        config = b.config if b is not None else {}
+        return AdaptiveLearningEngine(state, config).status()
+    except Exception as exc:
+        logger.exception("Unexpected adaptive learning status failure")
+        raise HTTPException(status_code=500, detail="adaptive learning status failed") from exc
