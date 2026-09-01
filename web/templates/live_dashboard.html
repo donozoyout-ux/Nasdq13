@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#050912">
+  <title>NASDAQ Live Radar — Bugünün Tahminleri</title>
+  <style>
+    :root {
+      --bg:#050912;--panel:rgba(12,20,34,.78);--panel2:rgba(16,27,45,.88);
+      --line:rgba(148,163,184,.13);--text:#edf7ff;--muted:#8495aa;
+      --green:#23e7a4;--cyan:#36c8ff;--blue:#6d8cff;--purple:#a879ff;
+      --yellow:#ffcb6b;--red:#ff6f86;--shadow:0 28px 80px rgba(0,0,0,.34);
+    }
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;background:
+      radial-gradient(circle at 15% 0%,rgba(54,200,255,.10),transparent 32%),
+      radial-gradient(circle at 90% 15%,rgba(168,121,255,.09),transparent 31%),
+      radial-gradient(circle at 45% 100%,rgba(35,231,164,.08),transparent 35%),var(--bg);min-height:100vh;overflow-x:hidden}
+    body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.22;background-image:linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px);background-size:42px 42px;animation:gridMove 24s linear infinite;mask-image:linear-gradient(to bottom,#000,transparent 88%)}
+    @keyframes gridMove{to{transform:translate(42px,42px)}}
+    @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(35,231,164,.35)}50%{box-shadow:0 0 0 9px rgba(35,231,164,0)}}
+    @keyframes shimmer{0%{transform:translateX(-140%)}100%{transform:translateX(240%)}}
+    @keyframes drift{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(18px,-22px,0) scale(1.08)}}
+    @keyframes rise{from{opacity:0;transform:translateY(16px) scale(.985)}to{opacity:1;transform:none}}
+    @keyframes flash{0%{background:rgba(54,200,255,.22)}100%{background:transparent}}
+    .orb{position:fixed;border-radius:50%;filter:blur(70px);pointer-events:none;opacity:.18;animation:drift 13s ease-in-out infinite}.orb.a{width:310px;height:310px;background:var(--cyan);top:10%;left:-110px}.orb.b{width:370px;height:370px;background:var(--purple);right:-140px;top:37%;animation-delay:-5s}.orb.c{width:260px;height:260px;background:var(--green);left:45%;bottom:-120px;animation-delay:-8s}
+    .app{position:relative;z-index:1;width:min(1540px,calc(100% - 30px));margin:auto;padding:18px 0 48px}.glass{background:linear-gradient(145deg,rgba(18,29,48,.88),rgba(8,15,27,.74));border:1px solid var(--line);box-shadow:var(--shadow);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+    header{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center;padding:18px 20px;border-radius:20px;position:sticky;top:10px;z-index:20}.brand{display:flex;align-items:center;gap:13px}.logo{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-weight:900;color:#06111a;background:linear-gradient(135deg,var(--green),var(--cyan));box-shadow:0 0 32px rgba(54,200,255,.22);position:relative;overflow:hidden}.logo:after{content:"";position:absolute;width:25px;height:90px;background:rgba(255,255,255,.32);transform:rotate(25deg);animation:shimmer 4.5s linear infinite}.brand h1{margin:0;font-size:clamp(18px,2.2vw,27px);letter-spacing:-.035em}.brand small{display:block;color:var(--muted);margin-top:2px}.top-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap;justify-content:flex-end}.pill,.btn{border:1px solid var(--line);background:rgba(255,255,255,.045);color:var(--text);border-radius:999px;padding:9px 12px;font-size:12px;text-decoration:none;display:inline-flex;align-items:center;gap:8px}.btn{cursor:pointer;transition:.2s}.btn:hover{transform:translateY(-2px);border-color:rgba(54,200,255,.38);background:rgba(54,200,255,.08)}.btn.primary{border-color:rgba(35,231,164,.38);background:linear-gradient(135deg,rgba(35,231,164,.14),rgba(54,200,255,.09))}.live-dot{width:8px;height:8px;border-radius:50%;background:var(--muted)}.live-dot.ok{background:var(--green);animation:pulse 1.8s infinite}.live-dot.warn{background:var(--yellow)}.live-dot.bad{background:var(--red)}
+    .ticker-shell{margin:12px 0;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:rgba(7,13,23,.84);display:grid;grid-template-columns:auto 1fr}.ticker-label{padding:10px 13px;font-size:11px;font-weight:800;letter-spacing:.12em;color:#061118;background:linear-gradient(135deg,var(--green),var(--cyan));display:flex;align-items:center}.ticker-viewport{overflow:hidden;white-space:nowrap}.ticker-track{display:inline-flex;min-width:100%;gap:25px;padding:9px 20px;animation:tickerScroll 35s linear infinite}.ticker-viewport:hover .ticker-track{animation-play-state:paused}@keyframes tickerScroll{from{transform:translateX(0)}to{transform:translateX(-45%)}}.tick{display:inline-flex;gap:7px;align-items:center;font:600 12px ui-monospace,SFMono-Regular,Menlo,monospace}.up{color:var(--green)}.down{color:var(--red)}
+    .hero{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(310px,.7fr);gap:14px;margin-top:14px}.hero-main,.hero-side,.section{border-radius:20px;padding:20px}.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);font-weight:800}.hero-title{display:flex;justify-content:space-between;align-items:flex-end;gap:15px;margin:6px 0 4px}.hero-title h2{font-size:clamp(24px,4vw,42px);letter-spacing:-.05em;margin:0}.hero-title .date{color:var(--muted);font-size:12px}.hero-copy{color:var(--muted);font-size:13px;max-width:800px;line-height:1.65}.source-badge{display:inline-flex;margin-top:11px;border-radius:999px;padding:7px 10px;font-size:11px;border:1px solid rgba(54,200,255,.22);background:rgba(54,200,255,.07);color:#bfeeff}.source-badge.fallback{border-color:rgba(255,203,107,.28);background:rgba(255,203,107,.08);color:#ffe1a7}
+    .status-stack{display:grid;gap:10px;margin-top:2px}.status-card{border:1px solid var(--line);background:rgba(255,255,255,.035);border-radius:15px;padding:12px}.status-row{display:flex;justify-content:space-between;gap:12px;align-items:center}.status-label{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.08em}.status-value{font-size:13px;font-weight:800}.bar{height:5px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden;margin-top:8px}.bar i{display:block;height:100%;width:0;border-radius:inherit;background:linear-gradient(90deg,var(--green),var(--cyan));transition:width .8s cubic-bezier(.2,.9,.2,1)}
+    .kpis{display:grid;grid-template-columns:repeat(6,minmax(130px,1fr));gap:10px;margin-top:14px}.kpi{padding:14px;border-radius:17px;min-height:91px;position:relative;overflow:hidden}.kpi:after{content:"";position:absolute;inset:auto -30% -75% -30%;height:100%;background:radial-gradient(circle,rgba(54,200,255,.12),transparent 60%)}.kpi-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}.kpi-value{font-size:23px;font-weight:850;margin-top:7px;letter-spacing:-.04em}.kpi-sub{font-size:10px;color:var(--muted);margin-top:3px}.flash{animation:flash .75s ease-out}
+    .section{margin-top:14px}.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}.section-head h3{margin:0;font-size:18px;letter-spacing:-.025em}.section-head p{margin:3px 0 0;color:var(--muted);font-size:11px}.section-actions{display:flex;gap:8px;flex-wrap:wrap}.pred-grid{display:grid;grid-template-columns:repeat(4,minmax(230px,1fr));gap:12px}.pred-card{position:relative;border:1px solid var(--line);background:linear-gradient(155deg,rgba(22,36,58,.82),rgba(8,15,27,.78));border-radius:18px;padding:15px;overflow:hidden;animation:rise .45s both;transition:.25s}.pred-card:hover{transform:translateY(-4px);border-color:rgba(54,200,255,.32);box-shadow:0 18px 45px rgba(0,0,0,.28)}.pred-card:before{content:"";position:absolute;left:0;top:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),var(--green),transparent)}.pred-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.rank{font-size:11px;color:var(--muted)}.sym{font-size:22px;font-weight:900;letter-spacing:-.03em}.company{font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:155px}.state{font-size:9px;font-weight:900;letter-spacing:.07em;border-radius:999px;padding:6px 8px;background:rgba(54,200,255,.09);color:#bfeeff;border:1px solid rgba(54,200,255,.19)}.state.hot{color:#b5ffe4;border-color:rgba(35,231,164,.25);background:rgba(35,231,164,.09)}.price-row{display:flex;align-items:end;justify-content:space-between;margin:13px 0}.price{font:800 20px ui-monospace,SFMono-Regular,Menlo,monospace}.change{font:700 11px ui-monospace,SFMono-Regular,Menlo,monospace}.confidence{display:grid;grid-template-columns:54px 1fr;gap:10px;align-items:center;margin:10px 0}.ring{--p:0;width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--green) calc(var(--p)*1%),rgba(255,255,255,.075) 0);position:relative}.ring:after{content:"";position:absolute;inset:5px;border-radius:50%;background:#0d1828}.ring b{position:relative;z-index:1;font-size:13px}.metric-label{display:flex;justify-content:space-between;font-size:9px;color:var(--muted);margin-top:4px}.mini{height:4px;border-radius:99px;background:rgba(255,255,255,.065);overflow:hidden}.mini i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--blue),var(--cyan));transition:width .7s}.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:11px}.level{border:1px solid rgba(255,255,255,.065);border-radius:10px;padding:8px;background:rgba(255,255,255,.025)}.level small{display:block;color:var(--muted);font-size:8px;text-transform:uppercase;letter-spacing:.08em}.level b{display:block;font-size:11px;margin-top:3px}.level.target b{color:var(--green)}.level.stop b{color:var(--red)}.reason{font-size:10px;color:#c2d1df;line-height:1.45;margin-top:10px;min-height:30px}.pred-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:11px}.horizon{font-size:9px;color:var(--yellow)}.tv{font-size:10px;color:var(--cyan);text-decoration:none}.tv:hover{text-decoration:underline}
+    .empty{border:1px dashed rgba(148,163,184,.2);border-radius:16px;padding:34px;text-align:center;color:var(--muted);grid-column:1/-1}.empty strong{display:block;color:var(--text);margin-bottom:6px}
+    .two-col{display:grid;grid-template-columns:1.25fr .75fr;gap:14px}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:14px}table{width:100%;border-collapse:collapse;min-width:700px}th{text-align:left;color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:.08em;padding:10px 12px;background:rgba(255,255,255,.028);position:sticky;top:0}td{padding:11px 12px;border-top:1px solid rgba(148,163,184,.08);font-size:11px}tbody tr{transition:.2s}tbody tr:hover{background:rgba(54,200,255,.04)}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}.score-pill{display:inline-flex;min-width:43px;justify-content:center;padding:4px 7px;border-radius:999px;background:rgba(109,140,255,.10);color:#c9d4ff;border:1px solid rgba(109,140,255,.18)}
+    .feed{display:grid;gap:8px}.feed-item{border:1px solid var(--line);border-radius:13px;padding:11px;background:rgba(255,255,255,.025);display:grid;grid-template-columns:auto 1fr auto;gap:9px;align-items:center}.feed-icon{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:rgba(54,200,255,.08)}.feed-title{font-size:11px;font-weight:800}.feed-meta{font-size:9px;color:var(--muted);margin-top:2px}.feed-price{font:700 10px ui-monospace,SFMono-Regular,Menlo,monospace}
+    .excel-panel{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center}.excel-copy h3{margin:0 0 5px}.excel-copy p{margin:0;color:var(--muted);font-size:11px;line-height:1.6}.excel-links{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.excel-url{margin-top:11px;padding:10px 12px;border-radius:11px;border:1px solid var(--line);background:#07101d;color:#a7bdd2;font:10px ui-monospace,SFMono-Regular,Menlo,monospace;overflow:auto;white-space:nowrap}.copy-ok{color:var(--green)!important}
+    footer{display:flex;justify-content:space-between;gap:10px;align-items:center;color:var(--muted);font-size:10px;padding:18px 3px}.legend{display:flex;gap:10px;flex-wrap:wrap}.legend span{display:flex;align-items:center;gap:5px}.dot{width:6px;height:6px;border-radius:50%;background:var(--cyan)}
+    @media(max-width:1200px){.pred-grid{grid-template-columns:repeat(2,minmax(240px,1fr))}.kpis{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:850px){header{grid-template-columns:1fr;position:relative;top:auto}.top-actions{justify-content:flex-start}.hero,.two-col{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}.excel-panel{grid-template-columns:1fr}.excel-links{justify-content:flex-start}}
+    @media(max-width:590px){.app{width:min(100% - 18px,1540px)}.pred-grid{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}.hero-main,.hero-side,.section{padding:15px}.ticker-label{display:none}.ticker-shell{grid-template-columns:1fr}.brand small{font-size:10px}.btn .hide-mobile{display:none}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+  <div class="orb a"></div><div class="orb b"></div><div class="orb c"></div>
+  <main class="app">
+    <header class="glass">
+      <div class="brand">
+        <div class="logo">N</div>
+        <div><h1>NASDAQ Live Radar</h1><small>Canlı tarama · Bugünün adayları · Excel veri akışı</small></div>
+      </div>
+      <div class="top-actions">
+        <span class="pill"><i id="liveDot" class="live-dot"></i><b id="connText">BAĞLANIYOR</b></span>
+        <span class="pill">🇹🇷 <span id="trTime">--:--</span></span>
+        <span class="pill">🇺🇸 <span id="nyTime">--:--</span></span>
+        <a class="btn primary" href="/api/excel/today.csv">📊 <span class="hide-mobile">Bugünü Excel'e Aç</span></a>
+        <a class="btn" href="/legacy">Eski Panel ↗</a>
+      </div>
+    </header>
+
+    <div class="ticker-shell">
+      <div class="ticker-label">LIVE</div>
+      <div class="ticker-viewport"><div class="ticker-track" id="tickerTrack"><span class="tick">Piyasa verisi bekleniyor…</span></div></div>
+    </div>
+
+    <section class="hero">
+      <div class="hero-main glass">
+        <div class="eyebrow">GÜNÜN RADARI</div>
+        <div class="hero-title"><h2>Bugünün Tahminleri</h2><span class="date" id="todayDate">—</span></div>
+        <div class="hero-copy">Sistem, son başarılı taramayı kaybetmeden canlı adayları sıralar. Aşağıdaki “güven” değeri gerçekleşme garantisi değil; setup, kırılıma yakınlık ve tetikleyici skorlarının sıralama puanıdır.</div>
+        <span class="source-badge" id="sourceBadge">İlk tarama bekleniyor</span>
+      </div>
+      <div class="hero-side glass">
+        <div class="status-stack">
+          <div class="status-card"><div class="status-row"><span class="status-label">Bot</span><b class="status-value" id="botStatus">Başlatılıyor</b></div><div class="bar"><i id="botBar"></i></div></div>
+          <div class="status-card"><div class="status-row"><span class="status-label">Piyasa</span><b class="status-value" id="marketStatus">—</b></div><div class="bar"><i id="marketBar"></i></div></div>
+          <div class="status-card"><div class="status-row"><span class="status-label">Son canlı güncelleme</span><b class="status-value mono" id="lastLive">—</b></div><div class="bar"><i id="liveBar"></i></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="kpis" id="kpis">
+      <div class="kpi glass"><div class="kpi-label">Bugünkü Aday</div><div class="kpi-value" id="kpiToday">0</div><div class="kpi-sub">Top sıralama</div></div>
+      <div class="kpi glass"><div class="kpi-label">Tarama Evreni</div><div class="kpi-value" id="kpiUniverse">0</div><div class="kpi-sub">Otomatik keşfedilen</div></div>
+      <div class="kpi glass"><div class="kpi-label">Ana Sembol</div><div class="kpi-value" id="kpiSymbols">0</div><div class="kpi-sub">Canlı indikatör</div></div>
+      <div class="kpi glass"><div class="kpi-label">İsabet Takibi</div><div class="kpi-value" id="kpiHit">%0</div><div class="kpi-sub" id="kpiHitSub">Henüz sonuç yok</div></div>
+      <div class="kpi glass"><div class="kpi-label">Toplam Tarama</div><div class="kpi-value" id="kpiScans">0</div><div class="kpi-sub" id="kpiLastScan">Son: —</div></div>
+      <div class="kpi glass"><div class="kpi-label">Hata Sayacı</div><div class="kpi-value" id="kpiErrors">0</div><div class="kpi-sub">Runtime döngüsü</div></div>
+    </section>
+
+    <section class="section glass">
+      <div class="section-head">
+        <div><h3>🌟 Bugün Öne Çıkanlar</h3><p>Canlı tarama boşsa son başarılı taramadan otomatik devam eder.</p></div>
+        <div class="section-actions"><button class="btn" onclick="refreshNow()">↻ Şimdi Yenile</button><a class="btn" href="/api/excel/today.csv">Excel CSV ↓</a></div>
+      </div>
+      <div class="pred-grid" id="predGrid"><div class="empty"><strong>İlk aday taraması bekleniyor</strong>Tarayıcı veri üretir üretmez bu bölüm otomatik dolacak.</div></div>
+    </section>
+
+    <section class="two-col">
+      <div class="section glass">
+        <div class="section-head"><div><h3>⚡ Canlı Piyasa</h3><p>15m öncelikli ana piyasa indikatörleri.</p></div><a class="btn" href="/api/excel/market.csv">Excel ↓</a></div>
+        <div class="table-wrap"><table><thead><tr><th>Sembol</th><th>TF</th><th>Fiyat</th><th>Değişim</th><th>Skor</th><th>RSI</th><th>Hacim</th><th>Durum</th></tr></thead><tbody id="marketBody"><tr><td colspan="8">Veri bekleniyor…</td></tr></tbody></table></div>
+      </div>
+      <div class="section glass">
+        <div class="section-head"><div><h3>🎯 Son Sinyaller</h3><p>Telegram ve motor geçmişinin son kayıtları.</p></div><a class="btn" href="/api/excel/signals.csv">Excel ↓</a></div>
+        <div class="feed" id="signalFeed"><div class="empty"><strong>Henüz sinyal yok</strong>Yeni sinyaller burada canlı görünecek.</div></div>
+      </div>
+    </section>
+
+    <section class="section glass">
+      <div class="excel-panel">
+        <div class="excel-copy"><h3>📗 Excel ile Canlı Bağlantı</h3><p>Excel'de <b>Veri → Web'den</b> seçip aşağıdaki sabit adresi kullan. Çalışma kitabı aynı Railway verisini yeniden çekebilir; dosya indirip tekrar yüklemene gerek kalmaz.</p><div class="excel-url" id="excelUrl">/api/excel/today.csv</div></div>
+        <div class="excel-links"><button class="btn primary" id="copyBtn" onclick="copyExcelUrl()">Bağlantıyı Kopyala</button><a class="btn" href="/api/excel/today.csv">Bugün</a><a class="btn" href="/api/excel/market.csv">Piyasa</a><a class="btn" href="/api/excel/signals.csv">Sinyaller</a></div>
+      </div>
+    </section>
+
+    <footer><div>NASDAQ Live Radar · Railway + FastAPI</div><div class="legend"><span><i class="dot" style="background:var(--green)"></i> canlı</span><span><i class="dot" style="background:var(--yellow)"></i> son başarılı tarama</span><span><i class="dot"></i> sıralama skoru</span></div></footer>
+  </main>
+
+<script>
+  const $=id=>document.getElementById(id);
+  let lastData=null, es=null, fallbackTimer=null;
+  const esc=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+  const n=v=>Number(v||0);
+  const money=v=>n(v)>0?'$'+n(v).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}):'—';
+  const pct=v=>{const x=n(v);return `${x>=0?'+':''}${x.toFixed(2)}%`};
+  const time=v=>{if(!v)return '—';try{return new Date(v).toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}catch{return '—'}};
+  const setText=(id,val)=>{const el=$(id);if(el&&el.textContent!==String(val)){el.textContent=val;el.classList.remove('flash');void el.offsetWidth;el.classList.add('flash')}};
+  function setConnection(mode){const dot=$('liveDot'),txt=$('connText');dot.className='live-dot '+(mode==='sse'?'ok':mode==='http'?'warn':'bad');txt.textContent=mode==='sse'?'CANLI SSE':mode==='http'?'HTTP YEDEK':'BAĞLANTI YOK'}
+  function sourceText(src){return src==='live_scan'?'Canlı taramadan':src==='last_successful_scan'?'Son başarılı taramadan':'İlk tarama bekleniyor'}
+  function render(data){lastData=data;const st=data.status||{}, today=data.today_predictions||{}, small=data.smallcap||{}, pred=data.predictions||{};
+    setText('trTime',(st.time_tr||'—').replace(/^\d{4}-\d{2}-\d{2}\s*/,'')); setText('nyTime',(st.time_ny||'—').replace(/^\d{4}-\d{2}-\d{2}\s*/,''));
+    setText('todayDate',today.date_tr||'—'); const sb=$('sourceBadge'); sb.textContent=sourceText(today.source); sb.className='source-badge '+(today.source==='last_successful_scan'?'fallback':'');
+    setText('botStatus',st.running?(st.healthy===false?'ÇALIŞIYOR · DEGRADED':'AKTİF'):'DURDU'); $('botBar').style.width=st.running?'100%':'12%';
+    const sess=st.market_session||'closed'; setText('marketStatus',st.market_open?'AÇIK':sess==='pre_market'?'PRE-MARKET':sess==='after_hours'?'AFTER HOURS':'KAPALI'); $('marketBar').style.width=st.market_open?'100%':sess==='pre_market'?'65%':'28%';
+    setText('lastLive',new Date().toLocaleTimeString('tr-TR')); $('liveBar').style.width='100%'; setTimeout(()=>{$('liveBar').style.width='22%'},650);
+    setText('kpiToday',today.count||0);setText('kpiUniverse',small.universe_size||0);setText('kpiSymbols',((data.config||{}).symbols||[]).length);setText('kpiScans',st.scan_count||0);setText('kpiErrors',st.error_count||0);setText('kpiLastScan','Son: '+time(st.last_scan_at));
+    const hr=n(pred.hit_rate_pct);setText('kpiHit','%'+hr.toFixed(1));setText('kpiHitSub',`${pred.hit||0} tuttu · ${pred.stop||0} stop`);
+    renderTicker(data.market_ticker||[]);renderPredictions(today.items||[]);renderMarket(data.market_ticker||[]);renderSignals((data.history||[]).slice().reverse());
+    $('excelUrl').textContent=location.origin+'/api/excel/today.csv';
+  }
+  function renderTicker(rows){const track=$('tickerTrack');if(!rows.length){track.innerHTML='<span class="tick">Piyasa verisi bekleniyor…</span>';return}const one=rows.map(r=>`<span class="tick"><b>${esc(r.symbol)}</b><span>${money(r.price)}</span><span class="${n(r.change_pct)>=0?'up':'down'}">${pct(r.change_pct)}</span></span>`).join('');track.innerHTML=one+one}
+  function renderPredictions(items){const grid=$('predGrid');if(!items.length){grid.innerHTML='<div class="empty"><strong>İlk aday taraması bekleniyor</strong>Mevcut tarama veya geri yüklenmiş son başarılı tarama oluşunca burası kendiliğinden dolacak.</div>';return}
+    grid.innerHTML=items.map((p,i)=>{const conf=Math.max(0,Math.min(100,n(p.confidence_score))), hot=['KIRILIM','ÇOK YAKIN'].includes(p.status);const reasons=(p.reasons||[]).slice(0,2).join(' · ')||'Teknik kriterler izleniyor';return `<article class="pred-card" style="animation-delay:${i*.045}s"><div class="pred-top"><div><div class="rank">#${p.rank}</div><div class="sym">${esc(p.symbol)}</div><div class="company">${esc(p.name)}</div></div><span class="state ${hot?'hot':''}">${esc(p.status)}</span></div><div class="price-row"><div class="price">${money(p.price)}</div><div class="change ${n(p.change_pct)>=0?'up':'down'}">${pct(p.change_pct)}</div></div><div class="confidence"><div class="ring" style="--p:${conf}"><b>${conf.toFixed(0)}</b></div><div><div class="metric-label"><span>Sıralama skoru</span><b>${conf.toFixed(1)}/100</b></div><div class="mini"><i style="width:${conf}%"></i></div><div class="metric-label"><span>Setup ${n(p.setup_score).toFixed(0)}</span><span>Öngörü ${n(p.anticipation_score).toFixed(0)}</span></div><div class="mini"><i style="width:${Math.min(100,n(p.anticipation_score))}%;background:linear-gradient(90deg,var(--purple),var(--cyan))"></i></div></div></div><div class="levels"><div class="level"><small>Giriş</small><b>${money(p.entry)}</b></div><div class="level target"><small>Hedef</small><b>${money(p.target)}</b></div><div class="level stop"><small>Stop</small><b>${money(p.stop)}</b></div></div><div class="reason">${esc(reasons)}</div><div class="pred-foot"><span class="horizon">⏳ ${esc(p.horizon||'—')}</span><a class="tv" target="_blank" rel="noopener" href="https://www.tradingview.com/chart/?symbol=${encodeURIComponent(p.symbol)}">Grafik ↗</a></div></article>`}).join('')}
+  function renderMarket(rows){const b=$('marketBody');if(!rows.length){b.innerHTML='<tr><td colspan="8">İlk canlı veri bekleniyor…</td></tr>';return}b.innerHTML=rows.map(r=>`<tr><td><b>${esc(r.symbol)}</b></td><td class="mono">${esc(r.timeframe)}</td><td class="mono">${money(r.price)}</td><td class="mono ${n(r.change_pct)>=0?'up':'down'}">${pct(r.change_pct)}</td><td><span class="score-pill">${n(r.score).toFixed(0)}</span></td><td class="mono">${n(r.rsi).toFixed(1)}</td><td class="mono">${n(r.volume_ratio).toFixed(2)}x</td><td>${r.breakout_up?'🚀 Kırılım':r.volume_spike?'🔊 Hacim':'Normal'}</td></tr>`).join('')}
+  function renderSignals(rows){const f=$('signalFeed');if(!rows.length){f.innerHTML='<div class="empty"><strong>Henüz sinyal yok</strong>Yeni sinyaller burada canlı görünecek.</div>';return}f.innerHTML=rows.slice(0,8).map(h=>{const price=h.price??h.entry_price;return `<div class="feed-item"><div class="feed-icon">${String(h.action||'').includes('BREAK')?'🚀':'🎯'}</div><div><div class="feed-title">${esc(h.symbol)} · ${esc(h.action||h.direction||'SİNYAL')}</div><div class="feed-meta">${esc(h.status||'aktif')} · ${time(h.timestamp)}</div></div><div class="feed-price">${money(price)}</div></div>`}).join('')}
+  async function fetchLive(mode='http'){try{const r=await fetch('/api/live',{cache:'no-store'});if(!r.ok)throw new Error(r.status);render(await r.json());if(mode==='http')setConnection('http')}catch(e){console.error(e);setConnection('bad')}}
+  function connectSSE(){if(es)es.close();try{es=new EventSource('/api/live/stream');es.onopen=()=>{setConnection('sse');if(fallbackTimer){clearInterval(fallbackTimer);fallbackTimer=null}};es.onmessage=e=>{try{render(JSON.parse(e.data));setConnection('sse')}catch(err){console.error(err)}};es.onerror=()=>{setConnection('http');if(!fallbackTimer)fallbackTimer=setInterval(()=>fetchLive('http'),10000)}}catch(e){setConnection('http');fallbackTimer=setInterval(()=>fetchLive('http'),10000)}}
+  function refreshNow(){fetchLive(es&&es.readyState===1?'sse':'http')}
+  async function copyExcelUrl(){const url=location.origin+'/api/excel/today.csv';const btn=$('copyBtn');try{await navigator.clipboard.writeText(url);btn.textContent='Kopyalandı ✓';btn.classList.add('copy-ok');setTimeout(()=>{btn.textContent='Bağlantıyı Kopyala';btn.classList.remove('copy-ok')},1700)}catch{prompt('Excel bağlantısı:',url)}}
+  fetchLive('http');connectSSE();
+</script>
+</body>
+</html>
