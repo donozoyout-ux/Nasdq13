@@ -32,4 +32,4 @@ dependencies = [
 package = false
 
 [tool.vercel]
-entrypoint = "src.webapp:app"
+entrypoint = "src.vercel_app:app"
