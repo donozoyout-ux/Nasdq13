@@ -5,9 +5,10 @@ features while preserving src.webapp as the shared application core.
 """
 from fastapi import HTTPException
 
-from src.webapp import app
+from src.webapp import app, get_bot
 from src.analysis.mtf_chart_analysis import MultiTimeframeChartAnalysisService
 from src.analysis.chart_intelligence_v2 import ChartIntelligenceV2Service
+from src.analysis.learning_engine import LearningEngine
 from src.utils.logger import get_logger
 
 logger = get_logger("railway_app")
@@ -41,3 +42,43 @@ async def api_chart_intelligence_v2(symbol: str, timeframe: str = "15m"):
     except Exception as exc:
         logger.exception("Unexpected Chart Intelligence V2 failure for %s %s", symbol, timeframe)
         raise HTTPException(status_code=500, detail="chart intelligence v2 failed") from exc
+
+
+@app.get("/api/learning-report")
+async def api_learning_report():
+    """Aggregate lessons learned from resolved live daily prediction outcomes."""
+    b = get_bot()
+    state = b.state.state if b is not None else {}
+    try:
+        return LearningEngine(state).report()
+    except Exception as exc:
+        logger.exception("Unexpected learning report failure")
+        raise HTTPException(status_code=500, detail="learning report failed") from exc
+
+
+@app.get("/api/learning/{symbol}")
+async def api_symbol_learning(symbol: str):
+    """Return shadow-only learned evidence relevant to the selected stock."""
+    clean = (symbol or "").upper().strip()
+    if not clean or len(clean) > 20:
+        raise HTTPException(status_code=400, detail="invalid symbol")
+
+    b = get_bot()
+    state = b.state.state if b is not None else {}
+    candidate = None
+    if b is not None:
+        for row in b.smallcap_candidates or []:
+            if str(row.get("symbol") or "").upper() == clean:
+                candidate = row
+                break
+        if candidate is None and b.last_weekly_report:
+            for row in b.last_weekly_report.get("candidates", []) or []:
+                if str(row.get("symbol") or "").upper() == clean:
+                    candidate = row
+                    break
+
+    try:
+        return LearningEngine(state).symbol_report(clean, candidate)
+    except Exception as exc:
+        logger.exception("Unexpected symbol learning failure for %s", clean)
+        raise HTTPException(status_code=500, detail="symbol learning failed") from exc
