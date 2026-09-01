@@ -9,6 +9,7 @@ from src.webapp import app, get_bot
 from src.analysis.mtf_chart_analysis import MultiTimeframeChartAnalysisService
 from src.analysis.chart_intelligence_v2 import ChartIntelligenceV2Service
 from src.analysis.learning_engine import LearningEngine
+from src.analysis.learning_case_analytics import LearningCaseAnalytics
 from src.utils.logger import get_logger
 
 logger = get_logger("railway_app")
@@ -82,3 +83,30 @@ async def api_symbol_learning(symbol: str):
     except Exception as exc:
         logger.exception("Unexpected symbol learning failure for %s", clean)
         raise HTTPException(status_code=500, detail="symbol learning failed") from exc
+
+
+@app.get("/api/learning-cases-report")
+async def api_learning_cases_report():
+    """Return scan-observed MFE/MAE, horizon and walk-forward case analytics."""
+    b = get_bot()
+    state = b.state.state if b is not None else {}
+    try:
+        return LearningCaseAnalytics(state).report()
+    except Exception as exc:
+        logger.exception("Unexpected learning case report failure")
+        raise HTTPException(status_code=500, detail="learning case report failed") from exc
+
+
+@app.get("/api/learning-cases/{symbol}")
+async def api_symbol_learning_cases(symbol: str):
+    """Return reconstructed historical learning cases for one stock."""
+    clean = (symbol or "").upper().strip()
+    if not clean or len(clean) > 20:
+        raise HTTPException(status_code=400, detail="invalid symbol")
+    b = get_bot()
+    state = b.state.state if b is not None else {}
+    try:
+        return LearningCaseAnalytics(state).report(clean)
+    except Exception as exc:
+        logger.exception("Unexpected symbol learning case failure for %s", clean)
+        raise HTTPException(status_code=500, detail="symbol learning case report failed") from exc
