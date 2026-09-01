@@ -17,10 +17,10 @@ echo "Core symbols: ${SYMBOLS}"
 echo "Running Python compile check..."
 python -m compileall -q src
 
-# Verify the ASGI app imports cleanly before binding the port.
+# Verify the Railway ASGI app imports cleanly before binding the port.
 echo "Verifying ASGI app import..."
-python -c "import src.webapp"
+python -c "import src.railway_app"
 
 # Railway injects PORT automatically. Fall back to 8000 for local runs.
 echo "Starting web server on port ${PORT:-8000}..."
-exec uvicorn src.webapp:app --host 0.0.0.0 --port "${PORT:-8000}"
+exec uvicorn src.railway_app:app --host 0.0.0.0 --port "${PORT:-8000}"
