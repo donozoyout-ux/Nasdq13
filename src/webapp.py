@@ -98,12 +98,16 @@ def get_bot() -> Optional[SignalBot]:
 
 @app.get("/", response_class=HTMLResponse)
 async def dashboard(request: Request):
-    """Serve the dashboard and attach the on-demand interactive chart reader."""
+    """Serve dashboard with single-TF chart reader + top-down MTF intelligence."""
     dashboard_path = Path(TEMPLATES_DIR) / "dashboard.html"
     html = dashboard_path.read_text(encoding="utf-8")
-    chart_script = '<script src="/static/stock-chart.js?v=1"></script>'
-    if chart_script not in html:
-        html = html.replace("</body>", f"  {chart_script}\n</body>")
+    scripts = [
+        '<script src="/static/stock-chart.js?v=2"></script>',
+        '<script src="/static/mtf-chart.js?v=1"></script>',
+    ]
+    for script in scripts:
+        if script not in html:
+            html = html.replace("</body>", f"  {script}\n</body>")
     return HTMLResponse(content=html)
 
 
