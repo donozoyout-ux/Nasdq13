@@ -15985,10 +15985,10 @@
       "candidates": []
     }
   ],
-  "last_scan_time": "2026-09-02T06:07:43.857905",
+  "last_scan_time": "2026-09-02T06:48:48.460588",
   "stats": {
     "total_signals": 32,
-    "total_scans": 1580,
+    "total_scans": 1621,
     "last_signal": null
   },
   "created_at": "2026-08-07T16:55:16.177758",
@@ -16003,7 +16003,7 @@
     "profit_factor": 0.0,
     "max_drawdown_pct": 0.0,
     "commission_pct": 0.5,
-    "generated_at": "2026-09-02T00:48:52.050022",
+    "generated_at": "2026-09-02T06:49:00.756300",
     "by_symbol": []
   },
   "prediction_tracker": {
