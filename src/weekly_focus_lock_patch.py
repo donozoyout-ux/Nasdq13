@@ -17,7 +17,6 @@ from src.analysis.weekly_focus import WeeklyFocusEngine
 
 
 if not getattr(WeeklyFocusEngine, "_full_week_membership_lock_patch", False):
-    _base_current_record = WeeklyFocusEngine.current_record
     _base_create_week = WeeklyFocusEngine.create_week
     _base_update_record_from_live = WeeklyFocusEngine.update_record_from_live
     _base_dashboard_payload = WeeklyFocusEngine.dashboard_payload
@@ -105,8 +104,16 @@ if not getattr(WeeklyFocusEngine, "_full_week_membership_lock_patch", False):
         return rec
 
     def current_record(self):
-        rec = _base_current_record(self)
-        if not rec:
+        # Read the raw state directly instead of relying on the original helper,
+        # because the original considers an empty live-items array as "no week".
+        # We must still recover the locked membership when all providers fail in
+        # one refresh cycle.
+        rec = self.state.get("weekly_focus")
+        if not isinstance(rec, dict):
+            return None
+        if rec.get("week_key") != self.week_key():
+            return None
+        if not _symbol_list(rec):
             return None
         return _enforce(self, rec)
 
@@ -117,6 +124,10 @@ if not getattr(WeeklyFocusEngine, "_full_week_membership_lock_patch", False):
 
     def update_record_from_live(self, candidates):
         rec = _base_update_record_from_live(self, candidates)
+        if not rec:
+            # If a temporary provider failure caused an empty live set, recover
+            # directly from the immutable weekly snapshot instead of reselecting.
+            rec = self.current_record()
         if not rec:
             return None
         return _enforce(self, rec)
