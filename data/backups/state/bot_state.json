@@ -15959,12 +15959,18 @@
       "universe_size": 250,
       "closed": true,
       "candidates": []
+    },
+    {
+      "time": "2026-09-02T03:06:02.763258",
+      "universe_size": 250,
+      "closed": true,
+      "candidates": []
     }
   ],
-  "last_scan_time": "2026-09-02T02:05:17.860837",
+  "last_scan_time": "2026-09-02T03:05:24.465045",
   "stats": {
     "total_signals": 32,
-    "total_scans": 1338,
+    "total_scans": 1398,
     "last_signal": null
   },
   "created_at": "2026-08-07T16:55:16.177758",
